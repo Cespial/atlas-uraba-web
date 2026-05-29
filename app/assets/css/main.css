@@ -293,3 +293,22 @@ body { font-family: var(--ff-body); }
   }
   .header-municipios::-webkit-scrollbar { display: none; }
 }
+
+/* ── Paleta Tensor Teal (nueva escala bienestar) ──────── */
+:root {
+  --score-1: #d73027;  /* 0-20 Crítico */
+  --score-2: #f46d43;  /* 20-40 Bajo */
+  --score-3: #fdae61;  /* 40-55 Medio-bajo */
+  --score-4: #a8ddb5;  /* 55-70 Medio-alto */
+  --score-5: #41b6c4;  /* 70-85 Alto */
+  --score-6: #1B6B6D;  /* 85-100 Excelente */
+}
+
+/* ── Transición suave en MapLibre layers ──────────────── */
+.maplibregl-map canvas {
+  will-change: transform;
+}
+
+/* ── Tooltip comparativa ──────────────────────────────── */
+.atlas-tooltip-diff-pos { color: #4ade80; }
+.atlas-tooltip-diff-neg { color: #f87171; }
