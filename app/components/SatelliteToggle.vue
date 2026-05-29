@@ -60,8 +60,8 @@ defineEmits(['toggle'])
 <style scoped>
 .sat-toggle {
   position: absolute;
-  bottom: 48px;
-  right: 168px;
+  top: calc(var(--atlas-header-h, 52px) + 130px);  /* bajo los controles de zoom */
+  right: 12px;
   z-index: 20;
   display: flex;
   align-items: center;
@@ -97,10 +97,10 @@ defineEmits(['toggle'])
   white-space: nowrap;
 }
 
-/* Mobile: ocultar label, solo ícono */
+/* Mobile: mover bajo los controles de zoom */
 @media (max-width: 639px) {
   .sat-toggle {
-    bottom: calc(var(--sheet-peek, 80px) + 8px);
+    top: calc(var(--atlas-header-h, 48px) + 130px);
     right: 8px;
     padding: 7px;
   }

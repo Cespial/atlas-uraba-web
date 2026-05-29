@@ -1,7 +1,7 @@
 <template>
-  <div class="absolute bottom-9 right-3 z-20 w-44
+  <div class="absolute bottom-9 right-3 z-20 w-40
               bg-atlas-panel/92 backdrop-blur-md
-              border border-atlas-border rounded-xl p-3
+              border border-atlas-border rounded-xl p-2.5
               shadow-2xl">
     <!-- Header -->
     <div class="flex items-center justify-between mb-2.5">
@@ -30,19 +30,7 @@
       </div>
     </div>
 
-    <!-- Divider -->
-    <div class="border-t border-atlas-border my-2.5" />
-
-    <!-- Zonas Atlas -->
-    <div class="font-mono text-[8px] uppercase tracking-[0.12em] text-atlas-muted mb-1.5">
-      Zonas LISA
-    </div>
-    <div class="grid grid-cols-2 gap-x-2 gap-y-1">
-      <div v-for="z in zonas" :key="z.key" class="flex items-center gap-1.5">
-        <span class="w-2 h-2 rounded-sm" :style="{ background: z.color }" />
-        <span class="font-mono text-[8px] text-atlas-muted">{{ z.label }}</span>
-      </div>
-    </div>
+    <!-- Nota: Zonas LISA disponibles en panel lateral → pestaña Capas -->
   </div>
 </template>
 

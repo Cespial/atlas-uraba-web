@@ -37,8 +37,8 @@ const layers = [
 <style scoped>
 .layer-toggle {
   position: absolute;
-  bottom: 48px;
-  right: 12px;
+  bottom: 40px;
+  left: calc(var(--atlas-panel-w, 320px) + 12px);
   z-index: 20;
   background: var(--dk-panel, #161B22);
   border: 1px solid var(--dk-border, #30363D);
@@ -120,11 +120,17 @@ const layers = [
   color: #E6EDF3;
 }
 
-/* Mobile: compactar */
+/* Mobile: esquina inferior izquierda, justo encima del sheet */
 @media (max-width: 639px) {
   .layer-toggle {
     bottom: calc(var(--sheet-peek, 80px) + 8px);
-    right: 8px;
+    left: 8px;
+  }
+}
+/* Tablet: ajustar al sidebar más estrecho */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .layer-toggle {
+    left: calc(260px + 12px);
   }
 }
 </style>
