@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Brand Tensor — base */
+  --ca:  #1B6B6D;
+  --cah: #155556;
+  --cal: #E8F4F4;
+  --c1:  #1A1A1A;
+  --c2:  #3D3D3D;
+  --cm:  #5F5F5B;
+  --cbg: #F2F1EE;
+  --cb:  #E5E5E0;
+  --cbs: #D0D0CB;
+  --white: #FFFFFF;
+
+  /* Dark institucional */
+  --dk-bg:     #0D1117;
+  --dk-panel:  #161B22;
+  --dk-border: #30363D;
+  --dk-text:   #E6EDF3;
+  --dk-muted:  #8B949E;
+
+  /* Atlas específicos */
+  --atlas-panel-w:  320px;
+  --atlas-header-h: 52px;
+  --atlas-filter-h: 48px;
+
+  /* Escala bienestar — 6 rangos Jenks */
+  --score-1: #d73027;
+  --score-2: #f46d43;
+  --score-3: #fdae61;
+  --score-4: #a6d96a;
+  --score-5: #66bd63;
+  --score-6: #1a9850;
+
+  /* Tipografía */
+  --ff-head: 'Space Grotesk', system-ui, sans-serif;
+  --ff-body: 'Inter', system-ui, sans-serif;
+  --ff-mono: 'JetBrains Mono', monospace;
+}
+
+/* Reset base */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+body { font-family: var(--ff-body); }
+
+/* Maplibre overrides */
+.maplibregl-ctrl-group {
+  background: var(--dk-panel) !important;
+  border: 1px solid var(--dk-border) !important;
+  border-radius: 8px !important;
+}
+.maplibregl-ctrl-group button {
+  background: transparent !important;
+  color: var(--dk-muted) !important;
+  width: 34px !important;
+  height: 34px !important;
+}
+.maplibregl-ctrl-group button:hover {
+  background: rgba(255,255,255,0.05) !important;
+  color: var(--dk-text) !important;
+}
+.maplibregl-ctrl-attrib {
+  background: rgba(13,17,23,0.7) !important;
+  color: var(--dk-muted) !important;
+  font-family: var(--ff-mono) !important;
+  font-size: 9px !important;
+}
+.maplibregl-ctrl-scale {
+  background: rgba(13,17,23,0.7) !important;
+  border-color: var(--dk-border) !important;
+  color: var(--dk-muted) !important;
+  font-family: var(--ff-mono) !important;
+  font-size: 9px !important;
+}
+
+/* Tooltip Atlas */
+.atlas-tooltip .maplibregl-popup-content {
+  background: var(--dk-panel);
+  border: 1px solid var(--dk-border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  font-family: var(--ff-body);
+}
+.atlas-tooltip .maplibregl-popup-tip { display: none; }
+
+/* Shimmer skeleton */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #161B22 25%, rgba(27,107,109,0.1) 50%, #161B22 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+/* Transitions */
+.slide-left-enter-active, .slide-left-leave-active { transition: transform .25s ease, opacity .25s ease; }
+.slide-left-enter-from { transform: translateX(-100%); opacity: 0; }
+.slide-left-leave-to  { transform: translateX(-100%); opacity: 0; }
+.slide-up-enter-active, .slide-up-leave-active { transition: transform .2s ease, opacity .2s ease; }
+.slide-up-enter-from { transform: translateY(16px); opacity: 0; }
+.slide-up-leave-to  { transform: translateY(16px); opacity: 0; }
+.fade-enter-active, .fade-leave-active { transition: opacity .3s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }

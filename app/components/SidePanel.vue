@@ -1,115 +1,178 @@
 <template>
-  <aside class="
-    absolute left-0 top-0 h-full w-72 z-10 flex flex-col
-    bg-atlas-panel/95 backdrop-blur-sm border-r border-atlas-border
-    overflow-y-auto
-  ">
-    <!-- Header -->
-    <div class="px-5 pt-5 pb-4 border-b border-atlas-border">
-      <div class="flex items-center gap-2 mb-1">
-        <div class="w-2 h-2 rounded-full bg-atlas-accent animate-pulse" />
-        <span class="text-xs text-atlas-muted font-medium uppercase tracking-widest">Atlas Urabá</span>
+  <aside class="side-panel">
+
+    <!-- ══════════════════════════════════════════
+         CABECERA — identidad y KPI global
+    ══════════════════════════════════════════ -->
+    <div class="panel-section panel-header">
+      <!-- Eyebrow / breadcrumb -->
+      <div class="section-label">
+        <span class="label-index">01</span>
+        <span class="label-dash">—</span>
+        <span>Municipio activo</span>
       </div>
-      <h1 class="text-lg font-bold text-atlas-text leading-tight">
-        Bienestar Humano<br>Territorial
-      </h1>
-      <p class="text-xs text-atlas-muted mt-1">
-        7,028 manzanas · 8 municipios · 10 indicadores reales
-      </p>
+
+      <!-- Nombre municipio -->
+      <h2 class="municipio-titulo">{{ store.municipioActivo }}</h2>
+
+      <!-- Score global -->
+      <div v-if="regionScore != null" class="score-kpi">
+        <span
+          class="score-value"
+          :style="{ color: scoreColor(regionScore) }"
+        >{{ Math.round(regionScore * 100) }}</span>
+        <span class="score-unit">/ 100</span>
+        <span class="score-badge" :style="scoreBadgeStyle(regionScore)">
+          {{ scoreLabel(regionScore) }}
+        </span>
+      </div>
+
+      <!-- Barra de bienestar -->
+      <div v-if="regionScore != null" class="score-track-wrap">
+        <div class="score-track">
+          <div
+            class="score-fill"
+            :style="{
+              width: Math.round(regionScore * 100) + '%',
+              background: scoreColor(regionScore),
+            }"
+          />
+        </div>
+      </div>
     </div>
 
-    <!-- Selector municipio -->
-    <div class="px-5 py-4 border-b border-atlas-border">
-      <p class="text-xs text-atlas-muted uppercase tracking-wider mb-2 font-medium">Municipio</p>
-      <div class="flex flex-col gap-1">
-        <button
-          v-for="mun in municipios"
-          :key="mun.nombre"
-          @click="store.setMunicipio(mun.nombre)"
-          :class="[
-            'text-left px-3 py-1.5 rounded-md text-sm transition-all duration-150',
-            store.municipioActivo === mun.nombre
-              ? 'bg-atlas-accent/20 text-atlas-accent font-semibold'
-              : 'text-atlas-muted hover:text-atlas-text hover:bg-white/5'
-          ]"
-        >
-          {{ mun.nombre }}
-          <span v-if="munScore(mun.nombre)" class="float-right text-xs opacity-70">
-            {{ munScore(mun.nombre) }}
-          </span>
-        </button>
+    <!-- ══════════════════════════════════════════
+         DIMENSIONES — selector de capa temática
+    ══════════════════════════════════════════ -->
+    <div class="panel-section">
+      <div class="section-label">
+        <span class="label-index">02</span>
+        <span class="label-dash">—</span>
+        <span>Dimensión</span>
       </div>
-    </div>
 
-    <!-- Selector dimensión -->
-    <div class="px-5 py-4 border-b border-atlas-border">
-      <p class="text-xs text-atlas-muted uppercase tracking-wider mb-2 font-medium">Dimensión</p>
-      <div class="flex flex-col gap-1">
+      <div class="dim-list">
         <button
           v-for="dim in dimensiones"
           :key="dim.key"
+          class="dim-btn"
+          :class="{ 'dim-btn--active': store.dimension === dim.key }"
           @click="store.setDimension(dim.key)"
-          :class="[
-            'flex items-center gap-2 text-left px-3 py-1.5 rounded-md text-sm transition-all',
-            store.dimension === dim.key
-              ? 'bg-white/10 text-atlas-text font-semibold'
-              : 'text-atlas-muted hover:text-atlas-text hover:bg-white/5'
-          ]"
         >
-          <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" :style="{ background: dim.color }" />
-          {{ dim.label }}
+          <!-- Dot de color -->
+          <span class="dim-dot" :style="{ background: dim.color }" />
+
+          <!-- Label -->
+          <span class="dim-label">{{ dim.label }}</span>
+
+          <!-- Score de la dimensión para el municipio activo -->
+          <span
+            v-if="dimScore(dim.key) != null"
+            class="dim-score"
+            :style="{ color: dim.color }"
+          >{{ dimScore(dim.key) }}</span>
+
+          <!-- Indicador activo -->
+          <span v-if="store.dimension === dim.key" class="dim-active-pip" />
         </button>
       </div>
     </div>
 
-    <!-- Stats municipio activo -->
-    <div v-if="statsActivo" class="px-5 py-4 border-b border-atlas-border">
-      <p class="text-xs text-atlas-muted uppercase tracking-wider mb-3 font-medium">
-        {{ store.municipioActivo === 'Todos' ? 'Urabá' : store.municipioActivo }}
-      </p>
-      <div class="space-y-2.5">
-        <div v-for="dim in dimensiones" :key="dim.key" class="flex items-center gap-2">
-          <span class="text-xs text-atlas-muted w-20 flex-shrink-0">{{ dim.label.split(' ')[0] }}</span>
-          <div class="flex-1 bg-white/5 rounded-full h-1.5 overflow-hidden">
-            <div
-              class="h-1.5 rounded-full transition-all duration-500"
-              :style="{ width: pct(statsActivo.avg?.[dim.key]), background: dim.color }"
-            />
-          </div>
-          <span class="text-xs font-medium w-8 text-right" :style="{ color: dim.color }">
-            {{ pct(statsActivo.avg?.[dim.key]) }}
-          </span>
-        </div>
+    <!-- ══════════════════════════════════════════
+         MUNICIPIOS — selector de ámbito espacial
+    ══════════════════════════════════════════ -->
+    <div class="panel-section">
+      <div class="section-label">
+        <span class="label-index">03</span>
+        <span class="label-dash">—</span>
+        <span>Municipio</span>
       </div>
-      <p class="text-xs text-atlas-muted mt-3">{{ statsActivo.count?.toLocaleString() }} manzanas</p>
-    </div>
 
-    <!-- Leyenda -->
-    <div class="px-5 py-4">
-      <p class="text-xs text-atlas-muted uppercase tracking-wider mb-2 font-medium">Índice 0–100</p>
-      <div class="flex items-center gap-2">
-        <span class="text-xs text-atlas-muted">0</span>
-        <div class="flex-1 h-3 rounded-full" style="background: linear-gradient(to right, #d73027, #fdae61, #fee08b, #d9ef8b, #1a9850)" />
-        <span class="text-xs text-atlas-muted">100</span>
-      </div>
-      <div class="flex justify-between mt-1 text-xs text-atlas-muted">
-        <span>Crítico</span><span>Óptimo</span>
-      </div>
-      <!-- Zonas Atlas -->
-      <p class="text-xs text-atlas-muted uppercase tracking-wider mb-2 mt-4 font-medium">Zonas Atlas (LISA)</p>
-      <div class="grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
-        <div v-for="z in zonas" :key="z.key" class="flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-sm flex-shrink-0" :style="{ background: z.color }" />
-          <span class="text-atlas-muted">{{ z.label }}</span>
-        </div>
+      <div class="mun-list">
+        <button
+          v-for="mun in municipios"
+          :key="mun.nombre"
+          class="mun-btn"
+          :class="{ 'mun-btn--active': store.municipioActivo === mun.nombre }"
+          @click="store.setMunicipio(mun.nombre)"
+        >
+          <span class="mun-nombre">{{ mun.nombre }}</span>
+          <span
+            v-if="munScore(mun.nombre) != null"
+            class="mun-score"
+            :style="{ color: scoreColor(munScore(mun.nombre) / 100) }"
+          >{{ munScore(mun.nombre) }}</span>
+        </button>
       </div>
     </div>
 
-    <!-- Footer -->
-    <div class="mt-auto px-5 py-3 border-t border-atlas-border text-xs text-atlas-muted">
-      <p>CNPV 2018 · REPS · SIMAT · OSM</p>
-      <p class="mt-0.5">© Atlas Urabá 2025</p>
+    <!-- ══════════════════════════════════════════
+         DISTRIBUCIÓN — histograma por rangos
+    ══════════════════════════════════════════ -->
+    <div class="panel-section">
+      <div class="section-label">
+        <span class="label-index">04</span>
+        <span class="label-dash">—</span>
+        <span>Distribución</span>
+      </div>
+      <HistogramPanel />
     </div>
+
+    <!-- ══════════════════════════════════════════
+         RANKING — posición relativa municipios
+    ══════════════════════════════════════════ -->
+    <div class="panel-section">
+      <div class="section-label">
+        <span class="label-index">05</span>
+        <span class="label-dash">—</span>
+        <span>Rankings</span>
+      </div>
+      <ScoreRankingList />
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         LEYENDA — escala Jenks + zonas LISA
+    ══════════════════════════════════════════ -->
+    <div class="panel-section">
+      <div class="section-label">
+        <span class="label-index">06</span>
+        <span class="label-dash">—</span>
+        <span>Zonas LISA</span>
+      </div>
+
+      <!-- Grid de zonas -->
+      <div class="lisa-grid">
+        <div
+          v-for="z in zonas"
+          :key="z.key"
+          class="lisa-item"
+        >
+          <span class="lisa-dot" :style="{ background: z.color }" />
+          <span class="lisa-label">{{ z.label }}</span>
+        </div>
+      </div>
+
+      <!-- Gradiente Jenks -->
+      <div class="jenks-wrap">
+        <div class="jenks-bar" />
+        <div class="jenks-labels">
+          <span>0 · Crítico</span>
+          <span>100 · Excelente</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         FUENTES — colofón de datos
+    ══════════════════════════════════════════ -->
+    <div class="panel-footer">
+      <div class="fuentes-text">
+        CNPV 2018 DANE · REPS MinSalud<br />
+        SIMAT MEN · OSM Colombia<br />
+        MGN DANE 2024 · Tensor 2025
+      </div>
+    </div>
+
   </aside>
 </template>
 
@@ -117,43 +180,458 @@
 import { computed } from 'vue'
 import { useAtlasStore, DIMENSIONES, MUNICIPIOS } from '~/stores/atlas'
 
-const store = useAtlasStore()
+const store      = useAtlasStore()
 const dimensiones = DIMENSIONES
 const municipios  = MUNICIPIOS
 
+/* ─── Zonas LISA ─────────────────────────────────────── */
 const zonas = [
-  { key: 'HH', label: 'HH · Próspero',  color: '#1a9641' },
-  { key: 'LL', label: 'LL · Crítico',    color: '#d7191c' },
-  { key: 'HL', label: 'HL · Isla alta',  color: '#f39c12' },
-  { key: 'LH', label: 'LH · Rezago',     color: '#3498db' },
-  { key: 'NS', label: 'NS · No sig.',    color: '#555' },
+  { key: 'HH', color: '#1a9641', label: 'HH · Próspero' },
+  { key: 'LL', color: '#d7191c', label: 'LL · Crítico'   },
+  { key: 'HL', color: '#f39c12', label: 'HL · Isla alta' },
+  { key: 'LH', color: '#3498db', label: 'LH · Rezago'    },
+  { key: 'NS', color: '#555555', label: 'NS · No sig.'   },
 ]
 
-const statsActivo = computed(() => {
+/* ─── Score regional ─────────────────────────────────── */
+const regionScore = computed(() => {
   const m = store.municipioActivo
   if (m === 'Todos') {
-    // Agregar todos
     const all = Object.values(store.stats)
     if (!all.length) return null
-    const total = all.reduce((acc, s) => acc + s.count, 0)
-    const avg = {}
-    DIMENSIONES.forEach(d => {
-      avg[d.key] = all.reduce((acc, s) => acc + (s.avg?.[d.key] || 0) * s.count, 0) / total
-    })
-    return { count: total, avg }
+    const total = all.reduce((s, v) => s + v.count, 0)
+    return all.reduce((s, v) => s + (v.avg?.atlas_score ?? 0) * v.count, 0) / total
   }
-  return store.stats[m] || null
+  return store.stats[m]?.avg?.atlas_score ?? null
 })
 
-function pct(v) {
-  if (v == null) return '—'
-  return Math.round(v * 100) + '%'
+/* ─── Colores escala Jenks ───────────────────────────── */
+function scoreColor(v) {
+  const n = +v
+  if (n >= 0.85) return 'var(--score-6)'   /* #1a9850 Excelente  */
+  if (n >= 0.70) return 'var(--score-5)'   /* #66bd63 Alto       */
+  if (n >= 0.55) return 'var(--score-4)'   /* #a6d96a Medio-alto */
+  if (n >= 0.40) return 'var(--score-3)'   /* #fdae61 Medio-bajo */
+  if (n >= 0.20) return 'var(--score-2)'   /* #f46d43 Bajo       */
+  return 'var(--score-1)'                  /* #d73027 Crítico    */
 }
 
+function scoreLabel(v) {
+  const n = +v
+  if (n >= 0.85) return 'Excelente'
+  if (n >= 0.70) return 'Alto'
+  if (n >= 0.55) return 'Medio-alto'
+  if (n >= 0.40) return 'Medio-bajo'
+  if (n >= 0.20) return 'Bajo'
+  return 'Crítico'
+}
+
+function scoreBadgeStyle(v) {
+  const color = scoreColor(v)
+  return {
+    color,
+    border: `1px solid ${color}33`,
+    background: `${color}14`,
+  }
+}
+
+/* ─── Score por municipio ────────────────────────────── */
 function munScore(nombre) {
   if (nombre === 'Todos') return null
   const s = store.stats[nombre]
-  if (!s?.avg) return null
+  if (!s?.avg?.atlas_score) return null
   return Math.round(s.avg.atlas_score * 100)
 }
+
+/* ─── Score por dimensión ────────────────────────────── */
+function dimScore(key) {
+  const m = store.municipioActivo
+  if (m === 'Todos') {
+    const all = Object.values(store.stats)
+    if (!all.length) return null
+    const total = all.reduce((s, v) => s + v.count, 0)
+    const val   = all.reduce((s, v) => s + (v.avg?.[key] ?? 0) * v.count, 0) / total
+    return Math.round(val * 100)
+  }
+  const s = store.stats[m]
+  if (!s?.avg) return null
+  return Math.round((s.avg[key] ?? 0) * 100)
+}
 </script>
+
+<style scoped>
+/* ═════════════════════════════════════════════════════════
+   SIDE PANEL — Tensor Design System
+   Paleta dark institucional: --dk-* sobre fondo --dk-panel
+   Acento: --ca (#1B6B6D) solo como toque, nunca dominante
+   Tipografía: Space Grotesk (head) · Inter (body) · JetBrains Mono (mono)
+═════════════════════════════════════════════════════════ */
+
+/* ─── Contenedor principal ───────────────────────────── */
+.side-panel {
+  position: absolute;
+  left: 0;
+  top: var(--atlas-header-h, 52px);
+  bottom: 28px;                        /* altura del AppFooter */
+  width: var(--atlas-panel-w, 320px);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: var(--dk-panel);
+  border-right: 1px solid var(--dk-border);
+
+  /* scroll suave */
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--dk-border) transparent;
+}
+
+.side-panel::-webkit-scrollbar { width: 4px; }
+.side-panel::-webkit-scrollbar-track { background: transparent; }
+.side-panel::-webkit-scrollbar-thumb {
+  background: var(--dk-border);
+  border-radius: 2px;
+}
+
+/* ─── Sección genérica ───────────────────────────────── */
+.panel-section {
+  padding: 16px;
+  border-bottom: 1px solid var(--dk-border);
+  flex-shrink: 0;
+}
+
+/* ─── Label de sección (eyebrow) ─────────────────────── */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--ff-mono);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ca);         /* teal solo como acento */
+  margin-bottom: 10px;
+  line-height: 1;
+}
+
+.label-index {
+  color: var(--ca);
+  opacity: 0.7;
+}
+
+.label-dash {
+  color: var(--dk-border);
+  margin: 0 1px;
+}
+
+/* ══════════════════════════════════════════
+   01 — CABECERA / KPI
+══════════════════════════════════════════ */
+.panel-header {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(27, 107, 109, 0.06) 0%,
+      transparent 100%
+    );
+}
+
+/* Nombre del municipio */
+.municipio-titulo {
+  font-family: var(--ff-head);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.36px;
+  color: var(--dk-text);
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+/* KPI numérico grande */
+.score-kpi {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.score-value {
+  font-family: var(--ff-head);
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.72px;
+  line-height: 1;
+  transition: color 0.4s ease;
+}
+
+.score-unit {
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--dk-muted);
+  margin-bottom: 2px;
+}
+
+.score-badge {
+  font-family: var(--ff-mono);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 3px;
+  transition: all 0.4s ease;
+  margin-left: auto;
+}
+
+/* Barra de progreso del score */
+.score-track-wrap {
+  margin-top: 4px;
+}
+
+.score-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.score-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease;
+}
+
+/* ══════════════════════════════════════════
+   02 — DIMENSIONES
+══════════════════════════════════════════ */
+.dim-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dim-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  position: relative;
+  width: 100%;
+}
+
+.dim-btn:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--dk-border);
+}
+
+.dim-btn--active {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--dk-border);
+}
+
+.dim-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.dim-btn--active .dim-dot {
+  transform: scale(1.3);
+  box-shadow: 0 0 6px currentColor;
+}
+
+.dim-label {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dk-muted);
+  flex: 1;
+  transition: color 0.15s ease;
+}
+
+.dim-btn:hover .dim-label,
+.dim-btn--active .dim-label {
+  color: var(--dk-text);
+}
+
+.dim-score {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  transition: color 0.3s ease;
+}
+
+.dim-active-pip {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--ca);
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ══════════════════════════════════════════
+   03 — MUNICIPIOS
+══════════════════════════════════════════ */
+.mun-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.mun-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+.mun-btn:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.mun-btn--active {
+  background: rgba(27, 107, 109, 0.12);
+  border-color: rgba(27, 107, 109, 0.3);
+}
+
+.mun-nombre {
+  font-family: var(--ff-body);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--dk-muted);
+  transition: color 0.15s ease;
+}
+
+.mun-btn:hover .mun-nombre {
+  color: var(--dk-text);
+}
+
+.mun-btn--active .mun-nombre {
+  color: var(--ca);
+  font-weight: 500;
+}
+
+.mun-score {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  transition: color 0.3s ease;
+}
+
+/* ══════════════════════════════════════════
+   06 — LEYENDA LISA + JENKS
+══════════════════════════════════════════ */
+.lisa-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+  margin-bottom: 14px;
+}
+
+.lisa-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.lisa-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.lisa-label {
+  font-family: var(--ff-mono);
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--dk-muted);
+  white-space: nowrap;
+}
+
+/* Gradiente de bienestar */
+.jenks-wrap {
+  padding-top: 12px;
+  border-top: 1px solid var(--dk-border);
+}
+
+.jenks-bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(
+    to right,
+    #d73027,    /* score-1  Crítico    */
+    #f46d43,    /* score-2  Bajo       */
+    #fdae61,    /* score-3  Medio-bajo */
+    #a6d96a,    /* score-4  Medio-alto */
+    #66bd63,    /* score-5  Alto       */
+    #1a9850     /* score-6  Excelente  */
+  );
+  margin-bottom: 5px;
+}
+
+.jenks-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--ff-mono);
+  font-size: 7px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dk-muted);
+}
+
+/* ══════════════════════════════════════════
+   FOOTER — fuentes
+══════════════════════════════════════════ */
+.panel-footer {
+  margin-top: auto;
+  padding: 12px 16px;
+  border-top: 1px solid var(--dk-border);
+  flex-shrink: 0;
+}
+
+.fuentes-text {
+  font-family: var(--ff-mono);
+  font-size: 7px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  line-height: 1.8;
+  color: var(--dk-muted);
+  opacity: 0.7;
+}
+</style>

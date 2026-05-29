@@ -1,70 +1,112 @@
 <template>
-  <div class="relative h-full w-full">
-    <!-- Loading overlay -->
+  <div class="atlas-root">
+
+    <!-- ═══════════════════════════════════════════
+         LOADING OVERLAY
+    ═══════════════════════════════════════════ -->
     <Transition name="fade">
-      <div
-        v-if="store.cargando"
-        class="absolute inset-0 z-50 flex flex-col items-center justify-center bg-atlas-dark gap-4"
-      >
-        <div class="w-10 h-10 border-2 border-atlas-accent/30 border-t-atlas-accent rounded-full animate-spin" />
-        <div class="text-center">
-          <p class="text-atlas-text font-semibold">Cargando Atlas Urabá</p>
-          <p class="text-atlas-muted text-sm mt-1">7,028 manzanas · 8 municipios</p>
-        </div>
-      </div>
+      <LoadingState v-if="store.cargando" />
     </Transition>
 
-    <!-- Mapa full-screen -->
-    <ClientOnly>
-      <AtlasMap />
-    </ClientOnly>
+    <!-- ═══════════════════════════════════════════
+         ERROR OVERLAY
+    ═══════════════════════════════════════════ -->
+    <Transition name="fade">
+      <ErrorState
+        v-if="store.error"
+        :message="store.error"
+        @retry="retryLoad"
+      />
+    </Transition>
 
-    <!-- Panel lateral izquierdo -->
+    <!-- ═══════════════════════════════════════════
+         HEADER — barra institucional fija
+    ═══════════════════════════════════════════ -->
+    <AppHeader />
+
+    <!-- ═══════════════════════════════════════════
+         SIDEBAR — panel de control izquierdo
+    ═══════════════════════════════════════════ -->
     <SidePanel />
 
-    <!-- Panel detalle manzana -->
+    <!-- ═══════════════════════════════════════════
+         MAPA PRINCIPAL — full-screen detrás de todo
+    ═══════════════════════════════════════════ -->
+    <ClientOnly>
+      <AtlasMap @loaded="onMapLoaded" @error="onMapError" />
+    </ClientOnly>
+
+    <!-- ═══════════════════════════════════════════
+         LEYENDA DEL MAPA — esquina inferior derecha
+    ═══════════════════════════════════════════ -->
+    <ClientOnly>
+      <MapLegend />
+    </ClientOnly>
+
+    <!-- ═══════════════════════════════════════════
+         PANEL DETALLE MANZANA — se abre al click
+    ═══════════════════════════════════════════ -->
     <ClientOnly>
       <ManzanaPanel />
     </ClientOnly>
 
-    <!-- Badge de fuentes -->
-    <div class="absolute bottom-2 left-80 z-10 text-xs text-white/40 pl-2">
-      CNPV 2018 · REPS MinSalud · SIMAT MEN · OSM Colombia · MGN DANE 2024
-    </div>
+    <!-- ═══════════════════════════════════════════
+         FOOTER — banda de fuentes
+    ═══════════════════════════════════════════ -->
+    <AppFooter />
+
   </div>
 </template>
 
 <script setup>
 import { useAtlasStore } from '~/stores/atlas'
+
 const store = useAtlasStore()
 
 useHead({
   title: 'Atlas Urabá — Bienestar Humano Territorial',
+  meta: [
+    {
+      name: 'description',
+      content:
+        'Índice de bienestar humano territorial por manzana para Urabá, Antioquia. 7,028 manzanas · 8 municipios · 10 indicadores reales.',
+    },
+  ],
 })
+
+function onMapLoaded() {
+  /* el store se actualiza internamente desde el composable */
+}
+
+function onMapError(msg) {
+  store.setError(msg)
+}
+
+function retryLoad() {
+  store.error = null
+  store.cargando = true
+  window.location.reload()
+}
 </script>
 
-<style>
-/* Tooltip de MapLibre */
-.atlas-tooltip .maplibregl-popup-content {
-  background: #1a1a2e;
-  border: 1px solid #2a2a45;
-  border-radius: 10px;
-  padding: 12px 14px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+<style scoped>
+/* ─── Layout raíz ─────────────────────────────────────── */
+.atlas-root {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--dk-bg);
+  font-family: var(--ff-body);
 }
-.atlas-tooltip .maplibregl-popup-tip { display: none; }
 
-/* Controles de mapa */
-.maplibregl-ctrl-group {
-  background: #161625 !important;
-  border: 1px solid #2a2a45 !important;
+/* ─── Transición fade global ──────────────────────────── */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.maplibregl-ctrl-group button {
-  background: transparent !important;
-  color: #94a3b8 !important;
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
-.maplibregl-ctrl-group button:hover { background: rgba(255,255,255,0.05) !important; }
-
-.fade-enter-active, .fade-leave-active { transition: opacity .4s ease; }
-.fade-enter-from, .fade-leave-to { opacity: 0; }
 </style>
