@@ -311,6 +311,61 @@ export function useAtlasMap(mapRef) {
       },
     })
 
+    // ── Hidrografía (ríos y cuerpos de agua) ─────────────────────────────
+    map.value.addSource('waterways', {
+      type: 'geojson', data: '/data/waterways.geojson',
+    })
+    map.value.addLayer({
+      id: 'waterways-line',
+      type: 'line',
+      source: 'waterways',
+      layout: { visibility: 'none' },
+      paint: {
+        'line-color': [
+          'match', ['get', 'waterway'],
+          'river',  '#3B82F6',
+          'stream', '#60A5FA',
+          'canal',  '#0EA5E9',
+          '#93C5FD',
+        ],
+        'line-width': [
+          'match', ['get', 'waterway'],
+          'river', 2.5,
+          'stream', 1.2,
+          1,
+        ],
+        'line-opacity': 0.75,
+      },
+    })
+
+    // ── Red vial ──────────────────────────────────────────────────────────
+    map.value.addSource('roads', {
+      type: 'geojson', data: '/data/roads.geojson',
+    })
+    map.value.addLayer({
+      id: 'roads-line',
+      type: 'line',
+      source: 'roads',
+      layout: { visibility: 'none' },
+      paint: {
+        'line-color': [
+          'match', ['get', 'highway'],
+          'primary',   '#F97316',
+          'secondary', '#FB923C',
+          'tertiary',  '#FCA5A5',
+          '#D97706',
+        ],
+        'line-width': [
+          'match', ['get', 'highway'],
+          'primary',   2.5,
+          'secondary', 1.8,
+          'tertiary',  1.2,
+          1,
+        ],
+        'line-opacity': 0.8,
+      },
+    })
+
     // Fix Bug 5 aplicado aquí también: usa _maplibregl en vez de map.value.constructor
     setupInteraction(_maplibregl)
 
@@ -365,6 +420,8 @@ export function useAtlasMap(mapRef) {
       sipra:        ['sipra-fill', 'sipra-outline'],
       'sipra-excl': ['sipra-exclusion-fill', 'sipra-exclusion-outline'],
       fincas:       ['fincas-fill', 'fincas-outline'],
+      waterways:    ['waterways-line'],
+      roads:        ['roads-line'],
     }
 
     if (layerMap[id]) {

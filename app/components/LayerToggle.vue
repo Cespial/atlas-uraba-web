@@ -33,21 +33,24 @@ defineProps({
 defineEmits(['toggle'])
 
 const groups = ['Territorio', 'Productivo', 'Servicios']
+
 function layersByGroup(group) {
   return layers.filter(l => l.group === group)
 }
 
 const layers = [
   // Contexto territorial
-  { id: 'veredas',      label: 'Veredas',        color: 'rgba(255,255,255,0.25)', group: 'Territorio' },
-  { id: 'municipios',   label: 'Municipios',      color: 'rgba(255,255,255,0.45)', group: 'Territorio' },
+  { id: 'veredas',      label: 'Veredas',          color: 'rgba(255,255,255,0.25)', group: 'Territorio' },
+  { id: 'municipios',   label: 'Municipios',        color: 'rgba(255,255,255,0.45)', group: 'Territorio' },
+  { id: 'waterways',    label: 'Ríos',              color: '#3B82F6',                group: 'Territorio' },
+  { id: 'roads',        label: 'Vías',              color: '#F97316',                group: 'Territorio' },
   // Productivo — del gemelo digital
-  { id: 'sipra',        label: 'Aptitud banano',  color: '#00cc44',               group: 'Productivo'  },
-  { id: 'sipra-excl',   label: 'Zonas exclusión', color: '#cc3333',               group: 'Productivo'  },
-  { id: 'fincas',       label: 'Fincas Urabá',    color: '#F5E642',               group: 'Productivo'  },
+  { id: 'sipra',        label: 'Aptitud banano',    color: '#00cc44',                group: 'Productivo' },
+  { id: 'sipra-excl',   label: 'Zonas exclusión',   color: '#cc3333',                group: 'Productivo' },
+  { id: 'fincas',       label: 'Fincas bananeras',  color: '#F5E642',                group: 'Productivo' },
   // Equipamientos
-  { id: 'reps',         label: 'Salud (REPS)',     color: '#3B82F6',               group: 'Servicios'   },
-  { id: 'simat',        label: 'Educación',        color: '#F59E0B',               group: 'Servicios'   },
+  { id: 'reps',         label: 'Salud (REPS)',       color: '#3B82F6',                group: 'Servicios'  },
+  { id: 'simat',        label: 'Educación',          color: '#F59E0B',                group: 'Servicios'  },
 ]
 </script>
 
