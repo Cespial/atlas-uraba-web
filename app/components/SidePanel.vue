@@ -280,26 +280,32 @@ function dimScore(key) {
   overflow-y: auto;
   overflow-x: hidden;
 
-  background: var(--dk-panel);
-  border-right: 1px solid var(--dk-border);
+  background: var(--white, #FFFFFF);
+  border-right: 1px solid var(--cb, #E5E5E0);
+
+  /* grid sutil PMO-Milagros */
+  background-image:
+    linear-gradient(rgba(0,0,0,0.016) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.016) 1px, transparent 1px);
+  background-size: 40px 40px;
 
   /* scroll suave */
   scroll-behavior: smooth;
   scrollbar-width: thin;
-  scrollbar-color: var(--dk-border) transparent;
+  scrollbar-color: var(--cb) transparent;
 }
 
 .side-panel::-webkit-scrollbar { width: 4px; }
 .side-panel::-webkit-scrollbar-track { background: transparent; }
 .side-panel::-webkit-scrollbar-thumb {
-  background: var(--dk-border);
+  background: var(--cbs, #D0D0CB);
   border-radius: 2px;
 }
 
 /* ─── Sección genérica ───────────────────────────────── */
 .panel-section {
   padding: 16px;
-  border-bottom: 1px solid var(--dk-border);
+  border-bottom: 1px solid var(--cb, #E5E5E0);
   flex-shrink: 0;
 }
 
@@ -324,7 +330,7 @@ function dimScore(key) {
 }
 
 .label-dash {
-  color: var(--dk-border);
+  color: var(--cb, #E5E5E0);
   margin: 0 1px;
 }
 
@@ -346,7 +352,7 @@ function dimScore(key) {
   font-size: 18px;
   font-weight: 600;
   letter-spacing: -0.36px;
-  color: var(--dk-text);
+  color: var(--c1, #1A1A1A);
   margin: 0 0 8px 0;
   line-height: 1.2;
 }
@@ -374,7 +380,7 @@ function dimScore(key) {
   font-weight: 500;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--dk-muted);
+  color: var(--cm, #5F5F5B);
   margin-bottom: 2px;
 }
 
@@ -398,7 +404,7 @@ function dimScore(key) {
 .score-track {
   width: 100%;
   height: 3px;
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--cb, #E5E5E0);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -434,13 +440,13 @@ function dimScore(key) {
 }
 
 .dim-btn:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: var(--dk-border);
+  background: rgba(0,0,0,0.04);
+  border-color: var(--cb, #E5E5E0);
 }
 
 .dim-btn--active {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: var(--dk-border);
+  background: rgba(0,0,0,0.06);
+  border-color: var(--cb, #E5E5E0);
 }
 
 .dim-dot {
@@ -462,14 +468,14 @@ function dimScore(key) {
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--dk-muted);
+  color: var(--cm, #5F5F5B);
   flex: 1;
   transition: color 0.15s ease;
 }
 
 .dim-btn:hover .dim-label,
 .dim-btn--active .dim-label {
-  color: var(--dk-text);
+  color: var(--c1, #1A1A1A);
 }
 
 .dim-score {
@@ -515,7 +521,7 @@ function dimScore(key) {
 }
 
 .mun-btn:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(0,0,0,0.04);
 }
 
 .mun-btn--active {
@@ -528,12 +534,12 @@ function dimScore(key) {
   font-size: 12px;
   font-weight: 400;
   line-height: 1.4;
-  color: var(--dk-muted);
+  color: var(--cm, #5F5F5B);
   transition: color 0.15s ease;
 }
 
 .mun-btn:hover .mun-nombre {
-  color: var(--dk-text);
+  color: var(--c1, #1A1A1A);
 }
 
 .mun-btn--active .mun-nombre {
@@ -578,14 +584,14 @@ function dimScore(key) {
   font-size: 8px;
   font-weight: 400;
   letter-spacing: 0.05em;
-  color: var(--dk-muted);
+  color: var(--cm, #5F5F5B);
   white-space: nowrap;
 }
 
 /* Gradiente de bienestar */
 .jenks-wrap {
   padding-top: 12px;
-  border-top: 1px solid var(--dk-border);
+  border-top: 1px solid var(--cb, #E5E5E0);
 }
 
 .jenks-bar {
@@ -612,7 +618,7 @@ function dimScore(key) {
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--dk-muted);
+  color: var(--cm, #5F5F5B);
 }
 
 /* ══════════════════════════════════════════
@@ -621,7 +627,7 @@ function dimScore(key) {
 .panel-footer {
   margin-top: auto;
   padding: 12px 16px;
-  border-top: 1px solid var(--dk-border);
+  border-top: 1px solid var(--cb, #E5E5E0);
   flex-shrink: 0;
 }
 
@@ -631,7 +637,7 @@ function dimScore(key) {
   font-weight: 400;
   letter-spacing: 0.1em;
   line-height: 1.8;
-  color: var(--dk-muted);
+  color: var(--cm, #5F5F5B);
   opacity: 0.7;
 }
 </style>

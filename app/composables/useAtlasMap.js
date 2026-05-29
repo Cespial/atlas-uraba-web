@@ -60,56 +60,43 @@ export function useAtlasMap(mapRef) {
     // Intentar PMTiles primero, fallback a GeoJSON si falla
     const usePMTiles = true
 
-    if (usePMTiles) {
-      map.value.addSource('atlas', {
-        type: 'vector',
-        url: 'pmtiles:///data/atlas.pmtiles',
-        promoteId: 'cod_manzana',
-        minzoom: 10,
-        maxzoom: 14,
-      })
-    } else {
-      map.value.addSource('atlas', {
-        type: 'geojson',
-        data: '/data/atlas.geojson',
-        promoteId: 'cod_manzana',
-      })
-    }
+    // GeoJSON: más simple y funciona a cualquier zoom nivel
+    // PMTiles queda como upgrade futuro cuando se regenere con -Z9
+    map.value.addSource('atlas', {
+      type: 'geojson',
+      data: '/data/atlas.geojson',
+      promoteId: 'cod_manzana',
+    })
 
-    // Capa fill
+    // Capa fill — opacidad fija (sin zoom-dependent case anidado)
     map.value.addLayer({
       id: 'manzanas-fill',
       type: 'fill',
       source: 'atlas',
-      'source-layer': usePMTiles ? 'manzanas' : undefined,
       paint: {
         'fill-color': buildColorExpr(store.dimension),
-        'fill-opacity': [
-          'interpolate', ['linear'], ['zoom'],
-          9, ['case', ['boolean', ['feature-state', 'hover'], false], 0.9, 0.7],
-          14, ['case', ['boolean', ['feature-state', 'hover'], false], 0.95, 0.82],
-        ],
+        'fill-opacity': 0.78,
       },
     })
 
-    // Capa stroke
+    // Capa stroke — expresión válida: case sin interpolate anidado
     map.value.addLayer({
       id: 'manzanas-stroke',
       type: 'line',
       source: 'atlas',
-      'source-layer': usePMTiles ? 'manzanas' : undefined,
       paint: {
         'line-color': [
           'case',
           ['boolean', ['feature-state', 'selected'], false], '#1B6B6D',
-          ['boolean', ['feature-state', 'hover'], false], 'rgba(255,255,255,0.5)',
-          'rgba(255,255,255,0.12)',
+          ['boolean', ['feature-state', 'hover'], false], 'rgba(255,255,255,0.6)',
+          'rgba(255,255,255,0.15)',
         ],
+        // Zoom-dependent width como interpolate top-level (válido)
         'line-width': [
-          'case',
-          ['boolean', ['feature-state', 'selected'], false], 2.5,
-          ['boolean', ['feature-state', 'hover'], false], 1.5,
-          ['interpolate', ['linear'], ['zoom'], 10, 0.3, 15, 0.8],
+          'interpolate', ['linear'], ['zoom'],
+          10, 0.3,
+          14, 0.8,
+          17, 1.5,
         ],
       },
     })
