@@ -7,12 +7,15 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useAtlasMap } from '~/composables/useAtlasMap'
 
 const emit = defineEmits(['loaded', 'error'])
 const mapRef = ref(null)
 const { map, ready, initMap } = useAtlasMap(mapRef)
+
+// Fix Bug 6: emitir 'loaded' cuando el composable marque ready
+watch(ready, (val) => { if (val) emit('loaded') })
 
 onMounted(async () => {
   if (!import.meta.client) return
@@ -24,7 +27,5 @@ onMounted(async () => {
   }
 })
 
-onBeforeUnmount(() => {
-  map.value?.remove()
-})
+// Fix Bug 3: onBeforeUnmount eliminado — el composable maneja el cleanup en onUnmounted
 </script>

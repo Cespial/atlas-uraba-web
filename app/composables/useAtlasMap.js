@@ -1,20 +1,24 @@
 import { ref, watch, onUnmounted } from 'vue'
 import { useAtlasStore } from '~/stores/atlas'
 
-let hoveredId   = null
-let selectedId  = null
-
 export function useAtlasMap(mapRef) {
   const store = useAtlasStore()
   const map   = ref(null)
   const ready = ref(false)
 
-  async function initMap() {
-    const maplibregl = (await import('maplibre-gl')).default
+  // Fix Bug 4: hoveredId/selectedId en scope del composable (no module-level)
+  let hoveredId   = null
+  let selectedId  = null
+  // Fix Bug 5: guardar referencia al módulo maplibre-gl en el closure
+  let _maplibregl = null
 
-    map.value = new maplibregl.Map({
+  // ─── Inicialización del mapa ────────────────────────────────────────────
+  async function initMap() {
+    // Fix Bug 5: asignar a closure var, no a const local
+    _maplibregl = (await import('maplibre-gl')).default
+
+    map.value = new _maplibregl.Map({
       container: mapRef.value,
-      // Estilo mínimo: fondo oscuro sin tiles externas (evita errores de CDN)
       style: {
         version: 8,
         sources: {},
@@ -34,51 +38,44 @@ export function useAtlasMap(mapRef) {
     })
 
     map.value.addControl(
-      new maplibregl.AttributionControl({ compact: true }),
+      new _maplibregl.AttributionControl({ compact: true }),
       'bottom-right'
     )
     map.value.addControl(
-      new maplibregl.NavigationControl({ visualizePitch: false }),
+      new _maplibregl.NavigationControl({ visualizePitch: false }),
       'top-right'
     )
     map.value.addControl(
-      new maplibregl.ScaleControl({ unit: 'metric' }),
+      new _maplibregl.ScaleControl({ unit: 'metric' }),
       'bottom-right'
     )
 
     map.value.on('load', loadAtlasLayer)
 
-    // setLoaded en cuanto el mapa esté idle (más confiable que sourcedata)
-    map.value.once('idle', () => {
-      if (!ready.value) {
-        ready.value = true
-        store.setLoaded()
-      }
-    })
+    // Fix Bug 2: NO registrar idle aquí — se registra en loadAtlasLayer()
+    // para que dispare DESPUÉS de cargar el GeoJSON, no antes
 
-    // Fallback: quitar loading a los 6 segundos máximo
+    // Fallback de 8 segundos como garantía mínima
     setTimeout(() => {
       if (!ready.value) {
         ready.value = true
         store.setLoaded()
       }
-    }, 6000)
+    }, 8000)
 
     map.value.on('error', (e) => {
       if (e.error?.message) console.warn('[Atlas]', e.error.message)
     })
   }
 
+  // ─── Carga de capas de datos ────────────────────────────────────────────
   function loadAtlasLayer() {
-    // Fuente GeoJSON — promoteId numérico (_fid int) para evitar varint overflow
-    // con IDs string de 22 chars como cod_manzana
     map.value.addSource('atlas', {
       type: 'geojson',
       data: '/data/atlas.geojson',
       promoteId: '_fid',
     })
 
-    // Capa fill
     map.value.addLayer({
       id: 'manzanas-fill',
       type: 'fill',
@@ -89,7 +86,6 @@ export function useAtlasMap(mapRef) {
       },
     })
 
-    // Capa stroke — line-width como interpolate top-level (válido en MapLibre)
     map.value.addLayer({
       id: 'manzanas-stroke',
       type: 'line',
@@ -110,29 +106,32 @@ export function useAtlasMap(mapRef) {
       },
     })
 
-    // Inicializar interactividad
-    setupInteraction()
+    // Fix Bug 5 aplicado aquí también: usa _maplibregl en vez de map.value.constructor
+    setupInteraction(_maplibregl)
 
-    // Marcar como cargado también cuando el GeoJSON cargue (complementa idle)
+    // Stats cuando el GeoJSON cargue
     map.value.on('sourcedata', (e) => {
-      if (e.sourceId === 'atlas' && e.isSourceLoaded && !ready.value) {
+      if (e.sourceId === 'atlas' && e.isSourceLoaded && map.value.isStyleLoaded()) {
+        requestAnimationFrame(() => {
+          const features = map.value.querySourceFeatures('atlas')
+          if (features.length > 0) computeStatsFromFeatures(features)
+        })
+      }
+    })
+
+    // Fix Bug 2: 'idle' registrado AQUÍ, después de agregar la source GeoJSON
+    // Así dispara cuando el GeoJSON termina de renderizarse, no antes
+    map.value.once('idle', () => {
+      if (!ready.value) {
         ready.value = true
         store.setLoaded()
       }
     })
-
-    // Calcular stats desde el GeoJSON una vez que cargue
-    map.value.once('data', (e) => {
-      if (e.sourceId === 'atlas' && e.dataType === 'source') {
-        const features = map.value.querySourceFeatures('atlas')
-        if (features.length > 0) computeStatsFromFeatures(features)
-      }
-    })
   }
 
-  function setupInteraction() {
-    const maplibregl = map.value.constructor // referencia a la clase
-
+  // ─── Interactividad (hover, click, tooltip) ─────────────────────────────
+  function setupInteraction(maplibregl) {
+    // Fix Bug 5: usar el maplibregl pasado como argumento — NO map.value.constructor
     const tooltip = new maplibregl.Popup({
       closeButton:  false,
       closeOnClick: false,
@@ -141,7 +140,6 @@ export function useAtlasMap(mapRef) {
       offset:       [0, -6],
     })
 
-    // Para GeoJSON source (sin source-layer)
     const src = { source: 'atlas' }
 
     map.value.on('mousemove', 'manzanas-fill', (e) => {
@@ -149,7 +147,7 @@ export function useAtlasMap(mapRef) {
       map.value.getCanvas().style.cursor = 'pointer'
 
       const f  = e.features[0]
-      const id = f.id ?? f.properties?.cod_manzana
+      const id = f.id ?? f.properties?._fid
 
       if (hoveredId !== null && hoveredId !== id) {
         map.value.setFeatureState({ ...src, id: hoveredId }, { hover: false })
@@ -171,7 +169,7 @@ export function useAtlasMap(mapRef) {
     map.value.on('click', 'manzanas-fill', (e) => {
       if (!e.features?.length) return
       const f  = e.features[0]
-      const id = f.id ?? f.properties?.cod_manzana
+      const id = f.id ?? f.properties?._fid
 
       if (selectedId !== null) {
         map.value.setFeatureState({ ...src, id: selectedId }, { selected: false })
@@ -181,7 +179,6 @@ export function useAtlasMap(mapRef) {
       store.selectManzana(f.properties)
     })
 
-    // Click fuera — deseleccionar
     map.value.on('click', (e) => {
       const hits = map.value.queryRenderedFeatures(e.point, { layers: ['manzanas-fill'] })
       if (!hits.length && selectedId !== null) {
@@ -192,9 +189,10 @@ export function useAtlasMap(mapRef) {
     })
   }
 
+  // ─── Stats desde features del viewport ──────────────────────────────────
   function computeStatsFromFeatures(features) {
-    const byMun = {}
     const dims = ['atlas_score','score_accesibilidad','score_ambiental','score_socioeconomico','score_seguridad']
+    const byMun = {}
     features.forEach(f => {
       const p = f.properties
       if (!p) return
@@ -208,9 +206,10 @@ export function useAtlasMap(mapRef) {
       stats[mun] = { count: data.count, avg: {} }
       dims.forEach(d => { stats[mun].avg[d] = data.sums[d] / data.count })
     })
-    store.setStats(stats)
+    if (Object.keys(stats).length > 0) store.setStats(stats)
   }
 
+  // ─── Expresión de color para MapLibre ───────────────────────────────────
   function buildColorExpr(dim) {
     return [
       'interpolate', ['linear'],
@@ -241,7 +240,7 @@ export function useAtlasMap(mapRef) {
     if (!map.value || !ready.value) return
     const filter = nombre === 'Todos' ? null : ['==', ['get', 'municipio'], nombre]
     try {
-      map.value.setFilter('manzanas-fill',  filter)
+      map.value.setFilter('manzanas-fill',   filter)
       map.value.setFilter('manzanas-stroke', filter)
     } catch (e) {
       console.warn('[Atlas] setFilter:', e.message)
@@ -255,10 +254,13 @@ export function useAtlasMap(mapRef) {
     setFilter(nombre)
   })
 
+  // Fix Bug 3: solo un remove() — aquí en el composable
   onUnmounted(() => {
     map.value?.remove()
-    hoveredId  = null
-    selectedId = null
+    map.value   = null
+    hoveredId   = null
+    selectedId  = null
+    _maplibregl = null
   })
 
   return { map, ready, initMap }
@@ -268,7 +270,7 @@ export function useAtlasMap(mapRef) {
 function buildTooltip(p) {
   if (!p) return ''
   const pct = (v) => Math.round((+(v ?? 0)) * 100)
-  const color = (v) => {
+  const col = (v) => {
     const n = +(v ?? 0)
     if (n >= 0.85) return '#1a9850'
     if (n >= 0.70) return '#66bd63'
@@ -277,20 +279,15 @@ function buildTooltip(p) {
     if (n >= 0.20) return '#f46d43'
     return '#d73027'
   }
-  const bar = (v, c) => {
-    const w = pct(v)
-    return `<div style="background:#1e2738;border-radius:2px;height:3px;margin-top:2px">
-      <div style="width:${w}%;height:3px;background:${c};border-radius:2px"></div></div>`
-  }
-  const zonaColors = { HH: '#1a9641', LL: '#d7191c', HL: '#f39c12', LH: '#3498db', NS: '#555' }
-  const zc = zonaColors[p.zona_atlas] || '#555'
-  const sc = color(p.atlas_score)
-
+  const bar = (v, c) => `<div style="background:#1e2738;border-radius:2px;height:3px;margin-top:2px">
+    <div style="width:${pct(v)}%;height:3px;background:${c};border-radius:2px"></div></div>`
+  const zc = { HH:'#1a9641',LL:'#d7191c',HL:'#f39c12',LH:'#3498db',NS:'#555' }[p.zona_atlas] || '#555'
+  const sc = col(p.atlas_score)
   return `<div style="font-family:'Inter',sans-serif;font-size:12px;color:#E6EDF3;min-width:230px">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
       <div>
-        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px">${p.municipio || ''}</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#8B949E;margin-top:1px">${(p.cod_manzana || '').slice(-10)}</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px">${p.municipio||''}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#8B949E;margin-top:1px">${(p.cod_manzana||'').slice(-10)}</div>
       </div>
       <div style="text-align:right">
         <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:24px;color:${sc};line-height:1">${pct(p.atlas_score)}</div>
@@ -298,19 +295,14 @@ function buildTooltip(p) {
       </div>
     </div>
     ${bar(p.atlas_score, sc)}
-    <div style="margin-top:10px;display:grid;grid-template-columns:1fr auto;gap:3px 10px;font-size:11px">
-      <span style="color:#8B949E;font-size:9px;text-transform:uppercase;letter-spacing:.1em;font-family:'JetBrains Mono',monospace">Accesibilidad</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:10px">${pct(p.score_accesibilidad)}</span>
-      <span style="color:#8B949E;font-size:9px;text-transform:uppercase;letter-spacing:.1em;font-family:'JetBrains Mono',monospace">Ambiental</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:10px">${pct(p.score_ambiental)}</span>
-      <span style="color:#8B949E;font-size:9px;text-transform:uppercase;letter-spacing:.1em;font-family:'JetBrains Mono',monospace">Socioecon.</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:10px">${pct(p.score_socioeconomico)}</span>
-      <span style="color:#8B949E;font-size:9px;text-transform:uppercase;letter-spacing:.1em;font-family:'JetBrains Mono',monospace">Seguridad</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:10px">${pct(p.score_seguridad)}</span>
+    <div style="margin-top:10px;display:grid;grid-template-columns:1fr auto;gap:3px 10px">
+      ${[['Accesibilidad','score_accesibilidad'],['Ambiental','score_ambiental'],['Socioecon.','score_socioeconomico'],['Seguridad','score_seguridad']].map(([label,key])=>`
+      <span style="color:#8B949E;font-size:9px;text-transform:uppercase;letter-spacing:.1em;font-family:'JetBrains Mono',monospace">${label}</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10px">${pct(p[key])}</span>`).join('')}
     </div>
     <div style="margin-top:8px;padding-top:6px;border-top:1px solid #30363D;display:flex;gap:8px;align-items:center">
-      <span style="padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;background:${zc}22;color:${zc};border:1px solid ${zc}44">${p.zona_atlas || '—'}</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#8B949E">${p.quintil || '—'}</span>
+      <span style="padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;background:${zc}22;color:${zc};border:1px solid ${zc}44">${p.zona_atlas||'—'}</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#8B949E">${p.quintil||'—'}</span>
     </div>
   </div>`
 }
