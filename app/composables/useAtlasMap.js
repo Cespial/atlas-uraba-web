@@ -70,11 +70,12 @@ export function useAtlasMap(mapRef) {
   }
 
   function loadAtlasLayer() {
-    // Fuente GeoJSON — carga completa, funciona a cualquier zoom
+    // Fuente GeoJSON — promoteId numérico (_fid int) para evitar varint overflow
+    // con IDs string de 22 chars como cod_manzana
     map.value.addSource('atlas', {
       type: 'geojson',
       data: '/data/atlas.geojson',
-      promoteId: 'cod_manzana',
+      promoteId: '_fid',
     })
 
     // Capa fill
