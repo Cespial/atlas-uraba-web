@@ -2,9 +2,24 @@
   <aside class="side-panel">
 
     <!-- ══════════════════════════════════════════
+         SUB-TABS — navegación de secciones
+    ══════════════════════════════════════════ -->
+    <div class="panel-tabs">
+      <button
+        v-for="tab in tabs"
+        :key="tab.id"
+        @click="activeTab = tab.id"
+        class="ptab"
+        :class="{ 'ptab--active': activeTab === tab.id }"
+      >
+        {{ tab.label }}
+      </button>
+    </div>
+
+    <!-- ══════════════════════════════════════════
          CABECERA — identidad y KPI global
     ══════════════════════════════════════════ -->
-    <div class="panel-section panel-header">
+    <div v-show="activeTab === 'index'" class="panel-section panel-header">
       <!-- Eyebrow / breadcrumb -->
       <div class="section-label">
         <span class="label-index">01</span>
@@ -44,7 +59,7 @@
     <!-- ══════════════════════════════════════════
          DIMENSIONES — selector de capa temática
     ══════════════════════════════════════════ -->
-    <div class="panel-section">
+    <div v-show="activeTab === 'index'" class="panel-section">
       <div class="section-label">
         <span class="label-index">02</span>
         <span class="label-dash">—</span>
@@ -81,7 +96,7 @@
     <!-- ══════════════════════════════════════════
          MUNICIPIOS — selector de ámbito espacial
     ══════════════════════════════════════════ -->
-    <div class="panel-section">
+    <div v-show="activeTab === 'index'" class="panel-section">
       <div class="section-label">
         <span class="label-index">03</span>
         <span class="label-dash">—</span>
@@ -109,7 +124,7 @@
     <!-- ══════════════════════════════════════════
          DISTRIBUCIÓN — histograma por rangos
     ══════════════════════════════════════════ -->
-    <div class="panel-section">
+    <div v-show="activeTab === 'index'" class="panel-section">
       <div class="section-label">
         <span class="label-index">04</span>
         <span class="label-dash">—</span>
@@ -121,7 +136,7 @@
     <!-- ══════════════════════════════════════════
          RANKING — posición relativa municipios
     ══════════════════════════════════════════ -->
-    <div class="panel-section">
+    <div v-show="activeTab === 'ranking'" class="panel-section">
       <div class="section-label">
         <span class="label-index">05</span>
         <span class="label-dash">—</span>
@@ -133,7 +148,7 @@
     <!-- ══════════════════════════════════════════
          LEYENDA — escala Jenks + zonas LISA
     ══════════════════════════════════════════ -->
-    <div class="panel-section">
+    <div v-show="activeTab === 'zonas'" class="panel-section">
       <div class="section-label">
         <span class="label-index">06</span>
         <span class="label-dash">—</span>
@@ -165,7 +180,7 @@
     <!-- ══════════════════════════════════════════
          FUENTES — colofón de datos
     ══════════════════════════════════════════ -->
-    <div class="panel-footer">
+    <div v-show="activeTab === 'fuentes'" class="panel-footer">
       <div class="fuentes-text">
         CNPV 2018 DANE · REPS MinSalud<br />
         SIMAT MEN · OSM Colombia<br />
@@ -177,12 +192,20 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useAtlasStore, DIMENSIONES, MUNICIPIOS } from '~/stores/atlas'
 
 const store      = useAtlasStore()
 const dimensiones = DIMENSIONES
 const municipios  = MUNICIPIOS
+
+const activeTab = ref('index')
+const tabs = [
+  { id: 'index',   label: 'Índice'  },
+  { id: 'zonas',   label: 'Capas'   },
+  { id: 'ranking', label: 'Ranking' },
+  { id: 'fuentes', label: 'Fuentes' },
+]
 
 /* ─── Zonas LISA ─────────────────────────────────────── */
 const zonas = [
@@ -266,6 +289,34 @@ function dimScore(key) {
    Acento: --ca (#1B6B6D) solo como toque, nunca dominante
    Tipografía: Space Grotesk (head) · Inter (body) · JetBrains Mono (mono)
 ═════════════════════════════════════════════════════════ */
+
+/* ─── Sub-tabs de navegación ─────────────────────────── */
+.panel-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--cb, #E5E5E0);
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.ptab {
+  flex: 1;
+  padding: 8px 4px;
+  font-family: var(--ff-mono);
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--cm, #5F5F5B);
+  border-bottom: 2px solid transparent;
+  transition: all .15s;
+}
+
+.ptab--active {
+  color: var(--ca, #1B6B6D);
+  border-bottom-color: var(--ca, #1B6B6D);
+}
 
 /* ─── Contenedor principal ───────────────────────────── */
 .side-panel {

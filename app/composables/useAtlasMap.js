@@ -3,7 +3,11 @@ import { useAtlasStore } from '~/stores/atlas'
 
 // Estilos de mapa disponibles
 const STYLE_DARK      = 'https://tiles.openfreemap.org/styles/dark'
-const STYLE_SATELLITE = 'https://tiles.openfreemap.org/styles/positron'
+const STYLE_SAT = {
+  version: 8,
+  sources: { esri: { type: 'raster', tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'], tileSize: 256, attribution: '© Esri' } },
+  layers: [{ id: 'esri-sat', type: 'raster', source: 'esri' }],
+}
 
 export function useAtlasMap(mapRef) {
   const store = useAtlasStore()
@@ -24,6 +28,9 @@ export function useAtlasMap(mapRef) {
     reps:       false,
     simat:      false,
   }
+
+  // Capas activas como Set reactivo para la UI
+  const activeLayers = ref(new Set(['veredas', 'municipios']))
 
   // ─── Inicialización del mapa ────────────────────────────────────────────
   async function initMap() {
@@ -245,12 +252,12 @@ export function useAtlasMap(mapRef) {
 
   // ─── Toggle de capa (veredas / municipios / reps / simat) ───────────────
   function toggleLayer(id) {
-    if (!map.value || !ready.value) return
+    if (!map.value) return
 
-    layerVisibility[id] = !layerVisibility[id]
-    const vis = layerVisibility[id] ? 'visible' : 'none'
+    // Soporte para ids de capa MapLibre directos (lisa, etc.)
+    const MAP_LAYERS = { lisa:'manzanas-lisa', reps:'reps-points', simat:'simat-points', veredas:'veredas-outline', municipios:'municipios-outline' }
 
-    // Mapa de id lógico → capas de mapa
+    // Si es un id lógico con múltiples capas, usar el mapa completo
     const layerMap = {
       veredas:    ['veredas-outline'],
       municipios: ['municipios-outline', 'municipios-label'],
@@ -258,37 +265,50 @@ export function useAtlasMap(mapRef) {
       simat:      ['simat-points'],
     }
 
-    const targets = layerMap[id] || []
-    targets.forEach(layerId => {
+    if (layerMap[id]) {
+      // id lógico conocido
+      layerVisibility[id] = !layerVisibility[id]
+      const vis = layerVisibility[id] ? 'visible' : 'none'
+      layerMap[id].forEach(layerId => {
+        try {
+          map.value.setLayoutProperty(layerId, 'visibility', vis)
+        } catch (e) {
+          console.warn('[Atlas] toggleLayer:', e.message)
+        }
+      })
+      if (layerVisibility[id]) activeLayers.value.add(id)
+      else activeLayers.value.delete(id)
+      return layerVisibility[id]
+    } else {
+      // id de capa MapLibre directa
+      const lid = MAP_LAYERS[id] || id
       try {
-        map.value.setLayoutProperty(layerId, 'visibility', vis)
-      } catch (e) {
-        console.warn('[Atlas] toggleLayer:', e.message)
-      }
-    })
-
-    return layerVisibility[id]
+        const vis = map.value.getLayoutProperty(lid, 'visibility')
+        map.value.setLayoutProperty(lid, 'visibility', vis === 'none' ? 'visible' : 'none')
+      } catch(e) { console.warn('[Atlas] toggleLayer:', e.message) }
+    }
   }
 
   // ─── Toggle satélite / vectorial ────────────────────────────────────────
   function toggleSatellite() {
-    if (!map.value) return
+    if (!map.value) return false
     isSatellite = !isSatellite
-    const newStyle = isSatellite ? STYLE_SATELLITE : STYLE_DARK
 
     // Guardar estado previo de visibilidad para restaurar tras recargar estilo
     const prevVisibility = { ...layerVisibility }
 
     map.value.once('styledata', () => {
       // Re-añadir capas de datos tras cambio de estilo base
-      loadAtlasLayer()
-      // Restaurar visibilidades
-      Object.keys(prevVisibility).forEach(id => {
-        if (!prevVisibility[id]) toggleLayer(id)
-      })
+      setTimeout(() => {
+        try { loadAtlasLayer() } catch(e) {}
+        // Restaurar visibilidades
+        Object.keys(prevVisibility).forEach(id => {
+          if (!prevVisibility[id]) toggleLayer(id)
+        })
+      }, 600)
     })
 
-    map.value.setStyle(newStyle)
+    map.value.setStyle(isSatellite ? STYLE_SAT : STYLE_DARK)
     return isSatellite
   }
 
@@ -431,22 +451,29 @@ export function useAtlasMap(mapRef) {
     map.value?.flyTo({ center: [lng, lat], zoom, duration: 1300, essential: true })
   }
 
-  function setFilter(nombre) {
+  function applyFilters() {
     if (!map.value || !ready.value) return
-    const filter = nombre === 'Todos' ? null : ['==', ['get', 'municipio'], nombre]
+    const { filterMin, filterMax, zonaFilter, municipioActivo, dimension } = store
+    const f = ['all']
+    if (municipioActivo !== 'Todos') f.push(['==', ['get', 'municipio'], municipioActivo])
+    f.push(['>=', ['to-number', ['get', dimension], 0], filterMin])
+    f.push(['<=', ['to-number', ['get', dimension], 0], filterMax])
+    if (zonaFilter && zonaFilter.length > 0 && zonaFilter.length < 5)
+      f.push(['in', ['get', 'zona_atlas'], ['literal', zonaFilter]])
     try {
-      map.value.setFilter('manzanas-fill',   filter)
-      map.value.setFilter('manzanas-stroke', filter)
-    } catch (e) {
-      console.warn('[Atlas] setFilter:', e.message)
-    }
+      const layers = ['manzanas-fill','manzanas-stroke','manzanas-lisa'].filter(id => map.value.getLayer(id))
+      layers.forEach(id => map.value.setFilter(id, f.length > 1 ? f : null))
+    } catch(e) { console.warn('[Atlas] applyFilters:', e.message) }
   }
 
   watch(() => store.dimension,       updateColor)
+  watch(() => store.filterMin,       applyFilters)
+  watch(() => store.filterMax,       applyFilters)
+  watch(() => store.zonaFilter,      applyFilters, { deep: true })
   watch(() => store.municipioActivo, (nombre) => {
     const cfg = store.municipioConfig
     if (cfg) flyTo(cfg.lat, cfg.lng, cfg.zoom)
-    setFilter(nombre)
+    applyFilters()
   })
 
   // Fix Bug 3: solo un remove() — aquí en el composable
@@ -458,7 +485,7 @@ export function useAtlasMap(mapRef) {
     _maplibregl = null
   })
 
-  return { map, ready, initMap, toggleLayer, toggleSatellite }
+  return { map, ready, activeLayers, initMap, toggleLayer, toggleSatellite }
 }
 
 // ─── Tooltip manzana HTML ─────────────────────────────────────────────────────

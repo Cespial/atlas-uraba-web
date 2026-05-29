@@ -11,7 +11,7 @@ import { useAtlasMap } from '~/composables/useAtlasMap'
 const props = defineProps({ sidebarOpen: { type: Boolean, default: true } })
 const emit = defineEmits(['loaded', 'error', 'map-ready'])
 const mapRef = ref(null)
-const { map, ready, initMap, toggleLayer, toggleSatellite } = useAtlasMap(mapRef)
+const { map, ready, activeLayers, initMap, toggleLayer, toggleSatellite } = useAtlasMap(mapRef)
 
 watch(ready, (val) => {
   if (val) {
@@ -24,6 +24,8 @@ watch(ready, (val) => {
     })
   }
 })
+
+defineExpose({ toggleSatellite, toggleLayer, activeLayers })
 
 // Resize del mapa cuando el sidebar se colapsa/abre
 watch(() => props.sidebarOpen, () => {
