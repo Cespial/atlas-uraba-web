@@ -47,8 +47,24 @@ export function useAtlasMap(mapRef) {
     )
 
     map.value.on('load', loadAtlasLayer)
+
+    // setLoaded en cuanto el mapa esté idle (más confiable que sourcedata)
+    map.value.once('idle', () => {
+      if (!ready.value) {
+        ready.value = true
+        store.setLoaded()
+      }
+    })
+
+    // Fallback: quitar loading a los 6 segundos máximo
+    setTimeout(() => {
+      if (!ready.value) {
+        ready.value = true
+        store.setLoaded()
+      }
+    }, 6000)
+
     map.value.on('error', (e) => {
-      // Solo loggear, no propagar — algunos errores de tiles son normales
       if (e.error?.message) console.warn('[Atlas]', e.error.message)
     })
   }
@@ -96,11 +112,19 @@ export function useAtlasMap(mapRef) {
     // Inicializar interactividad
     setupInteraction()
 
-    // Marcar como cargado cuando el GeoJSON esté disponible
+    // Marcar como cargado también cuando el GeoJSON cargue (complementa idle)
     map.value.on('sourcedata', (e) => {
       if (e.sourceId === 'atlas' && e.isSourceLoaded && !ready.value) {
         ready.value = true
         store.setLoaded()
+      }
+    })
+
+    // Calcular stats desde el GeoJSON una vez que cargue
+    map.value.once('data', (e) => {
+      if (e.sourceId === 'atlas' && e.dataType === 'source') {
+        const features = map.value.querySourceFeatures('atlas')
+        if (features.length > 0) computeStatsFromFeatures(features)
       }
     })
   }
@@ -165,6 +189,25 @@ export function useAtlasMap(mapRef) {
         store.clearManzana()
       }
     })
+  }
+
+  function computeStatsFromFeatures(features) {
+    const byMun = {}
+    const dims = ['atlas_score','score_accesibilidad','score_ambiental','score_socioeconomico','score_seguridad']
+    features.forEach(f => {
+      const p = f.properties
+      if (!p) return
+      const m = p.municipio || 'Desconocido'
+      if (!byMun[m]) byMun[m] = { count: 0, sums: {} }
+      byMun[m].count++
+      dims.forEach(d => { byMun[m].sums[d] = (byMun[m].sums[d] || 0) + (+(p[d] ?? 0)) })
+    })
+    const stats = {}
+    Object.entries(byMun).forEach(([mun, data]) => {
+      stats[mun] = { count: data.count, avg: {} }
+      dims.forEach(d => { stats[mun].avg[d] = data.sums[d] / data.count })
+    })
+    store.setStats(stats)
   }
 
   function buildColorExpr(dim) {
