@@ -142,18 +142,15 @@ export function useAtlasMap(mapRef) {
       source:  'municipios-score',
       maxzoom: 12,
       paint: {
+        // Scores pre-computados en el GeoJSON — no depende de feature-state
         'fill-color': [
-          'interpolate', ['linear'],
-          // coalesce: usa el score si existe, -0.01 si es null/undefined → color gris
-          ['coalesce', ['feature-state', 'score'], -0.01],
-          -0.01, 'rgba(80,80,80,0.3)',   // sin datos → gris
-          0.00,  '#d73027',
-          0.20,  '#f46d43',
-          0.40,  '#fdae61',
-          0.55,  '#a8ddb5',
-          0.70,  '#41b6c4',
-          0.85,  '#1d91c0',
-          1.00,  '#1B6B6D',
+          'case',
+          ['has', 'atlas_score'],
+          ['interpolate', ['linear'], ['to-number', ['get', 'atlas_score'], 0],
+            0.00, '#d73027', 0.20, '#f46d43', 0.40, '#fdae61',
+            0.55, '#a8ddb5', 0.70, '#41b6c4', 0.85, '#1d91c0', 1.00, '#1B6B6D',
+          ],
+          'rgba(80,80,80,0.3)',  // Mutatá u otros sin datos
         ],
         'fill-opacity': [
           'interpolate', ['linear'], ['zoom'],
@@ -190,8 +187,8 @@ export function useAtlasMap(mapRef) {
           ['get', 'municipio'],
           '\n',
           ['case',
-            ['!=', ['feature-state', 'scoreDisplay'], null],
-            ['concat', ['to-string', ['feature-state', 'scoreDisplay']], '/100'],
+            ['has', 'score_display'],
+            ['concat', ['to-string', ['get', 'score_display']], '/100'],
             '',
           ],
         ],
