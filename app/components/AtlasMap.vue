@@ -1,9 +1,13 @@
 <template>
-  <div
-    ref="mapRef"
-    class="absolute inset-0"
-    :style="{ left: 'var(--atlas-panel-w)', top: 'var(--atlas-header-h)' }"
-  />
+  <!--
+    Wrapper: posicionamiento absoluto fijo — MapLibre no puede tocarlo.
+    Cuando MapLibre inicializa en mapRef (el div interno), cambia ese div
+    a position:relative y lo puede redimensionar. El wrapper mantiene
+    el área correcta sin importar lo que haga MapLibre.
+  -->
+  <div class="atlas-map-wrapper">
+    <div ref="mapRef" class="atlas-map-inner" />
+  </div>
 </template>
 
 <script setup>
@@ -14,7 +18,6 @@ const emit = defineEmits(['loaded', 'error'])
 const mapRef = ref(null)
 const { map, ready, initMap } = useAtlasMap(mapRef)
 
-// Fix Bug 6: emitir 'loaded' cuando el composable marque ready
 watch(ready, (val) => { if (val) emit('loaded') })
 
 onMounted(async () => {
@@ -26,6 +29,22 @@ onMounted(async () => {
     emit('error', e.message || 'Error al inicializar el mapa')
   }
 })
-
-// Fix Bug 3: onBeforeUnmount eliminado — el composable maneja el cleanup en onUnmounted
 </script>
+
+<style scoped>
+/* Wrapper absoluto que define el área del mapa */
+.atlas-map-wrapper {
+  position: absolute;
+  left: var(--atlas-panel-w, 320px);
+  top: var(--atlas-header-h, 52px);
+  right: 0;
+  bottom: 28px;  /* altura AppFooter */
+  z-index: 0;
+}
+
+/* Inner: MapLibre toma control de este div */
+.atlas-map-inner {
+  width: 100%;
+  height: 100%;
+}
+</style>
