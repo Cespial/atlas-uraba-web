@@ -637,8 +637,9 @@ export function useAtlasMap(mapRef) {
     if (!map.value || !map.value.getSource('municipios-score')) return
     const dim = store.dimension
     Object.entries(store.stats).forEach(([nombre, data]) => {
-      const score      = data.avg?.[dim] ?? null
-      const nombreKey  = nombre   // el promoteId debe coincidir con el valor en el GeoJSON
+      const score     = data.avg?.[dim] ?? null
+      // GeoJSON tiene municipio en MAYÚSCULAS ('APARTADÓ'), store en título ('Apartadó')
+      const nombreKey = nombre.toUpperCase()
       try {
         map.value.setFeatureState(
           { source: 'municipios-score', id: nombreKey },
