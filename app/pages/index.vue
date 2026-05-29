@@ -46,6 +46,7 @@
     ═══════════════════════════════════════════ -->
     <ClientOnly>
       <AtlasMap
+        ref="atlasMapRef"
         :sidebar-open="sidebarVisible"
         @loaded="onMapLoaded"
         @error="onMapError"
@@ -74,6 +75,16 @@
 
       <!-- Descarga CSV filtrado -->
       <DownloadButton />
+    </ClientOnly>
+
+    <!-- Geocoder de búsqueda -->
+    <ClientOnly>
+      <GeocoderSearch @fly-to="onGeocoderFlyTo" />
+    </ClientOnly>
+
+    <!-- Botón compartir -->
+    <ClientOnly>
+      <ShareButton />
     </ClientOnly>
 
     <!-- ═══════════════════════════════════════════
@@ -117,6 +128,7 @@ const sidebarOpen    = ref(true)   // tablet: sidebar abierto por defecto
 const isMobile       = ref(false)
 const isTablet       = ref(false)
 const mobileSheetRef = ref(null)
+const atlasMapRef    = ref(null)
 
 // ─── Estado del mapa ─────────────────────────────────────────────────────────
 const mapHandles   = ref(null)      // { map, toggleLayer, toggleSatellite }
@@ -190,6 +202,16 @@ function onToggleLayer(id) {
 function onToggleSatellite() {
   const newVal = mapHandles.value?.toggleSatellite()
   if (newVal !== undefined) isSatellite.value = newVal
+}
+
+// ─── Geocoder flyTo ───────────────────────────────────────────────────────────
+function onGeocoderFlyTo({ lat, lng, zoom, name }) {
+  // Resetear municipio al buscar un lugar libre
+  store.setMunicipio('Todos')
+  // El mapa responde con flyTo via ref expuesto
+  if (atlasMapRef.value?.flyToCoords) {
+    atlasMapRef.value.flyToCoords(lat, lng, zoom)
+  }
 }
 
 // ─── Watchers URL sync ────────────────────────────────────────────────────────

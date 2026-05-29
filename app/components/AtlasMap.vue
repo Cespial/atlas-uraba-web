@@ -25,7 +25,12 @@ watch(ready, (val) => {
   }
 })
 
-defineExpose({ toggleSatellite, toggleLayer, activeLayers })
+// Exponer flyTo genérico para uso externo
+function flyToCoords(lat, lng, zoom = 14) {
+  map.value?.flyTo({ center: [lng, lat], zoom, duration: 1300, essential: true })
+}
+
+defineExpose({ toggleSatellite, toggleLayer, activeLayers, flyToCoords })
 
 // Resize del mapa cuando el sidebar se colapsa/abre
 watch(() => props.sidebarOpen, () => {

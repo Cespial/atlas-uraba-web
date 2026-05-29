@@ -178,6 +178,13 @@
     </div>
 
     <!-- ══════════════════════════════════════════
+         PANORAMA — panel de resumen territorial
+    ══════════════════════════════════════════ -->
+    <div v-show="activeTab === 'panorama'" class="tab-content">
+      <PanoramaPanel />
+    </div>
+
+    <!-- ══════════════════════════════════════════
          FUENTES — colofón de datos
     ══════════════════════════════════════════ -->
     <div v-show="activeTab === 'fuentes'" class="panel-footer">
@@ -201,10 +208,11 @@ const municipios  = MUNICIPIOS
 
 const activeTab = ref('index')
 const tabs = [
-  { id: 'index',   label: 'Índice'  },
-  { id: 'zonas',   label: 'Capas'   },
-  { id: 'ranking', label: 'Ranking' },
-  { id: 'fuentes', label: 'Fuentes' },
+  { id: 'index',    label: 'Índice'    },
+  { id: 'zonas',    label: 'Capas'     },
+  { id: 'ranking',  label: 'Ranking'   },
+  { id: 'panorama', label: 'Panorama'  },
+  { id: 'fuentes',  label: 'Fuentes'   },
 ]
 
 /* ─── Zonas LISA ─────────────────────────────────────── */
@@ -358,6 +366,13 @@ function dimScore(key) {
   padding: 16px;
   border-bottom: 1px solid var(--cb, #E5E5E0);
   flex-shrink: 0;
+}
+
+/* ─── Tab content genérico (panorama, etc.) ──────────── */
+.tab-content {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
 }
 
 /* ─── Label de sección (eyebrow) ─────────────────────── */
