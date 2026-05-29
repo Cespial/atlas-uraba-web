@@ -227,6 +227,90 @@ export function useAtlasMap(mapRef) {
       },
     })
 
+    // ── SIPRA: Aptitud bananera ────────────────────────────────────────────
+    map.value.addSource('sipra', {
+      type: 'geojson', data: '/data/sipra.geojson',
+    })
+    map.value.addLayer({
+      id: 'sipra-fill',
+      type: 'fill',
+      source: 'sipra',
+      layout: { visibility: 'none' },
+      paint: {
+        'fill-color': [
+          'match', ['get', 'aptitud'],
+          'Aptitud alta',   '#00cc44',
+          'Aptitud media',  '#88cc00',
+          'Aptitud baja',   '#ccaa00',
+          'Aptitud muy baja','#cc6600',
+          '#888888',
+        ],
+        'fill-opacity': 0.45,
+      },
+    })
+    map.value.addLayer({
+      id: 'sipra-outline',
+      type: 'line',
+      source: 'sipra',
+      layout: { visibility: 'none' },
+      paint: {
+        'line-color': 'rgba(255,255,255,0.3)',
+        'line-width': 0.6,
+      },
+    })
+
+    // ── SIPRA: Zonas de exclusión ─────────────────────────────────────────
+    map.value.addSource('sipra-exclusion', {
+      type: 'geojson', data: '/data/sipra_exclusion.geojson',
+    })
+    map.value.addLayer({
+      id: 'sipra-exclusion-fill',
+      type: 'fill',
+      source: 'sipra-exclusion',
+      layout: { visibility: 'none' },
+      paint: {
+        'fill-color': '#cc3333',
+        'fill-opacity': 0.25,
+        'fill-pattern': undefined,
+      },
+    })
+    map.value.addLayer({
+      id: 'sipra-exclusion-outline',
+      type: 'line',
+      source: 'sipra-exclusion',
+      layout: { visibility: 'none' },
+      paint: {
+        'line-color': '#cc3333',
+        'line-width': 0.8,
+        'line-dasharray': [3, 2],
+      },
+    })
+
+    // ── Fincas bananeras ──────────────────────────────────────────────────
+    map.value.addSource('fincas', {
+      type: 'geojson', data: '/data/fincas.geojson',
+    })
+    map.value.addLayer({
+      id: 'fincas-fill',
+      type: 'fill',
+      source: 'fincas',
+      layout: { visibility: 'none' },
+      paint: {
+        'fill-color': '#F5E642',
+        'fill-opacity': 0.35,
+      },
+    })
+    map.value.addLayer({
+      id: 'fincas-outline',
+      type: 'line',
+      source: 'fincas',
+      layout: { visibility: 'none' },
+      paint: {
+        'line-color': '#D4B800',
+        'line-width': 0.8,
+      },
+    })
+
     // Fix Bug 5 aplicado aquí también: usa _maplibregl en vez de map.value.constructor
     setupInteraction(_maplibregl)
 
@@ -255,14 +339,32 @@ export function useAtlasMap(mapRef) {
     if (!map.value) return
 
     // Soporte para ids de capa MapLibre directos (lisa, etc.)
-    const MAP_LAYERS = { lisa:'manzanas-lisa', reps:'reps-points', simat:'simat-points', veredas:'veredas-outline', municipios:'municipios-outline' }
+    const MAP_LAYERS = {
+      lisa:            'manzanas-lisa',
+      reps:            'reps-points',
+      simat:           'simat-points',
+      veredas:         'veredas-outline',
+      municipios:      'municipios-outline',
+      sipra:           'sipra-fill',
+      'sipra-excl':    'sipra-exclusion-fill',
+      fincas:          'fincas-fill',
+    }
+    // Capas secundarias que se toggle junto a la principal
+    const SECONDARY = {
+      sipra:        ['sipra-outline'],
+      'sipra-excl': ['sipra-exclusion-outline'],
+      fincas:       ['fincas-outline'],
+    }
 
     // Si es un id lógico con múltiples capas, usar el mapa completo
     const layerMap = {
-      veredas:    ['veredas-outline'],
-      municipios: ['municipios-outline', 'municipios-label'],
-      reps:       ['reps-points'],
-      simat:      ['simat-points'],
+      veredas:      ['veredas-outline'],
+      municipios:   ['municipios-outline', 'municipios-label'],
+      reps:         ['reps-points'],
+      simat:        ['simat-points'],
+      sipra:        ['sipra-fill', 'sipra-outline'],
+      'sipra-excl': ['sipra-exclusion-fill', 'sipra-exclusion-outline'],
+      fincas:       ['fincas-fill', 'fincas-outline'],
     }
 
     if (layerMap[id]) {
