@@ -9,11 +9,21 @@ import { ref, watch, onMounted } from 'vue'
 import { useAtlasMap } from '~/composables/useAtlasMap'
 
 const props = defineProps({ sidebarOpen: { type: Boolean, default: true } })
-const emit = defineEmits(['loaded', 'error'])
+const emit = defineEmits(['loaded', 'error', 'map-ready'])
 const mapRef = ref(null)
-const { map, ready, initMap } = useAtlasMap(mapRef)
+const { map, ready, initMap, toggleLayer, toggleSatellite } = useAtlasMap(mapRef)
 
-watch(ready, (val) => { if (val) emit('loaded') })
+watch(ready, (val) => {
+  if (val) {
+    emit('loaded')
+    // Exponer instancia del mapa y funciones de toggle al padre
+    emit('map-ready', {
+      map: map.value,
+      toggleLayer,
+      toggleSatellite,
+    })
+  }
+})
 
 // Resize del mapa cuando el sidebar se colapsa/abre
 watch(() => props.sidebarOpen, () => {

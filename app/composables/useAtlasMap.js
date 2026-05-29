@@ -1,16 +1,29 @@
 import { ref, watch, onUnmounted } from 'vue'
 import { useAtlasStore } from '~/stores/atlas'
 
+// Estilos de mapa disponibles
+const STYLE_DARK      = 'https://tiles.openfreemap.org/styles/dark'
+const STYLE_SATELLITE = 'https://tiles.openfreemap.org/styles/positron'
+
 export function useAtlasMap(mapRef) {
   const store = useAtlasStore()
   const map   = ref(null)
   const ready = ref(false)
 
   // Fix Bug 4: hoveredId/selectedId en scope del composable (no module-level)
-  let hoveredId   = null
-  let selectedId  = null
+  let hoveredId    = null
+  let selectedId   = null
   // Fix Bug 5: guardar referencia al módulo maplibre-gl en el closure
-  let _maplibregl = null
+  let _maplibregl  = null
+  let isSatellite  = false
+
+  // Registro de visibilidad de capas opcionales
+  const layerVisibility = {
+    veredas:    true,
+    municipios: true,
+    reps:       false,
+    simat:      false,
+  }
 
   // ─── Inicialización del mapa ────────────────────────────────────────────
   async function initMap() {
@@ -19,7 +32,7 @@ export function useAtlasMap(mapRef) {
 
     map.value = new _maplibregl.Map({
       container: mapRef.value,
-      style: 'https://tiles.openfreemap.org/styles/dark',
+      style: STYLE_DARK,
       center: [-76.65, 7.9],
       zoom: 9,
       minZoom: 7,
@@ -111,6 +124,7 @@ export function useAtlasMap(mapRef) {
       id: 'veredas-outline',
       type: 'line',
       source: 'veredas',
+      layout: { visibility: 'visible' },
       paint: {
         'line-color': 'rgba(255,255,255,0.12)',
         'line-width': 0.8,
@@ -121,6 +135,7 @@ export function useAtlasMap(mapRef) {
       id: 'municipios-outline',
       type: 'line',
       source: 'municipios',
+      layout: { visibility: 'visible' },
       paint: {
         'line-color': 'rgba(255,255,255,0.30)',
         'line-width': 1.2,
@@ -133,6 +148,7 @@ export function useAtlasMap(mapRef) {
       type: 'symbol',
       source: 'municipios',
       layout: {
+        visibility: 'visible',
         'text-field': ['get', 'municipio'],
         'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
         'text-size': [
@@ -152,6 +168,56 @@ export function useAtlasMap(mapRef) {
         'text-halo-width': 1.5,
       },
       minzoom: 8,
+    })
+
+    // ── Equipamientos: REPS (salud) ────────────────────────────────────────
+    map.value.addSource('reps', {
+      type: 'geojson',
+      data: '/data/reps.geojson',
+    })
+
+    map.value.addLayer({
+      id: 'reps-points',
+      type: 'circle',
+      source: 'reps',
+      layout: { visibility: 'none' },
+      paint: {
+        'circle-radius': [
+          'interpolate', ['linear'], ['zoom'],
+          8, 3,
+          13, 5,
+          16, 7,
+        ],
+        'circle-color': '#3B82F6',
+        'circle-opacity': 0.85,
+        'circle-stroke-width': 1,
+        'circle-stroke-color': 'rgba(255,255,255,0.4)',
+      },
+    })
+
+    // ── Equipamientos: SIMAT (educacion) ──────────────────────────────────
+    map.value.addSource('simat', {
+      type: 'geojson',
+      data: '/data/simat.geojson',
+    })
+
+    map.value.addLayer({
+      id: 'simat-points',
+      type: 'circle',
+      source: 'simat',
+      layout: { visibility: 'none' },
+      paint: {
+        'circle-radius': [
+          'interpolate', ['linear'], ['zoom'],
+          8, 3,
+          13, 5,
+          16, 7,
+        ],
+        'circle-color': '#F59E0B',
+        'circle-opacity': 0.85,
+        'circle-stroke-width': 1,
+        'circle-stroke-color': 'rgba(255,255,255,0.4)',
+      },
     })
 
     // Fix Bug 5 aplicado aquí también: usa _maplibregl en vez de map.value.constructor
@@ -175,6 +241,55 @@ export function useAtlasMap(mapRef) {
         store.setLoaded()
       }
     })
+  }
+
+  // ─── Toggle de capa (veredas / municipios / reps / simat) ───────────────
+  function toggleLayer(id) {
+    if (!map.value || !ready.value) return
+
+    layerVisibility[id] = !layerVisibility[id]
+    const vis = layerVisibility[id] ? 'visible' : 'none'
+
+    // Mapa de id lógico → capas de mapa
+    const layerMap = {
+      veredas:    ['veredas-outline'],
+      municipios: ['municipios-outline', 'municipios-label'],
+      reps:       ['reps-points'],
+      simat:      ['simat-points'],
+    }
+
+    const targets = layerMap[id] || []
+    targets.forEach(layerId => {
+      try {
+        map.value.setLayoutProperty(layerId, 'visibility', vis)
+      } catch (e) {
+        console.warn('[Atlas] toggleLayer:', e.message)
+      }
+    })
+
+    return layerVisibility[id]
+  }
+
+  // ─── Toggle satélite / vectorial ────────────────────────────────────────
+  function toggleSatellite() {
+    if (!map.value) return
+    isSatellite = !isSatellite
+    const newStyle = isSatellite ? STYLE_SATELLITE : STYLE_DARK
+
+    // Guardar estado previo de visibilidad para restaurar tras recargar estilo
+    const prevVisibility = { ...layerVisibility }
+
+    map.value.once('styledata', () => {
+      // Re-añadir capas de datos tras cambio de estilo base
+      loadAtlasLayer()
+      // Restaurar visibilidades
+      Object.keys(prevVisibility).forEach(id => {
+        if (!prevVisibility[id]) toggleLayer(id)
+      })
+    })
+
+    map.value.setStyle(newStyle)
+    return isSatellite
   }
 
   // ─── Interactividad (hover, click, tooltip) ─────────────────────────────
@@ -234,6 +349,38 @@ export function useAtlasMap(mapRef) {
         selectedId = null
         store.clearManzana()
       }
+    })
+
+    // Tooltips para equipamientos
+    setupEquipamientosInteraction(maplibregl)
+  }
+
+  // ─── Tooltips equipamientos ──────────────────────────────────────────────
+  function setupEquipamientosInteraction(maplibregl) {
+    const tooltipEq = new maplibregl.Popup({
+      closeButton:  false,
+      closeOnClick: false,
+      className:    'atlas-tooltip',
+      maxWidth:     '260px',
+      offset:       [0, -4],
+    })
+
+    const eqLayers = [
+      { id: 'reps-points',  color: '#3B82F6', nameField: 'NombreSede',              munField: 'MunicipioPrestadorDesc', extraField: 'ClasePrestadorDesc' },
+      { id: 'simat-points', color: '#F59E0B', nameField: 'nombreestablecimiento',    munField: 'nombremunicipio',        extraField: 'zona' },
+    ]
+
+    eqLayers.forEach(({ id, color, nameField, munField, extraField }) => {
+      map.value.on('mousemove', id, (e) => {
+        if (!e.features?.length) return
+        map.value.getCanvas().style.cursor = 'pointer'
+        const p = e.features[0].properties
+        tooltipEq.setLngLat(e.lngLat).setHTML(buildEquipamientoTooltip(p, color, nameField, munField, extraField)).addTo(map.value)
+      })
+      map.value.on('mouseleave', id, () => {
+        map.value.getCanvas().style.cursor = ''
+        tooltipEq.remove()
+      })
     })
   }
 
@@ -311,10 +458,10 @@ export function useAtlasMap(mapRef) {
     _maplibregl = null
   })
 
-  return { map, ready, initMap }
+  return { map, ready, initMap, toggleLayer, toggleSatellite }
 }
 
-// ─── Tooltip HTML ─────────────────────────────────────────────────────────────
+// ─── Tooltip manzana HTML ─────────────────────────────────────────────────────
 function buildTooltip(p) {
   if (!p) return ''
   const pct = (v) => Math.round((+(v ?? 0)) * 100)
@@ -352,5 +499,20 @@ function buildTooltip(p) {
       <span style="padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;background:${zc}22;color:${zc};border:1px solid ${zc}44">${p.zona_atlas||'—'}</span>
       <span style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#8B949E">${p.quintil||'—'}</span>
     </div>
+  </div>`
+}
+
+// ─── Tooltip equipamiento HTML ────────────────────────────────────────────────
+function buildEquipamientoTooltip(p, color, nameField, munField, extraField) {
+  const name  = p[nameField]  || '—'
+  const mun   = p[munField]   || ''
+  const extra = p[extraField] || ''
+  return `<div style="font-family:'Inter',sans-serif;font-size:12px;color:#E6EDF3;min-width:180px">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+      <span style="width:8px;height:8px;border-radius:2px;background:${color};flex-shrink:0;display:inline-block"></span>
+      <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:12px;line-height:1.3">${name}</span>
+    </div>
+    ${mun   ? `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#8B949E;margin-bottom:2px">${mun}</div>`   : ''}
+    ${extra ? `<div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:${color};text-transform:uppercase;letter-spacing:.08em">${extra}</div>` : ''}
   </div>`
 }

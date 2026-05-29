@@ -49,14 +49,31 @@
         :sidebar-open="sidebarVisible"
         @loaded="onMapLoaded"
         @error="onMapError"
+        @map-ready="onMapReady"
       />
     </ClientOnly>
 
     <!-- ═══════════════════════════════════════════
-         LEYENDA DEL MAPA — esquina superior derecha en mobile
+         CONTROLES DEL MAPA
     ═══════════════════════════════════════════ -->
     <ClientOnly>
+      <!-- Leyenda Jenks/LISA -->
       <MapLegend />
+
+      <!-- Toggle de capas contextuales + equipamientos -->
+      <LayerToggle
+        :active-layers="activeLayers"
+        @toggle="onToggleLayer"
+      />
+
+      <!-- Toggle satélite / vectorial -->
+      <SatelliteToggle
+        :is-satellite="isSatellite"
+        @toggle="onToggleSatellite"
+      />
+
+      <!-- Descarga CSV filtrado -->
+      <DownloadButton />
     </ClientOnly>
 
     <!-- ═══════════════════════════════════════════
@@ -86,17 +103,27 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, reactive, onMounted, onUnmounted, watch } from 'vue'
 import { useAtlasStore } from '~/stores/atlas'
+import { useRoute, useRouter } from 'vue-router'
 
-const store = useAtlasStore()
+const store  = useAtlasStore()
+const route  = useRoute()
+const router = useRouter()
 
+// ─── Estado de UI ────────────────────────────────────────────────────────────
 const sheetOpen      = ref(false)
 const sidebarOpen    = ref(true)   // tablet: sidebar abierto por defecto
 const isMobile       = ref(false)
 const isTablet       = ref(false)
 const mobileSheetRef = ref(null)
 
+// ─── Estado del mapa ─────────────────────────────────────────────────────────
+const mapHandles   = ref(null)      // { map, toggleLayer, toggleSatellite }
+const activeLayers = reactive(new Set(['veredas', 'municipios']))
+const isSatellite  = ref(false)
+
+// ─── Breakpoints ─────────────────────────────────────────────────────────────
 function checkBreakpoint() {
   const w = window.innerWidth
   isMobile.value = w < 640
@@ -112,31 +139,87 @@ const sidebarVisible = computed(() => {
 function toggleSidebar() { sidebarOpen.value = !sidebarOpen.value }
 function toggleSheet()   { mobileSheetRef.value?.toggle() }
 
-useHead({
-  title: 'Atlas Urabá — Bienestar Humano Territorial',
-  meta: [
-    {
-      name: 'description',
-      content:
-        'Índice de bienestar humano territorial por manzana para Urabá, Antioquia. 7,028 manzanas · 8 municipios · 10 indicadores reales.',
-    },
-  ],
-})
+// ─── URL sync (Sprint B) ─────────────────────────────────────────────────────
+function syncToURL() {
+  const q = {}
+  if (store.municipioActivo !== 'Todos')
+    q.mun = store.municipioActivo.toLowerCase().replace(/ /g, '-')
+  if (store.dimension !== 'atlas_score')
+    q.dim = store.dimension
+  router.replace({ query: Object.keys(q).length ? q : undefined }).catch(() => {})
+}
 
+function syncFromURL() {
+  const { mun, dim } = route.query
+  if (mun) {
+    const found = store.municipios?.find(
+      m => m.nombre.toLowerCase().replace(/ /g, '-') === mun
+    )
+    if (found) store.setMunicipio(found.nombre)
+  }
+  if (dim) store.setDimension(dim)
+}
+
+// ─── Callbacks del mapa ───────────────────────────────────────────────────────
 function onMapLoaded() {
-  /* el store se actualiza internamente desde el composable */
+  syncFromURL()
 }
 
 function onMapError(msg) {
   store.setError(msg)
 }
 
+function onMapReady(handles) {
+  mapHandles.value = handles
+}
+
+// ─── Toggle capas ─────────────────────────────────────────────────────────────
+function onToggleLayer(id) {
+  const newState = mapHandles.value?.toggleLayer(id)
+  // Sincronizar estado reactivo del Set para la UI
+  if (newState === true)        activeLayers.add(id)
+  else if (newState === false)  activeLayers.delete(id)
+  else {
+    // Fallback si el composable no retorna estado
+    if (activeLayers.has(id)) activeLayers.delete(id)
+    else activeLayers.add(id)
+  }
+}
+
+// ─── Toggle satélite ──────────────────────────────────────────────────────────
+function onToggleSatellite() {
+  const newVal = mapHandles.value?.toggleSatellite()
+  if (newVal !== undefined) isSatellite.value = newVal
+}
+
+// ─── Watchers URL sync ────────────────────────────────────────────────────────
+watch(() => store.municipioActivo, syncToURL)
+watch(() => store.dimension, syncToURL)
+
+// ─── Head dinámico ───────────────────────────────────────────────────────────
+useHead({
+  title: computed(() =>
+    store.municipioActivo !== 'Todos'
+      ? `${store.municipioActivo} — Atlas Urabá`
+      : 'Atlas Urabá — Bienestar Humano Territorial'
+  ),
+  meta: [
+    {
+      name: 'description',
+      content:
+        'Índice de bienestar humano territorial por manzana para Urabá, Antioquia. 7,028 manzanas · 9 municipios · 10 indicadores reales.',
+    },
+  ],
+})
+
+// ─── Retry load ───────────────────────────────────────────────────────────────
 function retryLoad() {
-  store.error = null
+  store.error    = null
   store.cargando = true
   window.location.reload()
 }
 
+// ─── Lifecycle ────────────────────────────────────────────────────────────────
 onMounted(() => {
   checkBreakpoint()
   window.addEventListener('resize', checkBreakpoint)
