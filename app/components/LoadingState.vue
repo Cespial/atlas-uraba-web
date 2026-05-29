@@ -22,35 +22,15 @@
 
     <!-- Skeleton forma aproximada de Urabá -->
     <div class="uraba-skeleton" aria-hidden="true">
-      <svg viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="uraba-svg">
-        <!-- Forma aproximada del Urabá antioqueño — polígono simplificado -->
+      <!-- Shape real de Urabá derivado de MGN DANE 2024 -->
+      <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="uraba-svg">
         <path
-          d="M55 8
-             C62 6, 72 10, 78 18
-             C85 26, 88 35, 86 45
-             C90 52, 92 60, 88 70
-             C84 80, 78 88, 75 98
-             C80 106, 82 116, 78 126
-             C74 136, 65 142, 56 145
-             C46 148, 36 144, 30 136
-             C22 128, 20 116, 24 106
-             C28 96, 35 88, 34 78
-             C30 68, 26 58, 28 48
-             C30 38, 36 28, 42 20
-             C46 14, 50 9, 55 8Z"
+          d="M 126.1,207.6 L 175.6,268.4 L 139.7,262.8 L 133.3,270.0 L 128.0,269.0 L 119.3,252.9 L 87.5,232.3 L 84.6,226.6 L 101.8,223.6 L 83.2,223.2 L 73.4,209.8 L 43.4,201.3 L 20.0,176.6 L 34.7,163.1 L 48.1,140.7 L 46.8,114.5 L 53.2,122.3 L 52.6,133.0 L 70.0,131.1 L 65.6,144.6 L 54.0,147.3 L 55.5,159.4 L 75.2,162.0 L 86.1,152.7 L 81.8,95.2 L 73.5,82.9 L 53.9,70.7 L 63.5,63.1 L 97.3,56.0 L 108.0,47.6 L 142.7,30.0 L 146.5,45.7 L 174.4,70.6 L 180.0,91.7 L 162.3,107.4 L 153.3,127.6 L 141.9,139.4 L 140.3,158.2 L 130.2,178.9 L 126.1,207.6 Z"
           class="uraba-fill"
         />
-        <!-- Ríos internos estilizados (Atrato + León) -->
-        <path
-          d="M42 30 C44 45, 40 60, 38 75 C36 90, 38 108, 40 124"
-          class="uraba-river"
-          stroke-linecap="round"
-        />
-        <path
-          d="M60 50 C65 58, 72 64, 76 74"
-          class="uraba-river"
-          stroke-linecap="round"
-        />
+        <!-- Golfo de Urabá (agua) -->
+        <path d="M 43.4,201.3 L 87.5,232.3 L 101.8,223.6 L 83.2,223.2 L 73.4,209.8 Z"
+              fill="rgba(65,182,196,0.12)" stroke="none"/>
       </svg>
     </div>
 
@@ -106,8 +86,8 @@
 
 /* ── Skeleton Urabá ───────────────────────────────────── */
 .uraba-skeleton {
-  width: 80px;
-  height: 107px;
+  width: 70px;
+  height: 105px;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -312,3 +312,24 @@ body { font-family: var(--ff-body); }
 /* ── Tooltip comparativa ──────────────────────────────── */
 .atlas-tooltip-diff-pos { color: #4ade80; }
 .atlas-tooltip-diff-neg { color: #f87171; }
+
+/* ── Modo Presentación ────────────────────────────────────── */
+body.presentation-mode .atlas-header,
+body.presentation-mode .side-panel,
+body.presentation-mode .sidebar-toggle,
+body.presentation-mode .layer-toggle,
+body.presentation-mode .sat-toggle,
+body.presentation-mode .share-btn,
+body.presentation-mode .geocoder,
+body.presentation-mode footer,
+body.presentation-mode .mobile-sheet { display: none !important; }
+
+body.presentation-mode .atlas-map-wrapper {
+  left: 0 !important; top: 0 !important; bottom: 0 !important;
+}
+body.presentation-mode .maplibregl-ctrl-bottom-right,
+body.presentation-mode .maplibregl-ctrl-top-right { display: none !important; }
+body.presentation-mode .pres-btn {
+  display: flex !important; position: fixed;
+  bottom: 20px; right: 20px; z-index: 9999;
+}

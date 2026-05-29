@@ -435,6 +435,28 @@ export function useAtlasMap(mapRef) {
       },
     })
 
+    // ── UARIV: Desplazamiento forzado ──────────────────────────────────────────
+    map.value.addSource('uariv', { type: 'geojson', data: '/data/uariv_desplazamiento.geojson' })
+    map.value.addLayer({
+      id: 'uariv-fill', type: 'fill', source: 'uariv',
+      layout: { visibility: 'none' },
+      paint: {
+        'fill-color': [
+          'interpolate', ['linear'], ['to-number', ['get', 'intensidad'], 0],
+          0.0, 'rgba(255,200,200,0.1)',
+          0.3, 'rgba(255,150,100,0.4)',
+          0.7, 'rgba(220,50,50,0.55)',
+          1.0, 'rgba(180,0,0,0.65)',
+        ],
+        'fill-opacity': 0.75,
+      },
+    })
+    map.value.addLayer({
+      id: 'uariv-outline', type: 'line', source: 'uariv',
+      layout: { visibility: 'none' },
+      paint: { 'line-color': 'rgba(200,0,0,0.5)', 'line-width': 1 },
+    })
+
     setupInteraction(_maplibregl)
 
     // Stats cuando el GeoJSON cargue
@@ -474,6 +496,7 @@ export function useAtlasMap(mapRef) {
       sipra:        ['sipra-fill', 'sipra-outline'],
       'sipra-excl': ['sipra-exclusion-fill', 'sipra-exclusion-outline'],
       fincas:       ['fincas-fill', 'fincas-outline'],
+      uariv:        ['uariv-fill', 'uariv-outline'],
       waterways:    ['waterways-line'],
       roads:        ['roads-line'],
       '3d':         ['manzanas-3d'],

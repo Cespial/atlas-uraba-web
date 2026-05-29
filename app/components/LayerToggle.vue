@@ -32,7 +32,7 @@ defineProps({
 })
 defineEmits(['toggle'])
 
-const groups = ['Territorio', 'Visual', 'Productivo', 'Servicios']
+const groups = ['Territorio', 'Visual', 'Productivo', 'Social', 'Servicios']
 
 function layersByGroup(group) {
   return layers.filter(l => l.group === group)
@@ -50,6 +50,8 @@ const layers = [
   { id: 'fincas',       label: 'Fincas bananeras',  color: '#F5E642',                group: 'Productivo' },
   // Visual
   { id: '3d',        label: '3D Extrusion',     color: '#8B5CF6',                group: 'Visual'     },
+  // Social — desplazamiento UARIV
+  { id: 'uariv',        label: 'Desplazamiento',     color: '#dc2626',                group: 'Social'     },
   // Equipamientos
   { id: 'reps',         label: 'Salud (REPS)',       color: '#3B82F6',                group: 'Servicios'  },
   { id: 'simat',        label: 'Educación',          color: '#F59E0B',                group: 'Servicios'  },

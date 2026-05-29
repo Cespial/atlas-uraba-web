@@ -1,0 +1,43 @@
+{
+  "indicadores": {
+    "atlas_score": {
+      "nombre": "Índice Atlas de Bienestar",
+      "descripcion": "Síntesis de 10 indicadores en 4 dimensiones. Score 65 = percentil 65 de bienestar en Urabá.",
+      "fuente": "CNPV 2018, REPS MinSalud, SIMAT MEN, OSM Colombia"
+    },
+    "score_accesibilidad": {
+      "nombre": "Accesibilidad a Servicios",
+      "descripcion": "Proximidad peatonal a salud, educación, deporte, cultura y servicios públicos.",
+      "contexto_uraba": "El 78% de los equipamientos de Urabá se concentran en Apartadó y Turbo, dejando a San Juan con cobertura mínima.",
+      "fuente": "REPS MinSalud (339 prestadores), SIMAT MEN (180 establecimientos)"
+    },
+    "score_ambiental": {
+      "nombre": "Calidad Ambiental",
+      "descripcion": "Cobertura vegetal NDVI (Sentinel-2) y confort climático. Mayor verde = mejor score.",
+      "contexto_uraba": "NDVI promedio 0.34 — más verde que ciudades colombianas, con presión creciente por expansión bananera.",
+      "fuente": "Google Earth Engine Sentinel-2 2023"
+    },
+    "score_socioeconomico": {
+      "nombre": "Condición Socioeconómica",
+      "descripcion": "Calidad de vivienda, hacinamiento, escolaridad, estructura del hogar, empleo y participación juvenil (CNPV 2018).",
+      "contexto_uraba": "El 42% de manzanas de Urabá tienen >30% de viviendas con materiales insuficientes en paredes, piso o techo.",
+      "fuente": "DANE CNPV 2018"
+    },
+    "score_seguridad": {
+      "nombre": "Seguridad",
+      "descripcion": "Proximidad a presencia institucional (policía, bomberos). Dato real de SIEDCO pendiente.",
+      "contexto_uraba": "Urabá es región de posconflicto. Los datos de SIEDCO (Policía Nacional) mejorarán esta dimensión en futuras versiones.",
+      "fuente": "OpenStreetMap (proxy) — pendiente: SIEDCO Policía Nacional"
+    }
+  },
+  "municipios": {
+    "Apartadó": { "dato_clave": "105,130 hab · Capital económica de Urabá · Mayor concentración de servicios", "score_nota": "Score 66 — Alta accesibilidad en centro, periferias vulnerables" },
+    "Turbo": { "dato_clave": "91,678 hab · Puerto estratégico · Mayor extensión y desigualdad interna", "score_nota": "Score 49 — El más bajo. 2,011 manzanas diluyen los servicios concentrados en cabecera" },
+    "Chigorodó": { "dato_clave": "38,210 hab · Nodo agroindustrial · Corredor bananero principal", "score_nota": "Score 76 — Segundo más alto. Compacidad urbana favorece cobertura de servicios" },
+    "Carepa": { "dato_clave": "17,347 hab · Municipio intermedio del corredor vial", "score_nota": "Score 67 — Sobre la media. Menor extensión facilita cobertura" },
+    "Necoclí": { "dato_clave": "20,703 hab · Puerto caribeño · Punto de tránsito migratorio", "score_nota": "Score 73 — Buen desempeño ambiental por costa caribeña" },
+    "Arboletes": { "dato_clave": "12,129 hab · Costa Caribe · Volcán de lodo, biodiversidad costera", "score_nota": "Score 79 — Alto score ambiental por cobertura vegetal costera" },
+    "San Pedro de Urabá": { "dato_clave": "12,990 hab · Economía agropecuaria interior", "score_nota": "Score 74 — Equilibrio entre dimensiones, menor presión urbana" },
+    "San Juan de Urabá": { "dato_clave": "9,336 hab · Costa Caribe · Mayor bienestar de Urabá", "score_nota": "Score 89 — Liderazgo regional. Menor tamaño + alta calidad ambiental costera" }
+  }
+}
