@@ -158,3 +158,138 @@ body { font-family: var(--ff-body); }
   border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--ca); }
+
+/* ════════════════════════════════════════════════════════
+   RESPONSIVE — Atlas Urabá
+   mobile: <640px | tablet: 640-1023px | desktop: ≥1024px
+════════════════════════════════════════════════════════ */
+
+/* Variables base (desktop) */
+:root {
+  --atlas-panel-w:    320px;
+  --atlas-header-h:   52px;
+  --atlas-footer-h:   28px;
+  --sheet-peek:       80px;   /* cuánto asoma el sheet cerrado en mobile */
+}
+
+/* Tablet */
+@media (max-width: 1023px) and (min-width: 640px) {
+  :root {
+    --atlas-panel-w: 260px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 639px) {
+  :root {
+    --atlas-panel-w: 0px;
+    --atlas-header-h: 48px;
+  }
+}
+
+/* ── Wrapper del mapa responsive ─────────────────────── */
+/* En mobile: ocupa toda la pantalla (sidebar=0) */
+@media (max-width: 639px) {
+  .atlas-map-wrapper {
+    left: 0 !important;
+    bottom: var(--sheet-peek) !important;
+  }
+  /* Ajustar controles de maplibre en mobile */
+  .maplibregl-ctrl-top-right {
+    top: calc(var(--atlas-header-h) + 8px) !important;
+    right: 8px !important;
+  }
+  .maplibregl-ctrl-bottom-right {
+    bottom: calc(var(--sheet-peek) + 8px) !important;
+    right: 8px !important;
+  }
+}
+
+/* Tablet: panel más estrecho */
+@media (max-width: 1023px) and (min-width: 640px) {
+  .atlas-map-wrapper {
+    left: var(--atlas-panel-w) !important;
+  }
+}
+
+/* ── Bottom Sheet mobile ─────────────────────────────── */
+.mobile-sheet {
+  position: fixed;
+  left: 0; right: 0;
+  bottom: 0;
+  z-index: 40;
+  background: #FFFFFF;
+  border-top: 1px solid var(--cb, #E5E5E0);
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.12);
+  transform: translateY(calc(100% - var(--sheet-peek)));
+  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  will-change: transform;
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.mobile-sheet.sheet-open {
+  transform: translateY(0);
+}
+
+.mobile-sheet::-webkit-scrollbar { display: none; }
+
+/* Handle del sheet */
+.sheet-handle {
+  width: 36px; height: 4px;
+  background: var(--cb, #E5E5E0);
+  border-radius: 2px;
+  margin: 10px auto 4px;
+  flex-shrink: 0;
+}
+
+/* ── Sidebar toggle button (tablet) ─────────────────── */
+.sidebar-toggle {
+  position: fixed;
+  top: calc(var(--atlas-header-h) + 12px);
+  left: var(--atlas-panel-w);
+  z-index: 30;
+  width: 28px;
+  height: 56px;
+  background: #FFFFFF;
+  border: 1px solid var(--cb, #E5E5E0);
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: left 0.25s ease, background 0.15s;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.08);
+}
+.sidebar-toggle:hover { background: var(--cbg, #F2F1EE); }
+
+/* Ocultar sidebar en mobile */
+@media (max-width: 639px) {
+  .side-panel, .sidebar-toggle { display: none !important; }
+}
+
+/* Ocultar bottom sheet en tablet/desktop */
+@media (min-width: 640px) {
+  .mobile-sheet { display: none !important; }
+}
+
+/* ── Header mobile ───────────────────────────────────── */
+@media (max-width: 639px) {
+  /* Ocultar nav de municipios en mobile (van al sheet) */
+  .header-municipios { display: none !important; }
+  .header-badges { display: none !important; }
+}
+
+@media (max-width: 1023px) {
+  /* En tablet: scroll horizontal para los municipios */
+  .header-municipios {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    gap: 2px;
+    max-width: calc(100vw - var(--atlas-panel-w) - 200px);
+  }
+  .header-municipios::-webkit-scrollbar { display: none; }
+}
