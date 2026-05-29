@@ -143,19 +143,17 @@ export function useAtlasMap(mapRef) {
       maxzoom: 12,
       paint: {
         'fill-color': [
-          'case',
-          ['!=', ['feature-state', 'score'], null],
-          [
-            'interpolate', ['linear'], ['feature-state', 'score'],
-            0.00, '#d73027',
-            0.20, '#f46d43',
-            0.40, '#fdae61',
-            0.55, '#a8ddb5',
-            0.70, '#41b6c4',
-            0.85, '#1d91c0',
-            1.00, '#1B6B6D',
-          ],
-          'rgba(100,100,100,0.3)',
+          'interpolate', ['linear'],
+          // coalesce: usa el score si existe, -0.01 si es null/undefined → color gris
+          ['coalesce', ['feature-state', 'score'], -0.01],
+          -0.01, 'rgba(80,80,80,0.3)',   // sin datos → gris
+          0.00,  '#d73027',
+          0.20,  '#f46d43',
+          0.40,  '#fdae61',
+          0.55,  '#a8ddb5',
+          0.70,  '#41b6c4',
+          0.85,  '#1d91c0',
+          1.00,  '#1B6B6D',
         ],
         'fill-opacity': [
           'interpolate', ['linear'], ['zoom'],
@@ -444,11 +442,16 @@ export function useAtlasMap(mapRef) {
 
     // Stats cuando el GeoJSON cargue
     map.value.on('sourcedata', (e) => {
+      // Calcular stats cuando el atlas GeoJSON carga
       if (e.sourceId === 'atlas' && e.isSourceLoaded && map.value.isStyleLoaded()) {
         requestAnimationFrame(() => {
           const features = map.value.querySourceFeatures('atlas')
           if (features.length > 0) computeStatsFromFeatures(features)
         })
+      }
+      // Aplicar feature-state a municipios cuando ese source carga
+      if (e.sourceId === 'municipios-score' && e.isSourceLoaded) {
+        requestAnimationFrame(() => updateMunicipioFeatureStates())
       }
     })
 
