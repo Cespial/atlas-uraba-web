@@ -62,12 +62,17 @@ export function useAtlasMap(mapRef) {
   async function initMap() {
     _maplibregl = (await import('maplibre-gl')).default
 
+    // ── Flyover de entrada: Colombia → Urabá (solo la primera vez por sesión) ──
+    const firstVisit = !sessionStorage.getItem('atlas-visited')
+    const startCenter = firstVisit ? [-74.0, 4.5] : [-76.65, 7.9]
+    const startZoom   = firstVisit ? 5 : 9
+
     map.value = new _maplibregl.Map({
       container:          mapRef.value,
       style:              STYLE_DARK,
-      center:             [-76.65, 7.9],
-      zoom:               9,
-      minZoom:            7,
+      center:             startCenter,
+      zoom:               startZoom,
+      minZoom:            4,
       maxZoom:            17,
       attributionControl: false,
     })
@@ -85,7 +90,22 @@ export function useAtlasMap(mapRef) {
       'bottom-right'
     )
 
-    map.value.on('load', loadAtlasLayer)
+    map.value.on('load', () => {
+      if (firstVisit) {
+        sessionStorage.setItem('atlas-visited', '1')
+        // Breve pausa → volar a Urabá
+        setTimeout(() => {
+          map.value.flyTo({
+            center:   [-76.65, 7.9],
+            zoom:     9,
+            duration: 3800,
+            easing:   (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t,
+            essential: true,
+          })
+        }, 600)
+      }
+      loadAtlasLayer()
+    })
 
     // Fallback de 8 segundos como garantía mínima
     setTimeout(() => {
