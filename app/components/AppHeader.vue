@@ -29,9 +29,6 @@
           7,028 manzanas
         </span>
       </span>
-      <span class="hidden lg:block font-mono text-[9px] uppercase tracking-[0.1em] text-tensor-muted">
-        CNPV 2018
-      </span>
     </div>
   </header>
 </template>
