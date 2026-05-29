@@ -19,17 +19,7 @@ export function useAtlasMap(mapRef) {
 
     map.value = new _maplibregl.Map({
       container: mapRef.value,
-      style: {
-        version: 8,
-        sources: {},
-        layers: [
-          {
-            id: 'bg',
-            type: 'background',
-            paint: { 'background-color': '#0D1117' },
-          },
-        ],
-      },
+      style: 'https://tiles.openfreemap.org/styles/dark',
       center: [-76.65, 7.9],
       zoom: 9,
       minZoom: 7,
@@ -104,6 +94,64 @@ export function useAtlasMap(mapRef) {
           17, 2,
         ],
       },
+    })
+
+    // ── Contexto geográfico: veredas y municipios ──────────────────────────
+    map.value.addSource('veredas', {
+      type: 'geojson',
+      data: '/data/veredas.geojson',
+    })
+
+    map.value.addSource('municipios', {
+      type: 'geojson',
+      data: '/data/municipios.geojson',
+    })
+
+    map.value.addLayer({
+      id: 'veredas-outline',
+      type: 'line',
+      source: 'veredas',
+      paint: {
+        'line-color': 'rgba(255,255,255,0.12)',
+        'line-width': 0.8,
+      },
+    })
+
+    map.value.addLayer({
+      id: 'municipios-outline',
+      type: 'line',
+      source: 'municipios',
+      paint: {
+        'line-color': 'rgba(255,255,255,0.30)',
+        'line-width': 1.2,
+        'line-dasharray': [4, 2],
+      },
+    })
+
+    map.value.addLayer({
+      id: 'municipios-label',
+      type: 'symbol',
+      source: 'municipios',
+      layout: {
+        'text-field': ['get', 'municipio'],
+        'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+        'text-size': [
+          'interpolate', ['linear'], ['zoom'],
+          8, 10,
+          12, 13,
+        ],
+        'text-transform': 'uppercase',
+        'text-letter-spacing': 0.08,
+        'text-max-width': 8,
+        'symbol-placement': 'point',
+        'text-anchor': 'center',
+      },
+      paint: {
+        'text-color': 'rgba(255,255,255,0.70)',
+        'text-halo-color': 'rgba(13,17,23,0.85)',
+        'text-halo-width': 1.5,
+      },
+      minzoom: 8,
     })
 
     // Fix Bug 5 aplicado aquí también: usa _maplibregl en vez de map.value.constructor
