@@ -32,7 +32,7 @@ defineProps({
 })
 defineEmits(['toggle'])
 
-const groups = ['Territorio', 'Visual', 'Productivo', 'Social', 'Servicios']
+const groups = ['Territorio', 'Visual', 'Agro', 'Riesgo', 'Social', 'Productivo', 'Servicios']
 
 function layersByGroup(group) {
   return layers.filter(l => l.group === group)
@@ -50,7 +50,15 @@ const layers = [
   { id: 'fincas',       label: 'Fincas bananeras',  color: '#F5E642',                group: 'Productivo' },
   // Visual
   { id: '3d',        label: '3D Extrusion',     color: '#8B5CF6',                group: 'Visual'     },
-  // Social — desplazamiento UARIV
+  // Agro — datos EVA MADR
+  { id: 'eva-banano',   label: 'Banano EVA',         color: '#F5E642',                group: 'Agro'       },
+  // Riesgo
+  { id: 'inundacion',   label: 'Inundación TR50',    color: '#0066FF',                group: 'Riesgo'     },
+  { id: 'deforestacion',label: 'Deforestación',      color: '#dc2626',                group: 'Riesgo'     },
+  // Social
+  { id: 'sinap',        label: 'Áreas protegidas',   color: '#166534',                group: 'Social'     },
+  { id: 'resguardos',   label: 'Resguardos indíg.',  color: '#7c3aed',                group: 'Social'     },
+  { id: 'zomac',        label: 'ZOMAC',              color: '#ea580c',                group: 'Social'     },
   { id: 'uariv',        label: 'Desplazamiento',     color: '#dc2626',                group: 'Social'     },
   // Equipamientos
   { id: 'reps',         label: 'Salud (REPS)',       color: '#3B82F6',                group: 'Servicios'  },

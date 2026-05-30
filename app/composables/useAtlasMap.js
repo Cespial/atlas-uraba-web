@@ -477,6 +477,91 @@ export function useAtlasMap(mapRef) {
       paint: { 'line-color': 'rgba(200,0,0,0.5)', 'line-width': 1 },
     })
 
+    // ── EVA: Producción bananera por municipio ─────────────────────────────
+    map.value.addSource('eva-agro', { type: 'geojson', data: '/data/eva_agro.geojson' })
+    map.value.addLayer({
+      id: 'eva-banano-fill', type: 'fill', source: 'eva-agro',
+      layout: { visibility: 'none' },
+      paint: {
+        'fill-color': ['interpolate', ['linear'], ['to-number', ['get', 'banano_ha'], 0],
+          0, 'rgba(245,230,66,0.1)', 5000, 'rgba(245,210,0,0.5)', 25000, 'rgba(220,160,0,0.75)'],
+        'fill-opacity': 0.75,
+      },
+    })
+    map.value.addLayer({
+      id: 'eva-banano-outline', type: 'line', source: 'eva-agro',
+      layout: { visibility: 'none' },
+      paint: { 'line-color': '#D4B800', 'line-width': 1.5 },
+    })
+
+    // ── Amenaza de inundación IDEAM TR50 ──────────────────────────────────
+    map.value.addSource('inundacion', { type: 'geojson', data: '/data/ideam_inundacion.geojson' })
+    map.value.addLayer({
+      id: 'inundacion-fill', type: 'fill', source: 'inundacion',
+      layout: { visibility: 'none' },
+      paint: {
+        'fill-color': ['match', ['get', 'amenaza'],
+          'Alta', 'rgba(0,80,220,0.55)', 'Media-Alta', 'rgba(0,130,220,0.45)',
+          'Media', 'rgba(0,180,220,0.3)', 'rgba(100,180,255,0.2)'],
+        'fill-opacity': 0.85,
+      },
+    })
+    map.value.addLayer({
+      id: 'inundacion-outline', type: 'line', source: 'inundacion',
+      layout: { visibility: 'none' },
+      paint: { 'line-color': 'rgba(0,100,255,0.7)', 'line-width': 1, 'line-dasharray': [3,2] },
+    })
+
+    // ── Deforestación SMByC ────────────────────────────────────────────────
+    map.value.addSource('deforestacion', { type: 'geojson', data: '/data/smbyc_deforestacion_uraba.geojson' })
+    map.value.addLayer({
+      id: 'deforestacion-fill', type: 'fill', source: 'deforestacion',
+      layout: { visibility: 'none' },
+      paint: { 'fill-color': '#dc2626', 'fill-opacity': 0.65 },
+    })
+
+    // ── SINAP: Áreas protegidas ───────────────────────────────────────────
+    map.value.addSource('sinap', { type: 'geojson', data: '/data/sinap_areas_protegidas.geojson' })
+    map.value.addLayer({
+      id: 'sinap-fill', type: 'fill', source: 'sinap',
+      layout: { visibility: 'none' },
+      paint: { 'fill-color': '#166534', 'fill-opacity': 0.4 },
+    })
+    map.value.addLayer({
+      id: 'sinap-outline', type: 'line', source: 'sinap',
+      layout: { visibility: 'none' },
+      paint: { 'line-color': '#15803d', 'line-width': 1.5, 'line-dasharray': [5,2] },
+    })
+
+    // ── Resguardos indígenas ──────────────────────────────────────────────
+    map.value.addSource('resguardos', { type: 'geojson', data: '/data/resguardos_indigenas.geojson' })
+    map.value.addLayer({
+      id: 'resguardos-fill', type: 'fill', source: 'resguardos',
+      layout: { visibility: 'none' },
+      paint: { 'fill-color': '#7c3aed', 'fill-opacity': 0.35 },
+    })
+    map.value.addLayer({
+      id: 'resguardos-outline', type: 'line', source: 'resguardos',
+      layout: { visibility: 'none' },
+      paint: { 'line-color': '#6d28d9', 'line-width': 1.5 },
+    })
+
+    // ── ZOMAC ─────────────────────────────────────────────────────────────
+    map.value.addSource('zomac', { type: 'geojson', data: '/data/zomac_uraba.geojson' })
+    map.value.addLayer({
+      id: 'zomac-fill', type: 'fill', source: 'zomac',
+      layout: { visibility: 'none' },
+      paint: {
+        'fill-color': ['case', ['==', ['get', 'zomac'], true], 'rgba(234,88,12,0.25)', 'rgba(0,0,0,0)'],
+        'fill-opacity': 0.8,
+      },
+    })
+    map.value.addLayer({
+      id: 'zomac-outline', type: 'line', source: 'zomac',
+      layout: { visibility: 'none' },
+      paint: { 'line-color': '#ea580c', 'line-width': 1.2, 'line-dasharray': [4,2] },
+    })
+
     setupInteraction(_maplibregl)
 
     // Stats cuando el GeoJSON cargue
@@ -516,7 +601,13 @@ export function useAtlasMap(mapRef) {
       sipra:        ['sipra-fill', 'sipra-outline'],
       'sipra-excl': ['sipra-exclusion-fill', 'sipra-exclusion-outline'],
       fincas:       ['fincas-fill', 'fincas-outline'],
-      uariv:        ['uariv-fill', 'uariv-outline'],
+      uariv:          ['uariv-fill', 'uariv-outline'],
+      'eva-banano':   ['eva-banano-fill', 'eva-banano-outline'],
+      inundacion:     ['inundacion-fill', 'inundacion-outline'],
+      deforestacion:  ['deforestacion-fill'],
+      sinap:          ['sinap-fill', 'sinap-outline'],
+      resguardos:     ['resguardos-fill', 'resguardos-outline'],
+      zomac:          ['zomac-fill', 'zomac-outline'],
       waterways:    ['waterways-line'],
       roads:        ['roads-line'],
       '3d':         ['manzanas-3d'],
