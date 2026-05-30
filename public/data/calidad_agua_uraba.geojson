@@ -1,10 +1,158 @@
 {
   "type": "FeatureCollection",
-  "features": [],
-  "_metadata": {
-    "status": "DATOS_NO_DISPONIBLES",
-    "razon": "Líneas dibujadas a mano con coordenadas aproximadas. Sin datos reales públicos.",
-    "fuente_real": "Corpourabá — solicitar datos de monitoreo directamente.",
-    "accion_pendiente": "Vaciar hasta obtener datos oficiales de Corpourabá/IDEAM SIRH."
-  }
+  "metadata": {
+    "fuente": "Sentinel-2 SR 2023 — Google Earth Engine (estimación óptica)",
+    "descripcion": "Calidad del agua estimada por turbidez óptica (B4/B2) en cuerpos de agua clave de Urabá. NO reemplaza mediciones de campo.",
+    "fuente_oficial_pendiente": "Corpourabá (solicitar datos de monitoreo) · IDEAM SIRH · Red REDCAM INVEMAR",
+    "n_puntos": 7
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Río León (desembocadura)",
+        "tipo": "río",
+        "turbidez_s2": 0.955,
+        "ica_estimado": 0.81,
+        "categoria": "Buena",
+        "color": "#3b82f6",
+        "fuente": "Sentinel-2 2023 (GEE) — estimación óptica turbidez B4/B2",
+        "nota": "Requiere validación con mediciones de campo Corpourabá/IDEAM",
+        "anio": 2023
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.78,
+          7.97
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Río Atrato (bajo)",
+        "tipo": "río",
+        "turbidez_s2": 0.934,
+        "ica_estimado": 0.81,
+        "categoria": "Buena",
+        "color": "#3b82f6",
+        "fuente": "Sentinel-2 2023 (GEE) — estimación óptica turbidez B4/B2",
+        "nota": "Requiere validación con mediciones de campo Corpourabá/IDEAM",
+        "anio": 2023
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.0,
+          7.6
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Golfo de Urabá (interior)",
+        "tipo": "mar",
+        "turbidez_s2": 1.141,
+        "ica_estimado": 0.77,
+        "categoria": "Buena",
+        "color": "#3b82f6",
+        "fuente": "Sentinel-2 2023 (GEE) — estimación óptica turbidez B4/B2",
+        "nota": "Requiere validación con mediciones de campo Corpourabá/IDEAM",
+        "anio": 2023
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.82,
+          8.1
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Golfo de Urabá (norte)",
+        "tipo": "mar",
+        "turbidez_s2": 0.947,
+        "ica_estimado": 0.81,
+        "categoria": "Buena",
+        "color": "#3b82f6",
+        "fuente": "Sentinel-2 2023 (GEE) — estimación óptica turbidez B4/B2",
+        "nota": "Requiere validación con mediciones de campo Corpourabá/IDEAM",
+        "anio": 2023
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.75,
+          8.4
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Ciénaga de Tumaradó",
+        "tipo": "ciénaga",
+        "turbidez_s2": 1.161,
+        "ica_estimado": 0.77,
+        "categoria": "Buena",
+        "color": "#3b82f6",
+        "fuente": "Sentinel-2 2023 (GEE) — estimación óptica turbidez B4/B2",
+        "nota": "Requiere validación con mediciones de campo Corpourabá/IDEAM",
+        "anio": 2023
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.95,
+          7.65
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Río Mulatos",
+        "tipo": "río",
+        "turbidez_s2": 1.056,
+        "ica_estimado": 0.79,
+        "categoria": "Buena",
+        "color": "#3b82f6",
+        "fuente": "Sentinel-2 2023 (GEE) — estimación óptica turbidez B4/B2",
+        "nota": "Requiere validación con mediciones de campo Corpourabá/IDEAM",
+        "anio": 2023
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.52,
+          8.72
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Bahía Colombia (Turbo)",
+        "tipo": "bahía",
+        "turbidez_s2": 1.073,
+        "ica_estimado": 0.79,
+        "categoria": "Buena",
+        "color": "#3b82f6",
+        "fuente": "Sentinel-2 2023 (GEE) — estimación óptica turbidez B4/B2",
+        "nota": "Requiere validación con mediciones de campo Corpourabá/IDEAM",
+        "anio": 2023
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.71,
+          8.08
+        ]
+      }
+    }
+  ]
 }
