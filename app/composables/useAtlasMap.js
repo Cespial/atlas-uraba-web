@@ -2,12 +2,48 @@ import { ref, watch, onUnmounted } from 'vue'
 import { useAtlasStore } from '~/stores/atlas'
 
 // Estilos de mapa disponibles
+// Modo 0 — Dark vectorial (OpenFreeMap)
 const STYLE_DARK = 'https://tiles.openfreemap.org/styles/dark'
-const STYLE_SAT  = {
+
+// Modo 1 — Satélite con fuentes de fallback en cascada
+// Fuente primaria: Esri World Imagery (robusta, free, sin key para uso web)
+// Fuente secundaria: Stadia alidade_smooth_dark (dark como fallback visual)
+const STYLE_SAT = {
   version: 8,
-  sources: { esri: { type: 'raster', tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'], tileSize: 256, attribution: '© Esri' } },
-  layers:  [{ id: 'esri-sat', type: 'raster', source: 'esri' }],
+  glyphs: 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf',
+  sources: {
+    'esri-sat': {
+      type:        'raster',
+      tiles:       ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+      tileSize:    256,
+      attribution: '© Esri, Maxar, Earthstar Geographics',
+      maxzoom:     19,
+    },
+    'bing-sat': {
+      type:        'raster',
+      // OpenAerialMap tiles — libre, sin key, buena cobertura Colombia
+      tiles:       ['https://tiles.openaerialmap.org/tiles/{z}/{x}/{y}.png'],
+      tileSize:    256,
+      attribution: '© OpenAerialMap contributors',
+      maxzoom:     18,
+    },
+  },
+  layers: [
+    {
+      id:     'esri-imagery',
+      type:   'raster',
+      source: 'esri-sat',
+      paint:  { 'raster-opacity': 1 },
+    },
+  ],
 }
+
+// Modo 2 — Calles claras (OpenFreeMap positron/bright)
+const STYLE_STREETS = 'https://tiles.openfreemap.org/styles/positron'
+
+// Ciclo de modos: 0=Dark, 1=Satélite, 2=Calles claras
+const MAP_STYLES    = [STYLE_DARK, STYLE_SAT, STYLE_STREETS]
+const MAP_MODE_NAMES = ['dark', 'satellite', 'streets']
 
 // ─── Mejora 1: PALETA TENSOR TEAL ────────────────────────────────────────────
 // Expresión MapLibre para choropleth — rojo crítico → teal Tensor
@@ -42,10 +78,10 @@ export function useAtlasMap(mapRef) {
   const map   = ref(null)
   const ready = ref(false)
 
-  let hoveredId   = null
-  let selectedId  = null
+  let hoveredId  = null
+  let selectedId = null
   let _maplibregl = null
-  let isSatellite = false
+  let mapMode    = 0  // 0=Dark, 1=Satélite, 2=Calles claras
 
   // Registro de visibilidad de capas opcionales
   const layerVisibility = {
@@ -788,10 +824,11 @@ export function useAtlasMap(mapRef) {
     }
   }
 
-  // ─── Toggle satélite / vectorial ────────────────────────────────────────────
+  // ─── Toggle modo de mapa: cicla 0→1→2→0 (Dark → Satélite → Calles → Dark) ────
   function toggleSatellite() {
-    if (!map.value) return false
-    isSatellite = !isSatellite
+    if (!map.value) return mapMode
+
+    mapMode = (mapMode + 1) % MAP_STYLES.length
 
     const prevVisibility = { ...layerVisibility }
 
@@ -804,8 +841,8 @@ export function useAtlasMap(mapRef) {
       }, 600)
     })
 
-    map.value.setStyle(isSatellite ? STYLE_SAT : STYLE_DARK)
-    return isSatellite
+    map.value.setStyle(MAP_STYLES[mapMode])
+    return mapMode
   }
 
   // ─── Interactividad (hover, click, tooltip) ──────────────────────────────────

@@ -67,9 +67,9 @@
         @toggle="onToggleLayer"
       />
 
-      <!-- Toggle satélite / vectorial -->
+      <!-- Toggle modo de mapa: Dark → Satélite → Calles -->
       <SatelliteToggle
-        :is-satellite="isSatellite"
+        :map-mode="mapMode"
         @toggle="onToggleSatellite"
       />
 
@@ -133,7 +133,7 @@ const atlasMapRef    = ref(null)
 // ─── Estado del mapa ─────────────────────────────────────────────────────────
 const mapHandles   = ref(null)      // { map, toggleLayer, toggleSatellite }
 const activeLayers = reactive(new Set(['veredas', 'municipios']))
-const isSatellite  = ref(false)
+const mapMode      = ref(0)         // 0=Dark, 1=Satélite, 2=Calles claras
 
 // ─── Breakpoints ─────────────────────────────────────────────────────────────
 function checkBreakpoint() {
@@ -151,30 +151,17 @@ const sidebarVisible = computed(() => {
 function toggleSidebar() { sidebarOpen.value = !sidebarOpen.value }
 function toggleSheet()   { mobileSheetRef.value?.toggle() }
 
-// ─── URL sync (Sprint B) ─────────────────────────────────────────────────────
-function syncToURL() {
-  const q = {}
-  if (store.municipioActivo !== 'Todos')
-    q.mun = store.municipioActivo.toLowerCase().replace(/ /g, '-')
-  if (store.dimension !== 'atlas_score')
-    q.dim = store.dimension
-  router.replace({ query: Object.keys(q).length ? q : undefined }).catch(() => {})
-}
-
+// ─── URL sync ────────────────────────────────────────────────────────────────
 function syncFromURL() {
-  const { mun, dim } = route.query
-  if (mun) {
-    const found = store.municipios?.find(
-      m => m.nombre.toLowerCase().replace(/ /g, '-') === mun
-    )
-    if (found) store.setMunicipio(found.nombre)
-  }
+  const mun = route.query.mun
+  const dim = route.query.dim
+  if (mun) store.setMunicipio(mun)
   if (dim) store.setDimension(dim)
 }
 
 // ─── Callbacks del mapa ───────────────────────────────────────────────────────
 function onMapLoaded() {
-  syncFromURL()
+  // no-op: syncFromURL se llama en onMounted
 }
 
 function onMapError(msg) {
@@ -198,10 +185,10 @@ function onToggleLayer(id) {
   }
 }
 
-// ─── Toggle satélite ──────────────────────────────────────────────────────────
+// ─── Toggle modo de mapa (Dark → Satélite → Calles → Dark) ───────────────────
 function onToggleSatellite() {
-  const newVal = mapHandles.value?.toggleSatellite()
-  if (newVal !== undefined) isSatellite.value = newVal
+  const newMode = mapHandles.value?.toggleSatellite()
+  if (newMode !== undefined) mapMode.value = newMode
 }
 
 // ─── Geocoder flyTo ───────────────────────────────────────────────────────────
@@ -215,16 +202,19 @@ function onGeocoderFlyTo({ lat, lng, zoom, name }) {
 }
 
 // ─── Watchers URL sync ────────────────────────────────────────────────────────
-watch(() => store.municipioActivo, syncToURL)
-watch(() => store.dimension, syncToURL)
+watch([() => store.municipioActivo, () => store.dimension], ([mun, dim]) => {
+  const params = new URLSearchParams()
+  if (mun !== 'Todos')       params.set('mun', mun)
+  if (dim !== 'atlas_score') params.set('dim', dim)
+  const newUrl = params.toString() ? '?' + params.toString() : window.location.pathname
+  window.history.replaceState({}, '', newUrl)
+})
 
 // ─── Head dinámico ───────────────────────────────────────────────────────────
-useHead({
-  title: computed(() =>
-    store.municipioActivo !== 'Todos'
-      ? `${store.municipioActivo} — Atlas Urabá`
-      : 'Atlas Urabá — Bienestar Humano Territorial'
-  ),
+useHead(computed(() => ({
+  title: store.municipioActivo !== 'Todos'
+    ? `${store.municipioActivo} — Atlas Urabá · Bienestar Humano Territorial`
+    : 'Atlas Urabá — Bienestar Humano Territorial · Urabá, Antioquia',
   meta: [
     {
       name: 'description',
@@ -232,7 +222,7 @@ useHead({
         'Índice de bienestar humano territorial por manzana para Urabá, Antioquia. 7,028 manzanas · 9 municipios · 10 indicadores reales.',
     },
   ],
-})
+})))
 
 // ─── Retry load ───────────────────────────────────────────────────────────────
 function retryLoad() {
@@ -245,6 +235,7 @@ function retryLoad() {
 onMounted(() => {
   checkBreakpoint()
   window.addEventListener('resize', checkBreakpoint)
+  syncFromURL()
 })
 
 onUnmounted(() => {
