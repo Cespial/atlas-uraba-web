@@ -10,19 +10,13 @@
         "estado": "Operativo (feb 2026)",
         "operador": "Puerto Antioquia S.A.S.",
         "financiador": "BID Invest",
-        "servicios": "Contenedores, carga general, RoRo, graneles",
+        "servicios": "Contenedores fríos/secos, carga general, RoRo, graneles",
         "navieras": "9 líneas navieras semanales",
         "url": "https://puertoantioquia.com.co",
         "color": "#0ea5e9",
-        "coord_source": "Nominatim OSM 2026-05-30"
+        "fuente_coord": "Nominatim OSM — La Playa, Turbo (marina)"
       },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -76.7357,
-          8.067
-        ]
-      }
+      "geometry": { "type": "Point", "coordinates": [-76.7357, 8.0670] }
     },
     {
       "type": "Feature",
@@ -33,16 +27,11 @@
         "estado": "Operativo",
         "iata": "APO",
         "operador": "Aerocivil",
+        "pista": "2180m asfalto (ref 33/15)",
         "color": "#7c3aed",
-        "coord_source": "OurAirports DB — IATA APO"
+        "fuente_coord": "OSM aeroway — terminal/pista verificada"
       },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -76.7168,
-          7.8807
-        ]
-      }
+      "geometry": { "type": "Point", "coordinates": [-76.7178, 7.8180] }
     },
     {
       "type": "Feature",
@@ -54,15 +43,9 @@
         "operador": "Sociedad Portuaria de Turbo",
         "servicios": "Carga general, cabotaje, ganadería",
         "color": "#0369a1",
-        "coord_source": "Verificación manual (Nominatim sin resultado)"
+        "fuente_coord": "Nominatim OSM — muelle Turbo"
       },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -76.7295,
-          8.0991
-        ]
-      }
+      "geometry": { "type": "Point", "coordinates": [-76.7290, 8.0953] }
     },
     {
       "type": "Feature",
@@ -73,15 +56,9 @@
         "estado": "Operativo",
         "descripcion": "Principal punto de embarque bananero hacia Puerto Antioquia",
         "color": "#eab308",
-        "coord_source": "Nominatim OSM 2026-05-30"
+        "fuente_coord": "OSM — 'ZUNGO EMBARCADERO-11 DE' locality"
       },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -76.739,
-          7.8471
-        ]
-      }
+      "geometry": { "type": "Point", "coordinates": [-76.7345, 7.8469] }
     }
   ]
 }
