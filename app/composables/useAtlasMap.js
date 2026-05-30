@@ -477,6 +477,72 @@ export function useAtlasMap(mapRef) {
       paint: { 'line-color': 'rgba(200,0,0,0.5)', 'line-width': 1 },
     })
 
+    // ── Manglares (Global Mangrove Watch 2020 + INVEMAR) ─────────────────
+    map.value.addSource('manglares', { type: 'geojson', data: '/data/manglares_uraba.geojson' })
+    map.value.addLayer({
+      id: 'manglares-fill', type: 'fill', source: 'manglares',
+      layout: { visibility: 'none' },
+      paint: {
+        'fill-color': ['match', ['get', 'estado'],
+          'Crítico',                '#7f1d1d',
+          'Degradado',              '#dc2626',
+          'Perturbado',             '#f97316',
+          'Moderadamente degradado','#fbbf24',
+          'Moderado',               '#86efac',
+          '#166534'
+        ],
+        'fill-opacity': 0.75,
+      },
+    })
+    map.value.addLayer({
+      id: 'manglares-outline', type: 'line', source: 'manglares',
+      layout: { visibility: 'none' },
+      paint: { 'line-color': '#166534', 'line-width': 1.5 },
+    })
+
+    // ── Carbono en bosques GFW (Walker et al. 2020) ───────────────────────
+    map.value.addSource('carbono', { type: 'geojson', data: '/data/gfw_carbono_bosques.geojson' })
+    map.value.addLayer({
+      id: 'carbono-fill', type: 'fill', source: 'carbono',
+      layout: { visibility: 'none' },
+      paint: {
+        'fill-color': ['interpolate', ['linear'], ['to-number', ['get', 'total_ktco2'], 0],
+          0, '#f0fdf4', 3000, '#4ade80', 8000, '#16a34a', 15000, '#166534', 25000, '#052e16'],
+        'fill-opacity': 0.7,
+      },
+    })
+
+    // ── Calidad del agua (IDEAM SIRH + Corpourabá 2023) ───────────────────
+    map.value.addSource('agua', { type: 'geojson', data: '/data/calidad_agua_uraba.geojson' })
+    map.value.addLayer({
+      id: 'agua-line', type: 'line', source: 'agua',
+      layout: { visibility: 'none' },
+      filter: ['==', '$type', 'LineString'],
+      paint: {
+        'line-color': ['match', ['get', 'categoria'],
+          'Buena',   '#3b82f6',
+          'Regular', '#f59e0b',
+          'Mala',    '#dc2626',
+          '#94a3b8'
+        ],
+        'line-width': 3,
+        'line-opacity': 0.85,
+      },
+    })
+    map.value.addLayer({
+      id: 'agua-polygon', type: 'fill', source: 'agua',
+      layout: { visibility: 'none' },
+      filter: ['==', '$type', 'Polygon'],
+      paint: {
+        'fill-color': ['match', ['get', 'categoria'],
+          'Buena', 'rgba(59,130,246,0.35)',
+          'Regular', 'rgba(245,158,11,0.35)',
+          'rgba(220,38,38,0.35)'
+        ],
+        'fill-opacity': 0.7,
+      },
+    })
+
     // ── TIC: Cobertura 4G/5G por municipio (MinTIC 2023) ─────────────────
     map.value.addSource('tic', { type: 'geojson', data: '/data/tic_cobertura.geojson' })
     map.value.addLayer({
@@ -683,6 +749,9 @@ export function useAtlasMap(mapRef) {
       'sipra-excl': ['sipra-exclusion-fill', 'sipra-exclusion-outline'],
       fincas:       ['fincas-fill', 'fincas-outline'],
       uariv:          ['uariv-fill', 'uariv-outline'],
+      manglares:      ['manglares-fill', 'manglares-outline'],
+      carbono:        ['carbono-fill'],
+      agua:           ['agua-line', 'agua-polygon'],
       tic:            ['tic-fill'],
       epidemiologia:  ['epidemiologia-fill'],
       'nbi':          ['terridata-nbi'],

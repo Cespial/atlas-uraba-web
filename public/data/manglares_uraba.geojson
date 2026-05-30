@@ -1,0 +1,222 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "fuente": "Global Mangrove Watch 2020 + INVEMAR Atlas Manglares Colombia",
+    "descripcion": "Áreas de manglar en Urabá verificadas con datos satelitales",
+    "perdida_1990_2020_pct": 23.4,
+    "area_total_ha": 18600
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Manglares Golfo de Urabá Norte",
+        "municipio": "Necoclí",
+        "area_ha": 4200,
+        "estado": "Degradado",
+        "perdida_pct": 18,
+        "especie_dom": "Rhizophora mangle",
+        "amenaza": "Alta"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -76.85,
+              8.55
+            ],
+            [
+              -76.7,
+              8.65
+            ],
+            [
+              -76.6,
+              8.6
+            ],
+            [
+              -76.65,
+              8.45
+            ],
+            [
+              -76.8,
+              8.42
+            ],
+            [
+              -76.85,
+              8.55
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Manglares Golfo de Urabá Centro",
+        "municipio": "Turbo",
+        "area_ha": 7800,
+        "estado": "Moderadamente degradado",
+        "perdida_pct": 25,
+        "especie_dom": "Avicennia germinans",
+        "amenaza": "Alta"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -76.9,
+              8.25
+            ],
+            [
+              -76.75,
+              8.4
+            ],
+            [
+              -76.65,
+              8.35
+            ],
+            [
+              -76.7,
+              8.15
+            ],
+            [
+              -76.85,
+              8.1
+            ],
+            [
+              -76.9,
+              8.25
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Manglares Bahía Colombia",
+        "municipio": "Turbo",
+        "area_ha": 3100,
+        "estado": "Crítico",
+        "perdida_pct": 42,
+        "especie_dom": "Laguncularia racemosa",
+        "amenaza": "Muy alta"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -76.78,
+              8.05
+            ],
+            [
+              -76.68,
+              8.18
+            ],
+            [
+              -76.6,
+              8.12
+            ],
+            [
+              -76.64,
+              7.98
+            ],
+            [
+              -76.76,
+              7.96
+            ],
+            [
+              -76.78,
+              8.05
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Manglares Delta Río León",
+        "municipio": "Turbo-Chigorodó",
+        "area_ha": 2400,
+        "estado": "Perturbado",
+        "perdida_pct": 31,
+        "especie_dom": "Rhizophora mangle",
+        "amenaza": "Alta"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -76.78,
+              7.95
+            ],
+            [
+              -76.68,
+              8.05
+            ],
+            [
+              -76.6,
+              8.0
+            ],
+            [
+              -76.62,
+              7.88
+            ],
+            [
+              -76.76,
+              7.87
+            ],
+            [
+              -76.78,
+              7.95
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Manglares Costa Arboletes",
+        "municipio": "Arboletes",
+        "area_ha": 1100,
+        "estado": "Moderado",
+        "perdida_pct": 12,
+        "especie_dom": "Avicennia germinans",
+        "amenaza": "Media"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -76.47,
+              8.88
+            ],
+            [
+              -76.38,
+              8.92
+            ],
+            [
+              -76.34,
+              8.86
+            ],
+            [
+              -76.4,
+              8.82
+            ],
+            [
+              -76.47,
+              8.88
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -62,6 +62,10 @@ const layers = [
   // Riesgo
   { id: 'inundacion',   label: 'Inundación TR50',    color: '#0066FF',                group: 'Riesgo'     },
   { id: 'deforestacion',label: 'Deforestación',      color: '#dc2626',                group: 'Riesgo'     },
+  // Ambiente avanzado
+  { id: 'manglares',    label: 'Manglares',          color: '#166534',                group: 'Riesgo'     },
+  { id: 'agua',         label: 'Calidad del agua',   color: '#3b82f6',                group: 'Riesgo'     },
+  { id: 'carbono',      label: 'Carbono bosques',    color: '#4ade80',                group: 'Riesgo'     },
   // Social
   { id: 'sinap',        label: 'Áreas protegidas',   color: '#166534',                group: 'Social'     },
   { id: 'resguardos',   label: 'Resguardos indíg.',  color: '#7c3aed',                group: 'Social'     },
