@@ -61,8 +61,8 @@
       <!-- Leyenda Jenks/LISA -->
       <MapLegend />
 
-      <!-- Toggle de capas contextuales + equipamientos -->
-      <LayerToggle
+      <!-- Panel de capas con temas, conjuntos rápidos y accordion -->
+      <LayerPanel
         :active-layers="activeLayers"
         @toggle="onToggleLayer"
       />
