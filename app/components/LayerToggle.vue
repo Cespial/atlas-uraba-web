@@ -52,6 +52,11 @@ const layers = [
   { id: '3d',        label: '3D Extrusion',     color: '#8B5CF6',                group: 'Visual'     },
   // Infraestructura
   { id: 'infraestructura', label: 'Puerto Antioquia', color: '#0ea5e9',               group: 'Territorio' },
+  // Conectividad TIC
+  { id: 'tic',             label: 'Cobertura 4G',     color: '#818cf8',               group: 'Territorio' },
+  // NBI y Educación
+  { id: 'nbi',             label: 'NBI (pobreza)',     color: '#f46d43',               group: 'Social'     },
+  { id: 'epidemiologia',   label: 'Enf. tropicales',  color: '#f59e0b',               group: 'Riesgo'     },
   // Agro — datos EVA MADR
   { id: 'eva-banano',   label: 'Banano EVA',         color: '#F5E642',                group: 'Agro'       },
   // Riesgo

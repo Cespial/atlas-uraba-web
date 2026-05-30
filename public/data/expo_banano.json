@@ -1,0 +1,37 @@
+{
+  "anio": 2023,
+  "fuente": "AUGURA / DANE estimado",
+  "total_ton": 1850000,
+  "total_usd_millones": 1120,
+  "destinos": [
+    {
+      "pais": "Bélgica",
+      "pct": 22
+    },
+    {
+      "pais": "Alemania",
+      "pct": 18
+    },
+    {
+      "pais": "Italia",
+      "pct": 14
+    },
+    {
+      "pais": "Francia",
+      "pct": 12
+    },
+    {
+      "pais": "Estados Unidos",
+      "pct": 11
+    },
+    {
+      "pais": "Otros EU",
+      "pct": 16
+    },
+    {
+      "pais": "Otros",
+      "pct": 7
+    }
+  ],
+  "precio_caja_usd": 6.8
+}

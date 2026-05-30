@@ -477,6 +477,43 @@ export function useAtlasMap(mapRef) {
       paint: { 'line-color': 'rgba(200,0,0,0.5)', 'line-width': 1 },
     })
 
+    // ── TIC: Cobertura 4G/5G por municipio (MinTIC 2023) ─────────────────
+    map.value.addSource('tic', { type: 'geojson', data: '/data/tic_cobertura.geojson' })
+    map.value.addLayer({
+      id: 'tic-fill', type: 'fill', source: 'tic',
+      layout: { visibility: 'none' },
+      paint: {
+        'fill-color': ['interpolate', ['linear'], ['to-number', ['get', 'pct_4g'], 0],
+          0, '#1e1b4b', 40, '#312e81', 70, '#4f46e5', 90, '#818cf8', 100, '#c7d2fe'],
+        'fill-opacity': 0.75,
+      },
+    })
+
+    // ── Epidemiología SIVIGILA (enfermedades tropicales) ─────────────────
+    map.value.addSource('epidemiologia', { type: 'geojson', data: '/data/sivigila_epidemiologia.geojson' })
+    map.value.addLayer({
+      id: 'epidemiologia-fill', type: 'fill', source: 'epidemiologia',
+      layout: { visibility: 'none' },
+      paint: {
+        'fill-color': ['interpolate', ['linear'], ['to-number', ['get', 'casos_tropicales'], 0],
+          0, 'rgba(254,243,199,0.3)', 100, 'rgba(251,191,36,0.55)',
+          200, 'rgba(245,158,11,0.7)', 300, 'rgba(217,119,6,0.85)'],
+        'fill-opacity': 0.8,
+      },
+    })
+
+    // ── TerriData: NBI, analfabetismo, Saber 11 ──────────────────────────
+    map.value.addSource('terridata', { type: 'geojson', data: '/data/terridata_indicadores.geojson' })
+    map.value.addLayer({
+      id: 'terridata-nbi', type: 'fill', source: 'terridata',
+      layout: { visibility: 'none' },
+      paint: {
+        'fill-color': ['interpolate', ['linear'], ['to-number', ['get', 'nbi_pct'], 0],
+          20, '#1a9850', 35, '#a6d96a', 50, '#fdae61', 65, '#f46d43'],
+        'fill-opacity': 0.8,
+      },
+    })
+
     // ── Infraestructura: Puerto Antioquia, aeropuerto, vías clave ─────────
     map.value.addSource('infraestructura', { type: 'geojson', data: '/data/infraestructura.geojson' })
     map.value.addLayer({
@@ -646,6 +683,9 @@ export function useAtlasMap(mapRef) {
       'sipra-excl': ['sipra-exclusion-fill', 'sipra-exclusion-outline'],
       fincas:       ['fincas-fill', 'fincas-outline'],
       uariv:          ['uariv-fill', 'uariv-outline'],
+      tic:            ['tic-fill'],
+      epidemiologia:  ['epidemiologia-fill'],
+      'nbi':          ['terridata-nbi'],
       infraestructura: ['infra-lineas', 'infra-puntos', 'infra-labels'],
       'eva-banano':    ['eva-banano-fill', 'eva-banano-outline'],
       inundacion:     ['inundacion-fill', 'inundacion-outline'],
