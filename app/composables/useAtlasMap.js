@@ -647,16 +647,18 @@ export function useAtlasMap(mapRef) {
       id: 'inundacion-fill', type: 'fill', source: 'inundacion',
       layout: { visibility: 'none' },
       paint: {
-        'fill-color': ['match', ['get', 'amenaza'],
-          'Alta', 'rgba(0,80,220,0.55)', 'Media-Alta', 'rgba(0,130,220,0.45)',
-          'Media', 'rgba(0,180,220,0.3)', 'rgba(100,180,255,0.2)'],
-        'fill-opacity': 0.85,
+        // color viene del campo 'color' en el GeoJSON (IDEAM: verde=normal, amarillo, naranja, rojo)
+        'fill-color': ['coalesce', ['get', 'color'], '#3b82f6'],
+        'fill-opacity': 0.6,
       },
     })
     map.value.addLayer({
       id: 'inundacion-outline', type: 'line', source: 'inundacion',
       layout: { visibility: 'none' },
-      paint: { 'line-color': 'rgba(0,100,255,0.7)', 'line-width': 1, 'line-dasharray': [3,2] },
+      paint: {
+        'line-color': ['coalesce', ['get', 'color'], '#3b82f6'],
+        'line-width': 1.5,
+      },
     })
 
     // ── Deforestación SMByC ────────────────────────────────────────────────
