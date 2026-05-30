@@ -50,6 +50,8 @@ const layers = [
   { id: 'fincas',       label: 'Fincas bananeras',  color: '#F5E642',                group: 'Productivo' },
   // Visual
   { id: '3d',        label: '3D Extrusion',     color: '#8B5CF6',                group: 'Visual'     },
+  // Infraestructura
+  { id: 'infraestructura', label: 'Puerto Antioquia', color: '#0ea5e9',               group: 'Territorio' },
   // Agro — datos EVA MADR
   { id: 'eva-banano',   label: 'Banano EVA',         color: '#F5E642',                group: 'Agro'       },
   // Riesgo

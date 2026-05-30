@@ -477,6 +477,50 @@ export function useAtlasMap(mapRef) {
       paint: { 'line-color': 'rgba(200,0,0,0.5)', 'line-width': 1 },
     })
 
+    // ── Infraestructura: Puerto Antioquia, aeropuerto, vías clave ─────────
+    map.value.addSource('infraestructura', { type: 'geojson', data: '/data/infraestructura.geojson' })
+    map.value.addLayer({
+      id: 'infra-lineas', type: 'line', source: 'infraestructura',
+      layout: { visibility: 'none' },
+      filter: ['==', '$type', 'LineString'],
+      paint: {
+        'line-color': ['get', 'color'],
+        'line-width': 3,
+        'line-dasharray': [6, 3],
+        'line-opacity': 0.85,
+      },
+    })
+    map.value.addLayer({
+      id: 'infra-puntos', type: 'circle', source: 'infraestructura',
+      layout: { visibility: 'none' },
+      filter: ['==', '$type', 'Point'],
+      paint: {
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 8, 6, 13, 12],
+        'circle-color': ['get', 'color'],
+        'circle-stroke-color': '#FFFFFF',
+        'circle-stroke-width': 2,
+        'circle-opacity': 0.95,
+      },
+    })
+    map.value.addLayer({
+      id: 'infra-labels', type: 'symbol', source: 'infraestructura',
+      layout: {
+        visibility: 'none',
+        'text-field': ['get', 'nombre'],
+        'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+        'text-size': 11,
+        'text-offset': [0, 1.4],
+        'text-anchor': 'top',
+        'text-max-width': 10,
+      },
+      filter: ['==', '$type', 'Point'],
+      paint: {
+        'text-color': '#FFFFFF',
+        'text-halo-color': 'rgba(13,17,23,0.9)',
+        'text-halo-width': 2,
+      },
+    })
+
     // ── EVA: Producción bananera por municipio ─────────────────────────────
     map.value.addSource('eva-agro', { type: 'geojson', data: '/data/eva_agro.geojson' })
     map.value.addLayer({
@@ -602,7 +646,8 @@ export function useAtlasMap(mapRef) {
       'sipra-excl': ['sipra-exclusion-fill', 'sipra-exclusion-outline'],
       fincas:       ['fincas-fill', 'fincas-outline'],
       uariv:          ['uariv-fill', 'uariv-outline'],
-      'eva-banano':   ['eva-banano-fill', 'eva-banano-outline'],
+      infraestructura: ['infra-lineas', 'infra-puntos', 'infra-labels'],
+      'eva-banano':    ['eva-banano-fill', 'eva-banano-outline'],
       inundacion:     ['inundacion-fill', 'inundacion-outline'],
       deforestacion:  ['deforestacion-fill'],
       sinap:          ['sinap-fill', 'sinap-outline'],
