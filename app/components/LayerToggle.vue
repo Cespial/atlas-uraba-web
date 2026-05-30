@@ -10,13 +10,17 @@
           v-for="layer in layersByGroup(group)"
           :key="layer.id"
           class="lt-btn"
-          :class="{ 'lt-btn--active': activeLayers.has(layer.id) }"
-          :title="layer.label"
+          :class="{
+            'lt-btn--active': activeLayers.has(layer.id),
+            'lt-btn--empty': sinDatos.has(layer.id)
+          }"
+          :title="sinDatos.has(layer.id) ? 'Sin datos — pendiente de fuente oficial' : layer.label"
           @click="$emit('toggle', layer.id)"
         >
           <span class="lt-icon" :style="{ background: layer.color }" />
           <span class="lt-text">{{ layer.label }}</span>
-          <span class="lt-status">{{ activeLayers.has(layer.id) ? '●' : '○' }}</span>
+          <span v-if="sinDatos.has(layer.id)" class="lt-empty-badge">∅</span>
+          <span v-else class="lt-status">{{ activeLayers.has(layer.id) ? '●' : '○' }}</span>
         </button>
       </div>
     </template>
@@ -31,6 +35,9 @@ defineProps({
   },
 })
 defineEmits(['toggle'])
+
+// Capas sin datos reales — geometrías vaciadas, pendientes de fuente oficial
+const sinDatos = new Set(['manglares', 'agua', 'inundacion', 'sinap', 'resguardos'])
 
 const groups = ['Territorio', 'Visual', 'Agro', 'Riesgo', 'Social', 'Productivo', 'Servicios']
 
@@ -185,6 +192,24 @@ const layers = [
 }
 .lt-btn--active .lt-status {
   color: var(--ca, #1B6B6D);
+}
+
+/* Capas sin datos */
+.lt-btn--empty {
+  opacity: 0.55;
+  cursor: default;
+}
+.lt-btn--empty:hover {
+  background: transparent;
+  border-color: transparent;
+}
+.lt-empty-badge {
+  margin-left: auto;
+  font-size: 9px;
+  color: #6b7280;
+  flex-shrink: 0;
+  font-family: var(--ff-mono);
+  letter-spacing: 0;
 }
 
 /* Mobile: esquina inferior izquierda, justo encima del sheet */

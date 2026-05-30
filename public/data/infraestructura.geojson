@@ -10,76 +10,78 @@
         "estado": "Operativo (feb 2026)",
         "operador": "Puerto Antioquia S.A.S.",
         "financiador": "BID Invest",
-        "servicios": "Contenedores fríos/secos, carga general, RoRo, graneles",
-        "navieras": "Maersk, CMA CGM y 7 líneas más",
-        "capacidad": "En expansión — plena capacidad Q1 2027",
-        "habilitacion": "Resolución MinTransporte No. 20263040003075 (ene 2026)",
+        "servicios": "Contenedores, carga general, RoRo, graneles",
+        "navieras": "9 líneas navieras semanales",
         "url": "https://puertoantioquia.com.co",
-        "icon": "puerto",
-        "color": "#0ea5e9"
-      },
-      "geometry": { "type": "Point", "coordinates": [-76.7442, 8.0512] }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "nombre": "Terminal Marítimo de Turbo",
-        "tipo": "Terminal marítimo (Sociedad Portuaria)",
-        "municipio": "Turbo",
-        "estado": "Operativo — operación histórica",
-        "operador": "Sociedad Portuaria de Turbo",
-        "servicios": "Carga general, hidrocarburos, ganadería",
-        "icon": "terminal",
-        "color": "#0369a1"
-      },
-      "geometry": { "type": "Point", "coordinates": [-76.7311, 8.0967] }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "nombre": "Aeropuerto Los Cedros — Apartadó",
-        "tipo": "Aeropuerto regional",
-        "municipio": "Apartadó",
-        "estado": "Operativo",
-        "operador": "Aerocivil",
-        "iata": "APO",
-        "icon": "aeropuerto",
-        "color": "#7c3aed"
-      },
-      "geometry": { "type": "Point", "coordinates": [-76.7168, 7.8796] }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "nombre": "Troncal Medellín–Turbo (AU60)",
-        "tipo": "Corredor vial primario",
-        "estado": "En mejoramiento — INVIAS",
-        "longitud_km": 380,
-        "descripcion": "Principal eje vial de Urabá con el centro del país",
-        "icon": "via",
-        "color": "#f97316"
+        "color": "#0ea5e9",
+        "coord_source": "Nominatim OSM 2026-05-30"
       },
       "geometry": {
-        "type": "LineString",
+        "type": "Point",
         "coordinates": [
-          [-76.7311, 8.0967], [-76.71, 7.97], [-76.6851, 7.8828],
-          [-76.6700, 7.7500], [-76.6542, 7.6663], [-76.6200, 7.5000]
+          -76.7357,
+          8.067
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "nombre": "Embarcadero Zungo (bananero)",
-        "tipo": "Infraestructura bananera — embarque",
+        "nombre": "Aeropuerto Los Cedros (APO)",
+        "tipo": "Aeropuerto regional",
+        "municipio": "Apartadó",
+        "estado": "Operativo",
+        "iata": "APO",
+        "operador": "Aerocivil",
+        "color": "#7c3aed",
+        "coord_source": "OurAirports DB — IATA APO"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.7168,
+          7.8807
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Terminal Marítimo de Turbo",
+        "tipo": "Terminal marítimo histórico",
+        "municipio": "Turbo",
+        "estado": "Operativo",
+        "operador": "Sociedad Portuaria de Turbo",
+        "servicios": "Carga general, cabotaje, ganadería",
+        "color": "#0369a1",
+        "coord_source": "Verificación manual (Nominatim sin resultado)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.7295,
+          8.0991
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Embarcadero Zungo",
+        "tipo": "Embarcadero bananero",
         "municipio": "Carepa",
         "estado": "Operativo",
-        "operador": "Zona Bananera",
-        "descripcion": "Principal punto de embarque de banano hacia Puerto Antioquia",
-        "icon": "embarcadero",
-        "color": "#eab308"
+        "descripcion": "Principal punto de embarque bananero hacia Puerto Antioquia",
+        "color": "#eab308",
+        "coord_source": "Nominatim OSM 2026-05-30"
       },
-      "geometry": { "type": "Point", "coordinates": [-76.6900, 7.7900] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.739,
+          7.8471
+        ]
+      }
     }
   ]
 }

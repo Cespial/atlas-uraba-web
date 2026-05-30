@@ -1,1 +1,10 @@
-{"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"nombre": "Resguardo Jaikerazabi", "etnia": "Embera-Katio", "municipio": "Chigorodo", "estado": "Legalmente constituido", "habitantes": 1200}, "geometry": {"type": "Polygon", "coordinates": [[[-76.8, 7.6], [-76.65, 7.75], [-76.6, 7.65], [-76.72, 7.52], [-76.8, 7.6]]]}}, {"type": "Feature", "properties": {"nombre": "Resguardo Polines", "etnia": "Embera-Katio", "municipio": "Mutata-Dabeiba", "estado": "Legalmente constituido", "habitantes": 800}, "geometry": {"type": "Polygon", "coordinates": [[[-76.9, 7.3], [-76.75, 7.45], [-76.7, 7.35], [-76.82, 7.22], [-76.9, 7.3]]]}}, {"type": "Feature", "properties": {"nombre": "Resguardo Urada Jiguamiando", "etnia": "Embera-Dobida", "municipio": "Carmen del Darien/Turbo", "estado": "Legalmente constituido", "habitantes": 2100}, "geometry": {"type": "Polygon", "coordinates": [[[-77.0, 7.7], [-76.8, 7.9], [-76.7, 7.8], [-76.85, 7.6], [-77.0, 7.7]]]}}, {"type": "Feature", "properties": {"nombre": "Resguardo Caiman Nuevo", "etnia": "Tule (Kuna)", "municipio": "Necocli-Turbo", "estado": "Legalmente constituido", "habitantes": 1500}, "geometry": {"type": "Polygon", "coordinates": [[[-76.85, 8.4], [-76.75, 8.55], [-76.65, 8.5], [-76.72, 8.35], [-76.85, 8.4]]]}}]}
+{
+  "type": "FeatureCollection",
+  "features": [],
+  "_metadata": {
+    "status": "DATOS_NO_DISPONIBLES",
+    "razon": "Polígonos dibujados a mano. ANT tiene los datos oficiales.",
+    "fuente_real": "ANT.gov.co — Agencia Nacional de Tierras",
+    "accion_pendiente": "Ya vaciado en fase anterior. Solicitar a ANT o DANE territorios étnicos."
+  }
+}

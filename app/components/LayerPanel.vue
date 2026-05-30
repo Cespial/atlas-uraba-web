@@ -72,12 +72,19 @@
                   v-for="capa in tema.capas"
                   :key="capa.id"
                   class="lp-capa"
-                  :class="{ 'lp-capa--active': activeLayers.has(capa.id) }"
+                  :class="{
+                    'lp-capa--active': activeLayers.has(capa.id),
+                    'lp-capa--empty': sinDatos.has(capa.id)
+                  }"
+                  :title="sinDatos.has(capa.id) ? capa.pendiente || 'Datos pendientes de fuente oficial' : capa.label"
                   @click="$emit('toggle', capa.id)"
                 >
                   <span class="lp-capa-dot" :style="{ background: capa.color }" />
                   <div class="lp-capa-info">
-                    <span class="lp-capa-label">{{ capa.label }}</span>
+                    <span class="lp-capa-label">
+                      {{ capa.label }}
+                      <span v-if="sinDatos.has(capa.id)" class="lp-sin-datos">sin datos</span>
+                    </span>
                     <span class="lp-capa-desc">{{ capa.desc }}</span>
                   </div>
                   <span class="lp-capa-status">
@@ -103,6 +110,9 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+
+// Capas sin datos reales — geometrías vaciadas, pendientes de fuente oficial
+const sinDatos = new Set(['manglares', 'agua', 'inundacion', 'sinap', 'resguardos'])
 
 const props = defineProps({
   activeLayers: { type: Object, default: () => new Set() }
@@ -146,11 +156,11 @@ const temas = [
     id: 'ambiente', emoji: '🌿', nombre: 'Medio ambiente',
     descripcion: 'Ecosistemas, carbono, agua y deforestación',
     capas: [
-      { id: 'manglares',    label: 'Manglares',           desc: '18,600 ha · estado por zona', color: '#166534' },
+      { id: 'manglares',    label: 'Manglares',           desc: 'Pendiente: Global Mangrove Watch 2020', color: '#166534', pendiente: 'Datos pendientes: Global Mangrove Watch 2020 shapefile (globalmangrovewatch.org)' },
       { id: 'carbono',      label: 'Carbono en bosques',  desc: '62.5 MtCO₂ · GFW 2020', color: '#4ade80' },
-      { id: 'agua',         label: 'Calidad del agua',    desc: 'ICA ríos · IDEAM-Corpourabá', color: '#3b82f6' },
+      { id: 'agua',         label: 'Calidad del agua',    desc: 'Pendiente: Corpourabá / IDEAM SIRH', color: '#3b82f6', pendiente: 'Datos pendientes: ICA ríos Corpourabá / IDEAM SIRH' },
       { id: 'deforestacion',label: 'Deforestación',       desc: 'Alertas SMByC · rojo=pérdida', color: '#dc2626' },
-      { id: 'sinap',        label: 'Áreas protegidas',    desc: 'SINAP · reservas forestales', color: '#166534' },
+      { id: 'sinap',        label: 'Áreas protegidas',    desc: 'Pendiente: RUNAP WFS oficial', color: '#166534', pendiente: 'Datos pendientes: RUNAP WFS (runap.parquesnacionales.gov.co)' },
     ]
   },
   {
@@ -159,7 +169,7 @@ const temas = [
     capas: [
       { id: 'nbi',          label: 'Pobreza (NBI)',        desc: 'Necesidades básicas insatisfechas', color: '#f46d43' },
       { id: 'uariv',        label: 'Desplazamiento',       desc: 'UARIV · expulsados por municipio', color: '#dc2626' },
-      { id: 'resguardos',   label: 'Resguardos indígenas', desc: 'Embera, Tule · ANT', color: '#7c3aed' },
+      { id: 'resguardos',   label: 'Resguardos indígenas', desc: 'Pendiente: ANT shapefile oficial', color: '#7c3aed', pendiente: 'Datos pendientes: ANT shapefile oficial resguardos Embera/Tule' },
       { id: 'zomac',        label: 'ZOMAC',               desc: '7 municipios · beneficios tributarios', color: '#ea580c' },
       { id: 'reps',         label: 'Salud (prestadores)',  desc: '339 IPS geocodificadas · REPS', color: '#3B82F6' },
       { id: 'simat',        label: 'Colegios',            desc: '180 establecimientos · SIMAT', color: '#F59E0B' },
@@ -355,6 +365,25 @@ function resetAll() {
 }
 .lp-capa:hover { background: rgba(255,255,255,0.05); border-color: #30363D; }
 .lp-capa--active { background: rgba(27,107,109,0.12); border-color: rgba(27,107,109,0.3); }
+
+/* Capas sin datos */
+.lp-capa--empty { opacity: 0.6; cursor: default; }
+.lp-capa--empty:hover { background: rgba(255,255,255,0.02); border-color: #30363D; }
+.lp-sin-datos {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 0 4px;
+  border-radius: 2px;
+  background: rgba(107,114,128,0.2);
+  border: 1px solid rgba(107,114,128,0.35);
+  color: #6b7280;
+  font-family: var(--ff-mono);
+  font-size: 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  vertical-align: middle;
+  line-height: 14px;
+}
 
 .lp-capa-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; margin-top: 3px; }
 .lp-capa--active .lp-capa-dot { box-shadow: 0 0 5px currentColor; }
