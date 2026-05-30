@@ -161,6 +161,7 @@ export function useAtlasMap(mapRef) {
       type:    'fill',
       source:  'municipios-score',
       maxzoom: 12,
+      layout: { visibility: 'visible' },  // activado por defecto — toggle desde panel Capas
       paint: {
         // Scores pre-computados en el GeoJSON — no depende de feature-state
         'fill-color': [
@@ -744,7 +745,7 @@ export function useAtlasMap(mapRef) {
     // ── Mejora: incluir '3d' en el mapa de capas ─────────────────────────────
     const layerMap = {
       veredas:      ['veredas-outline'],
-      municipios:   ['municipios-outline', 'municipios-label'],
+      municipios:   ['municipios-outline', 'municipios-label', 'municipios-score-fill', 'municipios-score-outline', 'municipios-score-label'],
       reps:         ['reps-points'],
       simat:        ['simat-points'],
       sipra:        ['sipra-fill', 'sipra-outline'],
