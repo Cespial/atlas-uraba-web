@@ -1,0 +1,905 @@
+{
+  "_meta": {
+    "fuente": "DANE - Exportaciones agrícolas no tradicionales y tradicionales (vía Datos Abiertos Colombia / Socrata)",
+    "dataset_id": "5fct-ib9u",
+    "endpoint": "https://www.datos.gov.co/resource/5fct-ib9u.json",
+    "filtro": "departamento=Antioquia; partida HS 0803 (803000000-803999999); incluye bananos cavendish/bocadillo, plátanos y demás del capítulo 0803",
+    "unidades": {
+      "ton": "toneladas",
+      "fob_usd": "USD FOB (convertido desde Miles USD FOB del origen)"
+    },
+    "nivel": "departamental (DANE no publica este detalle a nivel municipal)",
+    "consultado": "2026-06-03",
+    "nota": "2025 es año en curso/parcial según última actualización del dataset"
+  },
+  "2019": {
+    "ton": 1330545,
+    "fob_usd": 611706000,
+    "destinos": [
+      {
+        "pais": "Bélgica",
+        "fob": 127571000
+      },
+      {
+        "pais": "Italia",
+        "fob": 123620000
+      },
+      {
+        "pais": "Reino Unido",
+        "fob": 92486000
+      },
+      {
+        "pais": "Alemania",
+        "fob": 72074000
+      },
+      {
+        "pais": "Estados Unidos",
+        "fob": 54675000
+      },
+      {
+        "pais": "Países Bajos",
+        "fob": 32232000
+      },
+      {
+        "pais": "Eslovenia",
+        "fob": 30340000
+      },
+      {
+        "pais": "España",
+        "fob": 20566000
+      },
+      {
+        "pais": "Portugal",
+        "fob": 11626000
+      },
+      {
+        "pais": "Rusia, Federación de",
+        "fob": 7437000
+      },
+      {
+        "pais": "Grecia",
+        "fob": 6870000
+      },
+      {
+        "pais": "Ucrania",
+        "fob": 6762000
+      },
+      {
+        "pais": "Francia",
+        "fob": 4504000
+      },
+      {
+        "pais": "China",
+        "fob": 4084000
+      },
+      {
+        "pais": "Turquía",
+        "fob": 3060000
+      },
+      {
+        "pais": "Polonia",
+        "fob": 2663000
+      },
+      {
+        "pais": "Suecia",
+        "fob": 1761000
+      },
+      {
+        "pais": "Finlandia",
+        "fob": 1637000
+      },
+      {
+        "pais": "Argelia",
+        "fob": 1353000
+      },
+      {
+        "pais": "Noruega",
+        "fob": 1293000
+      },
+      {
+        "pais": "Argentina",
+        "fob": 1041000
+      },
+      {
+        "pais": "Marruecos",
+        "fob": 854000
+      },
+      {
+        "pais": "Montenegro",
+        "fob": 690000
+      },
+      {
+        "pais": "Albania",
+        "fob": 564000
+      },
+      {
+        "pais": "Croacia",
+        "fob": 542000
+      },
+      {
+        "pais": "Malta",
+        "fob": 428000
+      },
+      {
+        "pais": "Corea",
+        "fob": 362000
+      },
+      {
+        "pais": "Curazao",
+        "fob": 221000
+      },
+      {
+        "pais": "Lituania",
+        "fob": 173000
+      },
+      {
+        "pais": "Aruba",
+        "fob": 131000
+      },
+      {
+        "pais": "Arabia Saudita",
+        "fob": 75000
+      },
+      {
+        "pais": "Hong Kong",
+        "fob": 10000
+      },
+      {
+        "pais": "Panamá",
+        "fob": 1000
+      }
+    ]
+  },
+  "2020": {
+    "ton": 1476542,
+    "fob_usd": 666970000,
+    "destinos": [
+      {
+        "pais": "Italia",
+        "fob": 117421000
+      },
+      {
+        "pais": "Bélgica",
+        "fob": 106699000
+      },
+      {
+        "pais": "Reino Unido",
+        "fob": 95533000
+      },
+      {
+        "pais": "Estados Unidos",
+        "fob": 55368000
+      },
+      {
+        "pais": "Polonia",
+        "fob": 44730000
+      },
+      {
+        "pais": "Alemania",
+        "fob": 41656000
+      },
+      {
+        "pais": "Países Bajos",
+        "fob": 41316000
+      },
+      {
+        "pais": "Eslovenia",
+        "fob": 38092000
+      },
+      {
+        "pais": "España",
+        "fob": 35262000
+      },
+      {
+        "pais": "Portugal",
+        "fob": 14039000
+      },
+      {
+        "pais": "Ucrania",
+        "fob": 12789000
+      },
+      {
+        "pais": "Francia",
+        "fob": 12127000
+      },
+      {
+        "pais": "Rusia, Federación de",
+        "fob": 10976000
+      },
+      {
+        "pais": "China",
+        "fob": 7554000
+      },
+      {
+        "pais": "Corea",
+        "fob": 5970000
+      },
+      {
+        "pais": "Turquía",
+        "fob": 5950000
+      },
+      {
+        "pais": "Suecia",
+        "fob": 4697000
+      },
+      {
+        "pais": "Grecia",
+        "fob": 4384000
+      },
+      {
+        "pais": "Argentina",
+        "fob": 4082000
+      },
+      {
+        "pais": "Argelia",
+        "fob": 2908000
+      },
+      {
+        "pais": "Finlandia",
+        "fob": 1910000
+      },
+      {
+        "pais": "Túnez",
+        "fob": 1384000
+      },
+      {
+        "pais": "Albania",
+        "fob": 707000
+      },
+      {
+        "pais": "Lituania",
+        "fob": 416000
+      },
+      {
+        "pais": "Curazao",
+        "fob": 271000
+      },
+      {
+        "pais": "Montenegro",
+        "fob": 211000
+      },
+      {
+        "pais": "Emiratos Árabes Unidos",
+        "fob": 181000
+      },
+      {
+        "pais": "Marruecos",
+        "fob": 131000
+      },
+      {
+        "pais": "Malta",
+        "fob": 83000
+      },
+      {
+        "pais": "Aruba",
+        "fob": 68000
+      },
+      {
+        "pais": "Chile",
+        "fob": 24000
+      },
+      {
+        "pais": "Reunión",
+        "fob": 12000
+      },
+      {
+        "pais": "Suiza",
+        "fob": 11000
+      },
+      {
+        "pais": "Croacia",
+        "fob": 8000
+      }
+    ]
+  },
+  "2021": {
+    "ton": 1470612,
+    "fob_usd": 659631000,
+    "destinos": [
+      {
+        "pais": "Bélgica",
+        "fob": 111295000
+      },
+      {
+        "pais": "Italia",
+        "fob": 109196000
+      },
+      {
+        "pais": "Reino Unido",
+        "fob": 82557000
+      },
+      {
+        "pais": "Alemania",
+        "fob": 67869000
+      },
+      {
+        "pais": "Estados Unidos",
+        "fob": 57302000
+      },
+      {
+        "pais": "Polonia",
+        "fob": 44850000
+      },
+      {
+        "pais": "Países Bajos",
+        "fob": 38039000
+      },
+      {
+        "pais": "Francia",
+        "fob": 30183000
+      },
+      {
+        "pais": "España",
+        "fob": 27910000
+      },
+      {
+        "pais": "Eslovenia",
+        "fob": 25072000
+      },
+      {
+        "pais": "Ucrania",
+        "fob": 15165000
+      },
+      {
+        "pais": "Portugal",
+        "fob": 10925000
+      },
+      {
+        "pais": "Rusia, Federación de",
+        "fob": 9837000
+      },
+      {
+        "pais": "Corea",
+        "fob": 6984000
+      },
+      {
+        "pais": "Suecia",
+        "fob": 6196000
+      },
+      {
+        "pais": "Turquía",
+        "fob": 5494000
+      },
+      {
+        "pais": "Grecia",
+        "fob": 4148000
+      },
+      {
+        "pais": "Túnez",
+        "fob": 3800000
+      },
+      {
+        "pais": "Argentina",
+        "fob": 1671000
+      },
+      {
+        "pais": "Curazao",
+        "fob": 389000
+      },
+      {
+        "pais": "Irlanda",
+        "fob": 235000
+      },
+      {
+        "pais": "Libia",
+        "fob": 101000
+      },
+      {
+        "pais": "Argelia",
+        "fob": 86000
+      },
+      {
+        "pais": "Montenegro",
+        "fob": 83000
+      },
+      {
+        "pais": "Eslovaquia",
+        "fob": 76000
+      },
+      {
+        "pais": "Panamá",
+        "fob": 53000
+      },
+      {
+        "pais": "Aruba",
+        "fob": 31000
+      },
+      {
+        "pais": "Albania",
+        "fob": 29000
+      },
+      {
+        "pais": "Emiratos Árabes Unidos",
+        "fob": 22000
+      },
+      {
+        "pais": "Letonia",
+        "fob": 17000
+      },
+      {
+        "pais": "Chile",
+        "fob": 13000
+      },
+      {
+        "pais": "Arabia Saudita",
+        "fob": 3000
+      }
+    ]
+  },
+  "2022": {
+    "ton": 1440123,
+    "fob_usd": 646390000,
+    "destinos": [
+      {
+        "pais": "Italia",
+        "fob": 121612000
+      },
+      {
+        "pais": "Reino Unido",
+        "fob": 85427000
+      },
+      {
+        "pais": "Bélgica",
+        "fob": 82068000
+      },
+      {
+        "pais": "Estados Unidos",
+        "fob": 67967000
+      },
+      {
+        "pais": "Países Bajos",
+        "fob": 59091000
+      },
+      {
+        "pais": "Alemania",
+        "fob": 48166000
+      },
+      {
+        "pais": "Eslovenia",
+        "fob": 46869000
+      },
+      {
+        "pais": "Francia",
+        "fob": 38766000
+      },
+      {
+        "pais": "España",
+        "fob": 21305000
+      },
+      {
+        "pais": "Polonia",
+        "fob": 18161000
+      },
+      {
+        "pais": "Portugal",
+        "fob": 11950000
+      },
+      {
+        "pais": "Ucrania",
+        "fob": 9414000
+      },
+      {
+        "pais": "Rusia, Federación de",
+        "fob": 8490000
+      },
+      {
+        "pais": "Suecia",
+        "fob": 6880000
+      },
+      {
+        "pais": "Turquía",
+        "fob": 5961000
+      },
+      {
+        "pais": "Corea",
+        "fob": 4825000
+      },
+      {
+        "pais": "Grecia",
+        "fob": 3427000
+      },
+      {
+        "pais": "Argentina",
+        "fob": 2637000
+      },
+      {
+        "pais": "Rumania",
+        "fob": 1021000
+      },
+      {
+        "pais": "Argelia",
+        "fob": 898000
+      },
+      {
+        "pais": "Irlanda",
+        "fob": 527000
+      },
+      {
+        "pais": "Curazao",
+        "fob": 437000
+      },
+      {
+        "pais": "Bulgaria",
+        "fob": 217000
+      },
+      {
+        "pais": "Montenegro",
+        "fob": 188000
+      },
+      {
+        "pais": "Croacia",
+        "fob": 31000
+      },
+      {
+        "pais": "Aruba",
+        "fob": 25000
+      },
+      {
+        "pais": "China",
+        "fob": 17000
+      },
+      {
+        "pais": "Chile",
+        "fob": 11000
+      },
+      {
+        "pais": "Suiza",
+        "fob": 1000
+      },
+      {
+        "pais": "Arabia Saudita",
+        "fob": 1000
+      }
+    ]
+  },
+  "2023": {
+    "ton": 1035458,
+    "fob_usd": 531293000,
+    "destinos": [
+      {
+        "pais": "Italia",
+        "fob": 95150000
+      },
+      {
+        "pais": "Estados Unidos",
+        "fob": 76126000
+      },
+      {
+        "pais": "Reino Unido",
+        "fob": 71839000
+      },
+      {
+        "pais": "Países Bajos",
+        "fob": 57152000
+      },
+      {
+        "pais": "Bélgica",
+        "fob": 53403000
+      },
+      {
+        "pais": "Francia",
+        "fob": 45343000
+      },
+      {
+        "pais": "Alemania",
+        "fob": 42981000
+      },
+      {
+        "pais": "Eslovenia",
+        "fob": 22814000
+      },
+      {
+        "pais": "España",
+        "fob": 22044000
+      },
+      {
+        "pais": "Polonia",
+        "fob": 21348000
+      },
+      {
+        "pais": "Suecia",
+        "fob": 8797000
+      },
+      {
+        "pais": "Portugal",
+        "fob": 6868000
+      },
+      {
+        "pais": "Argentina",
+        "fob": 3260000
+      },
+      {
+        "pais": "Corea",
+        "fob": 1410000
+      },
+      {
+        "pais": "Grecia",
+        "fob": 1197000
+      },
+      {
+        "pais": "Curazao",
+        "fob": 451000
+      },
+      {
+        "pais": "Rumania",
+        "fob": 369000
+      },
+      {
+        "pais": "Bulgaria",
+        "fob": 220000
+      },
+      {
+        "pais": "Irlanda",
+        "fob": 138000
+      },
+      {
+        "pais": "Suiza",
+        "fob": 86000
+      },
+      {
+        "pais": "Libia",
+        "fob": 78000
+      },
+      {
+        "pais": "Turquía",
+        "fob": 77000
+      },
+      {
+        "pais": "Aruba",
+        "fob": 74000
+      },
+      {
+        "pais": "Lituania",
+        "fob": 38000
+      },
+      {
+        "pais": "Montenegro",
+        "fob": 21000
+      },
+      {
+        "pais": "Chile",
+        "fob": 9000
+      }
+    ]
+  },
+  "2024": {
+    "ton": 1063563,
+    "fob_usd": 560136895,
+    "destinos": [
+      {
+        "pais": "Italia",
+        "fob": 102320899
+      },
+      {
+        "pais": "Bélgica",
+        "fob": 91819960
+      },
+      {
+        "pais": "Alemania",
+        "fob": 82062414
+      },
+      {
+        "pais": "Reino Unido",
+        "fob": 66112000
+      },
+      {
+        "pais": "Países Bajos",
+        "fob": 46191140
+      },
+      {
+        "pais": "Estados Unidos",
+        "fob": 45780000
+      },
+      {
+        "pais": "Francia",
+        "fob": 33844387
+      },
+      {
+        "pais": "España",
+        "fob": 18904050
+      },
+      {
+        "pais": "Polonia",
+        "fob": 18189008
+      },
+      {
+        "pais": "Eslovenia",
+        "fob": 10710413
+      },
+      {
+        "pais": "Reino Unido de Gran Bretaña e Irlanda del Norte",
+        "fob": 9922056
+      },
+      {
+        "pais": "Portugal",
+        "fob": 8911445
+      },
+      {
+        "pais": "Suecia",
+        "fob": 7490775
+      },
+      {
+        "pais": "Estados Unidos de América",
+        "fob": 5571475
+      },
+      {
+        "pais": "Grecia",
+        "fob": 2928940
+      },
+      {
+        "pais": "Argentina",
+        "fob": 2031100
+      },
+      {
+        "pais": "Irlanda",
+        "fob": 1987551
+      },
+      {
+        "pais": "Croacia",
+        "fob": 1870549
+      },
+      {
+        "pais": "Montenegro",
+        "fob": 1785798
+      },
+      {
+        "pais": "Turquía",
+        "fob": 687000
+      },
+      {
+        "pais": "Curazao",
+        "fob": 461202
+      },
+      {
+        "pais": "Suiza",
+        "fob": 134000
+      },
+      {
+        "pais": "Canadá",
+        "fob": 123000
+      },
+      {
+        "pais": "Uruguay",
+        "fob": 76200
+      },
+      {
+        "pais": "Chile",
+        "fob": 59000
+      },
+      {
+        "pais": "Lituania",
+        "fob": 34000
+      },
+      {
+        "pais": "Libia",
+        "fob": 32000
+      },
+      {
+        "pais": "Aruba",
+        "fob": 29792
+      },
+      {
+        "pais": "Corea",
+        "fob": 23000
+      },
+      {
+        "pais": "Honduras",
+        "fob": 19000
+      },
+      {
+        "pais": "Bulgaria",
+        "fob": 18446
+      },
+      {
+        "pais": "Emiratos Árabes Unidos",
+        "fob": 6294
+      }
+    ]
+  },
+  "2025": {
+    "ton": 1079499,
+    "fob_usd": 590590046,
+    "destinos": [
+      {
+        "pais": "Bélgica",
+        "fob": 98746969
+      },
+      {
+        "pais": "Italia",
+        "fob": 96828317
+      },
+      {
+        "pais": "Estados Unidos de América",
+        "fob": 73145524
+      },
+      {
+        "pais": "Reino Unido de Gran Bretaña e Irlanda del Norte",
+        "fob": 68566766
+      },
+      {
+        "pais": "Alemania",
+        "fob": 67403141
+      },
+      {
+        "pais": "Países Bajos",
+        "fob": 51916370
+      },
+      {
+        "pais": "Francia",
+        "fob": 41301300
+      },
+      {
+        "pais": "Eslovenia",
+        "fob": 25471497
+      },
+      {
+        "pais": "España",
+        "fob": 21049786
+      },
+      {
+        "pais": "Portugal",
+        "fob": 16089248
+      },
+      {
+        "pais": "Montenegro",
+        "fob": 9278697
+      },
+      {
+        "pais": "Argelia",
+        "fob": 4865060
+      },
+      {
+        "pais": "Suecia",
+        "fob": 4480034
+      },
+      {
+        "pais": "Polonia",
+        "fob": 3916294
+      },
+      {
+        "pais": "Irlanda",
+        "fob": 1514937
+      },
+      {
+        "pais": "Argentina",
+        "fob": 1429375
+      },
+      {
+        "pais": "Finlandia",
+        "fob": 1374837
+      },
+      {
+        "pais": "Croacia",
+        "fob": 1226252
+      },
+      {
+        "pais": "Grecia",
+        "fob": 693886
+      },
+      {
+        "pais": "Curazao",
+        "fob": 665867
+      },
+      {
+        "pais": "Uruguay",
+        "fob": 437453
+      },
+      {
+        "pais": "Canadá",
+        "fob": 113844
+      },
+      {
+        "pais": "Turquía",
+        "fob": 55242
+      },
+      {
+        "pais": "Ucrania",
+        "fob": 10314
+      },
+      {
+        "pais": "Aruba",
+        "fob": 9035
+      }
+    ]
+  }
+}

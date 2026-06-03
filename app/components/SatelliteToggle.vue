@@ -113,7 +113,9 @@ const modeClass = computed(() => {
 <style scoped>
 .sat-toggle {
   position: absolute;
-  top: calc(var(--atlas-header-h, 52px) + 130px);
+  /* Desktop: bottom-right agrupado con Share */
+  top: auto;
+  bottom: 56px;
   right: 12px;
   z-index: 20;
   display: flex;
@@ -158,12 +160,15 @@ const modeClass = computed(() => {
   white-space: nowrap;
 }
 
+/* Mobile: bottom-right, zona del pulgar */
 @media (max-width: 639px) {
   .sat-toggle {
-    top: calc(var(--atlas-header-h, 48px) + 130px);
-    right: 8px;
-    padding: 7px;
+    top: auto;
+    bottom: calc(var(--sheet-peek, 80px) + 52px);
+    right: 12px;
+    padding: 8px;
   }
   .sat-label { display: none; }
 }
+/* Tablet media query eliminado — hereda bottom:56px del default */
 </style>

@@ -1,0 +1,63 @@
+{
+  "nota_importante": "El catastro de Antioquia es DESCENTRALIZADO - NO está en el IGAC nacional. Lo administra el Departamento de Antioquia directamente.",
+  "municipios_uraba_codigos": {
+    "Apartado": "05045",
+    "Carepa": "05147",
+    "Chigorodo": "05120",
+    "Turbo": "05837",
+    "Mutata": "05490",
+    "Necocli": "05490",
+    "San Juan de Uraba": "05665",
+    "Arboletes": "05051",
+    "San Pedro de Uraba": "05659"
+  },
+  "catastro_igac_nacional": {
+    "descripcion": "IGAC gestiona catastro nacional EXCEPTO Bogota, Antioquia, Medellin, Cali y Barranquilla",
+    "datos_abiertos_pagina": "https://geoportal.igac.gov.co/contenido/datos-abiertos-catastro",
+    "sharepoint_departamentos": "https://igacoffice365.sharepoint.com/:f:/g/El_cx99zlE5FrMda2G7Ff9oB8nRia9fawp_SoYlLixSHNA?e=ewJbmZ",
+    "sharepoint_R1R2_nacional": "https://igacoffice365.sharepoint.com/:f:/g/Etu278vnaiFAgf8X1nOoh1wB-s3Y_Sw_GtR3EPDYbw6Hnw?e=ZouTmy",
+    "icde_geodatabases": "https://datos.icde.gov.co/search?collection=Dataset&q=CATASTRO&type=file%20geodatabase",
+    "icde_servicios_wfs": "https://datos.icde.gov.co/search?q=CATASTRO&type=wfs%2Cfeature%20layer%2Cmap%20service%2Cfeature%20service",
+    "icde_terreno_rural": "https://datos.icde.gov.co/search?q=R%20TERRENO",
+    "icde_manzana_urbana": "https://datos.icde.gov.co/search?q=U%20MANZANA",
+    "icde_construccion_rural": "https://datos.icde.gov.co/search?q=R%20CONSTRUCCION",
+    "capas_disponibles": [
+      "R_CONSTRUCCION (Rural)",
+      "R_NOMENCLATURA_DOMICILIARIA (Rural)",
+      "R_NOMENCLATURA_VIAL (Rural)",
+      "R_SECTOR (Rural)",
+      "R_TERRENO (Rural)",
+      "R_VEREDA (Rural)",
+      "U_CONSTRUCCION (Urbano)",
+      "U_MANZANA (Urbano)",
+      "U_NOMENCLATURA_DOMICILIARIA (Urbano)",
+      "U_NOMENCLATURA_VIAL (Urbano)",
+      "U_PERIMETRO (Urbano)",
+      "U_SECTOR (Urbano)",
+      "U_TERRENO (Urbano)"
+    ]
+  },
+  "catastro_antioquia_descentralizado": {
+    "descripcion": "Antioquia tiene catastro descentralizado. Gestionado por el Departamento de Antioquia / DAPARD o GEODATA Antioquia",
+    "portal_gis_antioquia": "https://geoportal.antioquia.gov.co",
+    "datos_antioquia": "https://datosabiertos.antioquia.gov.co",
+    "geoservices_antioquia": "https://catastro.antioquia.gov.co",
+    "instruccion_alternativa": "Buscar 'catastro predial Antioquia' en datosabiertos.antioquia.gov.co o contactar a geodata@antioquia.gov.co",
+    "colombia_en_mapas_catastral": "https://www.colombiaenmapas.gov.co/?b=igac&u=0&module=catastral",
+    "metadato_icde": "https://metadatos.icde.gov.co/geonetwork/srv/spa/catalog.search#/metadata/2660122d-956f-448d-9c64-b2040e459b4a"
+  },
+  "instruccion_descarga_igac": {
+    "paso_1": "Ir a: https://igacoffice365.sharepoint.com/:f:/g/El_cx99zlE5FrMda2G7Ff9oB8nRia9fawp_SoYlLixSHNA?e=ewJbmZ",
+    "paso_2": "En la carpeta Departamentos, buscar el archivo de Antioquia (dept 05) - si existe, descargarlo",
+    "paso_3": "Si no hay datos de Antioquia, ir a catastro descentralizado del departamento",
+    "paso_4": "Extraer U_MANZANA.shp (manzanas urbanas) y R_TERRENO.shp (predios rurales)",
+    "paso_5": "Filtrar por municipios Uraba: 05045 05147 05120 05837 05490 05665 05659 05051",
+    "nota": "Los archivos ZIP pueden pesar 200-800 MB por departamento. El SharePoint requiere navegador con JS para explorar la carpeta"
+  },
+  "alternativas_programaticas": {
+    "wfs_igac_terreno": "https://datos.icde.gov.co/search?q=R%20TERRENO&type=wfs,feature+layer",
+    "arcgis_rest_possible": "https://datos.icde.gov.co/arcgis/rest/services/ (requiere exploración en navegador)",
+    "colombia_en_mapas_wms": "https://www.colombiaenmapas.gov.co/?b=igac&l=168&u=05837&t=25",
+    "contacto_igac": "contactenos@igac.gov.co | +57 601 653 18 88"
+  }
+}

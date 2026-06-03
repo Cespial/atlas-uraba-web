@@ -91,6 +91,27 @@
           <span v-if="store.dimension === dim.key" class="dim-active-pip" />
         </button>
       </div>
+
+      <!-- Dimensiones v2 — datos satelitales GHSL + NDVI -->
+      <div class="dim-v2-label">Indicadores v2 · satelital</div>
+      <div class="dim-list">
+        <button
+          v-for="dim in dimensionesV2"
+          :key="dim.key"
+          class="dim-btn dim-btn--v2"
+          :class="{ 'dim-btn--active': store.dimension === dim.key }"
+          @click="store.setDimension(dim.key)"
+        >
+          <span class="dim-dot" :style="{ background: dim.color }" />
+          <span class="dim-label">{{ dim.label }}</span>
+          <span
+            v-if="dimScore(dim.key) != null"
+            class="dim-score"
+            :style="{ color: dim.color }"
+          >{{ dimScore(dim.key) }}</span>
+          <span v-if="store.dimension === dim.key" class="dim-active-pip" />
+        </button>
+      </div>
     </div>
 
     <!-- ══════════════════════════════════════════
@@ -178,6 +199,13 @@
     </div>
 
     <!-- ══════════════════════════════════════════
+         DIAGNÓSTICO — panel para tomadores de decisión
+    ══════════════════════════════════════════ -->
+    <div v-show="activeTab === 'diagnostico'" class="tab-content">
+      <DiagnosticoPanel @open-ficha="$emit('open-ficha')" />
+    </div>
+
+    <!-- ══════════════════════════════════════════
          PANORAMA — panel de resumen territorial
     ══════════════════════════════════════════ -->
     <div v-show="activeTab === 'panorama'" class="tab-content">
@@ -191,7 +219,8 @@
       <div class="fuentes-text">
         CNPV 2018 DANE · REPS MinSalud<br />
         SIMAT MEN · OSM Colombia<br />
-        MGN DANE 2024 · Tensor 2025
+        MGN DANE 2024 · Tensor 2025<br />
+        <span style="opacity:0.7">v2: GHSL 2023 · Sentinel-2 NDVI · VIIRS 2022</span>
       </div>
     </div>
 
@@ -200,19 +229,23 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useAtlasStore, DIMENSIONES, MUNICIPIOS } from '~/stores/atlas'
+import { useAtlasStore, DIMENSIONES, DIMENSIONES_V2, MUNICIPIOS } from '~/stores/atlas'
+import DiagnosticoPanel from '~/components/DiagnosticoPanel.vue'
 
-const store      = useAtlasStore()
-const dimensiones = DIMENSIONES
-const municipios  = MUNICIPIOS
+const emit   = defineEmits(['open-ficha'])
+const store  = useAtlasStore()
+const dimensiones   = DIMENSIONES.filter(d => !d.v2)
+const dimensionesV2 = DIMENSIONES_V2
+const municipios    = MUNICIPIOS
 
 const activeTab = ref('index')
 const tabs = [
-  { id: 'index',    label: 'Índice'    },
-  { id: 'zonas',    label: 'Capas'     },
-  { id: 'ranking',  label: 'Ranking'   },
-  { id: 'panorama', label: 'Panorama'  },
-  { id: 'fuentes',  label: 'Fuentes'   },
+  { id: 'index',       label: 'Índice'      },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'zonas',       label: 'Capas'       },
+  { id: 'ranking',     label: 'Ranking'     },
+  { id: 'panorama',    label: 'Panorama'    },
+  { id: 'fuentes',     label: 'Fuentes'     },
 ]
 
 /* ─── Zonas LISA ─────────────────────────────────────── */
@@ -561,6 +594,26 @@ function dimScore(key) {
   right: 8px;
   top: 50%;
   transform: translateY(-50%);
+}
+
+/* Separador para dimensiones v2 */
+.dim-v2-label {
+  font-family: var(--ff-mono);
+  font-size: 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #06b6d4;
+  opacity: 0.75;
+  margin: 8px 2px 4px;
+}
+
+.dim-btn--v2 {
+  opacity: 0.85;
+}
+
+.dim-btn--v2:hover,
+.dim-btn--v2.dim-btn--active {
+  opacity: 1;
 }
 
 /* ══════════════════════════════════════════

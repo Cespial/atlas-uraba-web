@@ -194,14 +194,42 @@ body { font-family: var(--ff-body); }
     left: 0 !important;
     bottom: var(--sheet-peek) !important;
   }
-  /* Ajustar controles de maplibre en mobile */
+  /* Zoom controls: esquina top-left en mobile para dejar el right limpio */
   .maplibregl-ctrl-top-right {
     top: calc(var(--atlas-header-h) + 8px) !important;
+    right: auto !important;
+    left: 8px !important;
+  }
+  /* Scale bar: bottom-left para no chocar con sheet */
+  .maplibregl-ctrl-bottom-right {
+    bottom: calc(var(--sheet-peek) + 6px) !important;
     right: 8px !important;
   }
-  .maplibregl-ctrl-bottom-right {
-    bottom: calc(var(--sheet-peek) + 8px) !important;
-    right: 8px !important;
+  /* Atribución mobile: solo icono "©", sin texto expandido */
+  .maplibregl-ctrl-attrib-inner { display: none !important; }
+  .maplibregl-ctrl-attrib-button {
+    display: flex !important;
+    background: rgba(0,0,0,0.55) !important;
+    border-radius: 50% !important;
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 11px !important;
+  }
+  .maplibregl-ctrl-attrib.maplibregl-compact-show .maplibregl-ctrl-attrib-inner {
+    display: block !important;
+    font-size: 9px !important;
+    background: rgba(0,0,0,0.75) !important;
+    color: rgba(255,255,255,0.8) !important;
+    border-radius: 4px !important;
+    padding: 3px 6px !important;
+    max-width: 220px !important;
+    white-space: normal !important;
+  }
+  /* Compact zoom buttons on mobile */
+  .maplibregl-ctrl-zoom-in,
+  .maplibregl-ctrl-zoom-out {
+    width: 32px !important;
+    height: 32px !important;
   }
 }
 

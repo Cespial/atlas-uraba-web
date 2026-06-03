@@ -63,8 +63,9 @@ async function share() {
 <style scoped>
 .share-btn {
   position: absolute;
-  /* Bajo SatelliteToggle: header(52px) + 130px (controles zoom) + 38px (sat-toggle h) + 8px gap */
-  top: calc(var(--atlas-header-h, 52px) + 176px);
+  /* Desktop: bottom-right, debajo del sat-toggle */
+  top: auto;
+  bottom: 12px;
   right: 12px;
   z-index: 20;
   display: flex; align-items: center; gap: 5px;
@@ -78,11 +79,20 @@ async function share() {
 }
 .share-btn:hover { border-color: var(--ca,#1B6B6D); color: var(--ca,#1B6B6D); }
 
-/* Mobile: ajuste de posición */
 @media (max-width: 639px) {
   .share-btn {
-    top: calc(var(--atlas-header-h, 48px) + 176px);
-    right: 8px;
+    top: auto;
+    bottom: calc(var(--sheet-peek, 80px) + 8px);
+    right: 12px;
+    padding: 8px;
+  }
+  .share-label { display: none; }
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  .share-btn {
+    top: auto;
+    bottom: 8px;
+    right: 12px;
   }
   .share-label { display: none; }
 }

@@ -112,7 +112,7 @@
 import { ref, computed } from 'vue'
 
 // Capas sin datos reales — geometrías vaciadas, pendientes de fuente oficial
-const sinDatos = new Set(['manglares', 'agua', 'inundacion', 'sinap', 'resguardos'])
+const sinDatos = new Set(['manglares', 'agua', 'inundacion'])
 
 const props = defineProps({
   activeLayers: { type: Object, default: () => new Set() }
@@ -160,7 +160,7 @@ const temas = [
       { id: 'carbono',      label: 'Carbono en bosques',  desc: '62.5 MtCO₂ · GFW 2020', color: '#4ade80' },
       { id: 'agua',         label: 'Calidad del agua',    desc: 'Pendiente: Corpourabá / IDEAM SIRH', color: '#3b82f6', pendiente: 'Datos pendientes: ICA ríos Corpourabá / IDEAM SIRH' },
       { id: 'deforestacion',label: 'Deforestación',       desc: 'Alertas SMByC · rojo=pérdida', color: '#dc2626' },
-      { id: 'sinap',        label: 'Áreas protegidas',    desc: 'Pendiente: RUNAP WFS oficial', color: '#166534', pendiente: 'Datos pendientes: RUNAP WFS (runap.parquesnacionales.gov.co)' },
+      { id: 'runap',        label: 'Áreas protegidas',    desc: '23 áreas RUNAP · Parques Nacionales', color: '#166534' },
     ]
   },
   {
@@ -168,8 +168,10 @@ const temas = [
     descripcion: 'Pobreza, etnias, conflicto y servicios públicos',
     capas: [
       { id: 'nbi',          label: 'Pobreza (NBI)',        desc: 'Necesidades básicas insatisfechas', color: '#f46d43' },
+      { id: 'terridata-full', label: 'NBI TerriData DNP',  desc: '9 municipios · NBI total CNPV 2018 · 30 indicadores', color: '#d73027' },
+      { id: 'sui-servicios', label: 'Cobertura acueducto', desc: 'SUI Superservicios · acueducto/alcantarillado/aseo', color: '#1d91c0' },
       { id: 'uariv',        label: 'Desplazamiento',       desc: 'UARIV · expulsados por municipio', color: '#dc2626' },
-      { id: 'resguardos',   label: 'Resguardos indígenas', desc: 'Pendiente: ANT shapefile oficial', color: '#7c3aed', pendiente: 'Datos pendientes: ANT shapefile oficial resguardos Embera/Tule' },
+      { id: 'resguardos-ant', label: 'Resguardos indígenas', desc: '20 resguardos · ANT oficial Embera/Tule', color: '#7c3aed' },
       { id: 'zomac',        label: 'ZOMAC',               desc: '7 municipios · beneficios tributarios', color: '#ea580c' },
       { id: 'reps',         label: 'Salud (prestadores)',  desc: '339 IPS geocodificadas · REPS', color: '#3B82F6' },
       { id: 'simat',        label: 'Colegios',            desc: '180 establecimientos · SIMAT', color: '#F59E0B' },
@@ -181,6 +183,46 @@ const temas = [
     descripcion: 'Amenazas naturales y vulnerabilidades',
     capas: [
       { id: 'inundacion',   label: 'Zonas inundables',    desc: 'IDEAM TR50 · período retorno 50 años', color: '#0066FF' },
+    ]
+  },
+  {
+    id: 'indicadores-v2', emoji: '🛰️', nombre: 'Indicadores v2',
+    descripcion: 'GHSL · Sentinel-2 NDVI · Luminosidad satelital',
+    capas: [
+      { id: 'enriquecido-atlas-v2',          label: 'Atlas Score v2',        desc: 'Índice compuesto con GHSL + NDVI · 7.028 manzanas', color: '#06b6d4' },
+      { id: 'enriquecido-accesibilidad-v2',  label: 'Accesibilidad v2',      desc: 'Densidad GHSL + distancia a equipamientos', color: '#38bdf8' },
+      { id: 'enriquecido-ndvi',              label: 'Vegetación NDVI',        desc: 'Sentinel-2 · índice verde normalizado 2023', color: '#4ade80' },
+      { id: 'enriquecido-ambiental-v2',      label: 'Ambiental v2',          desc: 'NDVI + cobertura vegetal + riesgo hídrico', color: '#86efac' },
+      { id: 'enriquecido-impermeabilizacion',label: 'Impermeabilización',     desc: 'GHSL · superficie construida por manzana', color: '#7dd3fc' },
+    ]
+  },
+  {
+    id: 'transporte', emoji: '🛣️', nombre: 'Transporte y conectividad',
+    descripcion: 'Red vial, isócronas de tiempo y aislamiento territorial',
+    capas: [
+      { id: 'red-vial',    label: 'Red vial primaria',     desc: '344 seg · trunk/primary/secondary · OSM + INVÍAS', color: '#f97316' },
+      { id: 'red-vial-invias', label: 'Red Vial Nacional INVÍAS', desc: '11 troncales/transversales · OpenData INVÍAS', color: '#dc2626' },
+      { id: 'aislamiento', label: 'Índice aislamiento',    desc: 'Conectividad compuesta por manzana · 4 niveles', color: '#dc2626' },
+    ]
+  },
+  {
+    id: 'conflicto', emoji: '⚡', nombre: 'Conflicto de uso',
+    descripcion: 'Uso real vs vocación SIPRA · tensiones territoriales',
+    capas: [
+      { id: 'conflicto-uso',   label: 'Conflicto de uso suelo',  desc: '4.197 manzanas zona exclusión · 121 fincas conflicto', color: '#dc2626' },
+      { id: 'corpouraba-agua', label: 'Concesiones agua',         desc: '371 concesiones subterráneas · CORPOURABÁ', color: '#3b82f6' },
+    ]
+  },
+  {
+    id: 'ordenamiento', emoji: '📐', nombre: 'Ordenamiento territorial',
+    descripcion: 'Clasificación del suelo, perímetros y zonas funcionales',
+    capas: [
+      { id: 'prioridad-inversion', label: 'Prioridad de inversión', desc: '4 niveles · Crítica→Baja · 7.028 manzanas', color: '#f97316' },
+      { id: 'catastro',            label: 'Catastro urbano',         desc: '5.468 manzanas · predios · GeoAntioquia LADM-COL', color: '#6366f1' },
+      { id: 'clasificacion-suelo', label: 'Clasificación del suelo', desc: '7.028 manzanas CNPV · 6 categorías derivadas', color: '#FF8F00' },
+      { id: 'zonas-funcionales',   label: 'Zonas funcionales',       desc: '9 municipios · clasificación por dimensiones', color: '#f59e0b' },
+      { id: 'osm-landuse',         label: 'Usos del suelo OSM',      desc: '335 polígonos trazados · orchard, residencial, bosque', color: '#7CB342' },
+      { id: 'equipamientos',       label: 'Equipamientos',           desc: '1.117 puntos · salud, educación, culto', color: '#E65C00' },
     ]
   },
 ]
@@ -204,7 +246,7 @@ const conjuntos = [
   {
     id: 'social', emoji: '👥', nombre: 'Gestión social',
     descripcion: 'Pobreza, servicios y grupos étnicos',
-    capas: ['nbi', 'uariv', 'resguardos', 'reps', 'simat']
+    capas: ['nbi', 'uariv', 'resguardos-ant', 'reps', 'simat']
   },
 ]
 
@@ -246,12 +288,13 @@ function resetAll() {
 <style scoped>
 .layer-panel {
   position: absolute;
-  bottom: 40px;
+  bottom: 56px;
   left: calc(var(--atlas-panel-w, 320px) + 12px);
   z-index: 25;
 }
+/* En mobile el MobileSheet incluye la gestión de capas */
 @media (max-width: 639px) {
-  .layer-panel { bottom: calc(var(--sheet-peek,80px) + 8px); left: 8px; }
+  .layer-panel { display: none !important; }
 }
 @media (min-width: 640px) and (max-width: 1023px) {
   .layer-panel { left: calc(260px + 12px); }

@@ -1,8 +1,9 @@
 <template>
   <Transition name="slide-up">
+    <!-- En mobile el MobileSheet muestra el detalle; este panel solo en tablet+ -->
     <div
       v-if="store.manzanaSeleccionada"
-      class="absolute bottom-9 z-20"
+      class="absolute bottom-9 z-20 hidden sm:block"
       :style="{ left: 'calc(var(--atlas-panel-w) + 16px)', right: '16px', maxWidth: '440px' }"
     >
       <div class="bg-white border border-tensor-border rounded-2xl shadow-2xl overflow-hidden">
@@ -63,6 +64,31 @@
           </div>
         </div>
 
+        <!-- Indicadores v2 (GHSL + NDVI) — solo si disponibles -->
+        <div v-if="hasV2" class="px-4 py-2.5 border-t border-tensor-border">
+          <div class="flex items-center gap-1.5 mb-2">
+            <span class="font-mono text-[7px] uppercase tracking-[0.18em] text-cyan-500">Indicadores v2</span>
+            <span class="px-1 py-px rounded font-mono text-[6px] uppercase tracking-[0.1em]
+                         bg-cyan-500/10 text-cyan-400 border border-cyan-500/25">GHSL · NDVI</span>
+          </div>
+          <div class="grid grid-cols-3 gap-x-3 gap-y-1.5">
+            <div v-for="dim in dimensionesV2" :key="dim.key">
+              <div class="flex justify-between items-center mb-0.5">
+                <span class="font-mono text-[7px] text-tensor-muted">{{ dim.shortLabel }}</span>
+                <span class="font-mono text-[9px] font-medium" :style="{ color: dim.color }">
+                  {{ Math.round((+(p[dim.key])||0) * 100) }}
+                </span>
+              </div>
+              <div class="bg-tensor-border rounded-full h-0.5 overflow-hidden">
+                <div
+                  class="h-0.5 rounded-full"
+                  :style="{ width: Math.round((+(p[dim.key])||0)*100)+'%', background: dim.color }"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Footer: Moran I -->
         <div class="px-4 py-2.5 border-t border-tensor-border flex items-center justify-between">
           <div class="flex items-center gap-3">
@@ -95,8 +121,19 @@ import { computed } from 'vue'
 import { useAtlasStore, DIMENSIONES } from '~/stores/atlas'
 
 const store = useAtlasStore()
-const dimensiones = DIMENSIONES.filter(d => d.key !== 'atlas_score')
+const dimensiones = DIMENSIONES.filter(d => d.key !== 'atlas_score' && !d.v2)
 const p = computed(() => store.manzanaSeleccionada || {})
+
+// Indicadores v2 disponibles cuando el feature proviene de atlas_enriquecido
+const hasV2 = computed(() => p.value.atlas_score_v2 != null)
+const dimensionesV2 = [
+  { key: 'atlas_score_v2',        shortLabel: 'Atlas v2',  color: '#06b6d4' },
+  { key: 'score_accesibilidad_v2',shortLabel: 'Acces. v2', color: '#38bdf8' },
+  { key: 'score_ambiental_v2',    shortLabel: 'Ambient. v2', color: '#4ade80' },
+  { key: 'score_ndvi',            shortLabel: 'NDVI',      color: '#86efac' },
+  { key: 'impermeabilizacion',    shortLabel: 'Impermeab.',color: '#7dd3fc' },
+  { key: 'proxy_luminosidad',     shortLabel: 'Luminosidad',color: '#fde68a' },
+]
 
 function scoreColor(v) {
   const n = +(v||0)

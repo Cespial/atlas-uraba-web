@@ -1,0 +1,30 @@
+{
+  "conflictos": [
+    {
+      "tipo": "expansion_urbana_alta_aptitud",
+      "area_ha": 183.3,
+      "descripcion": "Área urbana OSM sobre zona SIPRA de alta aptitud bananera"
+    },
+    {
+      "tipo": "fincas_zona_exclusion",
+      "n_fincas": 121,
+      "area_ha": 3197.5,
+      "descripcion": "Fincas bananeras dentro de zonas de exclusión SIPRA"
+    },
+    {
+      "tipo": "subutilizacion_forestal",
+      "area_ha": 52.6,
+      "descripcion": "Bosques/cobertura vegetal OSM sobre zona SIPRA de alta aptitud (potencial agrícola no explotado)"
+    },
+    {
+      "tipo": "agricola_en_zona_exclusion",
+      "area_ha": 3646.0,
+      "descripcion": "Uso agrícola OSM (huertas/huertos/prados) dentro de zonas de exclusión SIPRA"
+    }
+  ],
+  "distribucion_manzanas": {
+    "zona_exclusion": 4197,
+    "sin_conflicto": 2662,
+    "expansion_urbana": 169
+  }
+}

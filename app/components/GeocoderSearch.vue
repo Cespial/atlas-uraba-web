@@ -130,6 +130,9 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside, true))
 
 @media (max-width: 639px) {
   .geocoder { left: 8px; top: calc(var(--atlas-header-h, 48px) + 8px); }
+  /* Solo mostrar icono en mobile, sin label */
+  .geo-trigger-label { display: none; }
+  .geo-trigger { padding: 7px 8px; }
 }
 @media (min-width: 640px) and (max-width: 1023px) {
   .geocoder { left: calc(260px + 12px); }

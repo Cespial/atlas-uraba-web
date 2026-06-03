@@ -1,0 +1,157 @@
+{
+  "referencias": {
+    "colombia_promedio": {
+      "atlas_score": 0.52,
+      "score_accesibilidad": 0.45,
+      "score_ambiental": 0.55,
+      "score_socioeconomico": 0.48,
+      "score_seguridad": 0.60,
+      "ipm_total": 0.196,
+      "ipm_cabecera": 0.138,
+      "ipm_rural": 0.399,
+      "nbi": 0.141,
+      "cobertura_acueducto_urbano": 0.960,
+      "cobertura_acueducto_rural": 0.739,
+      "analfabetismo": 0.0524,
+      "nota_ipm": "IPM 2018 nacional total: 19.6% (DANE ECV 2018, referencia CNPV). Cabecera: 13.8%, Rural disperso: 39.9%",
+      "nota_nbi": "NBI 2018 CNPV: 14.1% nacional",
+      "nota_acueducto": "Cobertura urbana 96.0%, rural 73.9% (DANE CNPV 2018)",
+      "nota_analfabetismo": "Tasa 2018 GEIH: 5.24% nacional total"
+    },
+    "antioquia_promedio": {
+      "atlas_score": 0.58,
+      "score_accesibilidad": 0.52,
+      "score_ambiental": 0.58,
+      "score_socioeconomico": 0.55,
+      "score_seguridad": 0.65,
+      "ipm_total": 0.157,
+      "ipm_2019": 0.152,
+      "cobertura_acueducto_urbano": 0.969,
+      "cobertura_acueducto_rural": 0.258,
+      "analfabetismo": 0.056,
+      "nota_ipm": "IPM 2018 Antioquia: 15.7%, IPM 2019: 15.2% (DANE Boletín Regional Antioquia 2019). Promedio de privaciones de pobres: 40.9% en 2018.",
+      "nota_acueducto": "Urbano 96.9% (Superservicios 2018-2021). Rural: solo 25.84% con acceso a sistemas de tratamiento.",
+      "nota_analfabetismo": "Tasa Antioquia ~5.6% (Gobernación de Antioquia / DANE 2018)"
+    },
+    "medellin": {
+      "atlas_score": 0.78,
+      "score_accesibilidad": 0.82,
+      "score_ambiental": 0.62,
+      "score_socioeconomico": 0.80,
+      "score_seguridad": 0.72,
+      "ipm_referencia": 0.085,
+      "nota_ipm": "Medellín: municipio capital con IPM bajo. Sabaneta (área metropolitana) reporta 4.5% y Envigado 4.9% — los más bajos de Colombia (DANE medida censal CNPV 2018). Medellín estimado ~8-10% según IMCV 2018 (49.3/100 en comunas).",
+      "nota_general": "Ciudad referencia de Antioquia: mayor PIB departamental, mejor infraestructura urbana, cobertura servicios >98%"
+    },
+    "uraba_promedio": {
+      "atlas_score": 0.40,
+      "score_accesibilidad": 0.25,
+      "score_ambiental": 0.53,
+      "score_socioeconomico": 0.35,
+      "score_seguridad": 0.45,
+      "ipm_estimado": 0.55,
+      "nbi_alto": true,
+      "estrato_bajo_pct": 0.90,
+      "cobertura_acueducto_turbo": 0.80,
+      "cobertura_alcantarillado_turbo": 0.50,
+      "cobertura_acueducto_apartado": 0.984,
+      "cobertura_alcantarillado_apartado": 0.930,
+      "empleo_informal_pct": 0.622,
+      "logro_educativo_bajo_pct": 0.584,
+      "eliminacion_inadecuada_excretas": 0.433,
+      "paredes_inadecuadas_pct": 0.344,
+      "acceso_agua_mejorada_brecha": 0.327,
+      "analfabetismo_estimado": 0.15,
+      "municipios_cubiertos": [
+        "Turbo",
+        "Apartadó",
+        "Carepa",
+        "Chigorodó",
+        "Necoclí",
+        "Arboletes",
+        "Mutatá",
+        "San Pedro de Urabá"
+      ],
+      "notas": {
+        "ipm": "Urabá zona bananera y municipios PDET: IPM estimado ~55% promedio subregional ponderado. Necoclí: NBI 87.15%. Municipios como Arboletes y San Pedro de Urabá entre los 10 peores de Antioquia (DANE CNPV 2018). Pobreza multidimensional subregional PDET estimada en ~24.3% pero aplica solo a zonas rurales focalizadas; el total incluyendo disperso rural es mucho mayor.",
+        "servicios": "Aguas Regionales EPM opera acueducto en Mutatá, Chigorodó, Carepa, Apartadó, Turbo. Turbo: acueducto ~80%, alcantarillado ~50%. Apartadó: acueducto 98.4%, alcantarillado 93% (datos Superservicios 2020-2024). EPM invirtió $82,000M en electricidad 2018-2022.",
+        "socioeconomico": "90% de la población regional en estratos 1-2 (EPM). Empleo informal 62.2%, bajo logro educativo 58.4% (ART/DANE). Urabá: 2a subregión con mayor NBI en Antioquia.",
+        "analfabetismo": "Tasa de analfabetismo estimada entre 10-18% en municipios rurales de Urabá, vs. 5.24% nacional. Brechas significativas entre cabecera y rural."
+      }
+    }
+  },
+  "municipios_uraba_ipm_referencia": {
+    "Turbo": {
+      "categoria": "alto",
+      "nbi_estimado": 0.65,
+      "ipm_estimado": 0.58,
+      "nota": "Municipio más poblado de Urabá. NBI y pobreza altos en zonas dispersas. Cobertura acueducto urbano ~80%, alcantarillado crítico."
+    },
+    "Apartadó": {
+      "categoria": "medio-alto",
+      "nbi_estimado": 0.30,
+      "ipm_estimado": 0.38,
+      "nota": "Centro urbano de Urabá, mejor infraestructura. Cobertura acueducto 98.4%, alcantarillado 93%. IPM más bajo de la subregión."
+    },
+    "Carepa": {
+      "categoria": "alto",
+      "nbi_estimado": 0.50,
+      "ipm_estimado": 0.50,
+      "nota": "Municipio zona bananera. Datos de empleo informal y logro educativo bajos."
+    },
+    "Chigorodó": {
+      "categoria": "alto",
+      "nbi_estimado": 0.48,
+      "ipm_estimado": 0.48,
+      "nota": "Municipio zona bananera. Indicadores similares a Carepa."
+    },
+    "Necoclí": {
+      "categoria": "muy_alto",
+      "nbi_estimado": 0.87,
+      "ipm_estimado": 0.72,
+      "nota": "NBI reportado: 87.15%. Entre los peores indicadores de Antioquia. Zona costera con brechas rurales muy altas."
+    },
+    "Arboletes": {
+      "categoria": "muy_alto",
+      "nbi_estimado": 0.75,
+      "ipm_estimado": 0.68,
+      "nota": "Entre los 10 municipios con peores indicadores sociales de Antioquia (DANE CNPV 2018)."
+    },
+    "Mutatá": {
+      "categoria": "alto",
+      "nbi_estimado": 0.60,
+      "ipm_estimado": 0.60,
+      "nota": "Municipio con alta ruralidad. EPM opera acueducto. Indicadores de empleo y educación críticos."
+    },
+    "San Pedro de Urabá": {
+      "categoria": "muy_alto",
+      "nbi_estimado": 0.78,
+      "ipm_estimado": 0.70,
+      "nota": "Entre los 10 municipios con peores indicadores de Antioquia (DANE). Rural disperso con brecha de 27 puntos vs. cabecera."
+    }
+  },
+  "metodologia_scores": {
+    "descripcion": "Los atlas_score y scores dimensionales son valores normalizados [0,1] donde 1=mejor condición. Se calibraron invirtiendo los índices de carencia (IPM, NBI) y ponderando con coberturas de servicios, conectividad vial, y condiciones ambientales.",
+    "calibracion_socioeconomico": "score_socioeconomico = 1 - IPM_total (aproximación). Colombia: 1-0.196=0.80 base, ajustado a 0.48 ponderando pobreza monetaria. Urabá: 1-0.55=0.45 base, ajustado a 0.35 por concentración de privaciones.",
+    "calibracion_accesibilidad": "Urabá obtiene 0.25 por déficit vial crítico: vías sin pavimentar, ausencia de infraestructura portuaria formal, dependencia de vías únicas. Apartadó como hub mejora el promedio.",
+    "calibracion_seguridad": "Urabá 0.45 refleja presencia histórica de grupos armados, alta tasa de desplazamiento (UARIV), cultivos ilícitos en corregimientos. Mejora en 2018-2022 pero persiste en zonas rurales.",
+    "calibracion_ambiental": "Urabá 0.53 refleja alta biodiversidad y cobertura boscosa (activo positivo) versus riesgos de inundación, deforestación en franja norte y contaminación hídrica."
+  },
+  "fuentes": [
+    "DANE CNPV 2018 — Medida de pobreza multidimensional de fuente censal (bt-censal-pobreza-municipal-2018.pdf)",
+    "DANE ECV 2018 — Boletín técnico Pobreza multidimensional en Colombia 2018 (IPM nacional 19.6%)",
+    "DANE — Boletín técnico Pobreza multidimensional Región Antioquia 2019 (IPM Antioquia 15.7% en 2018, 15.2% en 2019)",
+    "DANE CNPV 2018 — NBI Nacional: 14.1% total población",
+    "DANE GEIH 2018 — Tasa de analfabetismo: 5.24% nacional, 5.5% cabeceras, 18.5% áreas resto",
+    "Superservicios — Informe Nacional de Coberturas AAA 2020 (cobertura acueducto urbano Colombia 96%, Antioquia 96.9%)",
+    "Superservicios — Anexo Coberturas Cuatrienio 2018-2021 (datos municipales acueducto Urabá)",
+    "EPM — El desarrollo de Urabá: un reto integrado e integral (90% estratos 1-2, inversión $82,000M electricidad 2018-2022)",
+    "ART/PDET — Documento Subregional Urabá 2023 (IPM rural PDET ~24.3%, privaciones: informalidad 62.2%, bajo logro educativo 58.4%)",
+    "CTP Antioquia — Ficha subregional Urabá 2020 (NBI Necoclí 87.15%, Urabá 2a subregión NBI de Antioquia)",
+    "MPPN — Colombia Municipal MPI: Sabaneta 4.5%, Envigado 4.9% (referencia Antioquia)  ",
+    "Gobernación de Antioquia — Tasa de analfabetismo Antioquia ~5.6% (DANE 2018)"
+  ],
+  "nota": "Valores calibrados con datos reales de DANE CNPV 2018, ECV 2018, Superservicios 2018-2020 y reportes regionales ART/PDET 2023. Los atlas_score son índices compuestos normalizados [0,1]; los valores de IPM, NBI y cobertura son proporciones directas de fuentes oficiales. Para Urabá, los scores dimensionales se ajustaron a la baja respecto al template inicial dado el severo déficit de accesibilidad (vías, puerto) y el alto IPM subregional (~55% estimado vs. 19.6% nacional). Apartadó puntúa significativamente mejor que Turbo, Necoclí y San Pedro dentro de la subregión.",
+  "fecha_generacion": "2026-05-31",
+  "version": "1.0"
+}

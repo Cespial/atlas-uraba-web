@@ -1,0 +1,235 @@
+{
+  "generated": "2026-06-03",
+  "region": "Urabá, Antioquia, Colombia",
+  "municipio_referencia": "Apartadó (DIVIPOLA 05045)",
+  "sources": {
+    "igac_catastro": {
+      "name": "IGAC — Catastro Multipropósito",
+      "status": "disponible_descarga_manual",
+      "api_rest_available": false,
+      "notes": "El WFS REST y el MapServer de geoportal.igac.gov.co no responden con JSON (retornan HTML de Drupal). Los datos sí existen pero se distribuyen como archivos por departamento en SharePoint público.",
+      "access_method": "descarga_sharepoint_publico",
+      "urls": {
+        "portal_datos_abiertos": "https://geoportal.igac.gov.co/contenido/datos-abiertos-catastro",
+        "sharepoint_departamentos": "https://igacoffice365.sharepoint.com/opendata/Forms/AllItems.aspx?id=%2Fopendata%2Fdata%2FSubdireccion_Catastro%2FDepartamentos&p=true&ga=1",
+        "sharepoint_r1r2": "https://igacoffice365.sharepoint.com/opendata/Forms/AllItems.aspx?id=%2Fopendata%2Fdata%2FSubdireccion_Catastro%2FR1R2&p=true&ga=1",
+        "icde_busqueda_geodatabase": "https://datos.icde.gov.co/search?collection=Dataset&q=CATASTRO&type=file%20geodatabase",
+        "icde_busqueda_wfs": "https://datos.icde.gov.co/search?q=CATASTRO&type=wfs%2Cfeature%20layer%2Cmap%20service%2Cfeature%20service",
+        "metadatos_icde": "https://metadatos.icde.gov.co/geonetwork/srv/spa/catalog.search#/metadata/2660122d-956f-448d-9c64-b2040e459b4a",
+        "manual_usuario": "https://geoportal.igac.gov.co/sites/geoportal.igac.gov.co/files/geoportal/catastro_-_manual_de_usuario_datos_abiertos_version.9.pdf",
+        "diccionario_datos": "https://geoportal.igac.gov.co/sites/geoportal.igac.gov.co/files/geoportal/diccionario_datos_estructura_archivos_secuenciales_catastro_datos_abiertos.pdf",
+        "colombia_en_mapas": "https://www.colombiaenmapas.gov.co/?b=igac&u=0&module=catastral"
+      },
+      "capas_disponibles": [
+        "R CONSTRUCCION (rural)",
+        "R NOMENCLATURA DOMICILIARIA (rural)",
+        "R NOMENCLATURA VIAL (rural)",
+        "R SECTOR (rural)",
+        "R TERRENO (rural)",
+        "R VEREDA (rural)",
+        "U CONSTRUCCION (urbana)",
+        "U MANZANA (urbana)",
+        "U NOMENCLATURA DOMICILIARIA (urbana)",
+        "U NOMENCLATURA VIAL (urbana)",
+        "U PERIMETRO (urbana)",
+        "U SECTOR (urbana)",
+        "U TERRENO (urbana)"
+      ],
+      "formato": "File Geodatabase / Shapefile por departamento",
+      "departamento_file": "Antioquia (05)",
+      "accion_requerida": "Descargar manualmente el ZIP de Antioquia desde el SharePoint de IGAC. El acceso es público (no requiere autenticación). Filtrar por MUNICIPIO = '045' para Apartadó."
+    },
+    "estratificacion_socioeconomica": {
+      "name": "Estratificación Socioeconómica — DANE / alcaldías",
+      "status": "peticion_redactada",
+      "api_rest_available": false,
+      "notes": "Los datasets hkgp-2qp7 y 4ah4-3pix en datos.gov.co retornan 404 (eliminados o movidos). No se encontró ningún dataset activo de estratificación para municipios de Urabá via Socrata API. El geoportal DANE (geoportal.dane.gov.co/geoserver) retorna 404 en WFS. La estratificación la mantienen las alcaldías municipales de forma independiente.",
+      "urls_probadas": {
+        "datos_gov_co_hkgp": "https://www.datos.gov.co/resource/hkgp-2qp7.json — 404 dataset.missing",
+        "datos_gov_co_4ah4": "https://www.datos.gov.co/resource/4ah4-3pix.json — 404 dataset.missing",
+        "dane_geoportal_wfs": "https://geoportal.dane.gov.co/geoserver/wfs — 404 Not Found"
+      },
+      "fuentes_alternativas": {
+        "alcaldia_apartado": "https://www.apartado.gov.co/transparencia/datos-abiertos (sin respuesta / en construcción)",
+        "dane_divipola": "https://geoportal.dane.gov.co/ (portal activo HTTP 200, sin WFS de estratificación expuesto)"
+      },
+      "accion_requerida": "Gestión formal ante la Alcaldía de Apartadó (Secretaría de Planeación) y municipios de Urabá para obtener las resoluciones de estratificación vigentes. Alternativamente: solicitar al DANE vía derecho de petición el shapefile de estratificación para municipios 05045, 05837, 05615, 05347, 05266.",
+      "gestion_formal": {
+        "estado": "peticion_redactada",
+        "tipo": "derecho_de_peticion",
+        "fecha_redaccion": "2026-06-03",
+        "fundamento_legal": [
+          "Art. 23 C.P.",
+          "Ley 1755 de 2015",
+          "Ley 1712 de 2014",
+          "Ley 142 de 1994 arts. 101-104"
+        ],
+        "plazo_respuesta_dias_habiles": 15,
+        "destinatarios": [
+          "Secretaría de Planeación de Apartadó",
+          "Secretaría de Planeación de Turbo",
+          "Secretaría de Planeación de Chigorodó"
+        ],
+        "docx": [
+          "/Users/cristianespinal/atlas-uraba-web/docs/peticiones/01_peticion_estratificacion_apartado.docx",
+          "/Users/cristianespinal/atlas-uraba-web/docs/peticiones/01_peticion_estratificacion_turbo.docx",
+          "/Users/cristianespinal/atlas-uraba-web/docs/peticiones/01_peticion_estratificacion_chigorodo.docx"
+        ],
+        "pendiente": "Completar los placeholders [VERIFICAR] (datos de contacto y direcciones) y radicar."
+      }
+    },
+    "pot_planes_ordenamiento": {
+      "name": "POT / PBOT / EOT — SiPOT MVCT",
+      "status": "peticion_redactada",
+      "api_rest_available": false,
+      "notes": "sipot.minvivienda.gov.co no responde (HTTP 000 — dominio no resuelve o bloqueado). La búsqueda en datos.gov.co encontró 5 datasets POT pero ninguno para municipios de Urabá (solo Barranquilla, Sogamoso, Bello). No existe API pública programática para SiPOT.",
+      "urls_probadas": {
+        "sipot_api": "https://sipot.minvivienda.gov.co/api/municipios?codigo=05045 — HTTP 000 (sin respuesta)",
+        "minvivienda_pot": "https://www.minvivienda.gov.co/sites/default/files/pot — 404"
+      },
+      "datos_pot_disponibles_datos_gov_co": [
+        {
+          "nombre": "Mapa de Barrios de Barranquilla Según el POT",
+          "id": "p57x-7s28",
+          "municipio": "Barranquilla"
+        },
+        {
+          "nombre": "POT - Uso de Suelo Urbano del Municipio de Sogamoso",
+          "id": "f8j7-ruge",
+          "municipio": "Sogamoso"
+        },
+        {
+          "nombre": "División Político Administrativa Barrios Bello Antioquia",
+          "id": "pnhh-ccwd",
+          "municipio": "Bello"
+        },
+        {
+          "nombre": "POT - Uso del Suelo Rural del Municipio de Sogamoso",
+          "id": "jhra-s2wa",
+          "municipio": "Sogamoso"
+        }
+      ],
+      "accion_requerida": "Gestión formal ante las Secretarías de Planeación de cada municipio de Urabá. Los POT de Apartadó, Turbo, Carepa, Chigorodó y Mutatá están en proceso de revisión/formulación según MVCT. Contactar directamente: (1) Secretaría de Planeación Apartadó, (2) Gobernación de Antioquia — Departamento Administrativo de Planeación, (3) MVCT vía derecho de petición.",
+      "gestion_formal": {
+        "estado": "peticion_redactada",
+        "tipo": "derecho_de_peticion",
+        "fecha_redaccion": "2026-06-03",
+        "fundamento_legal": [
+          "Art. 23 C.P.",
+          "Ley 1755 de 2015",
+          "Ley 1712 de 2014",
+          "Ley 388 de 1997",
+          "Decreto 1077 de 2015"
+        ],
+        "plazo_respuesta_dias_habiles": 15,
+        "destinatarios": [
+          "Secretaría de Planeación de Apartadó",
+          "Secretaría de Planeación de Turbo",
+          "Secretaría de Planeación de Chigorodó"
+        ],
+        "docx": [
+          "/Users/cristianespinal/atlas-uraba-web/docs/peticiones/02_peticion_pot_usosuelo_apartado.docx",
+          "/Users/cristianespinal/atlas-uraba-web/docs/peticiones/02_peticion_pot_usosuelo_turbo.docx",
+          "/Users/cristianespinal/atlas-uraba-web/docs/peticiones/02_peticion_pot_usosuelo_chigorodo.docx"
+        ],
+        "pendiente": "Completar los placeholders [VERIFICAR] (datos de contacto y direcciones) y radicar."
+      }
+    },
+    "corpouraba_concesiones_agua": {
+      "name": "CORPOURABA — Concesiones de Agua Subterránea",
+      "status": "disponible_api_activa",
+      "api_rest_available": true,
+      "notes": "Dataset activo en datos.gov.co via Socrata API. 371 registros con coordenadas X/Y para el Eje Bananero y municipios de Urabá. Incluye campos de expediente, tipo de concesión, caudal, uso (agrícola, riego), fechas de acto y vencimiento.",
+      "urls": {
+        "dataset_principal": "https://www.datos.gov.co/resource/bi4c-myu3.json",
+        "vista_agricola": "https://www.datos.gov.co/resource/cc9q-vcwz.json",
+        "portal": "https://www.datos.gov.co/browse?q=CORPOURABA"
+      },
+      "endpoint_query_ejemplo": "https://www.datos.gov.co/resource/bi4c-myu3.json?$limit=371&$where=uso='Agrícola'",
+      "total_registros": 371,
+      "campos": [
+        "fid",
+        "expediente",
+        "id_captaci",
+        "profundida",
+        "tipo_conce",
+        "uso",
+        "fecha_acto",
+        "fecha_soli",
+        "fecha_fina",
+        "caudal_oto",
+        "regimen_di",
+        "regimen_se",
+        "dias_seman",
+        "semanas_an",
+        "m3_a_o",
+        "m3_dia",
+        "nombre_cap",
+        "x",
+        "y"
+      ],
+      "ejemplo_registro": {
+        "expediente": "200-16-51-01-0001-2016",
+        "tipo_conce": "Subterranea",
+        "uso": "Riego",
+        "nombre_cap": "Aguas de Uraba Turbo Pozo 4 Bocatoma",
+        "x": "-76.702528",
+        "y": "8.127194",
+        "m3_a_o": "135475.2"
+      }
+    },
+    "ica_predios_foc_tr4": {
+      "name": "ICA Urabá — Predios exportadores y vigilancia Foc R4T/TR4",
+      "status": "peticion_redactada",
+      "api_rest_available": false,
+      "notes": "Información de registro de predios productores/exportadores de banano-plátano y vigilancia fitosanitaria del Foc R4T (TR4) en jurisdicción de la seccional Urabá. Se gestiona por derecho de petición ante el ICA.",
+      "gestion_formal": {
+        "estado": "peticion_redactada",
+        "tipo": "derecho_de_peticion",
+        "fecha_redaccion": "2026-06-03",
+        "fundamento_legal": [
+          "Art. 23 C.P.",
+          "Ley 1755 de 2015",
+          "Ley 1712 de 2014",
+          "Ley 101 de 1993",
+          "Decreto 4765 de 2008",
+          "Resolución ICA 09444 de 2019",
+          "Ley 1581 de 2012 (anonimización)"
+        ],
+        "plazo_respuesta_dias_habiles": 15,
+        "destinatarios": [
+          "ICA — Seccional Urabá — Dirección Técnica de Epidemiología y Vigilancia Fitosanitaria"
+        ],
+        "docx": [
+          "/Users/cristianespinal/atlas-uraba-web/docs/peticiones/03_peticion_ica_predios_foc_tr4.docx"
+        ],
+        "pendiente": "Completar los placeholders [VERIFICAR] (datos de contacto, dirección sede ICA Urabá) y radicar."
+      }
+    }
+  },
+  "resumen_ejecutivo": {
+    "disponible_inmediatamente": [
+      "CORPOURABA concesiones agua subterránea — API Socrata activa, 371 registros geolocalizados"
+    ],
+    "disponible_descarga_manual": [
+      "IGAC Catastro Multipropósito — SharePoint público IGAC, ZIP por departamento (Antioquia). Requiere descarga manual y filtrado por municipio 05045-05837-etc."
+    ],
+    "requiere_gestion_formal": [
+      "Estratificación socioeconómica — Solicitar a alcaldías o DANE vía derecho de petición",
+      "POT/PBOT/EOT municipios Urabá — Solicitar a Secretarías de Planeación municipales y Gobernación de Antioquia"
+    ],
+    "no_disponibles": [
+      "IGAC WFS/REST API directa — Geoportal no expone endpoints REST funcionales en JSON",
+      "SiPOT MVCT API — dominio sipot.minvivienda.gov.co sin respuesta",
+      "GeoAntioquia/cartografia.antioquia.gov.co — sin respuesta",
+      "DANE Geoportal WFS estratificación — 404"
+    ]
+  },
+  "fase3_gestion_formal": {
+    "generado": "2026-06-03",
+    "directorio_peticiones": "/Users/cristianespinal/atlas-uraba-web/docs/peticiones/",
+    "script_generador": "/Users/cristianespinal/atlas-uraba-web/docs/peticiones/generar_peticiones.py",
+    "total_oficios": 7,
+    "herramienta": "python-docx"
+  }
+}

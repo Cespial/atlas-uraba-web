@@ -38,7 +38,7 @@
          SIDEBAR — oculto en mobile, colapsable en tablet
     ═══════════════════════════════════════════ -->
     <Transition name="slide-left">
-      <SidePanel v-show="sidebarVisible" />
+      <SidePanel v-show="sidebarVisible" @open-ficha="fichaOpen = true" />
     </Transition>
 
     <!-- ═══════════════════════════════════════════
@@ -58,8 +58,8 @@
          CONTROLES DEL MAPA
     ═══════════════════════════════════════════ -->
     <ClientOnly>
-      <!-- Leyenda Jenks/LISA -->
-      <MapLegend />
+      <!-- Leyenda dinámica: Índice o Prioridad según capa activa -->
+      <MapLegend :active-layers="activeLayers" />
 
       <!-- Panel de capas con temas, conjuntos rápidos y accordion -->
       <LayerPanel
@@ -75,6 +75,8 @@
 
       <!-- Descarga CSV filtrado -->
       <DownloadButton />
+
+      <!-- Ficha Municipal — activable desde el panel Diagnóstico -->
     </ClientOnly>
 
     <!-- Geocoder de búsqueda -->
@@ -96,14 +98,22 @@
 
     <!-- ═══════════════════════════════════════════
          BOTTOM SHEET — solo mobile
+         Incluye Índice + Capas + Filtros + Manzana
     ═══════════════════════════════════════════ -->
     <ClientOnly>
       <MobileSheet
         ref="mobileSheetRef"
+        :active-layers="activeLayers"
         @open="sheetOpen = true"
         @close="sheetOpen = false"
+        @toggle-layer="onToggleLayer"
       />
     </ClientOnly>
+
+    <!-- ═══════════════════════════════════════════
+         FICHA MUNICIPAL — overlay activable
+    ═══════════════════════════════════════════ -->
+    <FichaMunicipal :visible="fichaOpen" @close="fichaOpen = false" />
 
     <!-- ═══════════════════════════════════════════
          FOOTER — banda de fuentes
@@ -129,6 +139,7 @@ const isMobile       = ref(false)
 const isTablet       = ref(false)
 const mobileSheetRef = ref(null)
 const atlasMapRef    = ref(null)
+const fichaOpen      = ref(false)
 
 // ─── Estado del mapa ─────────────────────────────────────────────────────────
 const mapHandles   = ref(null)      // { map, toggleLayer, toggleSatellite }
@@ -273,4 +284,6 @@ onUnmounted(() => {
 .slide-left-leave-to {
   transform: translateX(-100%);
 }
+
+/* Ficha municipal se activa desde el tab Diagnóstico en el SidePanel */
 </style>

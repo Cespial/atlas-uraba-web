@@ -1,5 +1,5 @@
 import { ref, watch, onUnmounted } from 'vue'
-import { useAtlasStore } from '~/stores/atlas'
+import { useAtlasStore, MUNICIPIOS } from '~/stores/atlas'
 
 // Estilos de mapa disponibles
 // Modo 0 — Dark vectorial (OpenFreeMap)
@@ -98,6 +98,11 @@ export function useAtlasMap(mapRef) {
   async function initMap() {
     _maplibregl = (await import('maplibre-gl')).default
 
+    // Registrar protocolo PMTiles para vector tiles locales
+    const { Protocol } = await import('pmtiles')
+    const protocol = new Protocol()
+    _maplibregl.addProtocol('pmtiles', protocol.tile.bind(protocol))
+
     // ── Flyover de entrada: Colombia → Urabá (solo la primera vez por sesión) ──
     const firstVisit = !sessionStorage.getItem('atlas-visited')
     const startCenter = firstVisit ? [-74.0, 4.5] : [-76.65, 7.9]
@@ -143,13 +148,13 @@ export function useAtlasMap(mapRef) {
       loadAtlasLayer()
     })
 
-    // Fallback de 8 segundos como garantía mínima
+    // Fallback de 4 segundos como garantía mínima
     setTimeout(() => {
       if (!ready.value) {
         ready.value = true
         store.setLoaded()
       }
-    }, 8000)
+    }, 4000)
 
     map.value.on('error', (e) => {
       if (e.error?.message) console.warn('[Atlas]', e.error.message)
@@ -158,12 +163,19 @@ export function useAtlasMap(mapRef) {
 
   // ─── Carga de capas de datos ────────────────────────────────────────────────
   function loadAtlasLayer() {
-    // Source principal de manzanas
-    map.value.addSource('atlas', {
-      type:      'geojson',
-      data:      '/data/atlas.geojson',
-      promoteId: '_fid',
-    })
+    // Source principal de manzanas — PMTiles (Z9-Z14, 2.5MB) con fallback GeoJSON
+    try {
+      map.value.addSource('atlas', {
+        type:      'vector',
+        url:       'pmtiles:///data/atlas.pmtiles',
+        promoteId: '_fid',
+        minzoom:   9,
+        maxzoom:   14,
+      })
+    } catch (e) {
+      console.warn('[Atlas] PMTiles fallback a GeoJSON:', e.message)
+      map.value.addSource('atlas', { type: 'geojson', data: '/data/atlas.geojson', promoteId: '_fid' })
+    }
 
     // ── Mejora 2 & 7: SOURCE DE MUNICIPIOS con promoteId para feature-state ──
     if (!map.value.getSource('municipios-score')) {
@@ -302,9 +314,10 @@ export function useAtlasMap(mapRef) {
 
     // ── Mejora 2 & 3: MANZANAS FILL con granularidad adaptiva y transición suave ──
     map.value.addLayer({
-      id:      'manzanas-fill',
-      type:    'fill',
-      source:  'atlas',
+      id:           'manzanas-fill',
+      type:         'fill',
+      source:       'atlas',
+      'source-layer': 'manzanas',
       minzoom: 10,
       paint: {
         'fill-color': buildColorExpr(store.dimension),
@@ -320,9 +333,10 @@ export function useAtlasMap(mapRef) {
     })
 
     map.value.addLayer({
-      id:     'manzanas-stroke',
-      type:   'line',
-      source: 'atlas',
+      id:             'manzanas-stroke',
+      type:           'line',
+      source:         'atlas',
+      'source-layer': 'manzanas',
       paint: {
         'line-color': [
           'case',
@@ -341,9 +355,10 @@ export function useAtlasMap(mapRef) {
 
     // ── Mejora 6: CAPA 3D EXTRUSIÓN ──────────────────────────────────────────
     map.value.addLayer({
-      id:      'manzanas-3d',
-      type:    'fill-extrusion',
-      source:  'atlas',
+      id:             'manzanas-3d',
+      type:           'fill-extrusion',
+      source:         'atlas',
+      'source-layer': 'manzanas',
       minzoom: 12,
       layout:  { visibility: 'none' },
       paint: {
@@ -732,6 +747,143 @@ export function useAtlasMap(mapRef) {
       paint: { 'line-color': '#6d28d9', 'line-width': 1.5 },
     })
 
+
+    // ── Clasificación del suelo ───────────────────────────────────────────
+    try {
+      map.value.addSource('clasificacion-suelo', { type: 'geojson', data: '/data/clasificacion_suelo.geojson' })
+      map.value.addLayer({
+        id: 'clasificacion-suelo-fill', type: 'fill', source: 'clasificacion-suelo',
+        layout: { visibility: 'none' },
+        paint: {
+          'fill-color': [
+            'match', ['get', 'clasificacion_suelo'],
+            'Urbano consolidado',    '#C62828',
+            'Urbano en desarrollo',  '#FF8F00',
+            'Periurbano/Expansión',  '#FDD835',
+            'Rural productivo',      '#795548',
+            'Riesgo/Restricción',    '#EF5350',
+            'Protección ambiental',  '#2E7D32',
+            '#888888',
+          ],
+          'fill-opacity': 0.65,
+        },
+      })
+      map.value.addLayer({
+        id: 'clasificacion-suelo-outline', type: 'line', source: 'clasificacion-suelo',
+        layout: { visibility: 'none' },
+        paint: { 'line-color': 'rgba(255,255,255,0.12)', 'line-width': 0.4 },
+      })
+    } catch (e) { console.warn('[Atlas] clasificacion-suelo:', e.message) }
+
+    // ── Prioridad de inversión ────────────────────────────────────────────
+    try {
+      map.value.addSource('prioridad-inversion', {
+        type: 'geojson',
+        data: '/data/prioridad_inversion.geojson',
+        promoteId: '_fid',
+      })
+      map.value.addLayer({
+        id:      'prioridad-fill',
+        type:    'fill',
+        source:  'prioridad-inversion',
+        minzoom: 10,
+        layout:  { visibility: 'none' },
+        paint: {
+          'fill-color': [
+            'match', ['get', 'prioridad'],
+            'Crítica', '#dc2626',
+            'Alta',    '#f97316',
+            'Media',   '#eab308',
+            'Baja',    '#22c55e',
+            '#94a3b8',
+          ],
+          'fill-opacity': 0.75,
+        },
+      })
+      map.value.addLayer({
+        id:      'prioridad-outline',
+        type:    'line',
+        source:  'prioridad-inversion',
+        minzoom: 10,
+        layout:  { visibility: 'none' },
+        paint:   { 'line-color': 'rgba(0,0,0,0.2)', 'line-width': 0.4 },
+      })
+    } catch (e) { console.warn('[Atlas] prioridad-inversion:', e.message) }
+
+    // ── Zonas funcionales del territorio ─────────────────────────────────
+    try {
+      map.value.addSource('zonas-funcionales', { type: 'geojson', data: '/data/zonas_funcionales.geojson' })
+      map.value.addLayer({
+        id: 'zonas-funcionales-fill', type: 'fill', source: 'zonas-funcionales',
+        layout: { visibility: 'none' },
+        paint: {
+          'fill-color': ['coalesce', ['get', 'color'], '#f59e0b'],
+          'fill-opacity': 0.45,
+        },
+      })
+      map.value.addLayer({
+        id: 'zonas-funcionales-outline', type: 'line', source: 'zonas-funcionales',
+        layout: { visibility: 'none' },
+        paint: { 'line-color': ['coalesce', ['get', 'color'], '#f59e0b'], 'line-width': 1.5 },
+      })
+    } catch (e) { console.warn('[Atlas] zonas-funcionales:', e.message) }
+
+    // ── Usos del suelo OSM ────────────────────────────────────────────────
+    try {
+      map.value.addSource('osm-landuse', { type: 'geojson', data: '/data/osm_landuse.geojson' })
+      map.value.addLayer({
+        id: 'osm-landuse-fill', type: 'fill', source: 'osm-landuse',
+        layout: { visibility: 'none' },
+        paint: {
+          'fill-color': [
+            'match', ['get', 'uso_osm'],
+            'orchard',           '#7CB342',
+            'residential',       '#90A4AE',
+            'farmland',          '#C8E6C9',
+            'cemetery',          '#78909C',
+            'forest',            '#2E7D32',
+            'military',          '#B71C1C',
+            'industrial',        '#546E7A',
+            'recreation_ground', '#26A69A',
+            'meadow',            '#AED581',
+            'commercial',        '#FFA726',
+            '#8fbc8f',
+          ],
+          'fill-opacity': 0.50,
+        },
+      })
+      map.value.addLayer({
+        id: 'osm-landuse-outline', type: 'line', source: 'osm-landuse',
+        layout: { visibility: 'none' },
+        paint: { 'line-color': 'rgba(255,255,255,0.2)', 'line-width': 0.5 },
+      })
+    } catch (e) { console.warn('[Atlas] osm-landuse:', e.message) }
+
+    // ── Equipamientos colectivos (consolidado: OSM + REPS + SIMAT) ────────
+    try {
+      map.value.addSource('equipamientos', { type: 'geojson', data: '/data/equipamientos.geojson' })
+      map.value.addLayer({
+        id: 'equipamientos-points', type: 'circle', source: 'equipamientos',
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-radius': ['interpolate', ['linear'], ['zoom'], 8, 3, 12, 5, 15, 7],
+          'circle-color': [
+            'match', ['get', 'tipo_equipamiento'],
+            'Educacion', '#F59E0B',
+            'Salud',     '#3B82F6',
+            'Culto',     '#A855F7',
+            'Cultura',   '#EC4899',
+            'Seguridad', '#EF4444',
+            '#E65C00',
+          ],
+          'circle-opacity': 0.85,
+          'circle-stroke-width': 1,
+          'circle-stroke-color': 'rgba(255,255,255,0.4)',
+        },
+      })
+    } catch (e) { console.warn('[Atlas] equipamientos:', e.message) }
+
+
     // ── ZOMAC ─────────────────────────────────────────────────────────────
     map.value.addSource('zomac', { type: 'geojson', data: '/data/zomac_uraba.geojson' })
     map.value.addLayer({
@@ -748,18 +900,319 @@ export function useAtlasMap(mapRef) {
       paint: { 'line-color': '#ea580c', 'line-width': 1.2, 'line-dasharray': [4,2] },
     })
 
+    // ── Red vial primaria/secundaria ─────────────────────────────────────
+    try {
+      map.value.addSource('red-vial', { type: 'geojson', data: '/data/red_vial_primaria.geojson' })
+      map.value.addLayer({
+        id: 'red-vial-line', type: 'line', source: 'red-vial',
+        layout: { visibility: 'none', 'line-cap': 'round', 'line-join': 'round' },
+        paint: {
+          'line-color': ['match', ['get', 'highway'],
+            'trunk', '#dc2626', 'primary', '#f97316', 'secondary', '#eab308', '#94a3b8'],
+          'line-width': ['match', ['get', 'highway'],
+            'trunk', 3, 'primary', 2.5, 'secondary', 1.8, 1.2],
+          'line-opacity': 0.85,
+        },
+      })
+    } catch (e) { console.warn('[Atlas] red-vial:', e.message) }
+
+    // ── Concesiones de agua CORPOURABÁ ────────────────────────────────────
+    try {
+      map.value.addSource('corpouraba-agua', { type: 'geojson', data: '/data/corpouraba_agua.geojson' })
+      map.value.addLayer({
+        id: 'corpouraba-puntos', type: 'circle', source: 'corpouraba-agua',
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-radius': ['interpolate', ['linear'], ['zoom'], 9, 2, 12, 5, 15, 8],
+          'circle-color': '#3b82f6',
+          'circle-stroke-color': '#1d4ed8',
+          'circle-stroke-width': 0.8,
+          'circle-opacity': ['interpolate', ['linear'], ['zoom'], 9, 0.5, 12, 0.85],
+        },
+      })
+    } catch (e) { console.warn('[Atlas] corpouraba-agua:', e.message) }
+
+    // ── Índice de aislamiento por manzana ─────────────────────────────────
+    try {
+      map.value.addSource('aislamiento', { type: 'geojson', data: '/data/aislamiento_manzanas.geojson', promoteId: 'cod_manzana' })
+      map.value.addLayer({
+        id: 'aislamiento-fill', type: 'fill', source: 'aislamiento',
+        minzoom: 9, layout: { visibility: 'none' },
+        paint: {
+          'fill-color': ['match', ['get', 'categoria_aislamiento'],
+            'bien_conectado',    '#1a9850',
+            'conectividad_media','#a6d96a',
+            'semi_aislado',      '#fdae61',
+            'aislado_critico',   '#dc2626',
+            '#94a3b8'],
+          'fill-opacity': 0.75,
+        },
+      })
+    } catch (e) { console.warn('[Atlas] aislamiento:', e.message) }
+
+    // ── Conflicto de uso del suelo ────────────────────────────────────────
+    try {
+      map.value.addSource('conflicto-uso', { type: 'geojson', data: '/data/conflicto_uso_manzanas.geojson', promoteId: 'cod_manzana' })
+      map.value.addLayer({
+        id: 'conflicto-fill', type: 'fill', source: 'conflicto-uso',
+        minzoom: 9, layout: { visibility: 'none' },
+        paint: {
+          'fill-color': ['match', ['get', 'conflicto_uso'],
+            'zona_exclusion',    'rgba(220,38,38,0.65)',
+            'expansion_urbana',  'rgba(249,115,22,0.65)',
+            'rgba(0,0,0,0)'],
+          'fill-opacity': 1,
+        },
+      })
+      map.value.addLayer({
+        id: 'conflicto-outline', type: 'line', source: 'conflicto-uso',
+        minzoom: 11, layout: { visibility: 'none' },
+        paint: {
+          'line-color': ['match', ['get', 'conflicto_uso'],
+            'zona_exclusion', '#dc2626', 'expansion_urbana', '#f97316', 'rgba(0,0,0,0)'],
+          'line-width': 0.6,
+        },
+      })
+    } catch (e) { console.warn('[Atlas] conflicto-uso:', e.message) }
+
+    // ── Indicadores v2: Atlas Enriquecido (GHSL + NDVI + Luminosidad) ─────
+    // GeoJSON con campos: atlas_score_v2, score_accesibilidad_v2, score_ambiental_v2,
+    // score_ndvi, proxy_luminosidad, impermeabilizacion
+    try {
+      map.value.addSource('atlas-enriquecido', {
+        type:      'geojson',
+        data:      '/data/atlas_enriquecido.geojson',
+        promoteId: '_fid',
+      })
+
+      // Capa: Índice Atlas v2 (choropleth unificado)
+      map.value.addLayer({
+        id:      'enriquecido-atlas-v2',
+        type:    'fill',
+        source:  'atlas-enriquecido',
+        minzoom: 10,
+        layout:  { visibility: 'none' },
+        paint: {
+          'fill-color': buildColorExpr('atlas_score_v2'),
+          'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 0, 11, 0.55, 12, 0.82],
+          'fill-color-transition': { duration: 500 },
+        },
+      })
+
+      // Capa: Accesibilidad v2 (GHSL — densidad + equipamientos ponderados por distancia)
+      map.value.addLayer({
+        id:      'enriquecido-accesibilidad-v2',
+        type:    'fill',
+        source:  'atlas-enriquecido',
+        minzoom: 10,
+        layout:  { visibility: 'none' },
+        paint: {
+          'fill-color': buildColorExpr('score_accesibilidad_v2'),
+          'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 0, 11, 0.55, 12, 0.82],
+          'fill-color-transition': { duration: 500 },
+        },
+      })
+
+      // Capa: Vegetación NDVI (índice de vegetación normalizado — Sentinel-2)
+      map.value.addLayer({
+        id:      'enriquecido-ndvi',
+        type:    'fill',
+        source:  'atlas-enriquecido',
+        minzoom: 10,
+        layout:  { visibility: 'none' },
+        paint: {
+          'fill-color': [
+            'interpolate', ['linear'],
+            ['to-number', ['get', 'score_ndvi'], 0],
+            0.00, '#7f1d1d',
+            0.20, '#dc2626',
+            0.35, '#fbbf24',
+            0.50, '#86efac',
+            0.70, '#22c55e',
+            0.85, '#166534',
+            1.00, '#052e16',
+          ],
+          'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 0, 11, 0.6, 12, 0.85],
+          'fill-color-transition': { duration: 500 },
+        },
+      })
+
+      // Capa: Impermeabilización (superficie construida GHSL)
+      map.value.addLayer({
+        id:      'enriquecido-impermeabilizacion',
+        type:    'fill',
+        source:  'atlas-enriquecido',
+        minzoom: 10,
+        layout:  { visibility: 'none' },
+        paint: {
+          'fill-color': [
+            'interpolate', ['linear'],
+            ['to-number', ['get', 'impermeabilizacion'], 0],
+            0.00, '#f0f9ff',
+            0.20, '#bae6fd',
+            0.40, '#7dd3fc',
+            0.60, '#0ea5e9',
+            0.80, '#0369a1',
+            1.00, '#0c4a6e',
+          ],
+          'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 0, 11, 0.6, 12, 0.85],
+          'fill-color-transition': { duration: 500 },
+        },
+      })
+
+      // Capa: Ambiental v2
+      map.value.addLayer({
+        id:      'enriquecido-ambiental-v2',
+        type:    'fill',
+        source:  'atlas-enriquecido',
+        minzoom: 10,
+        layout:  { visibility: 'none' },
+        paint: {
+          'fill-color': buildColorExpr('score_ambiental_v2'),
+          'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 0, 11, 0.55, 12, 0.82],
+          'fill-color-transition': { duration: 500 },
+        },
+      })
+
+    } catch (e) { console.warn('[Atlas] atlas-enriquecido:', e.message) }
+
+    // ── Catastro IGAC/GeoAntioquia: 5.468 manzanas urbanas reales ─────────
+    try {
+      map.value.addSource('catastro', { type: 'geojson', data: '/data/catastro_igac_uraba.geojson' })
+      map.value.addLayer({
+        id: 'catastro-fill', type: 'fill', source: 'catastro',
+        minzoom: 10, layout: { visibility: 'none' },
+        paint: {
+          'fill-color': ['interpolate', ['linear'], ['to-number', ['get', 'num_predios'], 0],
+            0, '#1e1b4b', 20, '#4338ca', 60, '#6366f1', 120, '#a5b4fc', 250, '#e0e7ff'],
+          'fill-opacity': 0.75,
+        },
+      })
+      map.value.addLayer({
+        id: 'catastro-outline', type: 'line', source: 'catastro',
+        minzoom: 11, layout: { visibility: 'none' },
+        paint: { 'line-color': 'rgba(255,255,255,0.2)', 'line-width': 0.4 },
+      })
+    } catch (e) { console.warn('[Atlas] catastro:', e.message) }
+
+    // ── Red Vial Nacional INVÍAS (líneas reales OpenData) ─────────────────
+    try {
+      map.value.addSource('red-vial-invias', { type: 'geojson', data: '/data/red_vial_invias.geojson' })
+      map.value.addLayer({
+        id: 'red-vial-invias-line', type: 'line', source: 'red-vial-invias',
+        layout: { visibility: 'none', 'line-cap': 'round', 'line-join': 'round' },
+        paint: {
+          'line-color': ['match', ['get', 'highway'],
+            'primary', '#dc2626', 'secondary', '#f97316', 'tertiary', '#eab308', '#94a3b8'],
+          'line-width': ['interpolate', ['linear'], ['zoom'], 8,
+            ['match', ['get', 'highway'], 'primary', 3, 'secondary', 2.2, 1.4],
+            14,
+            ['match', ['get', 'highway'], 'primary', 5, 'secondary', 4, 3]],
+          'line-opacity': 0.9,
+        },
+      })
+    } catch (e) { console.warn('[Atlas] red-vial-invias:', e.message) }
+
+    // ── SUI Superservicios: cobertura acueducto por municipio ─────────────
+    try {
+      map.value.addSource('sui-servicios', { type: 'geojson', data: '/data/sui_servicios.geojson' })
+      map.value.addLayer({
+        id: 'sui-servicios-fill', type: 'fill', source: 'sui-servicios',
+        layout: { visibility: 'none' },
+        paint: {
+          'fill-color': ['interpolate', ['linear'], ['to-number', ['get', 'pct_acueducto'], 0],
+            0, '#7f1d1d', 40, '#dc2626', 60, '#f59e0b', 80, '#a8ddb5', 100, '#1d91c0'],
+          'fill-opacity': 0.8,
+        },
+      })
+      map.value.addLayer({
+        id: 'sui-servicios-outline', type: 'line', source: 'sui-servicios',
+        layout: { visibility: 'none' },
+        paint: { 'line-color': 'rgba(255,255,255,0.4)', 'line-width': 1.2 },
+      })
+    } catch (e) { console.warn('[Atlas] sui-servicios:', e.message) }
+
+    // ── TerriData DNP completo: NBI por municipio (30 indicadores) ────────
+    try {
+      map.value.addSource('terridata-full', { type: 'geojson', data: '/data/terridata_full.geojson' })
+      map.value.addLayer({
+        id: 'terridata-full-fill', type: 'fill', source: 'terridata-full',
+        layout: { visibility: 'none' },
+        paint: {
+          'fill-color': ['interpolate', ['linear'], ['to-number', ['get', 'nbi_total'], 0],
+            10, '#1a9850', 25, '#a6d96a', 40, '#fdae61', 55, '#f46d43', 70, '#d73027'],
+          'fill-opacity': 0.8,
+        },
+      })
+      map.value.addLayer({
+        id: 'terridata-full-outline', type: 'line', source: 'terridata-full',
+        layout: { visibility: 'none' },
+        paint: { 'line-color': 'rgba(255,255,255,0.4)', 'line-width': 1.2 },
+      })
+    } catch (e) { console.warn('[Atlas] terridata-full:', e.message) }
+
+    // ── Resguardos indígenas ANT (oficial, reemplaza OSM) ─────────────────
+    try {
+      map.value.addSource('resguardos-ant', { type: 'geojson', data: '/data/resguardos_ant.geojson' })
+      map.value.addLayer({
+        id: 'resguardos-ant-fill', type: 'fill', source: 'resguardos-ant',
+        layout: { visibility: 'none' },
+        paint: { 'fill-color': '#7c3aed', 'fill-opacity': 0.35 },
+      })
+      map.value.addLayer({
+        id: 'resguardos-ant-outline', type: 'line', source: 'resguardos-ant',
+        layout: { visibility: 'none' },
+        paint: { 'line-color': '#6d28d9', 'line-width': 1.5 },
+      })
+    } catch (e) { console.warn('[Atlas] resguardos-ant:', e.message) }
+
+    // ── RUNAP: áreas protegidas (oficial Parques Nacionales) ──────────────
+    try {
+      map.value.addSource('runap', { type: 'geojson', data: '/data/runap_areas.geojson' })
+      map.value.addLayer({
+        id: 'runap-fill', type: 'fill', source: 'runap',
+        layout: { visibility: 'none' },
+        paint: { 'fill-color': '#166534', 'fill-opacity': 0.4 },
+      })
+      map.value.addLayer({
+        id: 'runap-outline', type: 'line', source: 'runap',
+        layout: { visibility: 'none' },
+        paint: { 'line-color': '#15803d', 'line-width': 1.5, 'line-dasharray': [5, 2] },
+      })
+    } catch (e) { console.warn('[Atlas] runap:', e.message) }
+
     setupInteraction(_maplibregl)
 
-    // Stats cuando el GeoJSON cargue
-    map.value.on('sourcedata', (e) => {
-      // Calcular stats cuando el atlas GeoJSON carga
-      if (e.sourceId === 'atlas' && e.isSourceLoaded && map.value.isStyleLoaded()) {
-        requestAnimationFrame(() => {
-          const features = map.value.querySourceFeatures('atlas')
-          if (features.length > 0) computeStatsFromFeatures(features)
+    // Cargar stats pre-computados desde JSON (PMTiles no soporta querySourceFeatures completo)
+    fetch('/data/atlas_stats.json')
+      .then(r => r.json())
+      .then(statsJson => {
+        // Normalizar claves: JSON usa MAYÚSCULAS, store usa "Apartadó" etc.
+        // Crear índice UPPERCASE → valor, luego mapear a nombres del store
+        const upperIndex = {}
+        Object.entries(statsJson).forEach(([k, v]) => { upperIndex[k.toUpperCase()] = v })
+        const normalized = { Todos: statsJson.Todos }
+        MUNICIPIOS?.forEach(m => {
+          const hit = upperIndex[m.nombre.toUpperCase()]
+          if (hit) normalized[m.nombre] = hit
         })
-      }
-      // Aplicar feature-state a municipios cuando ese source carga
+        // Fallback: si MUNICIPIOS no está expuesto, usar claves directamente
+        const final = Object.keys(normalized).length > 1 ? normalized : statsJson
+        store.setStats(final)
+        requestAnimationFrame(() => updateMunicipioFeatureStates())
+      })
+      .catch(e => console.warn('[Atlas] stats fallback querySource:', e.message))
+
+    // Cargar stats v2 (NDVI, luminosidad, GHSL) y fusionar en el store
+    fetch('/data/atlas_stats_v2.json')
+      .then(r => r.json())
+      .then(statsV2 => {
+        store.setStatsV2(statsV2)
+      })
+      .catch(e => console.warn('[Atlas] stats_v2 load error:', e.message))
+
+    // Aplicar feature-state a municipios cuando ese source carga
+    map.value.on('sourcedata', (e) => {
       if (e.sourceId === 'municipios-score' && e.isSourceLoaded) {
         requestAnimationFrame(() => updateMunicipioFeatureStates())
       }
@@ -804,6 +1257,28 @@ export function useAtlasMap(mapRef) {
       waterways:    ['waterways-line'],
       roads:        ['roads-line'],
       '3d':         ['manzanas-3d'],
+      'clasificacion-suelo':  ['clasificacion-suelo-fill', 'clasificacion-suelo-outline'],
+      'prioridad-inversion':  ['prioridad-fill', 'prioridad-outline'],
+      'red-vial':             ['red-vial-line'],
+      'corpouraba-agua':      ['corpouraba-puntos'],
+      'aislamiento':          ['aislamiento-fill'],
+      'conflicto-uso':        ['conflicto-fill', 'conflicto-outline'],
+      'zonas-funcionales':    ['zonas-funcionales-fill', 'zonas-funcionales-outline'],
+      'osm-landuse':          ['osm-landuse-fill', 'osm-landuse-outline'],
+      'equipamientos':        ['equipamientos-points'],
+      // Capas v2 — atlas enriquecido GHSL + NDVI + Luminosidad
+      'enriquecido-atlas-v2':          ['enriquecido-atlas-v2'],
+      'enriquecido-accesibilidad-v2':  ['enriquecido-accesibilidad-v2'],
+      'enriquecido-ndvi':              ['enriquecido-ndvi'],
+      'enriquecido-impermeabilizacion':['enriquecido-impermeabilizacion'],
+      'enriquecido-ambiental-v2':      ['enriquecido-ambiental-v2'],
+      // Capas nuevas con datos reales
+      'catastro':         ['catastro-fill', 'catastro-outline'],
+      'red-vial-invias':  ['red-vial-invias-line'],
+      'sui-servicios':    ['sui-servicios-fill', 'sui-servicios-outline'],
+      'terridata-full':   ['terridata-full-fill', 'terridata-full-outline'],
+      'resguardos-ant':   ['resguardos-ant-fill', 'resguardos-ant-outline'],
+      'runap':            ['runap-fill', 'runap-outline'],
     }
 
     if (layerMap[id]) {
@@ -830,15 +1305,33 @@ export function useAtlasMap(mapRef) {
 
     mapMode = (mapMode + 1) % MAP_STYLES.length
 
+    // Guardar visibilidades actuales ANTES de cambiar estilo
     const prevVisibility = { ...layerVisibility }
 
+    // setStyle destruye todas las sources y layers — recargar tras styledata
     map.value.once('styledata', () => {
-      setTimeout(() => {
-        try { loadAtlasLayer() } catch (e) {}
-        Object.keys(prevVisibility).forEach(id => {
-          if (!prevVisibility[id]) toggleLayer(id)
-        })
-      }, 600)
+      // Esperar a que el nuevo estilo esté completamente cargado
+      const reload = () => {
+        if (!map.value.isStyleLoaded()) {
+          setTimeout(reload, 100)
+          return
+        }
+        try {
+          loadAtlasLayer()
+          // Restaurar visibilidades no-default (capas que el usuario activó)
+          Object.entries(prevVisibility).forEach(([id, visible]) => {
+            if (!visible) {
+              // Capa estaba desactivada — toggle para desactivarla de nuevo
+              setTimeout(() => {
+                try { toggleLayer(id) } catch(e) {}
+              }, 200)
+            }
+          })
+        } catch (e) {
+          console.warn('[Atlas] toggleSatellite reload error:', e.message)
+        }
+      }
+      setTimeout(reload, 300)
     })
 
     map.value.setStyle(MAP_STYLES[mapMode])
@@ -1126,6 +1619,18 @@ function buildTooltip(p, store) {
     }
   }
 
+  // Indicadores v2 disponibles si el feature proviene de atlas_enriquecido
+  const hasV2 = p.atlas_score_v2 != null
+  const v2HTML = hasV2 ? `
+    <div style="margin-top:8px;padding-top:6px;border-top:1px solid #1e2738">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:7px;text-transform:uppercase;letter-spacing:.18em;color:#06b6d4;margin-bottom:4px">Indicadores v2</div>
+      <div style="display:grid;grid-template-columns:1fr auto;gap:2px 10px">
+        ${[['Atlas v2','atlas_score_v2','#06b6d4'],['Acces. v2','score_accesibilidad_v2','#38bdf8'],['NDVI','score_ndvi','#4ade80']].map(([l,k,c]) => `
+        <span style="color:#8B949E;font-size:8px;font-family:'JetBrains Mono',monospace">${l}</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:${c}">${pct(p[k])}</span>`).join('')}
+      </div>
+    </div>` : ''
+
   return `<div style="font-family:'Inter',sans-serif;font-size:12px;color:#E6EDF3;min-width:240px">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
       <div>
@@ -1144,6 +1649,7 @@ function buildTooltip(p, store) {
       <span style="color:#8B949E;font-size:9px;text-transform:uppercase;letter-spacing:.1em;font-family:'JetBrains Mono',monospace">${label}</span>
       <span style="font-family:'JetBrains Mono',monospace;font-size:10px">${pct(p[key])}</span>`).join('')}
     </div>
+    ${v2HTML}
     <div style="margin-top:8px;padding-top:6px;border-top:1px solid #30363D;display:flex;gap:8px;align-items:center">
       <span style="padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;background:${zc}22;color:${zc};border:1px solid ${zc}44">${p.zona_atlas || '—'}</span>
       <span style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#8B949E">${p.quintil || '—'}</span>

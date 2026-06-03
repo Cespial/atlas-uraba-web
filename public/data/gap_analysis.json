@@ -1,0 +1,210 @@
+{
+  "Apartadó": {
+    "atlas_score": 72,
+    "nivel": "alto",
+    "dimensiones": {
+      "score_accesibilidad": 40,
+      "score_ambiental": 52,
+      "score_socioeconomico": 49,
+      "score_seguridad": 79
+    },
+    "gaps_vs_uraba": {
+      "score_accesibilidad": 19,
+      "score_ambiental": 11,
+      "score_socioeconomico": 0,
+      "score_seguridad": -3
+    },
+    "narrativa": "Apartadó registra un Índice de Bienestar de 72/100 (alto), 10 puntos por encima del promedio regional (62/100). Su dimensión más fuerte es Seguridad (79/100), mientras que Accesibilidad (40/100) representa la brecha de atención prioritaria para la administración municipal y los cooperantes.",
+    "fortaleza": "score_seguridad",
+    "debilidad": "score_accesibilidad",
+    "indicadores_v2": {
+      "atlas_score_v2": 75,
+      "score_salud": 72,
+      "score_educacion": 93,
+      "score_via": 79,
+      "score_ndvi": 29
+    }
+  },
+  "Turbo": {
+    "atlas_score": 48,
+    "nivel": "medio-bajo",
+    "dimensiones": {
+      "score_accesibilidad": 20,
+      "score_ambiental": 22,
+      "score_socioeconomico": 50,
+      "score_seguridad": 64
+    },
+    "gaps_vs_uraba": {
+      "score_accesibilidad": -1,
+      "score_ambiental": -19,
+      "score_socioeconomico": 0,
+      "score_seguridad": -19
+    },
+    "narrativa": "Turbo registra un Índice de Bienestar de 48/100 (medio-bajo), 15 puntos por debajo del promedio regional (62/100). Su dimensión más fuerte es Seguridad (64/100), mientras que Accesibilidad (20/100) representa la brecha de atención prioritaria para la administración municipal y los cooperantes.",
+    "fortaleza": "score_seguridad",
+    "debilidad": "score_accesibilidad",
+    "indicadores_v2": {
+      "atlas_score_v2": 50,
+      "score_salud": 48,
+      "score_educacion": 82,
+      "score_via": 61,
+      "score_ndvi": 29
+    }
+  },
+  "Chigorodó": {
+    "atlas_score": 68,
+    "nivel": "medio-alto",
+    "dimensiones": {
+      "score_accesibilidad": 12,
+      "score_ambiental": 42,
+      "score_socioeconomico": 55,
+      "score_seguridad": 100
+    },
+    "gaps_vs_uraba": {
+      "score_accesibilidad": -9,
+      "score_ambiental": 1,
+      "score_socioeconomico": 5,
+      "score_seguridad": 17
+    },
+    "narrativa": "Chigorodó registra un Índice de Bienestar de 68/100 (medio-alto), 5 puntos por encima del promedio regional (62/100). Su dimensión más fuerte es Seguridad (100/100), mientras que Accesibilidad (12/100) representa la brecha de atención prioritaria para la administración municipal y los cooperantes.",
+    "fortaleza": "score_seguridad",
+    "debilidad": "score_accesibilidad",
+    "indicadores_v2": {
+      "atlas_score_v2": 66,
+      "score_salud": 5,
+      "score_educacion": 94,
+      "score_via": 67,
+      "score_ndvi": 29
+    }
+  },
+  "Carepa": {
+    "atlas_score": 63,
+    "nivel": "medio-alto",
+    "dimensiones": {
+      "score_accesibilidad": 10,
+      "score_ambiental": 39,
+      "score_socioeconomico": 48,
+      "score_seguridad": 100
+    },
+    "gaps_vs_uraba": {
+      "score_accesibilidad": -11,
+      "score_ambiental": -2,
+      "score_socioeconomico": -1,
+      "score_seguridad": 17
+    },
+    "narrativa": "Carepa registra un Índice de Bienestar de 63/100 (medio-alto), 1 puntos por encima del promedio regional (62/100). Su dimensión más fuerte es Seguridad (100/100), mientras que Accesibilidad (10/100) representa la brecha de atención prioritaria para la administración municipal y los cooperantes.",
+    "fortaleza": "score_seguridad",
+    "debilidad": "score_accesibilidad",
+    "indicadores_v2": {
+      "atlas_score_v2": 73,
+      "score_salud": 56,
+      "score_educacion": 79,
+      "score_via": 70,
+      "score_ndvi": 29
+    }
+  },
+  "Necoclí": {
+    "atlas_score": 65,
+    "nivel": "medio-alto",
+    "dimensiones": {
+      "score_accesibilidad": 11,
+      "score_ambiental": 43,
+      "score_socioeconomico": 47,
+      "score_seguridad": 100
+    },
+    "gaps_vs_uraba": {
+      "score_accesibilidad": -10,
+      "score_ambiental": 2,
+      "score_socioeconomico": -2,
+      "score_seguridad": 17
+    },
+    "narrativa": "Necoclí registra un Índice de Bienestar de 65/100 (medio-alto), 2 puntos por encima del promedio regional (62/100). Su dimensión más fuerte es Seguridad (100/100), mientras que Accesibilidad (11/100) representa la brecha de atención prioritaria para la administración municipal y los cooperantes.",
+    "fortaleza": "score_seguridad",
+    "debilidad": "score_accesibilidad",
+    "indicadores_v2": {
+      "atlas_score_v2": 49,
+      "score_salud": 5,
+      "score_educacion": 66,
+      "score_via": 5,
+      "score_ndvi": 33
+    }
+  },
+  "Arboletes": {
+    "atlas_score": 64,
+    "nivel": "medio-alto",
+    "dimensiones": {
+      "score_accesibilidad": 20,
+      "score_ambiental": 67,
+      "score_socioeconomico": 45,
+      "score_seguridad": 69
+    },
+    "gaps_vs_uraba": {
+      "score_accesibilidad": -2,
+      "score_ambiental": 25,
+      "score_socioeconomico": -4,
+      "score_seguridad": -14
+    },
+    "narrativa": "Arboletes registra un Índice de Bienestar de 64/100 (medio-alto), 2 puntos por encima del promedio regional (62/100). Su dimensión más fuerte es Seguridad (69/100), mientras que Accesibilidad (20/100) representa la brecha de atención prioritaria para la administración municipal y los cooperantes.",
+    "fortaleza": "score_seguridad",
+    "debilidad": "score_accesibilidad",
+    "indicadores_v2": {
+      "atlas_score_v2": 49,
+      "score_salud": 56,
+      "score_educacion": 54,
+      "score_via": 5,
+      "score_ndvi": 33
+    }
+  },
+  "San Pedro de Urabá": {
+    "atlas_score": 69,
+    "nivel": "medio-alto",
+    "dimensiones": {
+      "score_accesibilidad": 16,
+      "score_ambiental": 47,
+      "score_socioeconomico": 50,
+      "score_seguridad": 100
+    },
+    "gaps_vs_uraba": {
+      "score_accesibilidad": -6,
+      "score_ambiental": 6,
+      "score_socioeconomico": 0,
+      "score_seguridad": 17
+    },
+    "narrativa": "San Pedro de Urabá registra un Índice de Bienestar de 69/100 (medio-alto), 7 puntos por encima del promedio regional (62/100). Su dimensión más fuerte es Seguridad (100/100), mientras que Accesibilidad (16/100) representa la brecha de atención prioritaria para la administración municipal y los cooperantes.",
+    "fortaleza": "score_seguridad",
+    "debilidad": "score_accesibilidad",
+    "indicadores_v2": {
+      "atlas_score_v2": 65,
+      "score_salud": 63,
+      "score_educacion": 81,
+      "score_via": 5,
+      "score_ndvi": 39
+    }
+  },
+  "San Juan de Urabá": {
+    "atlas_score": 76,
+    "nivel": "alto",
+    "dimensiones": {
+      "score_accesibilidad": 12,
+      "score_ambiental": 67,
+      "score_socioeconomico": 52,
+      "score_seguridad": 100
+    },
+    "gaps_vs_uraba": {
+      "score_accesibilidad": -9,
+      "score_ambiental": 26,
+      "score_socioeconomico": 2,
+      "score_seguridad": 17
+    },
+    "narrativa": "San Juan de Urabá registra un Índice de Bienestar de 76/100 (alto), 13 puntos por encima del promedio regional (62/100). Su dimensión más fuerte es Seguridad (100/100), mientras que Accesibilidad (12/100) representa la brecha de atención prioritaria para la administración municipal y los cooperantes.",
+    "fortaleza": "score_seguridad",
+    "debilidad": "score_accesibilidad",
+    "indicadores_v2": {
+      "atlas_score_v2": 63,
+      "score_salud": 49,
+      "score_educacion": 51,
+      "score_via": 5,
+      "score_ndvi": 38
+    }
+  }
+}

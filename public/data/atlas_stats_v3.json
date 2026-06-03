@@ -1,0 +1,218 @@
+{
+  "_meta": {
+    "version": "v3",
+    "generado": "2026-06-03",
+    "formula": "atlas_score_v3 = (0.40*accesibilidad + 0.25*ambiental + 0.25*socioeconomico + 0.20*seguridad) / 1.10",
+    "insumos_reales": {
+      "accesibilidad": "isocronas_osrm_real.csv (routing OSRM real por carretera: min_ips/min_colegio/min_cabecera/min_puerto)",
+      "ambiental": "satelite_v3.csv NDVI (S2) + score_calor desde LST (Landsat 8/9)",
+      "impermeabilizacion": "satelite_v3.csv NDBI (S2) normalizado 0-1 (reemplaza proxy previo)",
+      "proxy_luminosidad": "satelite_v3.csv VIIRS avg_rad normalizado 0-1 (reemplaza proxy previo)"
+    },
+    "insumos_v2_sin_cambio": {
+      "socioeconomico": "score_economico_v2 (TerriData/SUI/EVA; no llego insumo nuevo)",
+      "seguridad": "score_seguridad v2 (no llego insumo nuevo)"
+    },
+    "caps_accesibilidad_min": {
+      "ips": 60.0,
+      "colegio": 30.0,
+      "cabecera": 45.0,
+      "puerto": 120.0
+    },
+    "quintil_breaks_v3": [
+      0.5192,
+      0.5774,
+      0.6398,
+      0.684
+    ],
+    "procedencia": {
+      "acc_real": 7025,
+      "acc_v2": 3,
+      "amb_real": 7028,
+      "amb_v2": 0,
+      "calor": 6552,
+      "ndbi": 7028,
+      "viirs": 7028
+    }
+  },
+  "ranking_municipios_v3": [
+    {
+      "municipio": "San Juan de Urabá",
+      "atlas_score_v3": 0.6672
+    },
+    {
+      "municipio": "Apartadó",
+      "atlas_score_v3": 0.663
+    },
+    {
+      "municipio": "Carepa",
+      "atlas_score_v3": 0.6444
+    },
+    {
+      "municipio": "San Pedro de Urabá",
+      "atlas_score_v3": 0.6361
+    },
+    {
+      "municipio": "Chigorodó",
+      "atlas_score_v3": 0.5796
+    },
+    {
+      "municipio": "Turbo",
+      "atlas_score_v3": 0.5728
+    },
+    {
+      "municipio": "Arboletes",
+      "atlas_score_v3": 0.5069
+    },
+    {
+      "municipio": "Necoclí",
+      "atlas_score_v3": 0.4741
+    }
+  ],
+  "municipios": {
+    "Apartadó": {
+      "count": 1659,
+      "avg": {
+        "atlas_score_v3": 0.663,
+        "atlas_score_v2": 0.7547,
+        "score_accesibilidad_v3": 0.8688,
+        "score_ambiental_v3": 0.4002,
+        "score_socioeconomico_v3": 0.4915,
+        "score_seguridad": 0.7942,
+        "score_ndvi": 0.288,
+        "score_calor": 0.437,
+        "impermeabilizacion": 0.7084,
+        "proxy_luminosidad": 0.3326,
+        "ndbi": 0.0902,
+        "lst_c": 41.6692,
+        "viirs_rad": 12.0263
+      }
+    },
+    "Arboletes": {
+      "count": 431,
+      "avg": {
+        "atlas_score_v3": 0.5069,
+        "atlas_score_v2": 0.4927,
+        "score_accesibilidad_v3": 0.5359,
+        "score_ambiental_v3": 0.457,
+        "score_socioeconomico_v3": 0.3628,
+        "score_seguridad": 0.6914,
+        "score_ndvi": 0.3321,
+        "score_calor": 0.5153,
+        "impermeabilizacion": 0.6012,
+        "proxy_luminosidad": 0.2756,
+        "ndbi": 0.0085,
+        "lst_c": 39.9945,
+        "viirs_rad": 9.9648
+      }
+    },
+    "Carepa": {
+      "count": 847,
+      "avg": {
+        "atlas_score_v3": 0.6444,
+        "atlas_score_v2": 0.7322,
+        "score_accesibilidad_v3": 0.759,
+        "score_ambiental_v3": 0.3617,
+        "score_socioeconomico_v3": 0.4592,
+        "score_seguridad": 1.0,
+        "score_ndvi": 0.2853,
+        "score_calor": 0.3445,
+        "impermeabilizacion": 0.7105,
+        "proxy_luminosidad": 0.2539,
+        "ndbi": 0.0918,
+        "lst_c": 43.6497,
+        "viirs_rad": 9.1804
+      }
+    },
+    "Necoclí": {
+      "count": 656,
+      "avg": {
+        "atlas_score_v3": 0.4741,
+        "atlas_score_v2": 0.4866,
+        "score_accesibilidad_v3": 0.2789,
+        "score_ambiental_v3": 0.4625,
+        "score_socioeconomico_v3": 0.3772,
+        "score_seguridad": 1.0,
+        "score_ndvi": 0.3265,
+        "score_calor": 0.6504,
+        "impermeabilizacion": 0.5808,
+        "proxy_luminosidad": 0.1025,
+        "ndbi": -0.007,
+        "lst_c": 37.1035,
+        "viirs_rad": 3.7073
+      }
+    },
+    "San Juan de Urabá": {
+      "count": 289,
+      "avg": {
+        "atlas_score_v3": 0.6672,
+        "atlas_score_v2": 0.6276,
+        "score_accesibilidad_v3": 0.7524,
+        "score_ambiental_v3": 0.5252,
+        "score_socioeconomico_v3": 0.4068,
+        "score_seguridad": 1.0,
+        "score_ndvi": 0.3766,
+        "score_calor": 0.6027,
+        "impermeabilizacion": 0.5824,
+        "proxy_luminosidad": 0.1093,
+        "ndbi": -0.0058,
+        "lst_c": 38.1233,
+        "viirs_rad": 3.953
+      }
+    },
+    "San Pedro de Urabá": {
+      "count": 361,
+      "avg": {
+        "atlas_score_v3": 0.6361,
+        "atlas_score_v2": 0.651,
+        "score_accesibilidad_v3": 0.6847,
+        "score_ambiental_v3": 0.5077,
+        "score_socioeconomico_v3": 0.3957,
+        "score_seguridad": 1.0,
+        "score_ndvi": 0.3852,
+        "score_calor": 0.5568,
+        "impermeabilizacion": 0.5805,
+        "proxy_luminosidad": 0.2163,
+        "ndbi": -0.0072,
+        "lst_c": 39.105,
+        "viirs_rad": 7.8227
+      }
+    },
+    "Turbo": {
+      "count": 2011,
+      "avg": {
+        "atlas_score_v3": 0.5728,
+        "atlas_score_v2": 0.4999,
+        "score_accesibilidad_v3": 0.7168,
+        "score_ambiental_v3": 0.4322,
+        "score_socioeconomico_v3": 0.4303,
+        "score_seguridad": 0.6385,
+        "score_ndvi": 0.2869,
+        "score_calor": 0.5235,
+        "impermeabilizacion": 0.6222,
+        "proxy_luminosidad": 0.2758,
+        "ndbi": 0.0246,
+        "lst_c": 39.819,
+        "viirs_rad": 9.9718
+      }
+    },
+    "Chigorodó": {
+      "count": 774,
+      "avg": {
+        "atlas_score_v3": 0.5796,
+        "atlas_score_v2": 0.6632,
+        "score_accesibilidad_v3": 0.5968,
+        "score_ambiental_v3": 0.3116,
+        "score_socioeconomico_v3": 0.4836,
+        "score_seguridad": 1.0,
+        "score_ndvi": 0.286,
+        "score_calor": 0.2188,
+        "impermeabilizacion": 0.7723,
+        "proxy_luminosidad": 0.2851,
+        "ndbi": 0.1388,
+        "lst_c": 46.3404,
+        "viirs_rad": 10.3096
+      }
+    }
+  }
+}

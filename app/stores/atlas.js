@@ -1,11 +1,23 @@
 import { defineStore } from 'pinia'
 
+// Dimensiones principales — van al selector del mapa y a los pills del sheet
 export const DIMENSIONES = [
-  { key: 'atlas_score',          label: 'Índice Atlas',   color: '#1B6B6D' },
-  { key: 'score_accesibilidad',  label: 'Accesibilidad',  color: '#60a5fa' },
-  { key: 'score_socioeconomico', label: 'Socioeconómico', color: '#a78bfa' },
-  { key: 'score_ambiental',      label: 'Ambiental',      color: '#34d399' },
-  { key: 'score_seguridad',      label: 'Seguridad',      color: '#fbbf24' },
+  { key: 'atlas_score',           label: 'Índice Atlas',      color: '#1B6B6D' },
+  { key: 'score_accesibilidad',   label: 'Accesibilidad',     color: '#60a5fa' },
+  { key: 'score_socioeconomico',  label: 'Socioeconómico',    color: '#a78bfa' },
+  { key: 'score_ambiental',       label: 'Ambiental',         color: '#34d399' },
+  { key: 'score_seguridad',       label: 'Seguridad',         color: '#fbbf24' },
+]
+
+// Indicadores satelitales v2 — solo para display en paneles, NO van al mapa
+export const DIMENSIONES_V2 = [
+  { key: 'atlas_score_v2',        label: 'Índice v2',         shortLabel: 'Atlas v2',   color: '#06b6d4' },
+  { key: 'score_accesibilidad_v2',label: 'Accesibilidad v2',  shortLabel: 'Acces. v2',  color: '#38bdf8' },
+  { key: 'score_ambiental_v2',    label: 'Ambiental v2',      shortLabel: 'Ambient. v2',color: '#4ade80' },
+  { key: 'score_ndvi',            label: 'Vegetación (NDVI)', shortLabel: 'NDVI',       color: '#86efac' },
+  { key: 'score_salud',           label: 'Acceso salud',      shortLabel: 'Salud',      color: '#f87171' },
+  { key: 'score_educacion',       label: 'Acceso educación',  shortLabel: 'Educación',  color: '#fb923c' },
+  { key: 'score_via',             label: 'Acceso vial',       shortLabel: 'Vías',       color: '#facc15' },
 ]
 
 export const MUNICIPIOS = [
@@ -57,6 +69,15 @@ export const useAtlasStore = defineStore('atlas', {
     selectManzana(p)   { this.manzanaSeleccionada = p },
     clearManzana()     { this.manzanaSeleccionada = null },
     setStats(s)        { this.stats = s },
+    // Fusionar datos v2 en stats existentes por municipio
+    setStatsV2(v2)     {
+      const merged = { ...this.stats }
+      Object.entries(v2).forEach(([mun, data]) => {
+        if (!merged[mun]) merged[mun] = { count: data.count, avg: {} }
+        Object.assign(merged[mun].avg, data.avg)
+      })
+      this.stats = merged
+    },
     setLoaded()        { this.cargando = false },
     setError(msg)      { this.error = msg; this.cargando = false },
     setFilterMin(v)    { this.filterMin = Math.min(+v, this.filterMax) },
