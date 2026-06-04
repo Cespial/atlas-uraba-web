@@ -32,6 +32,24 @@
       </button>
     </div>
 
+    <!-- Desktop: tools nav + badge -->
+    <nav class="header-tools" role="navigation" aria-label="Herramientas">
+      <NuxtLink to="/comparar" class="tool-nav-link" title="Comparar municipios">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M5 2v12M11 2v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M2 5h6M8 11h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="tool-nav-label">Comparar</span>
+      </NuxtLink>
+      <NuxtLink to="/simulador" class="tool-nav-link" title="Simulador de intervenciones">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="8" cy="8" r="2.2" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6L13 13M13 3l-1.4 1.4M4.4 11.6L3 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="tool-nav-label">Simulador</span>
+      </NuxtLink>
+    </nav>
+
     <!-- Desktop: badge -->
     <div class="header-badges">
       <span class="header-badge">
@@ -175,6 +193,42 @@ const scoreColor = computed(() => {
 }
 .sheet-toggle-btn:active { background: var(--cbg, #F2F1EE); }
 
+/* Tools nav desktop */
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.tool-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  text-decoration: none;
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--cm, #5F5F5B);
+  transition: all 0.15s;
+}
+.tool-nav-link svg { flex-shrink: 0; }
+.tool-nav-link:hover {
+  color: var(--ca, #1B6B6D);
+  background: rgba(27,107,109,0.10);
+  border-color: rgba(27,107,109,0.25);
+}
+.router-link-active.tool-nav-link {
+  color: var(--ca, #1B6B6D);
+  background: rgba(27,107,109,0.12);
+  border-color: rgba(27,107,109,0.3);
+}
+
 /* Badges desktop */
 .header-badges {
   display: flex;
@@ -214,6 +268,13 @@ const scoreColor = computed(() => {
 @media (max-width: 639px) {
   .header-municipios { display: none; }
   .header-badges { display: none; }
+  .header-tools { display: none; }
   .header-mobile-actions { display: flex; }
+}
+
+/* Tablet: oculta los labels de las herramientas, deja solo íconos */
+@media (max-width: 900px) and (min-width: 640px) {
+  .tool-nav-label { display: none; }
+  .tool-nav-link { padding: 6px; }
 }
 </style>

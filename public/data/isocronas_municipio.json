@@ -1,0 +1,64 @@
+{
+  "_meta": {
+    "fuente": "isocronas_osrm_real.csv (OSRM routing real) agregado por municipio (promedio simple por manzana)",
+    "generado": "2026-06-03"
+  },
+  "municipios": {
+    "Apartadó": {
+      "min_ips": 3.5,
+      "min_colegio": 3.3,
+      "min_cabecera": 5.5,
+      "min_puerto": 41.6,
+      "manzanas": 1659
+    },
+    "Arboletes": {
+      "min_ips": 23.0,
+      "min_colegio": 23.3,
+      "min_cabecera": 24.3,
+      "min_puerto": 124.0,
+      "manzanas": 431
+    },
+    "Carepa": {
+      "min_ips": 6.1,
+      "min_colegio": 12.7,
+      "min_cabecera": 6.8,
+      "min_puerto": 54.4,
+      "manzanas": 847
+    },
+    "Necoclí": {
+      "min_ips": 41.9,
+      "min_colegio": 38.9,
+      "min_cabecera": 31.6,
+      "min_puerto": 64.1,
+      "manzanas": 656
+    },
+    "San Juan de Urabá": {
+      "min_ips": 6.2,
+      "min_colegio": 6.2,
+      "min_cabecera": 6.9,
+      "min_puerto": 99.2,
+      "manzanas": 289
+    },
+    "San Pedro de Urabá": {
+      "min_ips": 10.9,
+      "min_colegio": 11.3,
+      "min_cabecera": 11.1,
+      "min_puerto": 148.6,
+      "manzanas": 361
+    },
+    "Turbo": {
+      "min_ips": 9.7,
+      "min_colegio": 12.0,
+      "min_cabecera": 24.8,
+      "min_puerto": 34.3,
+      "manzanas": 2008
+    },
+    "Chigorodó": {
+      "min_ips": 11.8,
+      "min_colegio": 36.1,
+      "min_cabecera": 3.1,
+      "min_puerto": 59.2,
+      "manzanas": 774
+    }
+  }
+}
