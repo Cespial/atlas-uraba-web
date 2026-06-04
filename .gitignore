@@ -8,3 +8,6 @@ dist/
 .env.*
 !.env.example
 .vercel
+
+# Generados por scripts/sync-api-assets.mjs (prebuild)
+server/assets/data/

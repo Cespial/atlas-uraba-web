@@ -3,6 +3,9 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "sync:api-assets": "node scripts/sync-api-assets.mjs",
+    "prebuild": "node scripts/sync-api-assets.mjs",
+    "predev": "node scripts/sync-api-assets.mjs",
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",

@@ -152,10 +152,15 @@ import { useSimulador, TIPOS_EQUIPAMIENTO } from '~/composables/useSimulador'
 const STYLE_DARK = 'https://tiles.openfreemap.org/styles/dark'
 
 // Misma rampa de color teal Tensor que useAtlasMap
+// Acepta un nombre de propiedad (string) o una expresión MapLibre completa.
+// Si recibe string lo envuelve en ['get', ...]; si recibe expresión la usa tal cual.
 function colorExpr(field) {
+  const input = typeof field === 'string'
+    ? ['to-number', ['get', field], 0]
+    : ['to-number', field, 0]
   return [
     'interpolate', ['linear'],
-    ['to-number', ['get', field], 0],
+    input,
     0.0, '#d73027', 0.2, '#f46d43', 0.4, '#fdae61',
     0.55, '#a8ddb5', 0.7, '#41b6c4', 0.85, '#1d91c0', 1.0, '#1B6B6D',
   ]
@@ -237,11 +242,13 @@ async function initMap() {
       minzoom: 9,
       paint: {
         'line-color': '#7CFCD0',
+        // 'zoom' SÓLO es válido como expresión más externa de interpolate/step.
+        // El gate por feature-state (delta>0 ? valor : 0) va DENTRO de cada
+        // stop de zoom, no envolviendo al interpolate.
         'line-width': [
-          'case',
-          ['>', ['coalesce', ['feature-state', 'delta'], 0], 0],
-          ['interpolate', ['linear'], ['zoom'], 9, 1.2, 13, 2.6],
-          0,
+          'interpolate', ['linear'], ['zoom'],
+          9, ['case', ['>', ['coalesce', ['feature-state', 'delta'], 0], 0], 1.2, 0],
+          13, ['case', ['>', ['coalesce', ['feature-state', 'delta'], 0], 0], 2.6, 0],
         ],
         'line-opacity': [
           'case',
@@ -256,12 +263,12 @@ async function initMap() {
       source: 'atlas-sim',
       minzoom: 9,
       paint: {
-        'fill-color': colorExpr(['+', ['get', 'score_accesibilidad'], ['coalesce', ['feature-state', 'deltaScore'], 0]]),
+        'fill-color': colorExpr(['+', ['to-number', ['get', 'score_accesibilidad'], 0], ['coalesce', ['feature-state', 'deltaScore'], 0]]),
+        // idem: interpolate(zoom) al nivel superior, gate por feature-state en cada stop.
         'fill-opacity': [
-          'case',
-          ['>', ['coalesce', ['feature-state', 'delta'], 0], 0],
-          ['interpolate', ['linear'], ['zoom'], 9, 0.55, 12, 0.9],
-          0,
+          'interpolate', ['linear'], ['zoom'],
+          9, ['case', ['>', ['coalesce', ['feature-state', 'delta'], 0], 0], 0.55, 0],
+          12, ['case', ['>', ['coalesce', ['feature-state', 'delta'], 0], 0], 0.9, 0],
         ],
       },
     })

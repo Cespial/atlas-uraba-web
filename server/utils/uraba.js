@@ -2,9 +2,6 @@
 // Lee los JSON/GeoJSON desde public/data en runtime y los cachea en memoria
 // para no releer el filesystem en cada request.
 
-import { promises as fs } from 'node:fs'
-import { join } from 'node:path'
-
 export const FUENTE =
   'Atlas Urabá · Tensor (tensor.lat). Insumos: DANE CNPV 2018 (manzanas y socioeconómico), ' +
   'Google Earth Engine / GEE (NDVI Sentinel-2, LST Landsat 8/9, VIIRS) y OSRM (isócronas de routing real por carretera).'
@@ -12,16 +9,21 @@ export const FUENTE =
 // Cache en memoria (persiste entre requests dentro del mismo proceso de servidor).
 const _cache = new Map()
 
-// Resuelve la ruta a public/data tanto en dev como en build.
-function dataPath(file) {
-  return join(process.cwd(), 'public', 'data', file)
-}
-
-// Lee y parsea un archivo JSON/GeoJSON de public/data, con cache en memoria.
+// Lee y parsea un archivo JSON/GeoJSON empaquetado como server asset
+// (server/assets/data → storage 'assets:data'), con cache en memoria.
+// Funciona tanto en dev como dentro de la función serverless de Vercel,
+// porque el asset viaja en el bundle (no depende del filesystem/cwd).
 export async function readData(file) {
   if (_cache.has(file)) return _cache.get(file)
-  const raw = await fs.readFile(dataPath(file), 'utf-8')
-  const parsed = JSON.parse(raw)
+  // Los server assets se montan en el storage 'assets' con la clave
+  // 'server:<baseName>:<archivo>' (baseName 'data' por nuestra config Nitro).
+  const storage = useStorage('assets')
+  const raw = await storage.getItem(`server:data:${file}`)
+  if (raw == null) {
+    throw new Error(`Atlas data asset no encontrado: ${file}`)
+  }
+  // getItem puede devolver el objeto ya parseado (JSON) o el texto crudo.
+  const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw
   _cache.set(file, parsed)
   return parsed
 }

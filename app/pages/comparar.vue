@@ -121,9 +121,13 @@ const COLOR_A = '#1B6B6D'
 const COLOR_B = '#a78bfa'
 
 // ── Carga de datos ───────────────────────────────────────────────
-const { data: statsRaw, pending: p1, error: e1 } = await useFetch('/data/atlas_stats_v3.json')
-const { data: gapRaw,   pending: p2, error: e2 } = await useFetch('/data/gap_analysis.json')
-const { data: isoRaw,   pending: p3, error: e3 } = await useFetch('/data/isocronas_municipio.json')
+// server:false → la carga ocurre en el cliente, donde las rutas relativas
+// /data/*.json resuelven contra el origin del navegador. Evita el fallo de
+// resolución de URL relativa en SSR (función serverless) que dejaba la página
+// en estado de error. Estas vistas son interactivas, no SEO-críticas.
+const { data: statsRaw, pending: p1, error: e1 } = await useFetch('/data/atlas_stats_v3.json', { server: false, lazy: true })
+const { data: gapRaw,   pending: p2, error: e2 } = await useFetch('/data/gap_analysis.json', { server: false, lazy: true })
+const { data: isoRaw,   pending: p3, error: e3 } = await useFetch('/data/isocronas_municipio.json', { server: false, lazy: true })
 
 const pending = computed(() => p1.value || p2.value || p3.value)
 const error   = computed(() => e1.value || e2.value || e3.value)

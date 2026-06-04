@@ -2,6 +2,25 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt'],
+  // SSR + Vercel serverless: necesario para que las rutas server/api/** (API
+  // pública REST de FASE 4) se desplieguen como funciones, no como sitio estático.
+  nitro: {
+    preset: 'vercel',
+    // Empaqueta sólo los JSON/GeoJSON que la API REST (FASE 4) lee en runtime
+    // como server assets, de modo que viajen DENTRO del bundle de la función
+    // serverless (se leen vía useStorage('assets:data'), no por filesystem).
+    // Se evita arrastrar los 100MB+ de pmtiles/geojson pesados de public/data.
+    serverAssets: [
+      { baseName: 'data', dir: 'server/assets/data' },
+    ],
+  },
+  // /comparar y /simulador son herramientas interactivas client-heavy: se
+  // renderizan como SPA (ssr:false) para evitar hydration mismatches por los
+  // datos que cargan sólo en cliente. La home y la API siguen con SSR.
+  routeRules: {
+    '/comparar': { ssr: false },
+    '/simulador': { ssr: false },
+  },
   css: [
     'maplibre-gl/dist/maplibre-gl.css',
     '~/assets/css/main.css',

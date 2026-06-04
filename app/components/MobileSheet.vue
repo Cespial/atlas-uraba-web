@@ -79,8 +79,27 @@
       <!-- ── Tab: ÍNDICE ──────────────────────────────────────── -->
       <div v-if="activeTab === 'indice'" class="tab-content" key="indice">
 
+        <!-- Herramientas (Comparar / Simulador) — equivalente móvil del nav del header -->
+        <div class="section-label">Herramientas</div>
+        <div class="tools-row">
+          <NuxtLink to="/comparar" class="tool-link">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M5 2v12M11 2v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M2 5h6M8 11h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            Comparar
+          </NuxtLink>
+          <NuxtLink to="/simulador" class="tool-link">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <circle cx="8" cy="8" r="2.2" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6L13 13M13 3l-1.4 1.4M4.4 11.6L3 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            Simulador
+          </NuxtLink>
+        </div>
+
         <!-- Dimensiones -->
-        <div class="section-label">Dimensión del atlas</div>
+        <div class="section-label" style="margin-top: 18px">Dimensión del atlas</div>
         <div class="dim-pills">
           <button
             v-for="dim in dimensiones"
@@ -1019,6 +1038,35 @@ defineExpose({ toggle, isOpen, openTab })
   color: var(--ca, #1B6B6D);
   margin-bottom: 10px;
 }
+
+/* ── Tools row (Comparar / Simulador) ──────────────────── */
+.tools-row {
+  display: flex;
+  gap: 8px;
+}
+
+.tool-link {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(27,107,109,0.25);
+  background: rgba(27,107,109,0.06);
+  color: var(--ca, #1B6B6D);
+  text-decoration: none;
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  min-height: 44px;
+  transition: all 0.15s;
+}
+
+.tool-link:active { transform: scale(0.97); background: rgba(27,107,109,0.12); }
 
 /* ── Dimension pills ───────────────────────────────────── */
 .dim-pills {
