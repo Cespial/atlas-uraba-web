@@ -162,7 +162,15 @@ export function useSimulador() {
     let sumaDelta = 0
     let maxDelta = 0
 
+    // Prefiltro barato por bounding-box: descarta las manzanas fuera del radio sin
+    // evaluar trigonometría. Sobre 7.028 manzanas, solo las pocas dentro de la caja
+    // (~3km) llegan al Haversine, en vez de recalcularlo para todas en cada arrastre.
+    const dLat = RADIO_KM / 111                                            // 1° lat ≈ 111 km
+    const dLng = RADIO_KM / (111 * Math.cos((punto.lat * Math.PI) / 180))  // ajustado por latitud
+
     for (const m of manzanas.value) {
+      if (Math.abs(m.lat - punto.lat) > dLat || Math.abs(m.lng - punto.lng) > dLng) continue
+
       const km = haversineKm(punto.lng, punto.lat, m.lng, m.lat)
       if (km > RADIO_KM) continue
 

@@ -148,13 +148,14 @@ export function useAtlasMap(mapRef) {
       loadAtlasLayer()
     })
 
-    // Fallback de 4 segundos como garantía mínima
+    // Fallback de 8 segundos como garantía mínima (margen para móvil lento:
+    // a 4s el overlay se cerraba antes de que tiles/manzanas terminaran de cargar)
     setTimeout(() => {
       if (!ready.value) {
         ready.value = true
         store.setLoaded()
       }
-    }, 4000)
+    }, 8000)
 
     map.value.on('error', (e) => {
       if (e.error?.message) console.warn('[Atlas]', e.error.message)
@@ -162,9 +163,20 @@ export function useAtlasMap(mapRef) {
   }
 
   // ─── Carga de capas de datos ────────────────────────────────────────────────
-  function loadAtlasLayer() {
-    // Source principal de manzanas — PMTiles (Z9-Z14, 2.5MB) con fallback GeoJSON
+  async function loadAtlasLayer() {
+    // Source principal de manzanas — PMTiles (Z9-Z14, 2.5MB) con fallback GeoJSON.
+    // Los fallos de PMTiles son ASÍNCRONOS (addSource no lanza ante un 404 o un
+    // archivo corrupto: el error llega por el evento 'error' del mapa), así que el
+    // try/catch nunca activaba el fallback. Comprobamos disponibilidad del archivo
+    // antes de elegir el tipo de source para que el fallback sea alcanzable.
+    let usePmtiles = true
     try {
+      const head = await fetch('/data/atlas.pmtiles', { method: 'HEAD' })
+      usePmtiles = head.ok
+    } catch {
+      usePmtiles = false
+    }
+    if (usePmtiles) {
       map.value.addSource('atlas', {
         type:      'vector',
         url:       'pmtiles:///data/atlas.pmtiles',
@@ -172,8 +184,8 @@ export function useAtlasMap(mapRef) {
         minzoom:   9,
         maxzoom:   14,
       })
-    } catch (e) {
-      console.warn('[Atlas] PMTiles fallback a GeoJSON:', e.message)
+    } else {
+      console.warn('[Atlas] PMTiles no disponible — fallback a GeoJSON')
       map.value.addSource('atlas', { type: 'geojson', data: '/data/atlas.geojson', promoteId: '_fid' })
     }
 
@@ -1183,12 +1195,16 @@ export function useAtlasMap(mapRef) {
 
     setupInteraction(_maplibregl)
 
-    // Cargar stats pre-computados desde JSON (PMTiles no soporta querySourceFeatures completo)
-    fetch('/data/atlas_stats.json')
-      .then(r => r.json())
-      .then(statsJson => {
-        // Normalizar claves: JSON usa MAYÚSCULAS, store usa "Apartadó" etc.
-        // Crear índice UPPERCASE → valor, luego mapear a nombres del store
+    // Cargar stats pre-computados desde JSON (PMTiles no soporta querySourceFeatures
+    // completo). Si el fetch falla, reintentamos y, como último recurso, recalculamos
+    // desde el GeoJSON para no dejar todos los scores en '—' durante la sesión.
+    async function loadStats() {
+      const fetchJson = (url) => fetch(url).then(r => {
+        if (!r.ok) throw new Error(`${url} → HTTP ${r.status}`)
+        return r.json()
+      })
+      // Normalizar claves: JSON usa MAYÚSCULAS, store usa "Apartadó" etc.
+      const normalize = (statsJson) => {
         const upperIndex = {}
         Object.entries(statsJson).forEach(([k, v]) => { upperIndex[k.toUpperCase()] = v })
         const normalized = { Todos: statsJson.Todos }
@@ -1197,19 +1213,41 @@ export function useAtlasMap(mapRef) {
           if (hit) normalized[m.nombre] = hit
         })
         // Fallback: si MUNICIPIOS no está expuesto, usar claves directamente
-        const final = Object.keys(normalized).length > 1 ? normalized : statsJson
-        store.setStats(final)
-        requestAnimationFrame(() => updateMunicipioFeatureStates())
-      })
-      .catch(e => console.warn('[Atlas] stats fallback querySource:', e.message))
+        return Object.keys(normalized).length > 1 ? normalized : statsJson
+      }
 
-    // Cargar stats v2 (NDVI, luminosidad, GHSL) y fusionar en el store
-    fetch('/data/atlas_stats_v2.json')
-      .then(r => r.json())
-      .then(statsV2 => {
-        store.setStatsV2(statsV2)
-      })
-      .catch(e => console.warn('[Atlas] stats_v2 load error:', e.message))
+      let baseLoaded = false
+      try {
+        store.setStats(normalize(await fetchJson('/data/atlas_stats.json')))
+        baseLoaded = true
+      } catch (e1) {
+        console.warn('[Atlas] atlas_stats.json falló, reintentando:', e1.message)
+        try {
+          store.setStats(normalize(await fetchJson('/data/atlas_stats.json')))
+          baseLoaded = true
+        } catch (e2) {
+          console.warn('[Atlas] recalculando stats desde GeoJSON:', e2.message)
+          try {
+            const geo = await fetchJson('/data/atlas.geojson')
+            computeStatsFromFeatures(geo.features || [])  // hace store.setStats internamente
+            baseLoaded = true
+          } catch (e3) {
+            console.error('[Atlas] no se pudieron cargar stats:', e3.message)
+          }
+        }
+      }
+      if (baseLoaded) requestAnimationFrame(() => updateMunicipioFeatureStates())
+
+      // Cargar stats v2 (NDVI, luminosidad, GHSL) SIEMPRE después de las base:
+      // setStats reemplaza el objeto entero, así que si v2 llegara primero su merge
+      // se perdería al sobrescribirse. Encadenarlo elimina esa carrera.
+      try {
+        store.setStatsV2(await fetchJson('/data/atlas_stats_v2.json'))
+      } catch (e) {
+        console.warn('[Atlas] stats_v2 load error:', e.message)
+      }
+    }
+    loadStats()
 
     // Aplicar feature-state a municipios cuando ese source carga
     map.value.on('sourcedata', (e) => {
@@ -1348,7 +1386,11 @@ export function useAtlasMap(mapRef) {
       offset:       [0, -6],
     })
 
-    const src = { source: 'atlas' }
+    // La fuente 'atlas' es vector PMTiles → setFeatureState exige sourceLayer.
+    // En el fallback GeoJSON no se especifica (lo ignoraría / lanzaría error).
+    const src = map.value.getSource('atlas')?.type === 'vector'
+      ? { source: 'atlas', sourceLayer: 'manzanas' }
+      : { source: 'atlas' }
 
     map.value.on('mousemove', 'manzanas-fill', (e) => {
       if (!e.features?.length) return

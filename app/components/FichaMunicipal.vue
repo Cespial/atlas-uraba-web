@@ -186,6 +186,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
 import { useAtlasStore, DIMENSIONES, MUNICIPIOS } from '~/stores/atlas'
+import { useScoreScale } from '~/composables/useScoreScale'
 
 // ─── Props & Emits ────────────────────────────────────────────────────────────
 const props = defineProps({
@@ -332,7 +333,7 @@ function dimLabel(key) {
 
 // ─── Manzanas ─────────────────────────────────────────────────────────────────
 const manzanasTotal = computed(() =>
-  Object.values(store.stats).reduce((s, v) => s + v.count, 0) || 7028
+  Object.values(store.statsMunicipios).reduce((s, v) => s + v.count, 0) || 7028
 )
 
 const manzanasMun = computed(() => {
@@ -348,25 +349,8 @@ const fechaFormateada = computed(() => {
 })
 
 // ─── Colores ─────────────────────────────────────────────────────────────────
-function scoreColor(v) {
-  const n = +v
-  if (n >= 0.85) return '#1a9850'
-  if (n >= 0.70) return '#66bd63'
-  if (n >= 0.55) return '#a6d96a'
-  if (n >= 0.40) return '#fdae61'
-  if (n >= 0.20) return '#f46d43'
-  return '#d73027'
-}
-
-function scoreLabel(v) {
-  const n = +v
-  if (n >= 0.85) return 'Excelente'
-  if (n >= 0.70) return 'Alto'
-  if (n >= 0.55) return 'Medio-alto'
-  if (n >= 0.40) return 'Medio-bajo'
-  if (n >= 0.20) return 'Bajo'
-  return 'Crítico'
-}
+// Escala compartida (paleta verde de paneles) — ver composables/useScoreScale.js
+const { scoreColor, scoreLabel } = useScoreScale()
 
 const nivelStyle = computed(() => {
   const color = scoreColor(scorePpal.value / 100)

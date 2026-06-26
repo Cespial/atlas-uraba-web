@@ -41,7 +41,7 @@ const RANGES = [
 
 const totalManzanas = computed(() => {
   const m = store.municipioActivo
-  if (m === 'Todos') return Object.values(store.stats).reduce((s,v) => s+v.count, 0)
+  if (m === 'Todos') return Object.values(store.statsMunicipios).reduce((s,v) => s+v.count, 0)
   return store.stats[m]?.count ?? 0
 })
 
@@ -49,7 +49,7 @@ const bars = computed(() => {
   const dim = store.dimension
   const m = store.municipioActivo
   const allStats = m === 'Todos'
-    ? Object.values(store.stats)
+    ? Object.values(store.statsMunicipios)
     : [store.stats[store.municipioActivo]].filter(Boolean)
   // Fallback: usa distribución aproximada de avg por municipio
   const avgs = allStats.map(s => s.avg?.[dim] ?? 0)

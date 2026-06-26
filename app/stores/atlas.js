@@ -55,8 +55,15 @@ export const useAtlasStore = defineStore('atlas', {
     dimensionActual: (s) => DIMENSIONES.find(d => d.key === s.dimension) ?? DIMENSIONES[0],
     municipioConfig: (s) => MUNICIPIOS.find(m => m.nombre === s.municipioActivo),
     hasFilters: (s) => s.filterMin > 0 || s.filterMax < 1 || s.zonaFilter.length < 5,
-    regionScore: (s) => {
-      const vals = Object.values(s.stats)
+    // Stats por municipio, SIN la fila agregada 'Todos'. Usar esto en toda suma o
+    // ranking: incluir 'Todos' duplica el total (cuenta 7.028 dos veces) y añade
+    // una fila fantasma al ranking.
+    statsMunicipios: (s) => {
+      const { Todos, ...resto } = s.stats
+      return resto
+    },
+    regionScore() {
+      const vals = Object.values(this.statsMunicipios)
       if (!vals.length) return 0
       const total = vals.reduce((acc, v) => acc + v.count, 0) || 1
       return vals.reduce((acc, v) => acc + (v.avg?.atlas_score ?? 0) * v.count, 0) / total

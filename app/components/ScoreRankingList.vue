@@ -35,12 +35,14 @@
 <script setup>
 import { computed } from 'vue'
 import { useAtlasStore, DIMENSIONES } from '~/stores/atlas'
+import { useScoreScale } from '~/composables/useScoreScale'
 
 const store = useAtlasStore()
+const { scoreColor } = useScoreScale()
 
 const municipios = computed(() => {
   const dim = store.dimension
-  return Object.entries(store.stats)
+  return Object.entries(store.statsMunicipios)
     .map(([nombre, s]) => ({
       nombre,
       short: nombre.replace('San ', 'S.').replace(' de Urabá','').replace(' de Antioquia',''),
@@ -48,13 +50,4 @@ const municipios = computed(() => {
     }))
     .sort((a, b) => b.score - a.score)
 })
-
-function scoreColor(v) {
-  if (v >= 0.85) return '#1a9850'
-  if (v >= 0.70) return '#66bd63'
-  if (v >= 0.55) return '#a6d96a'
-  if (v >= 0.40) return '#fdae61'
-  if (v >= 0.20) return '#f46d43'
-  return '#d73027'
-}
 </script>

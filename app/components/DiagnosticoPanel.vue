@@ -394,6 +394,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
 import { useAtlasStore, DIMENSIONES } from '~/stores/atlas'
+import { scoreLabel } from '~/composables/useScoreScale'
 
 const emit = defineEmits(['open-ficha'])
 const store = useAtlasStore()
@@ -442,16 +443,6 @@ function scoreColor(v) {
   if (n >= 0.40) return 'var(--score-3, #fdae61)'
   if (n >= 0.20) return 'var(--score-2, #f46d43)'
   return 'var(--score-1, #d73027)'
-}
-
-function scoreLabel(v) {
-  const n = +v
-  if (n >= 0.85) return 'Excelente'
-  if (n >= 0.70) return 'Alto'
-  if (n >= 0.55) return 'Medio-alto'
-  if (n >= 0.40) return 'Medio-bajo'
-  if (n >= 0.20) return 'Bajo'
-  return 'Crítico'
 }
 
 function scoreBadgeStyle(v) {
