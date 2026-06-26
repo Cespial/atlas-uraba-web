@@ -1,12 +1,13 @@
-// useScoreScale.js — Fuente única de la escala de score de los PANELES.
+// useScoreScale.js — Escala de score VERDE compartida por FichaMunicipal y
+// ScoreRankingList (antes copiada verbatim en ambos).
 // =============================================================================
-// Paleta "verde" canónica (definida en main.css como --score-1..6) y sus
-// etiquetas. Antes estaba copiada verbatim en FichaMunicipal, ScoreRankingList y
-// DiagnosticoPanel, con riesgo de derivar entre sí y respecto a la leyenda.
-//
-// OJO: el mapa coroplético usa una paleta DISTINTA (teal Tensor, en
-// useAtlasMap.buildColorExprFromScore). Son intencionalmente diferentes; no
-// unificar aquí sin una decisión de diseño explícita.
+// ALCANCE: solo consolida esos dos paneles. NO es aún la fuente única de la app:
+// - DiagnosticoPanel usa var(--score-N), que en main.css resuelve a la paleta
+//   TEAL Tensor (la "nueva escala"), por lo que hoy pinta distinto que estos dos.
+// - MobileSheet, ManzanaPanel, MapLegend y HistogramPanel mantienen su propia
+//   copia (verde); PanoramaPanel y comparar usan teal hardcodeado.
+// La convergencia a una sola paleta (verde vs teal) es una decisión de diseño
+// pendiente, deliberadamente fuera de este módulo.
 // Entrada esperada: score normalizado en [0, 1].
 // =============================================================================
 

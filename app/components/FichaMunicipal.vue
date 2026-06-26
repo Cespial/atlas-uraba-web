@@ -333,7 +333,7 @@ function dimLabel(key) {
 
 // ─── Manzanas ─────────────────────────────────────────────────────────────────
 const manzanasTotal = computed(() =>
-  Object.values(store.statsMunicipios).reduce((s, v) => s + v.count, 0) || 7028
+  Object.values(store.stats).reduce((s, v) => s + v.count, 0) || 7028
 )
 
 const manzanasMun = computed(() => {

@@ -42,7 +42,7 @@ const { scoreColor } = useScoreScale()
 
 const municipios = computed(() => {
   const dim = store.dimension
-  return Object.entries(store.statsMunicipios)
+  return Object.entries(store.stats)
     .map(([nombre, s]) => ({
       nombre,
       short: nombre.replace('San ', 'S.').replace(' de Urabá','').replace(' de Antioquia',''),

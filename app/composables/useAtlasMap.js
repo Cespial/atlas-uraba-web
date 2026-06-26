@@ -169,10 +169,14 @@ export function useAtlasMap(mapRef) {
     // archivo corrupto: el error llega por el evento 'error' del mapa), así que el
     // try/catch nunca activaba el fallback. Comprobamos disponibilidad del archivo
     // antes de elegir el tipo de source para que el fallback sea alcanzable.
+    // El content-type descarta el falso positivo de un host que responde 200 con
+    // el index.html (SPA fallback) en vez del binario: si llega text/html, el
+    // .pmtiles no existe realmente y vamos a GeoJSON.
     let usePmtiles = true
     try {
       const head = await fetch('/data/atlas.pmtiles', { method: 'HEAD' })
-      usePmtiles = head.ok
+      const ct = head.headers.get('content-type') || ''
+      usePmtiles = head.ok && !ct.includes('text/html')
     } catch {
       usePmtiles = false
     }
@@ -1236,7 +1240,8 @@ export function useAtlasMap(mapRef) {
           }
         }
       }
-      if (baseLoaded) requestAnimationFrame(() => updateMunicipioFeatureStates())
+      if (!baseLoaded) return  // sin base, v2 dejaría stats con solo dimensiones v2 (scores core ausentes)
+      requestAnimationFrame(() => updateMunicipioFeatureStates())
 
       // Cargar stats v2 (NDVI, luminosidad, GHSL) SIEMPRE después de las base:
       // setStats reemplaza el objeto entero, así que si v2 llegara primero su merge
@@ -1349,13 +1354,16 @@ export function useAtlasMap(mapRef) {
     // setStyle destruye todas las sources y layers — recargar tras styledata
     map.value.once('styledata', () => {
       // Esperar a que el nuevo estilo esté completamente cargado
-      const reload = () => {
+      const reload = async () => {
         if (!map.value.isStyleLoaded()) {
           setTimeout(reload, 100)
           return
         }
         try {
-          loadAtlasLayer()
+          // loadAtlasLayer es async (preflight del PMTiles): await para que un
+          // rechazo caiga en este catch y no escape como unhandled rejection,
+          // y para que la restauración de visibilidades corra tras la recarga.
+          await loadAtlasLayer()
           // Restaurar visibilidades no-default (capas que el usuario activó)
           Object.entries(prevVisibility).forEach(([id, visible]) => {
             if (!visible) {
@@ -1489,7 +1497,17 @@ export function useAtlasMap(mapRef) {
       dims.forEach(d => { stats[mun].avg[d] = data.sums[d] / data.count })
     })
     if (Object.keys(stats).length > 0) {
-      store.setStats(stats)
+      // Agregado regional 'Todos': promedio ponderado por nº de manzanas. La ruta
+      // JSON lo trae precomputado; aquí lo reconstruimos para que statsTodos no
+      // quede vacío en el fallback (paneles de promedio Urabá lo leen).
+      const totalCount = Object.values(stats).reduce((s, v) => s + v.count, 0)
+      const todos = { count: totalCount, avg: {} }
+      dims.forEach(d => {
+        todos.avg[d] = totalCount
+          ? Object.values(stats).reduce((s, v) => s + (v.avg[d] ?? 0) * v.count, 0) / totalCount
+          : 0
+      })
+      store.setStats({ Todos: todos, ...stats })
       // Mejora 7: actualizar feature-state de municipios tras recalcular stats
       updateMunicipioFeatureStates()
     }

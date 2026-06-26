@@ -505,7 +505,7 @@ const munRanking = computed(() => {
 const urabaAvg = computed(() => {
   return gapAnalysis.value
     ? rankingCompleto.value.reduce((s, r) => s + r.score, 0) / rankingCompleto.value.length
-    : Math.round((store.stats['Todos']?.avg?.atlas_score ?? 0.62) * 100)
+    : Math.round((store.statsTodos?.avg?.atlas_score ?? 0.62) * 100)
 })
 
 const urabaAvgPct = computed(() => Math.round(urabaAvg.value))

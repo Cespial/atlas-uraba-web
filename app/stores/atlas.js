@@ -45,7 +45,11 @@ export const useAtlasStore = defineStore('atlas', {
     manzanaSeleccionada: null,
     cargando:            true,
     error:               null,
+    // stats = SOLO filas por municipio. El agregado regional vive aparte en
+    // statsTodos para que cualquier Object.values(stats) (sumas, rankings) sea
+    // correcto por construcción y no haya que excluir 'Todos' en cada consumidor.
     stats:               {},
+    statsTodos:          null,
     filterMin:           0,
     filterMax:           1,
     zonaFilter:          ['HH','LL','HL','LH','NS'],
@@ -55,15 +59,9 @@ export const useAtlasStore = defineStore('atlas', {
     dimensionActual: (s) => DIMENSIONES.find(d => d.key === s.dimension) ?? DIMENSIONES[0],
     municipioConfig: (s) => MUNICIPIOS.find(m => m.nombre === s.municipioActivo),
     hasFilters: (s) => s.filterMin > 0 || s.filterMax < 1 || s.zonaFilter.length < 5,
-    // Stats por municipio, SIN la fila agregada 'Todos'. Usar esto en toda suma o
-    // ranking: incluir 'Todos' duplica el total (cuenta 7.028 dos veces) y añade
-    // una fila fantasma al ranking.
-    statsMunicipios: (s) => {
-      const { Todos, ...resto } = s.stats
-      return resto
-    },
-    regionScore() {
-      const vals = Object.values(this.statsMunicipios)
+    // stats ya excluye 'Todos', así que iterar es seguro sin filtros extra.
+    regionScore: (s) => {
+      const vals = Object.values(s.stats)
       if (!vals.length) return 0
       const total = vals.reduce((acc, v) => acc + v.count, 0) || 1
       return vals.reduce((acc, v) => acc + (v.avg?.atlas_score ?? 0) * v.count, 0) / total
@@ -75,15 +73,25 @@ export const useAtlasStore = defineStore('atlas', {
     setMunicipio(n)    { this.municipioActivo = n },
     selectManzana(p)   { this.manzanaSeleccionada = p },
     clearManzana()     { this.manzanaSeleccionada = null },
-    setStats(s)        { this.stats = s },
-    // Fusionar datos v2 en stats existentes por municipio
-    setStatsV2(v2)     {
+    // Separa la fila agregada 'Todos' (si viene) del resto de municipios.
+    setStats(s) {
+      const { Todos = null, ...municipios } = s || {}
+      this.statsTodos = Todos
+      this.stats = municipios
+    },
+    // Fusionar datos v2 por municipio; 'Todos' se enruta al agregado aparte.
+    setStatsV2(v2) {
+      const { Todos: todosV2, ...municipiosV2 } = v2 || {}
       const merged = { ...this.stats }
-      Object.entries(v2).forEach(([mun, data]) => {
+      Object.entries(municipiosV2).forEach(([mun, data]) => {
         if (!merged[mun]) merged[mun] = { count: data.count, avg: {} }
         Object.assign(merged[mun].avg, data.avg)
       })
       this.stats = merged
+      if (todosV2) {
+        if (!this.statsTodos) this.statsTodos = { count: todosV2.count, avg: {} }
+        Object.assign(this.statsTodos.avg, todosV2.avg)
+      }
     },
     setLoaded()        { this.cargando = false },
     setError(msg)      { this.error = msg; this.cargando = false },

@@ -469,7 +469,7 @@ const dimColors = {
 }
 
 const urabaAvg = computed(() => {
-  const t = store.stats['Todos']
+  const t = store.statsTodos
   if (!t?.avg) return {}
   return {
     score_accesibilidad:  Math.round((t.avg.score_accesibilidad || 0) * 100),
