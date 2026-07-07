@@ -6,6 +6,17 @@ export default defineNuxtConfig({
   // pública REST de FASE 4) se desplieguen como funciones, no como sitio estático.
   nitro: {
     preset: 'vercel',
+    // El proyecto en Vercel construye con `nuxt generate` (vercel-static), así
+    // que las rutas dinámicas deben prerenderizarse explícitamente o darán 404
+    // en producción. Los datos del brief cargan client-side (server:false),
+    // por lo que el HTML prerenderizado es solo el shell — suficiente.
+    prerender: {
+      routes: [
+        '/brief/apartado', '/brief/turbo', '/brief/chigorodo', '/brief/carepa',
+        '/brief/necocli', '/brief/arboletes', '/brief/san-pedro-de-uraba',
+        '/brief/san-juan-de-uraba',
+      ],
+    },
     // Empaqueta sólo los JSON/GeoJSON que la API REST (FASE 4) lee en runtime
     // como server assets, de modo que viajen DENTRO del bundle de la función
     // serverless (se leen vía useStorage('assets:data'), no por filesystem).
