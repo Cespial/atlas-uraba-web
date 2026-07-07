@@ -17,6 +17,12 @@
               </svg>
               Brief PDF
             </NuxtLink>
+            <NuxtLink v-if="briefUrl" to="/cadena" class="action-btn" title="Cadena de valor agro">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path d="M2 13h12M3 13V8m3.3 5V5.5m3.4 7.5V7m3.3 6V3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              </svg>
+              Cadena agro
+            </NuxtLink>
             <button class="action-btn" @click="imprimir" title="Imprimir ficha">
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                 <path d="M4 5V2h8v3M4 11H2V7h12v4h-2M4 11v3h8v-3M4 11h8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>

@@ -116,7 +116,10 @@
 <script setup>
 import { computed } from 'vue'
 import { useEquidad } from '~/composables/useEquidad'
+import { useScoreScale } from '~/composables/useScoreScale'
 import { MUNICIPIO_SLUGS } from '~/utils/briefSlugs'
+
+const { scoreLabel } = useScoreScale()
 
 const route = useRoute()
 const nombre = MUNICIPIO_SLUGS[route.params.municipio]
@@ -139,12 +142,22 @@ const pct = v => Math.round((v ?? 0) * 100)
 const avg = computed(() => statsRaw.value?.municipios?.[nombre]?.avg ?? {})
 const gap = computed(() => gapRaw.value?.[nombre] ?? {})
 
-const score = computed(() => gap.value.atlas_score ?? pct(avg.value.atlas_score_v3))
-const nivel = computed(() => {
-  const n = gap.value.nivel ?? ''
-  return n ? n.charAt(0).toUpperCase() + n.slice(1) : ''
+const score = computed(() => Math.round((avg.value.atlas_score_v3 ?? 0) * 100))
+const nivel = computed(() => (avg.value.atlas_score_v3 != null ? scoreLabel(avg.value.atlas_score_v3) : ''))
+
+// Promedio regional v3: media ponderada por conteo de manzanas de cada municipio.
+const regionalScoreV3 = computed(() => {
+  const munis = statsRaw.value?.municipios ?? {}
+  let totalCount = 0
+  let weightedSum = 0
+  for (const m of Object.values(munis)) {
+    const c = m?.count ?? 0
+    const s = m?.avg?.atlas_score_v3 ?? 0
+    totalCount += c
+    weightedSum += c * s
+  }
+  return totalCount ? Math.round((weightedSum / totalCount) * 100) : null
 })
-const narrativa = computed(() => gap.value.narrativa ?? '')
 
 // Dimensiones v3 municipio vs benchmarks (todo llevado a 0–100).
 const DIMS = [
@@ -167,6 +180,18 @@ const dims = computed(() => {
       color: mun >= uraba ? '#1a9850' : '#d73027',
     }
   })
+})
+
+// Narrativa determinística v3: coherente con score, nivel y tabla de dimensiones de arriba.
+const narrativa = computed(() => {
+  const R = regionalScoreV3.value
+  if (avg.value.atlas_score_v3 == null || R == null || !dims.value.length) return ''
+  const s = score.value
+  const diff = Math.abs(s - R)
+  const direccion = s >= R ? 'por encima' : 'por debajo'
+  const dimMax = dims.value.reduce((a, b) => (b.mun > a.mun ? b : a))
+  const dimMin = dims.value.reduce((a, b) => (b.mun < a.mun ? b : a))
+  return `${nombre} registra un Índice de Bienestar v3 de ${s}/100 (${nivel.value.toLowerCase()}), ${diff} puntos ${direccion} del promedio regional (${R}/100). Su dimensión más fuerte es ${dimMax.label} (${dimMax.mun}/100); la brecha prioritaria es ${dimMin.label} (${dimMin.mun}/100).`
 })
 
 const eq = computed(() => equidad.value?.municipios?.[nombre] ?? null)
