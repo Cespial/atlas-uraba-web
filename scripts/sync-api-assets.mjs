@@ -12,7 +12,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const SRC = join(root, 'public', 'data')
 const DEST = join(root, 'server', 'assets', 'data')
 
-const FILES = ['atlas_stats_v3.json', 'gap_analysis.json', 'atlas.geojson']
+const FILES = ['atlas_stats_v3.json', 'gap_analysis.json', 'atlas.geojson', 'equidad_municipios.json']
 
 await fs.mkdir(DEST, { recursive: true })
 for (const f of FILES) {

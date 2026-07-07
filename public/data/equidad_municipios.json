@@ -1,0 +1,84 @@
+{
+  "_meta": {
+    "fuente": "Cálculo propio Atlas Urabá sobre atlas_enriquecido.geojson (atlas_score_v3, CNPV 2018 + satélite GEE + isócronas OSRM)",
+    "formula": "Por municipio: Gini(atlas_score_v3 de sus manzanas); brecha_p90_p10 = p90 - p10; manzanas_criticas = score < p25 regional de Urabá",
+    "umbral_critico": 0.5346,
+    "generado": "2026-07-07",
+    "n_total": 7028,
+    "n_sin_score": 0
+  },
+  "municipios": {
+    "Apartadó": {
+      "gini": 0.0509,
+      "p10": 0.5922,
+      "p90": 0.7321,
+      "brecha_p90_p10": 0.1399,
+      "manzanas_criticas": 69,
+      "pct_criticas": 0.0416,
+      "n_manzanas": 1659
+    },
+    "Arboletes": {
+      "gini": 0.1225,
+      "p10": 0.3472,
+      "p90": 0.6355,
+      "brecha_p90_p10": 0.2883,
+      "manzanas_criticas": 205,
+      "pct_criticas": 0.4756,
+      "n_manzanas": 431
+    },
+    "Carepa": {
+      "gini": 0.0507,
+      "p10": 0.5582,
+      "p90": 0.7016,
+      "brecha_p90_p10": 0.1434,
+      "manzanas_criticas": 60,
+      "pct_criticas": 0.0708,
+      "n_manzanas": 847
+    },
+    "Chigorodó": {
+      "gini": 0.012,
+      "p10": 0.5705,
+      "p90": 0.5953,
+      "brecha_p90_p10": 0.0248,
+      "manzanas_criticas": 18,
+      "pct_criticas": 0.0233,
+      "n_manzanas": 774
+    },
+    "Necoclí": {
+      "gini": 0.081,
+      "p10": 0.3882,
+      "p90": 0.5618,
+      "brecha_p90_p10": 0.1736,
+      "manzanas_criticas": 515,
+      "pct_criticas": 0.7851,
+      "n_manzanas": 656
+    },
+    "San Juan de Urabá": {
+      "gini": 0.059,
+      "p10": 0.5525,
+      "p90": 0.7425,
+      "brecha_p90_p10": 0.19,
+      "manzanas_criticas": 18,
+      "pct_criticas": 0.0623,
+      "n_manzanas": 289
+    },
+    "San Pedro de Urabá": {
+      "gini": 0.0913,
+      "p10": 0.4226,
+      "p90": 0.7381,
+      "brecha_p90_p10": 0.3155,
+      "manzanas_criticas": 58,
+      "pct_criticas": 0.1607,
+      "n_manzanas": 361
+    },
+    "Turbo": {
+      "gini": 0.096,
+      "p10": 0.4431,
+      "p90": 0.6913,
+      "brecha_p90_p10": 0.2482,
+      "manzanas_criticas": 813,
+      "pct_criticas": 0.4043,
+      "n_manzanas": 2011
+    }
+  }
+}
