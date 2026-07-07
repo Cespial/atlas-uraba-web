@@ -136,6 +136,31 @@
           </section>
 
           <!-- ════════════════════════════════════════════════════
+               BLOQUE D2 — Equidad interna (desigualdad entre manzanas)
+          ════════════════════════════════════════════════════ -->
+          <section v-if="equidadEntry" class="ficha-equidad">
+            <div class="equidad-header">EQUIDAD INTERNA · desigualdad entre manzanas</div>
+            <div class="equidad-grid">
+              <div class="equidad-item">
+                <span class="equidad-val">{{ equidadEntry.gini.toFixed(2) }}</span>
+                <span class="equidad-label">Gini del score v3</span>
+              </div>
+              <div class="equidad-item">
+                <span class="equidad-val">{{ Math.round(equidadEntry.brecha_p90_p10 * 100) }}</span>
+                <span class="equidad-label">Brecha p90−p10 (pts)</span>
+              </div>
+              <div class="equidad-item">
+                <span class="equidad-val">{{ equidadEntry.manzanas_criticas }}</span>
+                <span class="equidad-label">Manzanas críticas ({{ Math.round(equidadEntry.pct_criticas * 100) }}%)</span>
+              </div>
+            </div>
+            <p class="equidad-nota">
+              Crítica = manzana bajo el p25 regional de Urabá.
+              Fuente: cálculo propio sobre CNPV 2018 + satélite GEE + isócronas OSRM.
+            </p>
+          </section>
+
+          <!-- ════════════════════════════════════════════════════
                BLOQUE E — Diagnóstico narrativo
           ════════════════════════════════════════════════════ -->
           <section v-if="narrativa" class="ficha-diagnostico">
@@ -187,6 +212,7 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useAtlasStore, DIMENSIONES, MUNICIPIOS } from '~/stores/atlas'
 import { useScoreScale } from '~/composables/useScoreScale'
+import { useEquidad } from '~/composables/useEquidad'
 
 // ─── Props & Emits ────────────────────────────────────────────────────────────
 const props = defineProps({
@@ -224,6 +250,13 @@ onMounted(cargarDatos)
 
 // Cargar datos también cuando se abre la ficha (por si se monta tarde)
 watch(() => props.visible, (v) => { if (v) cargarDatos() })
+
+// ─── Equidad interna (Task equidad intra-municipal) ──────────────────────────
+const { equidad } = useEquidad()
+const equidadEntry = computed(() => {
+  if (store.municipioActivo === 'Todos') return null
+  return equidad.value?.municipios?.[store.municipioActivo] ?? null
+})
 
 // ─── Municipio activo ────────────────────────────────────────────────────────
 const municipioNombre = computed(() =>
@@ -737,6 +770,15 @@ async function compartir() {
 
 .dim-gap--pos { color: #16a34a; }
 .dim-gap--neg { color: #dc2626; }
+
+/* ── Equidad interna ─────────────────────────────────────────── */
+.ficha-equidad { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.08); }
+.equidad-header { font-family: ui-monospace, monospace; font-size: 8px; letter-spacing: 0.15em; color: #8a8a85; margin-bottom: 8px; }
+.equidad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.equidad-item { display: flex; flex-direction: column; gap: 2px; }
+.equidad-val { font-size: 20px; font-weight: 700; color: #1B6B6D; font-variant-numeric: tabular-nums; }
+.equidad-label { font-size: 9.5px; color: #5F5F5B; }
+.equidad-nota { margin-top: 8px; font-size: 8.5px; color: #8a8a85; }
 
 /* ── Diagnóstico ─────────────────────────────────────────────── */
 .ficha-diagnostico {
