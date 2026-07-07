@@ -50,7 +50,7 @@
           <!-- Columna A -->
           <section class="cmp-col">
             <MunicipioCard :data="dataA" side="a" :rank="rankA" />
-            <NuxtLink :to="`/brief/${slugFor(munA)}`" class="cmp-brief-link">Policy brief A4 →</NuxtLink>
+            <NuxtLink v-if="slugFor(munA)" :to="`/brief/${slugFor(munA)}`" class="cmp-brief-link">Policy brief A4 →</NuxtLink>
           </section>
 
           <!-- Columna DELTA -->
@@ -94,7 +94,7 @@
           <!-- Columna B -->
           <section class="cmp-col">
             <MunicipioCard :data="dataB" side="b" :rank="rankB" />
-            <NuxtLink :to="`/brief/${slugFor(munB)}`" class="cmp-brief-link">Policy brief A4 →</NuxtLink>
+            <NuxtLink v-if="slugFor(munB)" :to="`/brief/${slugFor(munB)}`" class="cmp-brief-link">Policy brief A4 →</NuxtLink>
           </section>
         </div>
 
