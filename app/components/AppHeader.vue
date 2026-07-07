@@ -48,6 +48,12 @@
         </svg>
         <span class="tool-nav-label">Simulador</span>
       </NuxtLink>
+      <NuxtLink to="/cadena" class="tool-nav-link" title="Cadena de valor agro">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M2 13h12M3 13V8m3.3 5V5.5m3.4 7.5V7m3.3 6V3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="tool-nav-label">Cadena agro</span>
+      </NuxtLink>
     </nav>
 
     <!-- Desktop: badge -->
