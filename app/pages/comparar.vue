@@ -50,6 +50,7 @@
           <!-- Columna A -->
           <section class="cmp-col">
             <MunicipioCard :data="dataA" side="a" :rank="rankA" />
+            <NuxtLink :to="`/brief/${slugFor(munA)}`" class="cmp-brief-link">Policy brief A4 →</NuxtLink>
           </section>
 
           <!-- Columna DELTA -->
@@ -93,6 +94,7 @@
           <!-- Columna B -->
           <section class="cmp-col">
             <MunicipioCard :data="dataB" side="b" :rank="rankB" />
+            <NuxtLink :to="`/brief/${slugFor(munB)}`" class="cmp-brief-link">Policy brief A4 →</NuxtLink>
           </section>
         </div>
 
@@ -116,6 +118,7 @@
 import { computed, ref, h } from 'vue'
 import CompararRadar from '~/components/comparar/CompararRadar.vue'
 import CompararMiniMapa from '~/components/comparar/CompararMiniMapa.vue'
+import { slugFor } from '~/utils/briefSlugs'
 
 const COLOR_A = '#1B6B6D'
 const COLOR_B = '#a78bfa'
@@ -625,6 +628,10 @@ useHead({ title: 'Comparador de municipios — Atlas Urabá' })
   font-weight: 700;
   letter-spacing: -0.2px;
 }
+
+/* Brief link */
+.cmp-brief-link { display: inline-block; margin-top: 10px; font-family: ui-monospace, monospace; font-size: 10px; color: #1B6B6D; text-decoration: none; letter-spacing: 0.06em; }
+.cmp-brief-link:hover { text-decoration: underline; }
 
 /* Responsive: apila A sobre B */
 @media (max-width: 860px) {

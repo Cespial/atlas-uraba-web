@@ -10,6 +10,13 @@
 
           <!-- ── ACCIONES (ocultas en print) ─────────────────────── -->
           <div class="ficha-actions no-print">
+            <NuxtLink v-if="briefUrl" :to="briefUrl" class="action-btn" title="Policy brief A4">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path d="M4 2h6l3 3v9H4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+                <path d="M10 2v3h3M6.5 9h4M6.5 11.5h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              </svg>
+              Brief PDF
+            </NuxtLink>
             <button class="action-btn" @click="imprimir" title="Imprimir ficha">
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                 <path d="M4 5V2h8v3M4 11H2V7h12v4h-2M4 11v3h8v-3M4 11h8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -213,6 +220,7 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useAtlasStore, DIMENSIONES, MUNICIPIOS } from '~/stores/atlas'
 import { useScoreScale } from '~/composables/useScoreScale'
 import { useEquidad } from '~/composables/useEquidad'
+import { slugFor } from '~/utils/briefSlugs'
 
 // ─── Props & Emits ────────────────────────────────────────────────────────────
 const props = defineProps({
@@ -256,6 +264,12 @@ const { equidad } = useEquidad()
 const equidadEntry = computed(() => {
   if (store.municipioActivo === 'Todos') return null
   return equidad.value?.municipios?.[store.municipioActivo] ?? null
+})
+
+// ─── Brief URL ────────────────────────────────────────────────────────────
+const briefUrl = computed(() => {
+  const s = slugFor(store.municipioActivo)
+  return s ? `/brief/${s}` : null
 })
 
 // ─── Municipio activo ────────────────────────────────────────────────────────
