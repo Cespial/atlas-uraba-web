@@ -83,6 +83,54 @@ export function useAtlasMap(mapRef) {
   let _maplibregl = null
   let mapMode    = 0  // 0=Dark, 1=Satélite, 2=Calles claras
 
+  // ── Ola 2 · PMTiles lazy: disponibilidad precalculada en loadAtlasLayer() ──
+  // Los registradores de optionalLayerRegistrars son SÍNCRONOS (toggleLayer los
+  // invoca sin await y lee layerVisibility justo después) — no pueden hacer su
+  // propio HEAD-check async como el de 'atlas' sin arriesgar una carrera donde
+  // la capa recién creada (visibility:'none' por defecto) no se muestre en el
+  // primer toggle. En su lugar, loadAtlasLayer() resuelve TODOS los preflight
+  // de las capas PMTiles convertidas de una vez (en paralelo, sin bloquear) y
+  // los cachea aquí; los registradores solo leen el booleano ya resuelto.
+  const pmtilesAvailable = {}
+  async function checkPmtilesAvailable(basename) {
+    try {
+      const head = await fetch(`/data/${basename}.pmtiles`, { method: 'HEAD' })
+      const ct = head.headers.get('content-type') || ''
+      return head.ok && !ct.includes('text/html')
+    } catch {
+      return false
+    }
+  }
+  async function preloadPmtilesAvailability() {
+    const basenames = [
+      'catastro_igac_uraba', 'atlas_enriquecido', 'prioridad_inversion',
+      'clasificacion_suelo', 'aislamiento_manzanas', 'conflicto_uso_manzanas',
+      'ideam_inundacion',
+    ]
+    const results = await Promise.all(basenames.map(checkPmtilesAvailable))
+    basenames.forEach((b, i) => { pmtilesAvailable[b] = results[i] })
+  }
+  // Arma la config de addSource (vector PMTiles si preloadPmtilesAvailability
+  // ya confirmó el archivo, GeoJSON si no) y el extra a mezclar en cada
+  // addLayer ('source-layer' solo aplica a fuentes vector). geojsonOpts.promoteId
+  // (si existe) se replica en la fuente vector — promoteId en MapLibre lee el
+  // valor de la propiedad de la feature en tiempo de ejecución, funciona igual
+  // en GeoJSON y en vector sin necesitar --use-attribute-for-id en tippecanoe.
+  function resolveLazySource(basename, sourceLayerName, geojsonOpts, vectorZoom) {
+    if (pmtilesAvailable[basename]) {
+      return {
+        sourceConfig: {
+          type: 'vector',
+          url: `pmtiles:///data/${basename}.pmtiles`,
+          ...(geojsonOpts.promoteId ? { promoteId: geojsonOpts.promoteId } : {}),
+          ...vectorZoom,
+        },
+        layerExtra: { 'source-layer': sourceLayerName },
+      }
+    }
+    return { sourceConfig: geojsonOpts, layerExtra: {} }
+  }
+
   // Cache de datos IRCA/seguridad para los tooltips de las capas coropléticas
   // municipales (poblado por optionalLayerRegistrars.irca/seguridad al primer
   // toggle; setupIndicadoresInteraction los lee por closure).
@@ -435,14 +483,19 @@ export function useAtlasMap(mapRef) {
     },
     inundacion() {
       if (map.value.getSource('inundacion')) return
-      map.value.addSource('inundacion', { type: 'geojson', data: '/data/ideam_inundacion.geojson' })
+      const { sourceConfig, layerExtra } = resolveLazySource(
+        'ideam_inundacion', 'inundacion',
+        { type: 'geojson', data: '/data/ideam_inundacion.geojson' },
+        { minzoom: 4, maxzoom: 10 },
+      )
+      map.value.addSource('inundacion', sourceConfig)
       map.value.addLayer({
-        id: 'inundacion-fill', type: 'fill', source: 'inundacion',
+        id: 'inundacion-fill', type: 'fill', source: 'inundacion', ...layerExtra,
         layout: { visibility: 'none' },
         paint: { 'fill-color': ['coalesce', ['get', 'color'], '#3b82f6'], 'fill-opacity': 0.6 },
       })
       map.value.addLayer({
-        id: 'inundacion-outline', type: 'line', source: 'inundacion',
+        id: 'inundacion-outline', type: 'line', source: 'inundacion', ...layerExtra,
         layout: { visibility: 'none' },
         paint: { 'line-color': ['coalesce', ['get', 'color'], '#3b82f6'], 'line-width': 1.5 },
       })
@@ -487,9 +540,14 @@ export function useAtlasMap(mapRef) {
     'clasificacion-suelo'() {
       try {
         if (map.value.getSource('clasificacion-suelo')) return
-        map.value.addSource('clasificacion-suelo', { type: 'geojson', data: '/data/clasificacion_suelo.geojson' })
+        const { sourceConfig, layerExtra } = resolveLazySource(
+          'clasificacion_suelo', 'clasificacion',
+          { type: 'geojson', data: '/data/clasificacion_suelo.geojson' },
+          { minzoom: 4, maxzoom: 13 },
+        )
+        map.value.addSource('clasificacion-suelo', sourceConfig)
         map.value.addLayer({
-          id: 'clasificacion-suelo-fill', type: 'fill', source: 'clasificacion-suelo',
+          id: 'clasificacion-suelo-fill', type: 'fill', source: 'clasificacion-suelo', ...layerExtra,
           layout: { visibility: 'none' },
           paint: {
             'fill-color': [
@@ -502,7 +560,7 @@ export function useAtlasMap(mapRef) {
           },
         })
         map.value.addLayer({
-          id: 'clasificacion-suelo-outline', type: 'line', source: 'clasificacion-suelo',
+          id: 'clasificacion-suelo-outline', type: 'line', source: 'clasificacion-suelo', ...layerExtra,
           layout: { visibility: 'none' },
           paint: { 'line-color': 'rgba(255,255,255,0.12)', 'line-width': 0.4 },
         })
@@ -511,11 +569,14 @@ export function useAtlasMap(mapRef) {
     'prioridad-inversion'() {
       try {
         if (map.value.getSource('prioridad-inversion')) return
-        map.value.addSource('prioridad-inversion', {
-          type: 'geojson', data: '/data/prioridad_inversion.geojson', promoteId: '_fid',
-        })
+        const { sourceConfig, layerExtra } = resolveLazySource(
+          'prioridad_inversion', 'prioridad',
+          { type: 'geojson', data: '/data/prioridad_inversion.geojson', promoteId: '_fid' },
+          { minzoom: 9, maxzoom: 13 },
+        )
+        map.value.addSource('prioridad-inversion', sourceConfig)
         map.value.addLayer({
-          id: 'prioridad-fill', type: 'fill', source: 'prioridad-inversion',
+          id: 'prioridad-fill', type: 'fill', source: 'prioridad-inversion', ...layerExtra,
           minzoom: 10, layout: { visibility: 'none' },
           paint: {
             'fill-color': [
@@ -526,7 +587,7 @@ export function useAtlasMap(mapRef) {
           },
         })
         map.value.addLayer({
-          id: 'prioridad-outline', type: 'line', source: 'prioridad-inversion',
+          id: 'prioridad-outline', type: 'line', source: 'prioridad-inversion', ...layerExtra,
           minzoom: 10, layout: { visibility: 'none' },
           paint: { 'line-color': 'rgba(0,0,0,0.2)', 'line-width': 0.4 },
         })
@@ -644,9 +705,14 @@ export function useAtlasMap(mapRef) {
     aislamiento() {
       try {
         if (map.value.getSource('aislamiento')) return
-        map.value.addSource('aislamiento', { type: 'geojson', data: '/data/aislamiento_manzanas.geojson', promoteId: 'cod_manzana' })
+        const { sourceConfig, layerExtra } = resolveLazySource(
+          'aislamiento_manzanas', 'aislamiento',
+          { type: 'geojson', data: '/data/aislamiento_manzanas.geojson', promoteId: 'cod_manzana' },
+          { minzoom: 9, maxzoom: 13 },
+        )
+        map.value.addSource('aislamiento', sourceConfig)
         map.value.addLayer({
-          id: 'aislamiento-fill', type: 'fill', source: 'aislamiento',
+          id: 'aislamiento-fill', type: 'fill', source: 'aislamiento', ...layerExtra,
           minzoom: 9, layout: { visibility: 'none' },
           paint: {
             'fill-color': ['match', ['get', 'categoria_aislamiento'],
@@ -660,9 +726,14 @@ export function useAtlasMap(mapRef) {
     'conflicto-uso'() {
       try {
         if (map.value.getSource('conflicto-uso')) return
-        map.value.addSource('conflicto-uso', { type: 'geojson', data: '/data/conflicto_uso_manzanas.geojson', promoteId: 'cod_manzana' })
+        const { sourceConfig, layerExtra } = resolveLazySource(
+          'conflicto_uso_manzanas', 'conflicto',
+          { type: 'geojson', data: '/data/conflicto_uso_manzanas.geojson', promoteId: 'cod_manzana' },
+          { minzoom: 9, maxzoom: 13 },
+        )
+        map.value.addSource('conflicto-uso', sourceConfig)
         map.value.addLayer({
-          id: 'conflicto-fill', type: 'fill', source: 'conflicto-uso',
+          id: 'conflicto-fill', type: 'fill', source: 'conflicto-uso', ...layerExtra,
           minzoom: 9, layout: { visibility: 'none' },
           paint: {
             'fill-color': ['match', ['get', 'conflicto_uso'],
@@ -671,7 +742,7 @@ export function useAtlasMap(mapRef) {
           },
         })
         map.value.addLayer({
-          id: 'conflicto-outline', type: 'line', source: 'conflicto-uso',
+          id: 'conflicto-outline', type: 'line', source: 'conflicto-uso', ...layerExtra,
           minzoom: 11, layout: { visibility: 'none' },
           paint: {
             'line-color': ['match', ['get', 'conflicto_uso'],
@@ -682,17 +753,28 @@ export function useAtlasMap(mapRef) {
       } catch (e) { console.warn('[Atlas] conflicto-uso:', e.message) }
     },
     // Capas v2 — atlas enriquecido (GHSL + NDVI + Luminosidad): comparten UNA
-    // sola fuente ('atlas-enriquecido', 11 MB); cada registrador la agrega solo
-    // si aún no existe y añade únicamente su propia capa (guard por getLayer,
-    // no por getSource, porque el source es compartido entre las 5).
+    // sola fuente ('atlas-enriquecido', 11 MB → 5.9 MB en PMTiles); cada
+    // registrador la agrega solo si aún no existe y añade únicamente su propia
+    // capa (guard por getLayer, no por getSource, porque el source es
+    // compartido entre las 5). enriquecidoSource() resuelve la fuente UNA vez
+    // (misma resolveLazySource que el resto de capas Ola 2) para que las 5
+    // compartan exactamente el mismo sourceConfig/layerExtra.
+    enriquecidoSource() {
+      return resolveLazySource(
+        'atlas_enriquecido', 'enriquecido',
+        { type: 'geojson', data: '/data/atlas_enriquecido.geojson', promoteId: '_fid' },
+        { minzoom: 9, maxzoom: 13 },
+      )
+    },
     'enriquecido-atlas-v2'() {
       try {
         if (map.value.getLayer('enriquecido-atlas-v2')) return
+        const { sourceConfig, layerExtra } = this.enriquecidoSource()
         if (!map.value.getSource('atlas-enriquecido')) {
-          map.value.addSource('atlas-enriquecido', { type: 'geojson', data: '/data/atlas_enriquecido.geojson', promoteId: '_fid' })
+          map.value.addSource('atlas-enriquecido', sourceConfig)
         }
         map.value.addLayer({
-          id: 'enriquecido-atlas-v2', type: 'fill', source: 'atlas-enriquecido',
+          id: 'enriquecido-atlas-v2', type: 'fill', source: 'atlas-enriquecido', ...layerExtra,
           minzoom: 10, layout: { visibility: 'none' },
           paint: {
             'fill-color': buildColorExpr('atlas_score_v2'),
@@ -705,11 +787,12 @@ export function useAtlasMap(mapRef) {
     'enriquecido-accesibilidad-v2'() {
       try {
         if (map.value.getLayer('enriquecido-accesibilidad-v2')) return
+        const { sourceConfig, layerExtra } = this.enriquecidoSource()
         if (!map.value.getSource('atlas-enriquecido')) {
-          map.value.addSource('atlas-enriquecido', { type: 'geojson', data: '/data/atlas_enriquecido.geojson', promoteId: '_fid' })
+          map.value.addSource('atlas-enriquecido', sourceConfig)
         }
         map.value.addLayer({
-          id: 'enriquecido-accesibilidad-v2', type: 'fill', source: 'atlas-enriquecido',
+          id: 'enriquecido-accesibilidad-v2', type: 'fill', source: 'atlas-enriquecido', ...layerExtra,
           minzoom: 10, layout: { visibility: 'none' },
           paint: {
             'fill-color': buildColorExpr('score_accesibilidad_v2'),
@@ -722,11 +805,12 @@ export function useAtlasMap(mapRef) {
     'enriquecido-ndvi'() {
       try {
         if (map.value.getLayer('enriquecido-ndvi')) return
+        const { sourceConfig, layerExtra } = this.enriquecidoSource()
         if (!map.value.getSource('atlas-enriquecido')) {
-          map.value.addSource('atlas-enriquecido', { type: 'geojson', data: '/data/atlas_enriquecido.geojson', promoteId: '_fid' })
+          map.value.addSource('atlas-enriquecido', sourceConfig)
         }
         map.value.addLayer({
-          id: 'enriquecido-ndvi', type: 'fill', source: 'atlas-enriquecido',
+          id: 'enriquecido-ndvi', type: 'fill', source: 'atlas-enriquecido', ...layerExtra,
           minzoom: 10, layout: { visibility: 'none' },
           paint: {
             'fill-color': [
@@ -743,11 +827,12 @@ export function useAtlasMap(mapRef) {
     'enriquecido-impermeabilizacion'() {
       try {
         if (map.value.getLayer('enriquecido-impermeabilizacion')) return
+        const { sourceConfig, layerExtra } = this.enriquecidoSource()
         if (!map.value.getSource('atlas-enriquecido')) {
-          map.value.addSource('atlas-enriquecido', { type: 'geojson', data: '/data/atlas_enriquecido.geojson', promoteId: '_fid' })
+          map.value.addSource('atlas-enriquecido', sourceConfig)
         }
         map.value.addLayer({
-          id: 'enriquecido-impermeabilizacion', type: 'fill', source: 'atlas-enriquecido',
+          id: 'enriquecido-impermeabilizacion', type: 'fill', source: 'atlas-enriquecido', ...layerExtra,
           minzoom: 10, layout: { visibility: 'none' },
           paint: {
             'fill-color': [
@@ -764,11 +849,12 @@ export function useAtlasMap(mapRef) {
     'enriquecido-ambiental-v2'() {
       try {
         if (map.value.getLayer('enriquecido-ambiental-v2')) return
+        const { sourceConfig, layerExtra } = this.enriquecidoSource()
         if (!map.value.getSource('atlas-enriquecido')) {
-          map.value.addSource('atlas-enriquecido', { type: 'geojson', data: '/data/atlas_enriquecido.geojson', promoteId: '_fid' })
+          map.value.addSource('atlas-enriquecido', sourceConfig)
         }
         map.value.addLayer({
-          id: 'enriquecido-ambiental-v2', type: 'fill', source: 'atlas-enriquecido',
+          id: 'enriquecido-ambiental-v2', type: 'fill', source: 'atlas-enriquecido', ...layerExtra,
           minzoom: 10, layout: { visibility: 'none' },
           paint: {
             'fill-color': buildColorExpr('score_ambiental_v2'),
@@ -781,9 +867,14 @@ export function useAtlasMap(mapRef) {
     catastro() {
       try {
         if (map.value.getSource('catastro')) return
-        map.value.addSource('catastro', { type: 'geojson', data: '/data/catastro_igac_uraba.geojson' })
+        const { sourceConfig, layerExtra } = resolveLazySource(
+          'catastro_igac_uraba', 'catastro',
+          { type: 'geojson', data: '/data/catastro_igac_uraba.geojson' },
+          { minzoom: 9, maxzoom: 14 },
+        )
+        map.value.addSource('catastro', sourceConfig)
         map.value.addLayer({
-          id: 'catastro-fill', type: 'fill', source: 'catastro',
+          id: 'catastro-fill', type: 'fill', source: 'catastro', ...layerExtra,
           minzoom: 10, layout: { visibility: 'none' },
           paint: {
             'fill-color': ['interpolate', ['linear'], ['to-number', ['get', 'num_predios'], 0],
@@ -792,7 +883,7 @@ export function useAtlasMap(mapRef) {
           },
         })
         map.value.addLayer({
-          id: 'catastro-outline', type: 'line', source: 'catastro',
+          id: 'catastro-outline', type: 'line', source: 'catastro', ...layerExtra,
           minzoom: 11, layout: { visibility: 'none' },
           paint: { 'line-color': 'rgba(255,255,255,0.2)', 'line-width': 0.4 },
         })
@@ -1077,14 +1168,13 @@ export function useAtlasMap(mapRef) {
     // El content-type descarta el falso positivo de un host que responde 200 con
     // el index.html (SPA fallback) en vez del binario: si llega text/html, el
     // .pmtiles no existe realmente y vamos a GeoJSON.
-    let usePmtiles = true
-    try {
-      const head = await fetch('/data/atlas.pmtiles', { method: 'HEAD' })
-      const ct = head.headers.get('content-type') || ''
-      usePmtiles = head.ok && !ct.includes('text/html')
-    } catch {
-      usePmtiles = false
-    }
+    // Se lanza en paralelo (no en serie) con el preflight de las 7 capas
+    // PMTiles de Ola 2 (catastro, atlas_enriquecido, etc.) — ambos son fetch
+    // HEAD independientes, así que no hay motivo para esperar uno tras otro.
+    const [usePmtiles] = await Promise.all([
+      checkPmtilesAvailable('atlas'),
+      preloadPmtilesAvailability(),
+    ])
     if (usePmtiles) {
       map.value.addSource('atlas', {
         type:      'vector',
