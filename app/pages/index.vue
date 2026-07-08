@@ -76,6 +76,9 @@
       <!-- Descarga CSV filtrado -->
       <DownloadButton />
 
+      <!-- Modo presentación: oculta paneles y expande el mapa a pantalla completa -->
+      <PresentationMode />
+
       <!-- Ficha Municipal — activable desde el panel Diagnóstico -->
     </ClientOnly>
 
