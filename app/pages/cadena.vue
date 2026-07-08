@@ -48,32 +48,53 @@
           <p class="cad-fuente">Fuente: {{ evaFuente }}</p>
         </section>
 
-        <!-- ── BLOQUE 2 · PRECIO MAYORISTA (SIPSA) ─────────────── -->
+        <!-- ── BLOQUE 2 · PRECIO MAYORISTA DOMÉSTICO (SIPSA) ───── -->
         <section class="cad-block">
           <div class="cad-block-head">
-            <h2 class="cad-h2"><span class="cad-step">2</span> Precio mayorista 2024</h2>
+            <h2 class="cad-h2"><span class="cad-step">2</span> Precio mayorista doméstico 2024</h2>
             <div class="cad-selects">
               <select v-model="productoSel" class="cad-select">
                 <option v-for="p in productosSipsa" :key="p" :value="p">{{ p }}</option>
               </select>
             </div>
           </div>
+          <p class="cad-nota">
+            Nota metodológica: variedades <strong>bocadillo y criollo</strong>, de consumo
+            doméstico/informal — no corresponden al banano Cavendish de exportación y por lo tanto
+            <strong>no son comparables</strong> con el precio FOB del bloque 4.
+          </p>
           <div class="cad-chart cad-chart--wide">
             <Line :data="chartSipsa" :options="optsSipsa" />
           </div>
           <p class="cad-fuente">Fuente: DANE — SIPSA, precios mayoristas mensuales (COP/kg).</p>
         </section>
 
-        <!-- ── BLOQUE 3 · EXPORTACIÓN FOB ──────────────────────── -->
+        <!-- ── BLOQUE 3 · PRECIO INTERNACIONAL (fail-quiet) ────── -->
+        <section v-if="intlOk" class="cad-block">
+          <div class="cad-block-head">
+            <h2 class="cad-h2"><span class="cad-step">3</span> Precio internacional</h2>
+          </div>
+          <div class="cad-chart cad-chart--wide">
+            <Line :data="chartIntl" :options="optsIntl" />
+          </div>
+          <p class="cad-fuente">Fuente: {{ intlFuente }}</p>
+        </section>
+
+        <!-- ── BLOQUE 4 · EXPORTACIÓN FOB ──────────────────────── -->
         <section class="cad-block">
           <div class="cad-block-head">
-            <h2 class="cad-h2"><span class="cad-step">3</span> Exportación de banano — Antioquia</h2>
+            <h2 class="cad-h2"><span class="cad-step">4</span> Exportación de banano — Antioquia</h2>
             <div class="cad-selects">
               <select v-model="anioFobSel" class="cad-select">
                 <option v-for="a in aniosFob" :key="a" :value="a">{{ a }}</option>
               </select>
             </div>
           </div>
+          <p class="cad-nota">
+            Puerto Antioquia inició operaciones en febrero de 2026 (Res. 20263040003075) — primer
+            embarque de exportación con banano de Urabá con destino Europa la primera semana de
+            operación (Infobae/El Tiempo, 2026).
+          </p>
           <div class="cad-chart-grid">
             <div class="cad-chart">
               <Bar :data="chartFob" :options="optsFob" />
@@ -88,6 +109,25 @@
                 <span>{{ d.pct }}%</span>
               </div>
             </div>
+          </div>
+          <div class="cad-fob-kg">
+            <div class="cad-fob-kg-title">US$/kg FOB implícito (HS 0803) — fob_usd ÷ (ton × 1000)</div>
+            <div class="cad-fob-kg-row">
+              <span v-for="r in fobKgImplicito" :key="r.anio" class="cad-fob-kg-chip">
+                <b>{{ r.anio }}</b> US${{ r.usd_kg != null ? r.usd_kg.toFixed(3) : '—' }}
+              </span>
+            </div>
+          </div>
+          <div class="cad-callout">
+            <div class="cad-callout-title">Contexto — Augura 2025</div>
+            <p class="cad-callout-text">
+              Récord exportador: <strong>US$1.309 millones</strong> en 2025 (+21,6% interanual).
+              Urabá concentra <strong>32.465 ha</strong> (82 millones de cajas), líder nacional
+              sobre la zona Caribe. Riesgo 2026: <strong>~1.200 ha</strong> afectadas por
+              inundaciones en los dos primeros meses del año; el gremio proyecta una caída cercana
+              al <strong>5%</strong> en las exportaciones de 2026.
+            </p>
+            <p class="cad-fuente">Fuente: Augura vía Portafolio (2026).</p>
           </div>
           <p class="cad-fuente">Fuente: DANE — Exportaciones (partida HS 0803, Antioquia), vía Datos Abiertos Colombia.</p>
         </section>
@@ -114,6 +154,10 @@ const AMBER = '#f59e0b'
 const { data: evaRaw,   pending: p1, error: e1 } = await useFetch('/data/eva_produccion_serie.json', { server: false, lazy: true })
 const { data: sipsaRaw, pending: p2, error: e2 } = await useFetch('/data/sipsa_precios.json', { server: false, lazy: true })
 const { data: fobRaw,   pending: p3, error: e3 } = await useFetch('/data/expo_banano_fob.json', { server: false, lazy: true })
+// Precio internacional: fail-quiet — si el archivo aún no existe (lo genera otro frente),
+// el bloque 3 simplemente no se muestra (v-if). No entra en el `pending`/`error` globales
+// para no bloquear el resto de la página.
+const { data: intlRaw, error: e4 } = await useFetch('/data/banano_internacional.json', { server: false, lazy: true })
 
 const pending = computed(() => p1.value || p2.value || p3.value)
 const error   = computed(() => e1.value || e2.value || e3.value)
@@ -233,6 +277,63 @@ const optsFob = {
   scales: { y: { beginAtZero: true, ticks: { callback: v => 'US$' + v + 'M' } } },
 }
 
+// US$/kg FOB implícito = fob_usd / (ton * 1000), sobre los mismos datos ya cargados.
+const fobKgImplicito = computed(() =>
+  aniosFob.value.map(a => {
+    const d = fobRaw.value?.[a]
+    const ton = +(d?.ton ?? 0)
+    const fob = +(d?.fob_usd ?? 0)
+    return { anio: a, usd_kg: ton ? fob / (ton * 1000) : null }
+  })
+)
+
+// ── PRECIO INTERNACIONAL (World Bank Pink Sheet) — fail-quiet ──────
+// Schema esperado: { _meta, series: { "YYYY-MM": { europe_usd_kg, us_usd_kg } } }
+const intlOk = computed(() =>
+  !e4.value &&
+  !!intlRaw.value?.series &&
+  Object.keys(intlRaw.value.series).length > 0
+)
+const intlFuente = computed(() =>
+  intlRaw.value?._meta?.fuente ?? 'World Bank — Commodity Markets (Pink Sheet)'
+)
+const intlMeses = computed(() => Object.keys(intlRaw.value?.series ?? {}).sort())
+const chartIntl = computed(() => {
+  const series = intlRaw.value?.series ?? {}
+  const meses = intlMeses.value
+  return {
+    labels: meses,
+    datasets: [
+      {
+        label: 'Europa (US$/kg)',
+        data: meses.map(m => series[m]?.europe_usd_kg ?? null),
+        borderColor: TEAL,
+        backgroundColor: 'transparent',
+        tension: 0.3,
+        spanGaps: true,
+        pointRadius: 1,
+      },
+      {
+        label: 'EE.UU. (US$/kg)',
+        data: meses.map(m => series[m]?.us_usd_kg ?? null),
+        borderColor: AMBER,
+        backgroundColor: 'transparent',
+        tension: 0.3,
+        spanGaps: true,
+        pointRadius: 1,
+      },
+    ],
+  }
+})
+const optsIntl = {
+  responsive: true, maintainAspectRatio: false,
+  plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } },
+  scales: {
+    x: { ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 12 } },
+    y: { ticks: { callback: v => 'US$' + v } },
+  },
+}
+
 useHead({ title: 'Cadena de valor agro · Atlas Urabá' })
 </script>
 
@@ -262,5 +363,16 @@ useHead({ title: 'Cadena de valor agro · Atlas Urabá' })
 .cad-mini-row > .cad-mini-y { color: #8a8a85; }
 .cad-empty { font-family: ui-monospace, monospace; font-size: 11px; color: #8a8a85; padding: 20px 0; }
 .cad-fuente { margin-top: 10px; font-size: 9px; color: #6b6b66; }
+.cad-nota { font-size: 11px; line-height: 1.5; color: #b8b6b0; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); border-radius: 6px; padding: 8px 10px; margin-bottom: 14px; }
+.cad-nota strong { color: #e7e5e0; }
+.cad-fob-kg { margin-top: 14px; }
+.cad-fob-kg-title { font-size: 10px; color: #8a8a85; letter-spacing: 0.04em; margin-bottom: 6px; font-family: ui-monospace, monospace; }
+.cad-fob-kg-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.cad-fob-kg-chip { font-family: ui-monospace, monospace; font-size: 10.5px; color: #e7e5e0; background: rgba(27,107,109,0.15); border: 1px solid rgba(27,107,109,0.4); border-radius: 999px; padding: 4px 10px; }
+.cad-fob-kg-chip b { color: #4dd0d3; margin-right: 4px; }
+.cad-callout { margin-top: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-left: 3px solid #1B6B6D; border-radius: 6px; padding: 10px 14px; }
+.cad-callout-title { font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em; color: #4dd0d3; margin-bottom: 6px; }
+.cad-callout-text { font-size: 11.5px; line-height: 1.55; color: #d6d4cf; }
+.cad-callout-text strong { color: #e7e5e0; }
 @media (max-width: 760px) { .cad-chart-grid { grid-template-columns: 1fr; } }
 </style>
