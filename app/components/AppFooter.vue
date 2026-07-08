@@ -6,6 +6,11 @@
       © 2025 Tensor · CNPV 2018 · REPS MinSalud · SIMAT MEN · OSM Colombia · MGN DANE 2024
     </span>
     <span class="flex items-center gap-3">
+      <NuxtLink to="/metodologia"
+         class="font-mono text-[8px] uppercase tracking-[0.1em] text-tensor-teal/70
+                hover:text-tensor-teal transition-colors">
+        Metodología
+      </NuxtLink>
       <NuxtLink to="/api"
          class="font-mono text-[8px] uppercase tracking-[0.1em] text-tensor-teal/70
                 hover:text-tensor-teal transition-colors">

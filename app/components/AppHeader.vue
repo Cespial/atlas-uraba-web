@@ -54,6 +54,13 @@
         </svg>
         <span class="tool-nav-label">Cadena agro</span>
       </NuxtLink>
+      <NuxtLink to="/metodologia" class="tool-nav-link" title="Metodología del índice">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M8 11V7.5M8 5.3v.05" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="tool-nav-label">Metodología</span>
+      </NuxtLink>
     </nav>
 
     <!-- Desktop: badge -->
