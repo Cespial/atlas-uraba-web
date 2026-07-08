@@ -1,0 +1,179 @@
+{
+  "_meta": {
+    "fuente": "RUNT 2.0 — 'CRECIMIENTO DEL PARQUE AUTOMOTOR RUNT2.0'",
+    "url": "https://www.datos.gov.co/resource/u3vn-bdcy.json",
+    "consulta": "nombre_departamento='ANTIOQUIA' AND nombre_municipio IN (9 municipios de Urabá), estado_del_vehiculo='ACTIVO', agregado por municipio/clase/servicio",
+    "fecha_consulta": "2026-07-08",
+    "nota": "El dataset solo tiene registros para 5 de los 9 municipios de Urabá (Apartadó, Carepa, Chigorodó, Necoclí, Turbo) — Arboletes, Mutatá, San Juan de Urabá y San Pedro de Urabá no aparecen en absoluto (verificado con LIKE amplio sobre el nombre, no es un problema de tilde/mayúsculas); probablemente porque esos municipios no tienen oficina de tránsito propia y sus vehículos quedan registrados en el municipio donde sí la hay. NO usar `fecha_de_registro` para antigüedad del parque: trae valores placeholder sospechosos ('1900', '1946') en varios registros — este pipeline solo agrega `cantidad` por clase/servicio, sin tocar esa columna.",
+    "municipios_con_dato": [
+      "Apartadó",
+      "Carepa",
+      "Chigorodó",
+      "Necoclí",
+      "Turbo"
+    ],
+    "municipios_sin_dato": [
+      "Arboletes",
+      "Mutatá",
+      "San Juan de Urabá",
+      "San Pedro de Urabá"
+    ]
+  },
+  "municipios": {
+    "Apartadó": {
+      "por_clase": {
+        "MOTOCICLETA": 69369,
+        "MOTOCARRO": 1362,
+        "AUTOMOVIL": 632,
+        "CAMPERO": 407,
+        "CAMION": 256,
+        "CAMIONETA": 217,
+        "MICROBUS": 145,
+        "BUS": 101,
+        "BUSETA": 85,
+        "EXCAVADORA": 82,
+        "VOLQUETA": 40,
+        "TRACTOCAMION": 40,
+        "RETROEXCAVADORA": 23,
+        "CUATRIMOTO": 20,
+        "TRACTOR": 19,
+        "CICLOMOTOR": 16,
+        "MINICARGADOR": 9,
+        "MINI EXCAVADORA": 9,
+        "BULDOZER": 9,
+        "MAQ. AGRICOLA": 5,
+        "TRICIMOTO": 5,
+        "COSECHADORA": 4,
+        "MOTOTRICICLO": 3,
+        "MAQ. INDUSTRIAL": 3,
+        "MOTONIVELADORA": 3,
+        "TRACTOR SOBRE ORUGA": 2,
+        "CARGADOR": 2,
+        "CARGADORA FRONTAL": 1,
+        "CAMIÓN GRÚA": 1,
+        "MONTACARGAS": 1,
+        "VIBROCOMPACTADORA": 1,
+        "SEMIREMOLQUE": 1
+      },
+      "por_servicio": {
+        "PARTICULAR": 71425,
+        "PÚBLICO": 1206,
+        "NO REGISTRA": 167,
+        "OFICIAL": 75
+      },
+      "total": 72873
+    },
+    "Arboletes": {
+      "por_clase": {},
+      "por_servicio": {},
+      "total": 0
+    },
+    "Carepa": {
+      "por_clase": {
+        "MOTOCICLETA": 28217,
+        "MOTOCARRO": 689,
+        "AUTOMOVIL": 57,
+        "BUS": 25,
+        "CAMIONETA": 22,
+        "CAMPERO": 12,
+        "CAMION": 11,
+        "CICLOMOTOR": 8,
+        "CUATRIMOTO": 6,
+        "MICROBUS": 4,
+        "BUSETA": 3,
+        "VOLQUETA": 1
+      },
+      "por_servicio": {
+        "PARTICULAR": 28947,
+        "PÚBLICO": 100,
+        "OFICIAL": 7,
+        "OTROS": 1
+      },
+      "total": 29055
+    },
+    "Chigorodó": {
+      "por_clase": {
+        "MOTOCICLETA": 44677,
+        "MOTOCARRO": 507,
+        "AUTOMOVIL": 117,
+        "BUS": 52,
+        "CAMIONETA": 49,
+        "CAMION": 46,
+        "CAMPERO": 30,
+        "CUATRIMOTO": 21,
+        "CICLOMOTOR": 14,
+        "MICROBUS": 8,
+        "BUSETA": 4,
+        "VOLQUETA": 4,
+        "TRACTOCAMION": 2,
+        "MAQ. INDUSTRIAL": 1
+      },
+      "por_servicio": {
+        "PARTICULAR": 45284,
+        "PÚBLICO": 204,
+        "OFICIAL": 41,
+        "NO REGISTRA": 3
+      },
+      "total": 45532
+    },
+    "Mutatá": {
+      "por_clase": {},
+      "por_servicio": {},
+      "total": 0
+    },
+    "Necoclí": {
+      "por_clase": {
+        "MOTOCICLETA": 393,
+        "MOTOCARRO": 97,
+        "CAMIONETA": 1,
+        "VOLQUETA": 1
+      },
+      "por_servicio": {
+        "PARTICULAR": 474,
+        "PÚBLICO": 18
+      },
+      "total": 492
+    },
+    "San Juan de Urabá": {
+      "por_clase": {},
+      "por_servicio": {},
+      "total": 0
+    },
+    "San Pedro de Urabá": {
+      "por_clase": {},
+      "por_servicio": {},
+      "total": 0
+    },
+    "Turbo": {
+      "por_clase": {
+        "MOTOCICLETA": 34708,
+        "MOTOCARRO": 560,
+        "CAMPERO": 269,
+        "AUTOMOVIL": 147,
+        "CAMION": 88,
+        "BUS": 72,
+        "CAMIONETA": 71,
+        "CUATRIMOTO": 58,
+        "MICROBUS": 36,
+        "VOLQUETA": 30,
+        "BUSETA": 10,
+        "TRACTOCAMION": 3,
+        "MAQ. AGRICOLA": 3,
+        "MINICARGADOR": 1,
+        "MAQ. INDUSTRIAL": 1,
+        "RETROEXCAVADORA": 1,
+        "EXCAVADORA": 1,
+        "MOTONIVELADORA": 1,
+        "VIBROCOMPACTADORA": 1
+      },
+      "por_servicio": {
+        "PARTICULAR": 35512,
+        "PÚBLICO": 436,
+        "OFICIAL": 106,
+        "NO REGISTRA": 5,
+        "OTROS": 2
+      },
+      "total": 36061
+    }
+  }
+}

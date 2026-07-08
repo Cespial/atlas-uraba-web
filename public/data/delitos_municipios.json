@@ -1,0 +1,372 @@
+{
+  "_meta": {
+    "fuente": "Gobernación de Antioquia (republica datos SIEDCO de Policía Nacional) — 'Reporte de delitos sexuales' departamental",
+    "url": "https://www.datos.gov.co/resource/2u9p-fa2g.json",
+    "consulta": "codigo_dane LIKE '<5 dígitos DANE>%' AND año(fecha_hecho) >= 2018, agrupado por municipio-año",
+    "fecha_consulta": "2026-07-08",
+    "nota": "Hechos reportados a autoridad (denuncia/investigación), no el total real de casos — mismo principio de subregistro que aplica a seguridad_municipios.json. `codigo_dane` en la fuente usa 8 dígitos (5 DIVIPOLA + 3 de corregimiento/comuna); se agregan todas las sub-ubicaciones de cada municipio con LIKE 'XXXXX%'. El año más reciente puede estar incompleto por rezago administrativo de reporte. tasa_100k = delitos_sexuales / población (proyección DANE del mismo año) × 100.000.",
+    "anios_disponibles": [
+      "2018",
+      "2019",
+      "2020",
+      "2021",
+      "2022",
+      "2023",
+      "2024",
+      "2025",
+      "2026"
+    ],
+    "municipios_con_dato": [
+      "Apartadó",
+      "Arboletes",
+      "Carepa",
+      "Chigorodó",
+      "Mutatá",
+      "Necoclí",
+      "San Juan de Urabá",
+      "San Pedro de Urabá",
+      "Turbo"
+    ],
+    "errores": []
+  },
+  "municipios": {
+    "Apartadó": {
+      "2018": {
+        "delitos_sexuales": 89,
+        "tasa_100k": 73.5
+      },
+      "2019": {
+        "delitos_sexuales": 98,
+        "tasa_100k": 80.8
+      },
+      "2020": {
+        "delitos_sexuales": 91,
+        "tasa_100k": 74.8
+      },
+      "2021": {
+        "delitos_sexuales": 109,
+        "tasa_100k": 88.8
+      },
+      "2022": {
+        "delitos_sexuales": 91,
+        "tasa_100k": 73.6
+      },
+      "2023": {
+        "delitos_sexuales": 91,
+        "tasa_100k": 73.2
+      },
+      "2024": {
+        "delitos_sexuales": 135,
+        "tasa_100k": 108.5
+      },
+      "2025": {
+        "delitos_sexuales": 110,
+        "tasa_100k": 87.9
+      },
+      "2026": {
+        "delitos_sexuales": 28,
+        "tasa_100k": 22.2
+      }
+    },
+    "Arboletes": {
+      "2018": {
+        "delitos_sexuales": 16,
+        "tasa_100k": 54.6
+      },
+      "2019": {
+        "delitos_sexuales": 12,
+        "tasa_100k": 40.4
+      },
+      "2020": {
+        "delitos_sexuales": 6,
+        "tasa_100k": 19.9
+      },
+      "2021": {
+        "delitos_sexuales": 10,
+        "tasa_100k": 32.7
+      },
+      "2022": {
+        "delitos_sexuales": 13,
+        "tasa_100k": 42.1
+      },
+      "2023": {
+        "delitos_sexuales": 7,
+        "tasa_100k": 22.5
+      },
+      "2024": {
+        "delitos_sexuales": 10,
+        "tasa_100k": 31.8
+      },
+      "2025": {
+        "delitos_sexuales": 13,
+        "tasa_100k": 41.0
+      }
+    },
+    "Carepa": {
+      "2018": {
+        "delitos_sexuales": 31,
+        "tasa_100k": 64.7
+      },
+      "2019": {
+        "delitos_sexuales": 43,
+        "tasa_100k": 88.9
+      },
+      "2020": {
+        "delitos_sexuales": 30,
+        "tasa_100k": 61.4
+      },
+      "2021": {
+        "delitos_sexuales": 31,
+        "tasa_100k": 62.7
+      },
+      "2022": {
+        "delitos_sexuales": 29,
+        "tasa_100k": 58.1
+      },
+      "2023": {
+        "delitos_sexuales": 27,
+        "tasa_100k": 53.7
+      },
+      "2024": {
+        "delitos_sexuales": 24,
+        "tasa_100k": 47.5
+      },
+      "2025": {
+        "delitos_sexuales": 28,
+        "tasa_100k": 55.0
+      },
+      "2026": {
+        "delitos_sexuales": 15,
+        "tasa_100k": 29.2
+      }
+    },
+    "Chigorodó": {
+      "2018": {
+        "delitos_sexuales": 27,
+        "tasa_100k": 47.1
+      },
+      "2019": {
+        "delitos_sexuales": 24,
+        "tasa_100k": 42.0
+      },
+      "2020": {
+        "delitos_sexuales": 29,
+        "tasa_100k": 50.9
+      },
+      "2021": {
+        "delitos_sexuales": 16,
+        "tasa_100k": 28.0
+      },
+      "2022": {
+        "delitos_sexuales": 15,
+        "tasa_100k": 26.3
+      },
+      "2023": {
+        "delitos_sexuales": 22,
+        "tasa_100k": 38.6
+      },
+      "2024": {
+        "delitos_sexuales": 34,
+        "tasa_100k": 59.9
+      },
+      "2025": {
+        "delitos_sexuales": 27,
+        "tasa_100k": 47.6
+      },
+      "2026": {
+        "delitos_sexuales": 3,
+        "tasa_100k": 5.3
+      }
+    },
+    "Mutatá": {
+      "2018": {
+        "delitos_sexuales": 3,
+        "tasa_100k": 21.4
+      },
+      "2019": {
+        "delitos_sexuales": 19,
+        "tasa_100k": 135.3
+      },
+      "2020": {
+        "delitos_sexuales": 10,
+        "tasa_100k": 71.0
+      },
+      "2021": {
+        "delitos_sexuales": 9,
+        "tasa_100k": 64.0
+      },
+      "2022": {
+        "delitos_sexuales": 10,
+        "tasa_100k": 71.6
+      },
+      "2023": {
+        "delitos_sexuales": 17,
+        "tasa_100k": 122.3
+      },
+      "2024": {
+        "delitos_sexuales": 18,
+        "tasa_100k": 129.8
+      },
+      "2025": {
+        "delitos_sexuales": 10,
+        "tasa_100k": 72.4
+      },
+      "2026": {
+        "delitos_sexuales": 2,
+        "tasa_100k": 14.6
+      }
+    },
+    "Necoclí": {
+      "2018": {
+        "delitos_sexuales": 23,
+        "tasa_100k": 54.4
+      },
+      "2019": {
+        "delitos_sexuales": 16,
+        "tasa_100k": 37.5
+      },
+      "2020": {
+        "delitos_sexuales": 19,
+        "tasa_100k": 44.1
+      },
+      "2021": {
+        "delitos_sexuales": 17,
+        "tasa_100k": 39.6
+      },
+      "2022": {
+        "delitos_sexuales": 21,
+        "tasa_100k": 49.1
+      },
+      "2023": {
+        "delitos_sexuales": 13,
+        "tasa_100k": 30.5
+      },
+      "2024": {
+        "delitos_sexuales": 11,
+        "tasa_100k": 25.8
+      },
+      "2025": {
+        "delitos_sexuales": 29,
+        "tasa_100k": 68.1
+      },
+      "2026": {
+        "delitos_sexuales": 8,
+        "tasa_100k": 18.9
+      }
+    },
+    "San Juan de Urabá": {
+      "2018": {
+        "delitos_sexuales": 14,
+        "tasa_100k": 69.7
+      },
+      "2019": {
+        "delitos_sexuales": 17,
+        "tasa_100k": 84.4
+      },
+      "2020": {
+        "delitos_sexuales": 7,
+        "tasa_100k": 34.6
+      },
+      "2021": {
+        "delitos_sexuales": 10,
+        "tasa_100k": 49.5
+      },
+      "2022": {
+        "delitos_sexuales": 10,
+        "tasa_100k": 49.6
+      },
+      "2023": {
+        "delitos_sexuales": 3,
+        "tasa_100k": 14.9
+      },
+      "2024": {
+        "delitos_sexuales": 8,
+        "tasa_100k": 40.0
+      },
+      "2025": {
+        "delitos_sexuales": 5,
+        "tasa_100k": 25.1
+      },
+      "2026": {
+        "delitos_sexuales": 11,
+        "tasa_100k": 55.4
+      }
+    },
+    "San Pedro de Urabá": {
+      "2018": {
+        "delitos_sexuales": 7,
+        "tasa_100k": 22.6
+      },
+      "2019": {
+        "delitos_sexuales": 13,
+        "tasa_100k": 41.6
+      },
+      "2020": {
+        "delitos_sexuales": 8,
+        "tasa_100k": 25.3
+      },
+      "2021": {
+        "delitos_sexuales": 12,
+        "tasa_100k": 37.6
+      },
+      "2022": {
+        "delitos_sexuales": 12,
+        "tasa_100k": 37.4
+      },
+      "2023": {
+        "delitos_sexuales": 13,
+        "tasa_100k": 40.4
+      },
+      "2024": {
+        "delitos_sexuales": 12,
+        "tasa_100k": 37.1
+      },
+      "2025": {
+        "delitos_sexuales": 14,
+        "tasa_100k": 43.1
+      },
+      "2026": {
+        "delitos_sexuales": 2,
+        "tasa_100k": 6.1
+      }
+    },
+    "Turbo": {
+      "2018": {
+        "delitos_sexuales": 71,
+        "tasa_100k": 57.0
+      },
+      "2019": {
+        "delitos_sexuales": 69,
+        "tasa_100k": 54.7
+      },
+      "2020": {
+        "delitos_sexuales": 61,
+        "tasa_100k": 47.7
+      },
+      "2021": {
+        "delitos_sexuales": 50,
+        "tasa_100k": 38.9
+      },
+      "2022": {
+        "delitos_sexuales": 27,
+        "tasa_100k": 20.9
+      },
+      "2023": {
+        "delitos_sexuales": 40,
+        "tasa_100k": 30.9
+      },
+      "2024": {
+        "delitos_sexuales": 51,
+        "tasa_100k": 39.2
+      },
+      "2025": {
+        "delitos_sexuales": 58,
+        "tasa_100k": 44.5
+      },
+      "2026": {
+        "delitos_sexuales": 11,
+        "tasa_100k": 8.4
+      }
+    }
+  }
+}
