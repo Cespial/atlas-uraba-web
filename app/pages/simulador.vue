@@ -149,6 +149,16 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useSimulador, TIPOS_EQUIPAMIENTO } from '~/composables/useSimulador'
 
+useHead({
+  title: 'Simulador de intervenciones — Atlas Urabá',
+  meta: [
+    { name: 'description', content: 'Simule el impacto de nuevos equipamientos (salud, educación, vías) sobre el índice de bienestar de cada manzana de Urabá antes de invertir.' },
+    { property: 'og:title', content: 'Simulador de intervenciones — Atlas Urabá' },
+    { property: 'og:description', content: 'Simule el impacto de nuevos equipamientos sobre el índice de bienestar territorial de Urabá, Antioquia, antes de invertir.' },
+    { property: 'og:image', content: 'https://uraba.tensor.lat/og-image.png' },
+  ],
+})
+
 const STYLE_DARK = 'https://tiles.openfreemap.org/styles/dark'
 
 // Misma rampa de color teal Tensor que useAtlasMap

@@ -290,7 +290,15 @@ function indicItem(label, value, unit) {
   ])
 }
 
-useHead({ title: 'Comparador de municipios — Atlas Urabá' })
+useHead({
+  title: 'Comparador de municipios — Atlas Urabá',
+  meta: [
+    { name: 'description', content: 'Compare hasta cuatro municipios de Urabá lado a lado en los 10 indicadores del índice de bienestar humano territorial, con radar y mini-mapa.' },
+    { property: 'og:title', content: 'Comparador de municipios — Atlas Urabá' },
+    { property: 'og:description', content: 'Compare municipios de Urabá, Antioquia, lado a lado en los indicadores del índice de bienestar humano territorial.' },
+    { property: 'og:image', content: 'https://uraba.tensor.lat/og-image.png' },
+  ],
+})
 </script>
 
 <style scoped>

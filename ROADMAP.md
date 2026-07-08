@@ -109,7 +109,7 @@ GEE ya autenticado. Un script multi-banda:
 |-----------|----------|------------|
 | **Comparador de municipios** | Split-screen, mismo zoom/dimensión | Gobernación, OCAD PAZ |
 | **Simulador de inversión** | "Si pongo IPS aquí → score sube X" | Alcaldes, planeación |
-| **Ficha PDF server-side** | Policy brief 1 pág. por municipio | Reuniones, cooperantes |
+| **Brief A4 imprimible client-side** | Policy brief 1 pág. por municipio (`/brief/[municipio]`, `window.print()`) — construido | Reuniones, cooperantes |
 | **API pública REST** | `uraba.tensor.lat/api/uraba/...` JSON — construida; desplegada como API estática prerenderizada (2026-07-07) | Integradores, apps |
 | **Modo temporal** | CNPV 2005↔2018, deforestación serie | Investigación, prensa |
 | **Backend PostGIS + Martin** | Vector tiles dinámicos | Escala (como matrizbht.cl) |
@@ -128,7 +128,7 @@ GEE ya autenticado. Un script multi-banda:
 1.2 Estrato · 1.3 POT · 3.4 ICA Foc TR4 · Corpourabá/GeoAntioquia (enviados)
 
 **FASE 4 — Producto de decisión:**
-Comparador · Simulador · Ficha PDF · API pública · Modo temporal · Backend PostGIS
+Comparador · Simulador · Brief A4 imprimible · API pública · Modo temporal · Backend PostGIS
 
 ---
 

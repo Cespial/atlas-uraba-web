@@ -3,6 +3,7 @@ node_modules/
 .output/
 .vercel/
 dist/
+dist
 *.log
 .env
 .env.*
