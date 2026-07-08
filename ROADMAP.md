@@ -110,7 +110,7 @@ GEE ya autenticado. Un script multi-banda:
 | **Comparador de municipios** | Split-screen, mismo zoom/dimensión | Gobernación, OCAD PAZ |
 | **Simulador de inversión** | "Si pongo IPS aquí → score sube X" | Alcaldes, planeación |
 | **Ficha PDF server-side** | Policy brief 1 pág. por municipio | Reuniones, cooperantes |
-| **API pública REST** | `api.tensor.lat/uraba/...` JSON | Integradores, apps |
+| **API pública REST** | `uraba.tensor.lat/api/uraba/...` JSON — construida; desplegada como API estática prerenderizada (2026-07-07) | Integradores, apps |
 | **Modo temporal** | CNPV 2005↔2018, deforestación serie | Investigación, prensa |
 | **Backend PostGIS + Martin** | Vector tiles dinámicos | Escala (como matrizbht.cl) |
 
