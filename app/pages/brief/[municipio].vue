@@ -25,6 +25,9 @@
 
       <h1 class="b-mun">{{ nombre }}</h1>
       <p class="b-sub">Policy brief territorial · Antioquia, región Urabá · 1 página</p>
+      <p v-if="esPdet !== null" class="b-badge" :class="esPdet ? 'b-badge--pdet' : 'b-badge--nopdet'">
+        {{ esPdet ? 'Municipio PDET — Decreto 893/2017' : 'No pertenece a la subregión PDET Urabá (Decreto 893/2017)' }}
+      </p>
 
       <!-- 2 · Score + dimensiones vs benchmarks -->
       <section class="b-scores">
@@ -83,7 +86,7 @@
         </table>
       </section>
 
-      <!-- 6 · Agro (condicional) + 7 · satélite -->
+      <!-- 6 · Agro (condicional) + 7 · señales (satélite + IRCA + seguridad) -->
       <section class="b-block b-cols">
         <div v-if="agro">
           <h2 class="b-h2">Economía agro ({{ agro.anio }})</h2>
@@ -92,12 +95,23 @@
             {{ agro.area.toLocaleString('es-CO') }} ha sembradas
             ({{ agro.rendimiento.toFixed(1) }} t/ha). Detalle en uraba.tensor.lat/cadena.
           </p>
+          <p class="b-badge b-badge--foc">Urabá: zona libre de Foc R4T (Res. ICA 095026/2021)</p>
         </div>
-        <div v-if="satelite">
-          <h2 class="b-h2">Señales satelitales</h2>
-          <p class="b-texto">
+        <div v-if="satelite || irca || seguridad">
+          <h2 class="b-h2">Señales</h2>
+          <p v-if="satelite" class="b-texto b-texto-compacta">
             Temp. superficial media <strong>{{ satelite.lst }} °C</strong> (Landsat) ·
             radiancia nocturna <strong>{{ satelite.viirs }}</strong> nW/cm²·sr (VIIRS).
+          </p>
+          <p v-if="irca" class="b-texto b-texto-compacta">
+            Calidad de agua (IRCA {{ irca.anio }}): <strong>{{ irca.valor }}</strong> — {{ irca.nivel }}.
+            <template v-if="irca.tendencia">{{ irca.tendencia }}</template>
+            Fuente: INS — SIVICAP.
+          </p>
+          <p v-if="seguridad" class="b-texto b-texto-compacta">
+            Homicidios {{ seguridad.anio }}: <strong>{{ seguridad.homicidios }}</strong>
+            ({{ seguridad.tasa }} por 100k hab.) — hechos reportados a autoridad (SIEDCO/MinDefensa).
+            Fuente: MinDefensa — SIEDCO.
           </p>
         </div>
       </section>
@@ -105,7 +119,8 @@
       <!-- 8 · Fuentes -->
       <footer class="b-fuentes">
         <strong>Fuentes:</strong> DANE CNPV 2018 · DANE/MADR EVA · DANE SIPSA · DANE-DIAN exportaciones ·
-        isócronas OSRM · Sentinel-2/Landsat 9/VIIRS (Google Earth Engine) · REPS · SIMAT ·
+        isócronas OSRM · Sentinel-2/Landsat 9/VIIRS (Google Earth Engine) · REPS · SIMAT · INS-SIVICAP (IRCA) ·
+        MinDefensa-SIEDCO (homicidios) · ICA (estatus fitosanitario) · DNP (PDET, Decreto 893/2017) ·
         cálculos propios Atlas Urabá v3. Índice de equidad: cálculo propio (Gini sobre atlas_score_v3).
         Documento generado automáticamente — verificar cifras críticas antes de uso oficial.
       </footer>
@@ -133,6 +148,13 @@ const { data: benchRaw, pending: p3 } = await useFetch('/data/benchmarks.json', 
 const { data: topRaw,   pending: p4 } = await useFetch('/data/top_prioridad.json', { server: false, lazy: true })
 const { data: evaRaw,   pending: p5 } = await useFetch('/data/eva_produccion_serie.json', { server: false, lazy: true })
 const { equidad } = useEquidad()
+
+// Bloques complementarios (fail-quiet): si el fetch falla o el municipio no
+// tiene dato, el bloque/badge correspondiente simplemente se omite — nunca
+// se inventa una cifra.
+const { data: geoRaw } = await useFetch('/data/municipios.geojson', { server: false, lazy: true })
+const { data: irkaRaw } = await useFetch('/data/irca_municipios.json', { server: false, lazy: true })
+const { data: segRaw } = await useFetch('/data/seguridad_municipios.json', { server: false, lazy: true })
 
 const pending = computed(() => p1.value || p2.value || p3.value || p4.value || p5.value)
 
@@ -222,9 +244,69 @@ const satelite = computed(() => {
   }
 })
 
+// PDET — subregión "Urabá Antioqueño" oficial (Decreto 893/2017). El campo
+// es_pdet ya viene calculado en municipios.geojson (scripts/patch_pdet.py);
+// aquí solo se busca por nombre. null mientras carga o si no hay match.
+const esPdet = computed(() => {
+  const features = geoRaw.value?.features ?? []
+  const feature = features.find(f => f.properties?.municipio === nombre.toUpperCase())
+  return feature ? !!feature.properties.es_pdet : null
+})
+
+// IRCA (INS/SIVICAP): último año disponible + tendencia frente al peor nivel
+// de riesgo de los años previos, si mejoró.
+const NIVEL_RIESGO_ORDEN = ['Sin riesgo', 'Riesgo bajo', 'Riesgo medio', 'Riesgo alto', 'Inviable sanitariamente']
+const irca = computed(() => {
+  const serie = irkaRaw.value?.municipios?.[nombre]
+  if (!serie) return null
+  const anios = Object.keys(serie).sort()
+  if (!anios.length) return null
+  const ultimoAnio = anios[anios.length - 1]
+  const actual = serie[ultimoAnio]
+  if (actual?.irca == null || !actual?.nivel) return null
+
+  let peorNivel = null
+  let peorAnios = []
+  for (const a of anios) {
+    if (a === ultimoAnio) continue
+    const nv = serie[a]?.nivel
+    if (!nv) continue
+    if (peorNivel == null || NIVEL_RIESGO_ORDEN.indexOf(nv) > NIVEL_RIESGO_ORDEN.indexOf(peorNivel)) {
+      peorNivel = nv
+      peorAnios = [a]
+    } else if (nv === peorNivel) {
+      peorAnios.push(a)
+    }
+  }
+  let tendencia = ''
+  if (peorNivel && NIVEL_RIESGO_ORDEN.indexOf(peorNivel) > NIVEL_RIESGO_ORDEN.indexOf(actual.nivel)) {
+    const rango = peorAnios.length > 1 ? `${peorAnios[0]}-${peorAnios[peorAnios.length - 1].slice(-2)}` : peorAnios[0]
+    tendencia = `${nombre} pasó de ${peorNivel.toLowerCase()} (${rango}) a ${actual.nivel.toLowerCase()} (${ultimoAnio}). `
+  }
+  return { anio: ultimoAnio, valor: actual.irca, nivel: actual.nivel, tendencia }
+})
+
+// Seguridad trazable (MinDefensa/SIEDCO): solo el último AÑO COMPLETO (2024).
+// 2025/2026 quedan fuera por venir parciales (rezago administrativo).
+const seguridad = computed(() => {
+  const serie = segRaw.value?.municipios?.[nombre]
+  const d = serie?.['2024']
+  if (d?.homicidios == null || d?.tasa_100k == null) return null
+  return { anio: '2024', homicidios: d.homicidios, tasa: d.tasa_100k.toFixed(1) }
+})
+
 function descargarPdf() { window.print() }
 
-useHead({ title: `Brief · ${nombre} · Atlas Urabá` })
+useHead({
+  title: `Brief · ${nombre} · Atlas Urabá`,
+  meta: [
+    { property: 'og:title', content: `Policy brief · ${nombre} — Atlas Urabá` },
+    {
+      property: 'og:description',
+      content: `Diagnóstico territorial de ${nombre} (Urabá, Antioquia): índice de bienestar v3, equidad interna, seguridad, calidad de agua y economía agro. Atlas Urabá · Tensor.`,
+    },
+  ],
+})
 </script>
 
 <style scoped>
@@ -246,7 +328,12 @@ useHead({ title: `Brief · ${nombre} · Atlas Urabá` })
 .b-brand { display: flex; align-items: center; gap: 7px; font-family: ui-monospace, monospace; font-size: 9px; letter-spacing: 0.14em; color: #1B6B6D; font-weight: 700; }
 .b-fecha { font-size: 8.5px; color: #8a8a85; }
 .b-mun { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; margin: 2px 0 0; }
-.b-sub { font-size: 10px; color: #5F5F5B; margin: 2px 0 12px; }
+.b-sub { font-size: 10px; color: #5F5F5B; margin: 2px 0 6px; }
+.b-badge { display: inline-block; margin: 0 0 8px; padding: 2px 8px; border-radius: 3px;
+  font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.b-badge--pdet { background: #e6f2ec; color: #1a7a4c; }
+.b-badge--nopdet { background: #f0f0ec; color: #5F5F5B; }
+.b-badge--foc { background: #eaf3f3; color: #1B6B6D; margin-top: 4px; }
 .b-scores { display: grid; grid-template-columns: 130px 1fr; gap: 18px; align-items: center; padding: 10px 0 12px; border-top: 2px solid #1B6B6D; border-bottom: 1px solid #e2e2de; }
 .b-score-big { display: flex; flex-direction: column; }
 .b-score-n { font-size: 44px; font-weight: 700; color: #1B6B6D; line-height: 1; }
@@ -260,12 +347,13 @@ useHead({ title: `Brief · ${nombre} · Atlas Urabá` })
 .b-block { margin-top: 11px; }
 .b-h2 { font-size: 9px; text-transform: uppercase; letter-spacing: 0.14em; color: #1B6B6D; margin-bottom: 4px; font-weight: 700; }
 .b-texto { margin: 0; }
+.b-texto-compacta { margin: 3px 0 0; font-size: 9.5px; }
 .b-top5 { width: 100%; border-collapse: collapse; font-size: 9.5px; }
 .b-top5 th { text-align: left; font-size: 8px; text-transform: uppercase; letter-spacing: 0.06em; color: #8a8a85; padding: 2px 6px; }
 .b-top5 td { padding: 2.5px 6px; border-top: 1px solid #f0f0ec; }
 .b-mono { font-family: ui-monospace, monospace; font-size: 8.5px; }
 .b-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.b-fuentes { margin-top: 14px; padding-top: 8px; border-top: 1px solid #e2e2de; font-size: 7.8px; color: #8a8a85; line-height: 1.5; }
+.b-fuentes { margin-top: 14px; padding-top: 8px; border-top: 1px solid #e2e2de; font-size: 9px; color: #6b6b66; line-height: 1.5; }
 
 /* Impresión: solo la hoja, exactamente una página A4. */
 @media print {
