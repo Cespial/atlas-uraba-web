@@ -334,7 +334,15 @@ const optsIntl = {
   },
 }
 
-useHead({ title: 'Cadena de valor agro · Atlas Urabá' })
+useHead({
+  title: 'Cadena de valor agro · Atlas Urabá',
+  meta: [
+    { name: 'description', content: 'Explore la cadena de valor del banano y otros productos agro de Urabá: producción, exportación, precios y comercio internacional.' },
+    { property: 'og:title', content: 'Cadena de valor agro — Atlas Urabá' },
+    { property: 'og:description', content: 'Cadena de valor del banano y el agro en Urabá, Antioquia: producción, exportación FOB y precios.' },
+    { property: 'og:image', content: 'https://uraba.tensor.lat/og-image.png' },
+  ],
+})
 </script>
 
 <style scoped>
