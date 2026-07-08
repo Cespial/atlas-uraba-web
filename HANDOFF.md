@@ -31,6 +31,13 @@ aislados, QA headless por stream y review final de rama (veredicto READY, 0 Crit
    sitemap.xml, app/error.vue de marca, 7 huérfanos borrados (14.3 MB), fix .gitignore `dist`.
 9. **Fix scroll** en páginas largas (overflow del wrapper; mapa intacto; salvaguarda print).
 
+## Incidente resuelto post-review (0c14f77)
+El prerender de la API tumbaba el deploy COMPLETO en Vercel ("Atlas data asset no encontrado"):
+el preset nuxtjs de Vercel relocaliza el buildDir a `node_modules/.cache/nuxt/.nuxt` y los
+server assets de Nitro no se resuelven durante `nuxt generate` (local sí funciona). Fix:
+`readData()` en `server/utils/uraba.js` con fallback a `public/data` por filesystem. Si se
+agregan archivos a la API, deben existir en `public/data` (fuente de verdad).
+
 ## Minors diferidos (review final, no bloqueantes)
 - IRCA/seguridad cargan municipios.geojson como sources separadas (redundancia pequeña, cacheada).
 - toggleSatellite: setLayoutProperty a +200ms puede ganar la carrera al registrar async (ruido de
