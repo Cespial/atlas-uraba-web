@@ -50,6 +50,7 @@ LAYERPANEL_CAPAS = {
     'zomac':      {'label': 'ZOMAC', 'desc': '7 municipios · beneficios tributarios', 'tema': 'Gestión social'},
     'reps':       {'label': 'Salud (prestadores)', 'desc': '339 IPS geocodificadas · REPS', 'tema': 'Gestión social'},
     'simat':      {'label': 'Colegios', 'desc': '180 establecimientos · SIMAT', 'tema': 'Gestión social'},
+    'saber11':    {'label': 'Saber 11 (colegios)', 'desc': 'Puntaje global prom. 2022-2024 · ICFES · cruce con simat.geojson por nombre+municipio', 'tema': 'Gestión social'},
     'epidemiologia': {'label': 'Enf. tropicales', 'desc': 'Dengue, malaria · SIVIGILA', 'tema': 'Gestión social'},
     'irca':       {'label': 'Calidad de agua (IRCA)', 'desc': 'INS — SIVICAP · 2024 · 9 municipios', 'tema': 'Gestión social'},
     'seguridad':  {'label': 'Homicidios (tasa 100k)', 'desc': 'hechos reportados · SIEDCO/MinDefensa · 2024', 'tema': 'Seguridad'},
@@ -112,6 +113,7 @@ ARCHIVO_A_CAPA = {
     'runap_areas.geojson': 'runap',
     'irca_municipios.json': 'irca',
     'seguridad_municipios.json': 'seguridad',
+    'saber11_colegios.json': 'saber11',
     'municipios.geojson': 'municipios',
     'veredas.geojson': 'veredas',
     'atlas.geojson': None,  # capa base v1, sin id propio en LayerPanel

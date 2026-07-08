@@ -155,6 +155,7 @@ export function useAtlasMap(mapRef) {
     municipios:   ['municipios-outline', 'municipios-label', 'municipios-score-fill', 'municipios-score-outline', 'municipios-score-label'],
     reps:         ['reps-points'],
     simat:        ['simat-points'],
+    saber11:      ['saber11-points'],
     sipra:        ['sipra-fill', 'sipra-outline'],
     'sipra-excl': ['sipra-exclusion-fill', 'sipra-exclusion-outline'],
     fincas:       ['fincas-fill', 'fincas-outline'],
@@ -1087,6 +1088,118 @@ export function useAtlasMap(mapRef) {
         } catch (e) { console.warn('[Atlas] seguridad:', e.message) }
       })()
     },
+    // ── Saber 11 (ICFES) por colegio — saber11_colegios.json es tabular (sin
+    // geometría): se cruza en runtime por nombre normalizado + municipio contra
+    // los 180 puntos de simat.geojson (que tampoco trae cod_dane, así que el
+    // cruce por código descrito originalmente no es viable con los datos
+    // disponibles — se usa nombre+municipio como alternativa fail-quiet). Los
+    // colegios sin match (simat no cubre Chigorodó/Mutatá/Necoclí, y hay
+    // variantes de escritura) simplemente no aparecen — no se inventa geometría.
+    saber11() {
+      if (map.value.getSource('saber11')) return
+      ;(async () => {
+        try {
+          const [saberData, simatData] = await Promise.all([
+            fetch('/data/saber11_colegios.json').then(r => {
+              if (!r.ok) throw new Error(`HTTP ${r.status}`)
+              return r.json()
+            }),
+            fetch('/data/simat.geojson').then(r => {
+              if (!r.ok) throw new Error(`HTTP ${r.status}`)
+              return r.json()
+            }),
+          ])
+          if (!map.value || map.value.getSource('saber11')) return
+
+          const colegios = saberData.colegios || []
+
+          // Normalización de nombre: mayúsculas, sin acentos, sin puntuación,
+          // sin palabras institucionales genéricas (I.E./Institución Educativa/
+          // Rural/Colegio/...), tokens ordenados — para tolerar variantes como
+          // "I.E. MADRE LAURA" vs "INSTITUCIÓN EDUCATIVA MADRE LAURA".
+          const STOPWORDS = new Set([
+            'I', 'E', 'R', 'IE', 'IER', 'CE', 'CER', 'COL', 'COLEGIO', 'INSTITUCION',
+            'INSTITUCIONAL', 'ETNOEDUCATIVA', 'EDUCATIVA', 'EDUCATIVO', 'EDUCACION',
+            'RURAL', 'CENTRO', 'INSTITUTO', 'CORPORACION', 'CORP', 'DE', 'DEL',
+            'LA', 'LAS', 'EL', 'LOS', 'FORMAL',
+          ])
+          const normalizarNombre = (s) => (s || '')
+            .toUpperCase()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^A-Z0-9 ]/g, ' ')
+            .split(/\s+/)
+            .filter(t => t && !STOPWORDS.has(t))
+            .sort()
+            .join(' ')
+          const normalizarMunicipio = (s) => (s || '')
+            .toUpperCase()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .trim()
+
+          const simatPorMunicipio = {}
+          ;(simatData.features || []).forEach(f => {
+            const p = f.properties || {}
+            if (!f.geometry?.coordinates) return
+            const mun = normalizarMunicipio(p.nombremunicipio)
+            if (!simatPorMunicipio[mun]) simatPorMunicipio[mun] = []
+            simatPorMunicipio[mun].push({ key: normalizarNombre(p.nombreestablecimiento), coords: f.geometry.coordinates })
+          })
+
+          // Rampa de 5 tramos por quintiles calculados sobre los valores reales
+          // del propio dataset (no una escala externa fija).
+          const valores = colegios.map(c => c.punt_global_prom).filter(v => v != null).sort((a, b) => a - b)
+          const quantil = (p) => valores.length
+            ? valores[Math.min(valores.length - 1, Math.floor(p * (valores.length - 1)))]
+            : 0
+          const breaks = [quantil(0.2), quantil(0.4), quantil(0.6), quantil(0.8)]
+          const RAMPA = ['#d73027', '#fc8d59', '#fee08b', '#91cf60', '#1a9850']
+          const colorFor = (v) => {
+            if (v == null) return '#888888'
+            for (let i = 0; i < breaks.length; i++) { if (v <= breaks[i]) return RAMPA[i] }
+            return RAMPA[RAMPA.length - 1]
+          }
+
+          const nVals = colegios.map(c => c.n_evaluados).filter(v => v != null)
+          const nMin = nVals.length ? Math.min(...nVals) : 0
+          const nMaxRaw = nVals.length ? Math.max(...nVals) : 1
+          const nMax = nMaxRaw > nMin ? nMaxRaw : nMin + 1
+
+          const features = []
+          colegios.forEach(c => {
+            const mun = normalizarMunicipio(c.municipio)
+            const key = normalizarNombre(c.nombre)
+            const hit = (simatPorMunicipio[mun] || []).find(x => x.key === key)
+            if (!hit) return
+            features.push({
+              type: 'Feature',
+              geometry: { type: 'Point', coordinates: hit.coords },
+              properties: {
+                nombre: c.nombre,
+                municipio: c.municipio,
+                punt_global_prom: c.punt_global_prom,
+                n_evaluados: c.n_evaluados,
+                color: colorFor(c.punt_global_prom),
+              },
+            })
+          })
+
+          console.info(`[Atlas] saber11: ${features.length}/${colegios.length} colegios cruzados con simat.geojson por nombre+municipio`)
+          if (features.length === 0) return  // fail-quiet: sin cruces, no se registra la capa
+
+          map.value.addSource('saber11', { type: 'geojson', data: { type: 'FeatureCollection', features } })
+          map.value.addLayer({
+            id: 'saber11-points', type: 'circle', source: 'saber11',
+            layout: { visibility: layerVisibility.saber11 ? 'visible' : 'none' },
+            paint: {
+              'circle-radius': ['interpolate', ['linear'], ['get', 'n_evaluados'], nMin, 4, nMax, 16],
+              'circle-color': ['get', 'color'],
+              'circle-opacity': 0.85,
+              'circle-stroke-width': 1, 'circle-stroke-color': 'rgba(255,255,255,0.5)',
+            },
+          })
+        } catch (e) { console.warn('[Atlas] saber11:', e.message) }
+      })()
+    },
   }
 
 
@@ -1694,6 +1807,18 @@ export function useAtlasMap(mapRef) {
         tooltipEq.remove()
       })
     })
+
+    // Saber 11 — tooltip propio (puntaje + n° evaluados), no cabe en el patrón
+    // genérico de eqLayers (un solo campo "extra").
+    map.value.on('mousemove', 'saber11-points', (e) => {
+      if (!e.features?.length) return
+      map.value.getCanvas().style.cursor = 'pointer'
+      tooltipEq.setLngLat(e.lngLat).setHTML(buildSaber11Tooltip(e.features[0].properties)).addTo(map.value)
+    })
+    map.value.on('mouseleave', 'saber11-points', () => {
+      map.value.getCanvas().style.cursor = ''
+      tooltipEq.remove()
+    })
   }
 
   // ─── Stats desde features del viewport ──────────────────────────────────────
@@ -1946,5 +2071,23 @@ function buildEquipamientoTooltip(p, color, nameField, munField, extraField) {
     </div>
     ${mun   ? `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#8B949E;margin-bottom:2px">${mun}</div>`   : ''}
     ${extra ? `<div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:${color};text-transform:uppercase;letter-spacing:.08em">${extra}</div>` : ''}
+  </div>`
+}
+
+// ─── Tooltip Saber 11 HTML ─────────────────────────────────────────────────
+function buildSaber11Tooltip(p) {
+  const nombre = p?.nombre    || '—'
+  const mun    = p?.municipio || ''
+  const color  = p?.color     || '#8b5cf6'
+  const punt   = p?.punt_global_prom != null ? Number(p.punt_global_prom).toFixed(1) : '—'
+  const n      = p?.n_evaluados != null ? p.n_evaluados : '—'
+  return `<div style="font-family:'Inter',sans-serif;font-size:12px;color:#E6EDF3;min-width:190px">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+      <span style="width:8px;height:8px;border-radius:50%;background:${color};flex-shrink:0;display:inline-block"></span>
+      <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:12px;line-height:1.3">${nombre}</span>
+    </div>
+    ${mun ? `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#8B949E;margin-bottom:2px">${mun}</div>` : ''}
+    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#E6EDF3">Puntaje global prom.: <span style="color:${color}">${punt}</span> · ${n} evaluados</div>
+    <div style="margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:7px;color:#555;text-transform:uppercase;letter-spacing:.08em">ICFES Saber 11 2022-2024</div>
   </div>`
 }

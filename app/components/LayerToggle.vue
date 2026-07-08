@@ -37,7 +37,8 @@ defineProps({
 defineEmits(['toggle'])
 
 // Capas sin datos reales — geometrías vaciadas, pendientes de fuente oficial
-const sinDatos = new Set(['manglares', 'agua', 'inundacion', 'sinap', 'resguardos'])
+// 'inundacion' NO va aquí: tiene 18 polígonos IDEAM TR50 reales y pinta bien.
+const sinDatos = new Set(['manglares', 'agua', 'sinap', 'resguardos'])
 
 const groups = ['Territorio', 'Visual', 'Agro', 'Riesgo', 'Social', 'Productivo', 'Servicios']
 
@@ -61,7 +62,7 @@ const layers = [
   // Conectividad TIC
   { id: 'tic',             label: 'Cobertura 4G',     color: '#818cf8',               group: 'Territorio' },
   // NBI y Educación
-  { id: 'nbi',             label: 'NBI (pobreza)',     color: '#f46d43',               group: 'Social'     },
+  { id: 'nbi',             label: 'NBI total (CNPV 2018)', color: '#f46d43',           group: 'Social'     },
   { id: 'epidemiologia',   label: 'Enf. tropicales',  color: '#f59e0b',               group: 'Riesgo'     },
   // Agro — datos EVA MADR
   { id: 'eva-banano',   label: 'Banano EVA',         color: '#F5E642',                group: 'Agro'       },
