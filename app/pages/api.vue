@@ -103,7 +103,7 @@
 
 <script setup>
 const endpoints = [
-  { metodo: 'GET', ruta: '/api/uraba', descripcion: 'Índice de la API (endpoints, cobertura, fórmula, fuente).' },
+  { metodo: 'GET', ruta: '/api/uraba/info', descripcion: 'Índice de la API (endpoints, cobertura, fórmula, fuente).' },
   { metodo: 'GET', ruta: '/api/uraba/municipios', descripcion: 'Los 8 municipios con su atlas_score_v3 y las 4 dimensiones.' },
   { metodo: 'GET', ruta: '/api/uraba/ranking', descripcion: 'Ranking de municipios ordenado por atlas_score_v3.' },
   { metodo: 'GET', ruta: '/api/uraba/municipio/{nombre}', descripcion: 'Detalle de un municipio: score, dimensiones, ranking, narrativa y top 5 manzanas.' },

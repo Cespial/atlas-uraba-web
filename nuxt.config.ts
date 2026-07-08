@@ -25,7 +25,10 @@ export default defineNuxtConfig({
         // escribirla como archivo "uraba/index" (no "uraba" a secas) para no
         // chocar con el directorio "uraba/" que requieren sus hijas. La regla
         // de rewrite en vercel.json expone la URL final limpia "/api/uraba".
-        '/api/uraba/', '/api/uraba/municipios', '/api/uraba/ranking',
+        // '/api/uraba/' se prerenderiza como archivo "index", que Vercel nunca
+        // sirve en estático (normaliza …/index → …/ y busca index.html). El
+        // endpoint de descubrimiento servible es /api/uraba/info.
+        '/api/uraba/info', '/api/uraba/municipios', '/api/uraba/ranking',
         // /api/uraba/municipio/{nombre}: el handler normaliza acentos/mayúsculas,
         // pero el prerender debe pedir la ruta EXACTA (URL-encoded) para que
         // Nitro la escriba como archivo. Se usa el nombre canónico acentuado.
