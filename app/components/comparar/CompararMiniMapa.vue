@@ -44,6 +44,13 @@ async function build() {
   maplibregl = (await import('maplibre-gl')).default
   const cfg = configFor(props.municipio) || { lat: 7.9, lng: -76.65, zoom: 11 }
 
+  // Registrar protocolo PMTiles (independiente de useAtlasMap: este minimapa
+  // puede montarse sin que el mapa principal haya cargado, p. ej. entrando
+  // directo a /comparar).
+  const { Protocol } = await import('pmtiles')
+  const protocol = new Protocol()
+  maplibregl.addProtocol('pmtiles', protocol.tile.bind(protocol))
+
   map = new maplibregl.Map({
     container: el.value,
     style: STYLE_DARK,
@@ -58,12 +65,36 @@ async function build() {
   map.touchZoomRotate.disableRotation()
   map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right')
 
-  map.on('load', () => {
-    map.addSource('atlas-mini', { type: 'geojson', data: '/data/atlas.geojson' })
+  map.on('load', async () => {
+    // Misma fuente que el mapa principal (atlas.pmtiles) — evita re-descargar
+    // atlas.geojson (7.3 MB) solo para el minimapa. Preflight HEAD + fallback
+    // a GeoJSON: mismo patrón que useAtlasMap.js (loadAtlasLayer).
+    let usePmtiles = true
+    try {
+      const head = await fetch('/data/atlas.pmtiles', { method: 'HEAD' })
+      const ct = head.headers.get('content-type') || ''
+      usePmtiles = head.ok && !ct.includes('text/html')
+    } catch {
+      usePmtiles = false
+    }
+
+    if (usePmtiles) {
+      map.addSource('atlas-mini', {
+        type: 'vector',
+        url: 'pmtiles:///data/atlas.pmtiles',
+        minzoom: 9,
+        maxzoom: 14,
+      })
+    } else {
+      map.addSource('atlas-mini', { type: 'geojson', data: '/data/atlas.geojson' })
+    }
+    const sourceLayerExtra = usePmtiles ? { 'source-layer': 'manzanas' } : {}
+
     map.addLayer({
       id: 'mini-fill',
       type: 'fill',
       source: 'atlas-mini',
+      ...sourceLayerExtra,
       filter: ['==', ['get', 'municipio'], props.municipio],
       paint: {
         'fill-color': COLOR_EXPR,
@@ -74,6 +105,7 @@ async function build() {
       id: 'mini-stroke',
       type: 'line',
       source: 'atlas-mini',
+      ...sourceLayerExtra,
       filter: ['==', ['get', 'municipio'], props.municipio],
       paint: {
         'line-color': 'rgba(255,255,255,0.12)',
