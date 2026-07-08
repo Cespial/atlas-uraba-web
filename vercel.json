@@ -1,5 +1,11 @@
 {
   "framework": "nuxtjs",
+  "rewrites": [
+    {
+      "source": "/api/uraba",
+      "destination": "/api/uraba/index"
+    }
+  ],
   "headers": [
     {
       "source": "/data/(.*)\\.pmtiles",
@@ -14,6 +20,22 @@
       "headers": [
         { "key": "Content-Type", "value": "application/geo+json" },
         { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    },
+    {
+      "source": "/api/uraba",
+      "headers": [
+        { "key": "Content-Type", "value": "application/json" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    },
+    {
+      "source": "/api/uraba/(.*)",
+      "headers": [
+        { "key": "Content-Type", "value": "application/json" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
       ]
     }
   ]

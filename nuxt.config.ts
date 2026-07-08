@@ -15,6 +15,28 @@ export default defineNuxtConfig({
         '/brief/apartado', '/brief/turbo', '/brief/chigorodo', '/brief/carepa',
         '/brief/necocli', '/brief/arboletes', '/brief/san-pedro-de-uraba',
         '/brief/san-juan-de-uraba',
+        // API pública REST (FASE 4, Tarea 1.2): server/api/uraba/** sólo se
+        // sirve en runtime SSR; en `nuxt generate` cada ruta debe listarse
+        // aquí para prerenderizarse como archivo estático. Se excluye
+        // /api/uraba/manzana/[cod] (7.028 posibles códigos, inviable
+        // estático) — ver nota en app/pages/api.vue.
+        // Se pide con "/" final: como "/api/uraba" es a la vez ruta y prefijo
+        // de sus hijas (municipios, ranking, municipio/*), Nitro necesita
+        // escribirla como archivo "uraba/index" (no "uraba" a secas) para no
+        // chocar con el directorio "uraba/" que requieren sus hijas. La regla
+        // de rewrite en vercel.json expone la URL final limpia "/api/uraba".
+        '/api/uraba/', '/api/uraba/municipios', '/api/uraba/ranking',
+        // /api/uraba/municipio/{nombre}: el handler normaliza acentos/mayúsculas,
+        // pero el prerender debe pedir la ruta EXACTA (URL-encoded) para que
+        // Nitro la escriba como archivo. Se usa el nombre canónico acentuado.
+        '/api/uraba/municipio/Apartad%C3%B3',
+        '/api/uraba/municipio/Turbo',
+        '/api/uraba/municipio/Chigorod%C3%B3',
+        '/api/uraba/municipio/Carepa',
+        '/api/uraba/municipio/Necocl%C3%AD',
+        '/api/uraba/municipio/Arboletes',
+        '/api/uraba/municipio/San%20Pedro%20de%20Urab%C3%A1',
+        '/api/uraba/municipio/San%20Juan%20de%20Urab%C3%A1',
       ],
     },
     // Empaqueta sólo los JSON/GeoJSON que la API REST (FASE 4) lee en runtime
