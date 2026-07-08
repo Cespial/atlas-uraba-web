@@ -13,7 +13,6 @@ const SRC = join(root, 'public', 'data')
 const DEST = join(root, 'server', 'assets', 'data')
 
 const FILES = [
-  'atlas_stats_v3.json',
   // Ola 2 (adopción v3.1): agregados municipales con score_seguridad
   // reconstruido — lo consumen ranking.get.js, municipios.get.js y
   // municipio/[nombre].get.js (ver docs/investigacion/2026-07-07/impacto-v31.md).

@@ -2,7 +2,7 @@
   "_meta": {
     "generado": "2026-07-08",
     "script": "scripts/build_catalogo_capas.py",
-    "total_archivos": 83,
+    "total_archivos": 84,
     "total_capas_mapa_matched": 39,
     "capas_layerpanel_sin_archivo_directo": [
       "enriquecido-accesibilidad-v2",
@@ -135,6 +135,18 @@
       "real_o_proxy": null
     },
     {
+      "archivo": "atlas_stats_v31.json",
+      "tipo": "json",
+      "tamano_bytes": 9537,
+      "tamano_legible": "9.3 KB",
+      "fuente": null,
+      "fecha_generacion": "2026-07-08",
+      "capa_mapa_id": null,
+      "capa_mapa_label": null,
+      "capa_mapa_tema": null,
+      "real_o_proxy": null
+    },
+    {
       "archivo": "banano_internacional.json",
       "tipo": "json",
       "tamano_bytes": 7996,
@@ -173,8 +185,8 @@
     {
       "archivo": "catalogo_capas.json",
       "tipo": "json",
-      "tamano_bytes": 25094,
-      "tamano_legible": "24.5 KB",
+      "tamano_bytes": 29952,
+      "tamano_legible": "29.2 KB",
       "fuente": null,
       "fecha_generacion": "2026-07-08",
       "capa_mapa_id": null,
@@ -432,7 +444,7 @@
       "capa_mapa_id": "inundacion",
       "capa_mapa_label": "Zonas inundables",
       "capa_mapa_tema": "Riesgo territorial",
-      "real_o_proxy": "proxy"
+      "real_o_proxy": null
     },
     {
       "archivo": "ideam_inundacion.pmtiles",
@@ -910,7 +922,7 @@
       "fuente": null,
       "fecha_generacion": null,
       "capa_mapa_id": "terridata-full",
-      "capa_mapa_label": "NBI TerriData DNP",
+      "capa_mapa_label": "NBI total + desglose (CNPV 2018)",
       "capa_mapa_tema": "Gestión social",
       "real_o_proxy": null
     },

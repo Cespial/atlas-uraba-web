@@ -42,8 +42,8 @@ LAYERPANEL_CAPAS = {
     'agua':       {'label': 'Calidad del agua', 'desc': 'Pendiente: Corpourabá / IDEAM SIRH', 'tema': 'Medio ambiente'},
     'deforestacion': {'label': 'Deforestación', 'desc': 'Alertas SMByC · rojo=pérdida', 'tema': 'Medio ambiente'},
     'runap':      {'label': 'Áreas protegidas', 'desc': '23 áreas RUNAP · Parques Nacionales', 'tema': 'Medio ambiente'},
-    'nbi':        {'label': 'Pobreza (NBI)', 'desc': 'Necesidades básicas insatisfechas', 'tema': 'Gestión social'},
-    'terridata-full': {'label': 'NBI TerriData DNP', 'desc': '9 municipios · NBI total CNPV 2018 · 30 indicadores', 'tema': 'Gestión social'},
+    'nbi':        {'label': 'NBI total (CNPV 2018)', 'desc': 'Necesidades básicas insatisfechas · DANE CNPV 2018', 'tema': 'Gestión social'},
+    'terridata-full': {'label': 'NBI total + desglose (CNPV 2018)', 'desc': '9 municipios · NBI total DANE + 30 indicadores TerriData', 'tema': 'Gestión social'},
     'sui-servicios': {'label': 'Cobertura acueducto', 'desc': 'SUI Superservicios · acueducto/alcantarillado/aseo', 'tema': 'Gestión social'},
     'uariv':      {'label': 'Desplazamiento', 'desc': 'UARIV · expulsados por municipio', 'tema': 'Gestión social'},
     'resguardos-ant': {'label': 'Resguardos indígenas', 'desc': '20 resguardos · ANT oficial Embera/Tule', 'tema': 'Gestión social'},
@@ -208,7 +208,8 @@ def main():
 
         real_proxy = status_admin(admin_status, nombre)
         # Capas marcadas explícitamente "sin datos" en LayerPanel (ver `sinDatos` allí).
-        if capa_id in ('manglares', 'agua', 'inundacion') and real_proxy is None:
+        # inundación: 18 polígonos IDEAM TR50 reales — NO es proxy (reconciliado Ola 2)
+        if capa_id in ('manglares', 'agua') and real_proxy is None:
             real_proxy = 'proxy'
 
         capas.append({
