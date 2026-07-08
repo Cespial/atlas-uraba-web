@@ -1,66 +1,51 @@
-# Handoff — 2026-07-08
-
-## Objetivo de la sesión
-Investigación completa multi-agente (6 frentes, verificación adversarial) + integración de la
-**Ola 1** del plan resultante, con metodología ultracode: orquestador + workers en worktrees
-aislados, QA headless por stream y review final de rama (veredicto READY, 0 Critical/Important).
+# Handoff — 2026-07-08 (Ola 2 completa)
 
 ## Estado actual
-- **Branch**: `main` limpio, sincronizado (pendiente 1 micro-commit de dedup .gitignore).
-- **Deploy**: https://uraba.tensor.lat (push a main → prod; Vercel construye ESTÁTICO con `nuxt generate`).
-- **Investigación**: `docs/investigacion/2026-07-07/` — 6 dossiers + `INFORME.md` (71 hallazgos, plan 3 olas).
+- **Branch**: `main` limpio y sincronizado; deploy https://uraba.tensor.lat verificado vivo
+  (¡verificar SIEMPRE con una ruta nueva tras cada push — ver incidente prerender en git log!).
+- **Investigación**: `docs/investigacion/2026-07-07/` (6 dossiers + INFORME + LINEA-SEGURIDAD-V31
+  + impacto-v31 + terridata-reconciliacion).
+- Metodología de ejecución: orquestador Fable + workers Sonnet en worktrees (workflows),
+  review final de rama por ola. Olas 1 y 2: veredicto READY.
 
-## Ola 1 ENTREGADA (17+ commits, todo en prod)
-1. **Mapa lazy**: carga inicial 81.5 MB → **5.4 MB (−93%)** — `optionalLayerRegistrars` en
-   `useAtlasMap.js`, capas opcionales se descargan al primer toggle y sobreviven al reload de satélite.
-2. **API pública desplegada**: `/api/uraba{,/municipios,/ranking,/municipio/<nombre>}` prerenderizada
-   estática + headers JSON/CORS/cache en vercel.json + docs en `/api` + link en footer.
-3. **FilterBar en desktop** (SidePanel, con a11y) + **PresentationMode** montado + **badge
-   calidad de dato** (real/proxy) en LayerPanel desde `admin_data_status.json`.
-4. **Seguridad trazable**: `scripts/fetch_seguridad.py` → homicidios MinDefensa (m8fd-ahd9) tasados
-   por 100k con proyecciones DANE 2018-2042 como denominador; capa coroplética + DiagnosticoPanel D7
-   + brief; siempre con nota "hechos reportados (SIEDCO/MinDefensa)"; 2025/2026 parciales excluidos.
-5. **Corrección PDET** (bloqueante de integridad): `es_pdet` oficial Decreto 893/2017 en
-   municipios.geojson + badge en brief — Arboletes y San Juan de Urabá = NO PDET.
-6. **IRCA calidad de agua** (INS nxt2-39c3): JSON 9/9 municipios 2018-2024 + capa coroplética +
-   KPI/tendencia en brief.
-7. **/cadena due-diligence**: Puerto Antioquia feb-2026, FOB/kg implícito por año, corrección
-   metodológica SIPSA≠FOB, 4º bloque precio internacional (Pink Sheet, ¡ya viene en US$/kg!),
-   contexto Augura 2025, badge Foc R4T (Res. ICA 095026/2021) en brief.
-8. **Quick wins**: cache /data 86400+CORS, WCAG pie del brief (9px, 5.36:1), useHead OG por página,
-   sitemap.xml, app/error.vue de marca, 7 huérfanos borrados (14.3 MB), fix .gitignore `dist`.
-9. **Fix scroll** en páginas largas (overflow del wrapper; mapa intacto; salvaguarda print).
+## OLA 2 ENTREGADA (encima de la Ola 1 — ver git log 23b2ac7..HEAD)
+1. **PMTiles**: 7 capas pesadas convertidas (catastro 17→1.6 MB); preflight+fallback GeoJSON;
+   CompararMiniMapa a pmtiles. Al montar solo hay HEADs de 0 KB.
+2. **Índice v3.1 (seguridad trazable)**: fórmula de anclas fijas (LINEA-SEGURIDAD-V31.md),
+   gate de impacto ejecutado (ρ=0.7733; Chigorodó tenía 1.0000 falso con tasa real 41.5/100k).
+   **Adoptado en la capa citable** (brief 64/100 Apartadó, API, comparar, metodología) con
+   contrato de API retrocompatible y caveat visible Arboletes/San Juan (2 de 3 años SIEDCO).
+   **⚠️ PENDIENTE RATIFICACIÓN USUARIO: re-bake del mapa de manzanas a v3.1** (atlas_enriquecido
+   + atlas.pmtiles + quintiles — cambia los colores de las 7.028 manzanas; script recalc_v31.py listo).
+3. **/metodologia**: fórmulas desde _meta reales, glosario (LISA/Gini/IRCA/PDET), catálogo de
+   ~70 capas (build_catalogo_capas.py — mapeo manual, actualizarlo al agregar capas), principios.
+4. **Estado en URL**: /comparar?a=X&b=Y y /simulador?t/lat/lng compartibles + copiar enlace.
+5. **Datos nuevos**: RUV (snapshot año corriente), Saber 11 agregado remoto (capa por colegio,
+   join 89/131 con simat — simat no cubre Chigorodó/Mutatá/Necoclí), delitos sexuales tasados,
+   MEN matrícula/deserción, RUNT (5/9 en fuente), MinTIC completado 9/9. EVA 2025 aún no
+   publicado por MADR (reintentar). DiagnosticoPanel con RUV/MEN/delitos.
+6. **TerriData reconciliado**: la capa 'nbi' mostraba NBI cabecera como total; corregido contra
+   DANE oficial; etiquetas honestas; analfabetismo sigue discrepante (documentado, sin tocar).
+7. **Ficha unificada**: useMunicipioResumen comparte carga entre ficha modal y brief (la ficha
+   sigue v1/gap deliberadamente — pendiente conocido); perfiles similares en brief; bloque FAO
+   conservador en /cadena.
+8. **API**: endpoint de descubrimiento es **/api/uraba/info** (Vercel estático nunca sirve
+   archivos `…/index` — normaliza a index.html). 12 archivos en server assets.
 
-## Incidente resuelto post-review (0c14f77)
-El prerender de la API tumbaba el deploy COMPLETO en Vercel ("Atlas data asset no encontrado"):
-el preset nuxtjs de Vercel relocaliza el buildDir a `node_modules/.cache/nuxt/.nuxt` y los
-server assets de Nitro no se resuelven durante `nuxt generate` (local sí funciona). Fix:
-`readData()` en `server/utils/uraba.js` con fallback a `public/data` por filesystem. Si se
-agregan archivos a la API, deben existir en `public/data` (fuente de verdad).
-
-## Minors diferidos (review final, no bloqueantes)
-- IRCA/seguridad cargan municipios.geojson como sources separadas (redundancia pequeña, cacheada).
-- toggleSatellite: setLayoutProperty a +200ms puede ganar la carrera al registrar async (ruido de
-  consola capturado; auto-sanable). El +200ms es herencia del código previo — timing-based.
-- Brief fija seguridad en '2024' duro; mapa/panel derivan "último año completo" dinámico. Si un
-  re-run completa 2025, actualizar el brief.
-- Warning de hidratación preexistente en /brief/[municipio] (anterior a esta ola).
-
-## Siguiente: OLA 2 (INFORME.md §3, semanas)
-PMTiles para capas pesadas (catastro 16MB P0) · estado en URL para /comparar y /simulador ·
-página /metodologia + catálogo de capas · serie histórica RUV · reconstrucción documentada del
-score_seguridad v3 (recalc con homicidios tasados) · Saber 11 por colegio · SIPSA 2013-2024 +
-EVA 2025 · reconciliar terridata_full vs terridata_indicadores (¡contradicen! NBI Chigorodó
-21.19 vs 31.8) · unificar FichaMunicipal/brief · perfiles similares.
-
-## OLA 3 / decisiones pendientes del usuario
-- SSR real en Vercel (Build Command → `npm run build`) si la API estática se queda corta.
-- Versión EN (cooperación) · gestión institucional (SUI energía, ART/PDET inversión, certificadoras).
+## Pendientes / decisiones del usuario
+- [ ] **Ratificar re-bake del mapa a v3.1** (ítem 2 — el único switch visual grande que falta).
+- [ ] SIPSA serie 2013-2024 (microdatos DANE catálogo 776 — descarga semi-manual, no automatizada).
+- [ ] EVA 2025 cuando MADR publique · serie histórica RUV (export manual RNI).
+- [ ] Ficha modal aún v1 (gap_analysis) — reconciliar visualmente con v3.1 o retirarla en favor del brief.
+- [ ] Ola 3: versión EN, SSR real (Build Command), OGC/BYOD, gestión institucional (SUI, ART, certificadoras).
+- [ ] Minors: DiagnosticoPanel duplica 4 fetches vs singleton (cache navegador lo cubre);
+  analfabetismo TerriData; homónimos Saber11 dentro de un mismo municipio.
 
 ## Setup
 ```bash
-npm run dev / npm run build / npm run generate   # generate = lo que corre Vercel (52 rutas)
-python3 scripts/fetch_seguridad.py|fetch_irca.py|fetch_banano_internacional.py  # refresh datos
-python3 scripts/compute_equidad.py | scripts/patch_pdet.py
+npm run dev|build|generate      # generate = lo que corre Vercel
+bash scripts/build_pmtiles.sh   # re-tilear capas pesadas (tippecanoe)
+python3 scripts/recalc_v31.py   # índice v3.1 (stats candidatos)
+python3 scripts/build_catalogo_capas.py  # tras agregar capas al mapa
+python3 scripts/fetch_*.py      # refresh de datos por fuente
 ```
-QA headless: playwright Python (anaconda3) + chromium-headless-shell; PDFs con pg.pdf() (print media).
