@@ -12,6 +12,16 @@
         <h1 class="cmp-title">Comparador de municipios</h1>
         <span class="cmp-subtitle">Índice de Bienestar Territorial · v3</span>
       </div>
+      <button class="cmp-share" @click="copiarEnlace" title="Copiar enlace de esta comparación">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+          <circle cx="13" cy="3" r="2" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="3"  cy="8" r="2" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="13" cy="13" r="2" stroke="currentColor" stroke-width="1.5"/>
+          <line x1="5" y1="7"  x2="11" y2="4"  stroke="currentColor" stroke-width="1.2"/>
+          <line x1="5" y1="9"  x2="11" y2="12" stroke="currentColor" stroke-width="1.2"/>
+        </svg>
+        <span>{{ copiado ? '¡Copiado!' : 'Copiar enlace' }}</span>
+      </button>
       <div class="cmp-badge">
         <span class="badge-dot" />
         8 municipios
@@ -118,10 +128,19 @@
 import { computed, ref, h } from 'vue'
 import CompararRadar from '~/components/comparar/CompararRadar.vue'
 import CompararMiniMapa from '~/components/comparar/CompararMiniMapa.vue'
-import { slugFor } from '~/utils/briefSlugs'
+import { slugFor, MUNICIPIO_SLUGS } from '~/utils/briefSlugs'
 
 const COLOR_A = '#1B6B6D'
 const COLOR_B = '#a78bfa'
+
+// ── Estado en la URL (?a=slug&b=slug) ─────────────────────────────
+// Permite compartir por WhatsApp una comparación específica. Slugs inválidos
+// se ignoran fail-quiet (el default por ranking asume el control).
+const route = useRoute()
+function nombreFromSlug(slug) {
+  if (typeof slug !== 'string') return null
+  return MUNICIPIO_SLUGS[slug] ?? null
+}
 
 // ── Carga de datos ───────────────────────────────────────────────
 // server:false → la carga ocurre en el cliente, donde las rutas relativas
@@ -139,20 +158,48 @@ const error   = computed(() => e1.value || e2.value || e3.value)
 const ranking = computed(() => statsRaw.value?.ranking_municipios_v3 ?? [])
 const nombres = computed(() => ranking.value.map(r => r.municipio))
 
-// Selección por defecto: #1 y #8 del ranking
-const munA = ref(null)
-const munB = ref(null)
+// Selección: restaura desde la URL si trae ?a=/?b= válidos; si no, cae al
+// default por ranking (#1 y #8). Cada lado se resuelve de forma independiente.
+const munA = ref(nombreFromSlug(route.query.a))
+const munB = ref(nombreFromSlug(route.query.b))
 watchEffect(() => {
-  if (!munA.value && ranking.value.length) {
-    munA.value = ranking.value[0]?.municipio
-    munB.value = ranking.value[ranking.value.length - 1]?.municipio
-  }
+  if (!munA.value && ranking.value.length) munA.value = ranking.value[0]?.municipio
+  if (!munB.value && ranking.value.length) munB.value = ranking.value[ranking.value.length - 1]?.municipio
+})
+
+// Sincroniza la selección a la URL (replaceState, sin recargar ni ensuciar el historial)
+watch([munA, munB], ([a, b]) => {
+  const params = new URLSearchParams()
+  const sa = slugFor(a)
+  const sb = slugFor(b)
+  if (sa) params.set('a', sa)
+  if (sb) params.set('b', sb)
+  const newUrl = params.toString() ? '?' + params.toString() : window.location.pathname
+  window.history.replaceState({}, '', newUrl)
 })
 
 function swap() {
   const t = munA.value
   munA.value = munB.value
   munB.value = t
+}
+
+// ── Copiar enlace ─────────────────────────────────────────────────
+const copiado = ref(false)
+async function copiarEnlace() {
+  const url = window.location.href
+  try {
+    await navigator.clipboard.writeText(url)
+  } catch (e) {
+    const el = document.createElement('textarea')
+    el.value = url
+    document.body.appendChild(el)
+    el.select()
+    document.execCommand('copy')
+    document.body.removeChild(el)
+  }
+  copiado.value = true
+  setTimeout(() => { copiado.value = false }, 2500)
 }
 
 // ── Dimensiones para radar/barras ───────────────────────────────
@@ -354,7 +401,6 @@ useHead({
   color: var(--cm, #5F5F5B);
 }
 .cmp-badge {
-  margin-left: auto;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -369,6 +415,25 @@ useHead({
   color: var(--cm, #5F5F5B);
 }
 .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ca, #1B6B6D); }
+.cmp-share {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 7px;
+  background: none;
+  border: 1px solid var(--cb, #E5E5E0);
+  font-family: var(--ff-mono, monospace);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cm, #5F5F5B);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.cmp-share:hover { border-color: var(--ca, #1B6B6D); color: var(--ca, #1B6B6D); }
 
 /* Main */
 .cmp-main {
@@ -655,6 +720,7 @@ useHead({
   .cmp-title { font-size: 14px; }
   .cmp-back span, .cmp-back { font-size: 10px; }
   .cmp-badge { display: none; }
+  .cmp-share span { display: none; }
   .sel-vs { display: none; }
 }
 </style>
