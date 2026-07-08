@@ -18,7 +18,20 @@ export async function readData(file) {
   // Los server assets se montan en el storage 'assets' con la clave
   // 'server:<baseName>:<archivo>' (baseName 'data' por nuestra config Nitro).
   const storage = useStorage('assets')
-  const raw = await storage.getItem(`server:data:${file}`)
+  let raw = await storage.getItem(`server:data:${file}`)
+  if (raw == null) {
+    // Fallback para el PRERENDER en Vercel: su preset relocaliza el buildDir
+    // (node_modules/.cache/nuxt/.nuxt) y los server assets no se resuelven
+    // durante `nuxt generate`. En la máquina de build sí existe el filesystem,
+    // así que se lee la fuente de verdad public/data directamente.
+    try {
+      const { readFile } = await import('node:fs/promises')
+      const { resolve } = await import('node:path')
+      raw = await readFile(resolve(process.cwd(), 'public/data', file), 'utf8')
+    } catch {
+      // se reporta el error original de asset abajo
+    }
+  }
   if (raw == null) {
     throw new Error(`Atlas data asset no encontrado: ${file}`)
   }
