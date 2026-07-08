@@ -227,6 +227,9 @@
         MGN DANE 2024 · Tensor 2025<br />
         <span style="opacity:0.7">v2: GHSL 2023 · Sentinel-2 NDVI · VIIRS 2022</span>
       </div>
+      <NuxtLink to="/metodologia" class="fuentes-link">
+        Ver metodología completa y catálogo de capas →
+      </NuxtLink>
     </div>
 
   </aside>
@@ -765,4 +768,16 @@ function dimScore(key) {
   color: var(--cm, #5F5F5B);
   opacity: 0.7;
 }
+
+.fuentes-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: var(--ff-mono);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--ca, #1B6B6D);
+  text-decoration: none;
+}
+.fuentes-link:hover { text-decoration: underline; }
 </style>
