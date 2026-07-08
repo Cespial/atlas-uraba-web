@@ -116,7 +116,10 @@
         </div>
       </section>
 
-      <!-- 8 · Fuentes -->
+      <!-- 8 · Perfiles similares (patrón DataMéxico) -->
+      <p v-if="perfilesSimilaresTexto" class="b-similares">{{ perfilesSimilaresTexto }}</p>
+
+      <!-- 9 · Fuentes -->
       <footer class="b-fuentes">
         <strong>Fuentes:</strong> DANE CNPV 2018 · DANE/MADR EVA · DANE SIPSA · DANE-DIAN exportaciones ·
         isócronas OSRM · Sentinel-2/Landsat 9/VIIRS (Google Earth Engine) · REPS · SIMAT · INS-SIVICAP (IRCA) ·
@@ -130,8 +133,8 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useEquidad } from '~/composables/useEquidad'
 import { useScoreScale } from '~/composables/useScoreScale'
+import { useMunicipioResumen, useMunicipiosSimilares } from '~/composables/useMunicipioResumen'
 import { MUNICIPIO_SLUGS } from '~/utils/briefSlugs'
 
 const { scoreLabel } = useScoreScale()
@@ -142,72 +145,34 @@ if (!nombre) {
   throw createError({ statusCode: 404, statusMessage: 'Municipio no encontrado' })
 }
 
-const { data: statsRaw, pending: p1 } = await useFetch('/data/atlas_stats_v3.json', { server: false, lazy: true })
-const { data: gapRaw,   pending: p2 } = await useFetch('/data/gap_analysis.json', { server: false, lazy: true })
-const { data: benchRaw, pending: p3 } = await useFetch('/data/benchmarks.json', { server: false, lazy: true })
-const { data: topRaw,   pending: p4 } = await useFetch('/data/top_prioridad.json', { server: false, lazy: true })
-const { data: evaRaw,   pending: p5 } = await useFetch('/data/eva_produccion_serie.json', { server: false, lazy: true })
-const { equidad } = useEquidad()
+// Datos del municipio (composable compartido con FichaMunicipal.vue). El
+// brief usa la fuente v3 (statsV3Avg/dimsV3) — ver nota al inicio de
+// useMunicipioResumen.js sobre por qué NO se unifica con gap_analysis (v1).
+const {
+  statsV3Avg: avg, regionalScoreV3, dimsV3: dims,
+  equidadEntry: eq, top5, agro, satelite, esPdet, irca, seguridad,
+  gapLoaded, benchLoaded, statsV3Loaded, topLoaded, evaLoaded,
+} = useMunicipioResumen(() => nombre)
 
-// Bloques complementarios (fail-quiet): si el fetch falla o el municipio no
-// tiene dato, el bloque/badge correspondiente simplemente se omite — nunca
-// se inventa una cifra.
-const { data: geoRaw } = await useFetch('/data/municipios.geojson', { server: false, lazy: true })
-const { data: irkaRaw } = await useFetch('/data/irca_municipios.json', { server: false, lazy: true })
-const { data: segRaw } = await useFetch('/data/seguridad_municipios.json', { server: false, lazy: true })
+const { similares } = useMunicipiosSimilares(() => nombre)
 
-const pending = computed(() => p1.value || p2.value || p3.value || p4.value || p5.value)
+// Mismo gate de "Cargando…" que antes: espera a los 5 fetches que
+// determinan el contenido principal del brief (v3, gap, benchmarks, top,
+// eva). Los complementarios (PDET, IRCA, seguridad) son fail-quiet y no
+// bloquean el render.
+const pending = computed(() =>
+  !gapLoaded.value || !benchLoaded.value || !statsV3Loaded.value || !topLoaded.value || !evaLoaded.value
+)
 
 const hoy = new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' })
 
-const pct = v => Math.round((v ?? 0) * 100)
-const avg = computed(() => statsRaw.value?.municipios?.[nombre]?.avg ?? {})
-const gap = computed(() => gapRaw.value?.[nombre] ?? {})
-
-const score = computed(() => Math.round((avg.value.atlas_score_v3 ?? 0) * 100))
-const nivel = computed(() => (avg.value.atlas_score_v3 != null ? scoreLabel(avg.value.atlas_score_v3) : ''))
-
-// Promedio regional v3: media ponderada por conteo de manzanas de cada municipio.
-const regionalScoreV3 = computed(() => {
-  const munis = statsRaw.value?.municipios ?? {}
-  let totalCount = 0
-  let weightedSum = 0
-  for (const m of Object.values(munis)) {
-    const c = m?.count ?? 0
-    const s = m?.avg?.atlas_score_v3 ?? 0
-    totalCount += c
-    weightedSum += c * s
-  }
-  return totalCount ? Math.round((weightedSum / totalCount) * 100) : null
-})
-
-// Dimensiones v3 municipio vs benchmarks (todo llevado a 0–100).
-const DIMS = [
-  { label: 'Accesibilidad',  v3: 'score_accesibilidad_v3',  bench: 'score_accesibilidad' },
-  { label: 'Ambiental',      v3: 'score_ambiental_v3',      bench: 'score_ambiental' },
-  { label: 'Socioeconómico', v3: 'score_socioeconomico_v3', bench: 'score_socioeconomico' },
-  { label: 'Seguridad',      v3: 'score_seguridad',         bench: 'score_seguridad' },
-]
-const dims = computed(() => {
-  const refs = benchRaw.value?.referencias ?? {}
-  return DIMS.map(d => {
-    const mun = pct(avg.value[d.v3])
-    const uraba = pct(refs.uraba_promedio?.[d.bench])
-    return {
-      label: d.label,
-      mun,
-      uraba,
-      antioquia: pct(refs.antioquia_promedio?.[d.bench]),
-      colombia: pct(refs.colombia_promedio?.[d.bench]),
-      color: mun >= uraba ? '#1a9850' : '#d73027',
-    }
-  })
-})
+const score = computed(() => Math.round((avg.value?.atlas_score_v3 ?? 0) * 100))
+const nivel = computed(() => (avg.value?.atlas_score_v3 != null ? scoreLabel(avg.value.atlas_score_v3) : ''))
 
 // Narrativa determinística v3: coherente con score, nivel y tabla de dimensiones de arriba.
 const narrativa = computed(() => {
   const R = regionalScoreV3.value
-  if (avg.value.atlas_score_v3 == null || R == null || !dims.value.length) return ''
+  if (avg.value?.atlas_score_v3 == null || R == null || !dims.value.length) return ''
   const s = score.value
   const diff = Math.abs(s - R)
   const direccion = s >= R ? 'por encima' : 'por debajo'
@@ -216,83 +181,12 @@ const narrativa = computed(() => {
   return `${nombre} registra un Índice de Bienestar v3 de ${s}/100 (${nivel.value.toLowerCase()}), ${diff} puntos ${direccion} del promedio regional (${R}/100). Su dimensión más fuerte es ${dimMax.label} (${dimMax.mun}/100); la brecha prioritaria es ${dimMin.label} (${dimMin.mun}/100).`
 })
 
-const eq = computed(() => equidad.value?.municipios?.[nombre] ?? null)
-const top5 = computed(() => (topRaw.value?.[nombre] ?? []).slice(0, 5))
-
-// Agro: banano del municipio, último año con datos. Omitir si no hay.
-const agro = computed(() => {
-  const m = Object.values(evaRaw.value?.data ?? {}).find(x => x.municipio === nombre)
-  const series = m?.cultivos?.Banano?.series
-  if (!series) return null
-  const anios = Object.keys(series).sort()
-  if (!anios.length) return null
-  const ult = anios[anios.length - 1]
-  const arr = Array.isArray(series[ult]) ? series[ult] : [series[ult]]
-  const produccion = arr.reduce((t, d) => t + (+d.produccion_ton || 0), 0)
-  const area = arr.reduce((t, d) => t + (+d.area_sembrada_ha || 0), 0)
-  const cosechada = arr.reduce((t, d) => t + (+d.area_cosechada_ha || 0), 0)
-  if (!produccion) return null
-  return { anio: ult, produccion, area, rendimiento: cosechada ? produccion / cosechada : 0 }
-})
-
-const satelite = computed(() => {
-  const a = avg.value
-  if (a.lst_c == null && a.viirs_rad == null) return null
-  return {
-    lst: a.lst_c != null ? (Math.round(a.lst_c * 10) / 10).toLocaleString('es-CO') : '—',
-    viirs: a.viirs_rad != null ? (Math.round(a.viirs_rad * 10) / 10).toLocaleString('es-CO') : '—',
-  }
-})
-
-// PDET — subregión "Urabá Antioqueño" oficial (Decreto 893/2017). El campo
-// es_pdet ya viene calculado en municipios.geojson (scripts/patch_pdet.py);
-// aquí solo se busca por nombre. null mientras carga o si no hay match.
-const esPdet = computed(() => {
-  const features = geoRaw.value?.features ?? []
-  const feature = features.find(f => f.properties?.municipio === nombre.toUpperCase())
-  return feature ? !!feature.properties.es_pdet : null
-})
-
-// IRCA (INS/SIVICAP): último año disponible + tendencia frente al peor nivel
-// de riesgo de los años previos, si mejoró.
-const NIVEL_RIESGO_ORDEN = ['Sin riesgo', 'Riesgo bajo', 'Riesgo medio', 'Riesgo alto', 'Inviable sanitariamente']
-const irca = computed(() => {
-  const serie = irkaRaw.value?.municipios?.[nombre]
-  if (!serie) return null
-  const anios = Object.keys(serie).sort()
-  if (!anios.length) return null
-  const ultimoAnio = anios[anios.length - 1]
-  const actual = serie[ultimoAnio]
-  if (actual?.irca == null || !actual?.nivel) return null
-
-  let peorNivel = null
-  let peorAnios = []
-  for (const a of anios) {
-    if (a === ultimoAnio) continue
-    const nv = serie[a]?.nivel
-    if (!nv) continue
-    if (peorNivel == null || NIVEL_RIESGO_ORDEN.indexOf(nv) > NIVEL_RIESGO_ORDEN.indexOf(peorNivel)) {
-      peorNivel = nv
-      peorAnios = [a]
-    } else if (nv === peorNivel) {
-      peorAnios.push(a)
-    }
-  }
-  let tendencia = ''
-  if (peorNivel && NIVEL_RIESGO_ORDEN.indexOf(peorNivel) > NIVEL_RIESGO_ORDEN.indexOf(actual.nivel)) {
-    const rango = peorAnios.length > 1 ? `${peorAnios[0]}-${peorAnios[peorAnios.length - 1].slice(-2)}` : peorAnios[0]
-    tendencia = `${nombre} pasó de ${peorNivel.toLowerCase()} (${rango}) a ${actual.nivel.toLowerCase()} (${ultimoAnio}). `
-  }
-  return { anio: ultimoAnio, valor: actual.irca, nivel: actual.nivel, tendencia }
-})
-
-// Seguridad trazable (MinDefensa/SIEDCO): solo el último AÑO COMPLETO (2024).
-// 2025/2026 quedan fuera por venir parciales (rezago administrativo).
-const seguridad = computed(() => {
-  const serie = segRaw.value?.municipios?.[nombre]
-  const d = serie?.['2024']
-  if (d?.homicidios == null || d?.tasa_100k == null) return null
-  return { anio: '2024', homicidios: d.homicidios, tasa: d.tasa_100k.toFixed(1) }
+// Perfiles similares (patrón DataMéxico): 2 municipios más cercanos por
+// distancia euclidiana sobre las 4 dimensiones normalizadas del índice v3.
+const perfilesSimilaresTexto = computed(() => {
+  if (similares.value.length < 2) return ''
+  const [a, b] = similares.value
+  return `Perfil territorial similar a ${a.nombre} y ${b.nombre} (distancia sobre las 4 dimensiones del índice v3).`
 })
 
 function descargarPdf() { window.print() }
@@ -353,6 +247,7 @@ useHead({
 .b-top5 td { padding: 2.5px 6px; border-top: 1px solid #f0f0ec; }
 .b-mono { font-family: ui-monospace, monospace; font-size: 8.5px; }
 .b-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.b-similares { margin: 11px 0 0; font-size: 9.5px; font-style: italic; color: #5F5F5B; }
 .b-fuentes { margin-top: 14px; padding-top: 8px; border-top: 1px solid #e2e2de; font-size: 9px; color: #6b6b66; line-height: 1.5; }
 
 /* Impresión: solo la hoja, exactamente una página A4. */

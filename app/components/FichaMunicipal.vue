@@ -222,14 +222,14 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed } from 'vue'
 import { useAtlasStore, DIMENSIONES, MUNICIPIOS } from '~/stores/atlas'
 import { useScoreScale } from '~/composables/useScoreScale'
-import { useEquidad } from '~/composables/useEquidad'
+import { useMunicipioResumen } from '~/composables/useMunicipioResumen'
 import { slugFor } from '~/utils/briefSlugs'
 
 // ─── Props & Emits ────────────────────────────────────────────────────────────
-const props = defineProps({
+defineProps({
   visible: { type: Boolean, default: false },
 })
 defineEmits(['close'])
@@ -237,40 +237,13 @@ defineEmits(['close'])
 // ─── Store ────────────────────────────────────────────────────────────────────
 const store = useAtlasStore()
 
-// ─── Datos externos ───────────────────────────────────────────────────────────
-const gapData        = ref(null)   // gap_analysis.json
-const benchmarksData = ref(null)   // benchmarks.json
-
-const cargandoDatos = ref(false)
-
-async function cargarDatos() {
-  if (gapData.value && benchmarksData.value) return
-  cargandoDatos.value = true
-  try {
-    const [gapRes, benchRes] = await Promise.all([
-      fetch('/data/gap_analysis.json'),
-      fetch('/data/benchmarks.json'),
-    ])
-    gapData.value        = await gapRes.json()
-    benchmarksData.value = await benchRes.json()
-  } catch (e) {
-    console.error('[FichaMunicipal] Error cargando datos:', e)
-  } finally {
-    cargandoDatos.value = false
-  }
-}
-
-onMounted(cargarDatos)
-
-// Cargar datos también cuando se abre la ficha (por si se monta tarde)
-watch(() => props.visible, (v) => { if (v) cargarDatos() })
-
-// ─── Equidad interna (Task equidad intra-municipal) ──────────────────────────
-const { equidad } = useEquidad()
-const equidadEntry = computed(() => {
-  if (store.municipioActivo === 'Todos') return null
-  return equidad.value?.municipios?.[store.municipioActivo] ?? null
-})
+// ─── Datos del municipio activo (composable compartido con brief/[municipio]) ─
+// ⚠️ La ficha usa gap_analysis.json (score v1) — NO atlas_stats_v3 (que usa el
+// brief). Es una diferencia de fuente conocida y deliberada, no un bug: ver
+// nota al inicio de useMunicipioResumen.js.
+const {
+  gapData, gapEntry, benchmarksRegion, equidadEntry,
+} = useMunicipioResumen(() => store.municipioActivo)
 
 // ─── Brief URL ────────────────────────────────────────────────────────────
 const briefUrl = computed(() => {
@@ -284,12 +257,6 @@ const municipioNombre = computed(() =>
 )
 
 // ─── Score principal: desde gap_analysis o desde store.stats ─────────────────
-const gapEntry = computed(() => {
-  const nombre = store.municipioActivo
-  if (!gapData.value || nombre === 'Todos') return null
-  return gapData.value[nombre] ?? null
-})
-
 const scorePpal = computed(() => {
   if (gapEntry.value) return gapEntry.value.atlas_score
   const s = store.stats[store.municipioActivo]
@@ -329,8 +296,8 @@ const ranking = computed(() => {
 // ─── Promedio regional Urabá (para gaps) ─────────────────────────────────────
 const urabaPromedio = computed(() => {
   // Desde benchmarks
-  if (benchmarksData.value?.referencias?.uraba_promedio) {
-    const u = benchmarksData.value.referencias.uraba_promedio
+  if (benchmarksRegion.value?.uraba_promedio) {
+    const u = benchmarksRegion.value.uraba_promedio
     return {
       score_accesibilidad:  Math.round((u.score_accesibilidad ?? 0) * 100),
       score_ambiental:      Math.round((u.score_ambiental ?? 0) * 100),

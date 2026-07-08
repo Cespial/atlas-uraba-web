@@ -80,6 +80,41 @@
           <p class="cad-fuente">Fuente: {{ intlFuente }}</p>
         </section>
 
+        <!-- ── BLOQUE 3B · CONTEXTO COMPETITIVO (FAO Banana Market Review) ── -->
+        <section class="cad-block">
+          <div class="cad-block-head">
+            <h2 class="cad-h2">Contexto competitivo regional</h2>
+          </div>
+          <p class="cad-nota cad-nota--info">
+            Colombia es el <strong>tercer exportador de banano de América Latina y el Caribe</strong>,
+            detrás de Ecuador y Guatemala (Augura, 2025). El
+            <strong>FAO Banana Market Review</strong> es el informe anual que consolida en un mismo
+            documento el volumen y precio de exportación de los principales países bananeros de la
+            región — Ecuador, Guatemala, Costa Rica y Colombia — como marco de referencia para
+            situar el desempeño de Urabá frente a sus competidores.
+          </p>
+          <table class="cad-tabla-fao">
+            <thead>
+              <tr><th>País</th><th>Posición exportadora LATAM+Caribe</th><th>Cifra 2025 (confirmada)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Ecuador</td><td>1°</td><td class="cad-tabla-nd">— (fuera de alcance de este dossier)</td></tr>
+              <tr><td>Guatemala</td><td>2°</td><td class="cad-tabla-nd">— (fuera de alcance de este dossier)</td></tr>
+              <tr class="cad-tabla-destacada">
+                <td>Colombia</td>
+                <td>3°</td>
+                <td>US$1.309 M · 2,5 M t · 133 M cajas · Urabá: 82 M cajas / 32.465 ha</td>
+              </tr>
+              <tr><td>Costa Rica</td><td>—</td><td class="cad-tabla-nd">— (fuera de alcance de este dossier)</td></tr>
+            </tbody>
+          </table>
+          <p class="cad-fuente">
+            Fuente: Augura vía prensa (2026), posición y cifras de Colombia. FAO Banana Market Review
+            — marco comparativo regional; series de volumen/precio de Ecuador, Guatemala y Costa Rica
+            no fueron extraídas en esta iteración.
+          </p>
+        </section>
+
         <!-- ── BLOQUE 4 · EXPORTACIÓN FOB ──────────────────────── -->
         <section class="cad-block">
           <div class="cad-block-head">
@@ -373,6 +408,12 @@ useHead({
 .cad-fuente { margin-top: 10px; font-size: 9px; color: #6b6b66; }
 .cad-nota { font-size: 11px; line-height: 1.5; color: #b8b6b0; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); border-radius: 6px; padding: 8px 10px; margin-bottom: 14px; }
 .cad-nota strong { color: #e7e5e0; }
+.cad-nota--info { background: rgba(27,107,109,0.08); border-color: rgba(27,107,109,0.28); }
+.cad-tabla-fao { width: 100%; border-collapse: collapse; font-size: 11px; }
+.cad-tabla-fao th { text-align: left; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.06em; color: #8a8a85; padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.cad-tabla-fao td { padding: 6px 8px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #d6d4cf; }
+.cad-tabla-fao tr.cad-tabla-destacada td { color: #e7e5e0; background: rgba(27,107,109,0.1); font-weight: 600; }
+.cad-tabla-nd { color: #6b6b66; font-style: italic; font-weight: 400 !important; }
 .cad-fob-kg { margin-top: 14px; }
 .cad-fob-kg-title { font-size: 10px; color: #8a8a85; letter-spacing: 0.04em; margin-bottom: 6px; font-family: ui-monospace, monospace; }
 .cad-fob-kg-row { display: flex; flex-wrap: wrap; gap: 8px; }
