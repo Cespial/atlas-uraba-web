@@ -83,6 +83,12 @@ export function useAtlasMap(mapRef) {
   let _maplibregl = null
   let mapMode    = 0  // 0=Dark, 1=Satélite, 2=Calles claras
 
+  // Cache de datos IRCA/seguridad para los tooltips de las capas coropléticas
+  // municipales (poblado por optionalLayerRegistrars.irca/seguridad al primer
+  // toggle; setupIndicadoresInteraction los lee por closure).
+  let ircaTooltipData      = null
+  let seguridadTooltipData = null
+
   // Registro de visibilidad de capas opcionales
   const layerVisibility = {
     veredas:    true,
@@ -143,6 +149,9 @@ export function useAtlasMap(mapRef) {
     'terridata-full':   ['terridata-full-fill', 'terridata-full-outline'],
     'resguardos-ant':   ['resguardos-ant-fill', 'resguardos-ant-outline'],
     'runap':            ['runap-fill', 'runap-outline'],
+    // Capas nuevas — IRCA (calidad de agua) y seguridad (homicidios), join en runtime
+    'irca':             ['irca-fill', 'irca-outline'],
+    'seguridad':        ['seguridad-fill', 'seguridad-outline'],
   }
 
   // ─── Registro perezoso de fuentes/capas OPCIONALES (lazy-on-first-toggle) ───
@@ -880,6 +889,113 @@ export function useAtlasMap(mapRef) {
         })
       } catch (e) { console.warn('[Atlas] runap:', e.message) }
     },
+    // ── IRCA (calidad de agua, INS-SIVICAP) y seguridad (homicidios, SIEDCO/
+    // MinDefensa) — municipios.geojson no trae estas propiedades: se hace el
+    // join en runtime contra irca_municipios.json / seguridad_municipios.json.
+    // El registro de addSource/addLayer se difiere hasta que ambos fetch()
+    // resuelvan (fail-quiet: si el JSON no carga, la capa simplemente no se
+    // agrega). Como el fetch es async, el guard "ya registrada" vive tanto al
+    // entrar (evita doble fetch en toggles rápidos) como tras resolver (evita
+    // doble addSource si toggleSatellite() reinvoca el registrador mientras el
+    // primer fetch seguía en vuelo).
+    irca() {
+      if (map.value.getSource('irca-municipios')) return
+      ;(async () => {
+        try {
+          const data = await fetch('/data/irca_municipios.json').then(r => {
+            if (!r.ok) throw new Error(`HTTP ${r.status}`)
+            return r.json()
+          })
+          if (!map.value || map.value.getSource('irca-municipios')) return
+          ircaTooltipData = data
+
+          const NIVEL_COLOR = {
+            'Sin riesgo':              '#1a9850',
+            'Riesgo bajo':             '#a6d96a',
+            'Riesgo medio':            '#fdae61',
+            'Riesgo alto':             '#f46d43',
+            'Inviable sanitariamente': '#d73027',
+          }
+          const matchExpr = ['match', ['get', 'municipio']]
+          let pares = 0
+          Object.entries(data.municipios || {}).forEach(([nombre, anios]) => {
+            const years = Object.keys(anios || {}).filter(y => anios[y]?.irca != null).sort()
+            const last = years[years.length - 1]
+            if (!last) return
+            matchExpr.push(nombre.toUpperCase(), NIVEL_COLOR[anios[last].nivel] || '#888888')
+            pares++
+          })
+          if (pares === 0) return  // sin datos utilizables — no registrar la capa
+          matchExpr.push('rgba(80,80,80,0.25)')  // default: municipio sin dato
+
+          map.value.addSource('irca-municipios', {
+            type: 'geojson', data: '/data/municipios.geojson', promoteId: 'municipio',
+          })
+          map.value.addLayer({
+            id: 'irca-fill', type: 'fill', source: 'irca-municipios',
+            layout: { visibility: layerVisibility.irca ? 'visible' : 'none' },
+            paint: { 'fill-color': matchExpr, 'fill-opacity': 0.72 },
+          })
+          map.value.addLayer({
+            id: 'irca-outline', type: 'line', source: 'irca-municipios',
+            layout: { visibility: layerVisibility.irca ? 'visible' : 'none' },
+            paint: { 'line-color': 'rgba(255,255,255,0.4)', 'line-width': 1.2 },
+          })
+        } catch (e) { console.warn('[Atlas] irca:', e.message) }
+      })()
+    },
+    seguridad() {
+      if (map.value.getSource('seguridad-municipios')) return
+      ;(async () => {
+        try {
+          const data = await fetch('/data/seguridad_municipios.json').then(r => {
+            if (!r.ok) throw new Error(`HTTP ${r.status}`)
+            return r.json()
+          })
+          if (!map.value || map.value.getSource('seguridad-municipios')) return
+          seguridadTooltipData = data
+
+          // Rampa secuencial discreta (ColorBrewer Reds 5 clases) sobre tasa x 100k
+          const TASA_BREAKS = [
+            { max: 10, color: '#fee5d9' },
+            { max: 15, color: '#fcae91' },
+            { max: 20, color: '#fb6a4a' },
+            { max: 25, color: '#de2d26' },
+            { max: Infinity, color: '#a50f15' },
+          ]
+          const colorForTasa = (t) => (TASA_BREAKS.find(b => t <= b.max) || TASA_BREAKS[TASA_BREAKS.length - 1]).color
+
+          const ANIOS_PARCIALES = ['2025', '2026']
+          const matchExpr = ['match', ['get', 'municipio']]
+          let pares = 0
+          Object.entries(data.municipios || {}).forEach(([nombre, anios]) => {
+            const years = Object.keys(anios || {})
+              .filter(y => !ANIOS_PARCIALES.includes(y) && anios[y]?.tasa_100k != null)
+              .sort()
+            const last = years[years.length - 1]
+            if (!last) return
+            matchExpr.push(nombre.toUpperCase(), colorForTasa(anios[last].tasa_100k))
+            pares++
+          })
+          if (pares === 0) return
+          matchExpr.push('rgba(80,80,80,0.25)')
+
+          map.value.addSource('seguridad-municipios', {
+            type: 'geojson', data: '/data/municipios.geojson', promoteId: 'municipio',
+          })
+          map.value.addLayer({
+            id: 'seguridad-fill', type: 'fill', source: 'seguridad-municipios',
+            layout: { visibility: layerVisibility.seguridad ? 'visible' : 'none' },
+            paint: { 'fill-color': matchExpr, 'fill-opacity': 0.72 },
+          })
+          map.value.addLayer({
+            id: 'seguridad-outline', type: 'line', source: 'seguridad-municipios',
+            layout: { visibility: layerVisibility.seguridad ? 'visible' : 'none' },
+            paint: { 'line-color': 'rgba(255,255,255,0.4)', 'line-width': 1.2 },
+          })
+        } catch (e) { console.warn('[Atlas] seguridad:', e.message) }
+      })()
+    },
   }
 
 
@@ -1397,6 +1513,68 @@ export function useAtlasMap(mapRef) {
     })
 
     setupEquipamientosInteraction(maplibregl)
+    setupIndicadoresInteraction(maplibregl)
+  }
+
+  // ─── Tooltips IRCA / seguridad (coropléticas municipales runtime-join) ─────
+  function setupIndicadoresInteraction(maplibregl) {
+    const tooltipInd = new maplibregl.Popup({
+      closeButton:  false,
+      closeOnClick: false,
+      className:    'atlas-tooltip',
+      maxWidth:     '260px',
+      offset:       [0, -4],
+    })
+
+    const buscarMunicipio = (dataset, nombreUpper) => {
+      const entries = Object.entries(dataset?.municipios || {})
+      const hit = entries.find(([k]) => k.toUpperCase() === nombreUpper)
+      return hit ? hit[1] : null
+    }
+
+    map.value.on('mousemove', 'irca-fill', (e) => {
+      if (!e.features?.length) return
+      map.value.getCanvas().style.cursor = 'pointer'
+      const nombre = e.features[0].properties?.municipio || ''
+      const anios  = buscarMunicipio(ircaTooltipData, nombre)
+      const years  = Object.keys(anios || {}).filter(y => anios[y]?.irca != null).sort()
+      const last   = years[years.length - 1]
+      const d      = last ? anios[last] : null
+      const html = `<div style="font-family:'Inter',sans-serif;font-size:12px;color:#E6EDF3;min-width:180px">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:12px;margin-bottom:4px">${nombre}</div>
+        ${d
+          ? `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#8B949E">IRCA ${last}: <span style="color:#E6EDF3">${d.irca}</span> · ${d.nivel}</div>`
+          : `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#8B949E">Sin dato IRCA</div>`}
+        <div style="margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:7px;color:#555;text-transform:uppercase;letter-spacing:.08em">INS — SIVICAP</div>
+      </div>`
+      tooltipInd.setLngLat(e.lngLat).setHTML(html).addTo(map.value)
+    })
+    map.value.on('mouseleave', 'irca-fill', () => {
+      map.value.getCanvas().style.cursor = ''
+      tooltipInd.remove()
+    })
+
+    map.value.on('mousemove', 'seguridad-fill', (e) => {
+      if (!e.features?.length) return
+      map.value.getCanvas().style.cursor = 'pointer'
+      const nombre = e.features[0].properties?.municipio || ''
+      const anios  = buscarMunicipio(seguridadTooltipData, nombre)
+      const years  = Object.keys(anios || {}).filter(y => !['2025', '2026'].includes(y) && anios[y]?.tasa_100k != null).sort()
+      const last   = years[years.length - 1]
+      const d      = last ? anios[last] : null
+      const html = `<div style="font-family:'Inter',sans-serif;font-size:12px;color:#E6EDF3;min-width:200px">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:12px;margin-bottom:4px">${nombre}</div>
+        ${d
+          ? `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#8B949E">${last}: <span style="color:#E6EDF3">${d.homicidios} hechos</span> · tasa ${d.tasa_100k}/100k</div>`
+          : `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#8B949E">Sin dato</div>`}
+        <div style="margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:7px;color:#555;text-transform:uppercase;letter-spacing:.08em">Hechos reportados · SIEDCO/MinDefensa</div>
+      </div>`
+      tooltipInd.setLngLat(e.lngLat).setHTML(html).addTo(map.value)
+    })
+    map.value.on('mouseleave', 'seguridad-fill', () => {
+      map.value.getCanvas().style.cursor = ''
+      tooltipInd.remove()
+    })
   }
 
   // ─── Tooltips equipamientos ─────────────────────────────────────────────────

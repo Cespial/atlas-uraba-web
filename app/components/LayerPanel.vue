@@ -182,6 +182,14 @@ const temas = [
       { id: 'reps',         label: 'Salud (prestadores)',  desc: '339 IPS geocodificadas · REPS', color: '#3B82F6' },
       { id: 'simat',        label: 'Colegios',            desc: '180 establecimientos · SIMAT', color: '#F59E0B' },
       { id: 'epidemiologia',label: 'Enf. tropicales',     desc: 'Dengue, malaria · SIVIGILA', color: '#f59e0b' },
+      { id: 'irca',         label: 'Calidad de agua (IRCA)', desc: 'INS — SIVICAP · 2024 · 9 municipios', color: '#1a9850' },
+    ]
+  },
+  {
+    id: 'seguridad', emoji: '🛡️', nombre: 'Seguridad',
+    descripcion: 'Homicidios reportados por municipio',
+    capas: [
+      { id: 'seguridad', label: 'Homicidios (tasa 100k)', desc: 'hechos reportados · SIEDCO/MinDefensa · 2024', color: '#de2d26' },
     ]
   },
   {

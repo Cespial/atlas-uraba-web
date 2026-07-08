@@ -367,6 +367,32 @@
         </div>
       </div>
 
+      <!-- ── 7. AGUA Y SEGURIDAD — indicadores citados ──── -->
+      <div class="diag-section" v-if="munIrca || munSeguridad">
+        <div class="section-eyebrow">
+          <span class="eyebrow-num">D7</span>
+          <span class="eyebrow-dash">—</span>
+          <span>Agua y seguridad</span>
+        </div>
+
+        <div class="citado-list">
+          <div class="citado-row" v-if="munIrca">
+            <div class="citado-info">
+              <span class="citado-label">Calidad de agua (IRCA {{ munIrca.anio }})</span>
+              <span class="citado-val">{{ munIrca.valor }} · {{ munIrca.nivel }}</span>
+            </div>
+            <span class="citado-fuente">INS — SIVICAP</span>
+          </div>
+          <div class="citado-row" v-if="munSeguridad">
+            <div class="citado-info">
+              <span class="citado-label">Homicidios ({{ munSeguridad.anio }})</span>
+              <span class="citado-val">{{ munSeguridad.homicidios }} hechos · {{ munSeguridad.tasa }}/100k hab.</span>
+            </div>
+            <span class="citado-fuente">SIEDCO/MinDefensa</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Loading state -->
       <div v-if="loading" class="diag-loading">
         <div class="loading-spinner" />
@@ -403,6 +429,8 @@ const store = useAtlasStore()
 const gapAnalysis  = ref(null)
 const benchmarks   = ref(null)
 const topPrioridad = ref(null)
+const ircaData      = ref(null)
+const seguridadData = ref(null)
 const loading      = ref(true)
 
 /* ─── Dimensiones para el diagnóstico ───────────── */
@@ -417,14 +445,18 @@ const dimensionesDiag = [
 async function fetchData() {
   loading.value = true
   try {
-    const [gapRes, benchRes, topRes] = await Promise.all([
+    const [gapRes, benchRes, topRes, ircaRes, seguridadRes] = await Promise.all([
       fetch('/data/gap_analysis.json').then(r => r.ok ? r.json() : null).catch(() => null),
       fetch('/data/benchmarks.json').then(r => r.ok ? r.json() : null).catch(() => null),
       fetch('/data/top_prioridad.json').then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('/data/irca_municipios.json').then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('/data/seguridad_municipios.json').then(r => r.ok ? r.json() : null).catch(() => null),
     ])
     gapAnalysis.value  = gapRes
     benchmarks.value   = benchRes
     topPrioridad.value = topRes
+    ircaData.value      = ircaRes
+    seguridadData.value = seguridadRes
   } catch (e) {
     console.warn('[DiagnosticoPanel] Error cargando datos:', e)
   } finally {
@@ -550,6 +582,30 @@ function dimLabel(key) {
 const topManzanas = computed(() => {
   const m = store.municipioActivo
   return topPrioridad.value?.[m] ?? []
+})
+
+/* ─── IRCA (calidad de agua) y seguridad (homicidios) — fail-quiet ──── */
+const munIrca = computed(() => {
+  const m = store.municipioActivo
+  const anios = ircaData.value?.municipios?.[m]
+  if (!anios) return null
+  const years = Object.keys(anios).filter(y => anios[y]?.irca != null).sort()
+  const last = years[years.length - 1]
+  if (!last) return null
+  return { anio: last, valor: anios[last].irca, nivel: anios[last].nivel }
+})
+
+const munSeguridad = computed(() => {
+  const m = store.municipioActivo
+  const anios = seguridadData.value?.municipios?.[m]
+  if (!anios) return null
+  // 2025/2026 son parciales — no se usan como cifra anual (ver _meta del JSON)
+  const years = Object.keys(anios)
+    .filter(y => !['2025', '2026'].includes(y) && anios[y]?.tasa_100k != null)
+    .sort()
+  const last = years[years.length - 1]
+  if (!last) return null
+  return { anio: last, homicidios: anios[last].homicidios, tasa: anios[last].tasa_100k }
 })
 
 function formatManzana(cod) {
@@ -1501,6 +1557,59 @@ const manzanasUrgentes = computed(() => {
   color: var(--cm, #5F5F5B);
   opacity: 0.65;
   text-transform: uppercase;
+}
+
+/* ─── D7 · Indicadores citados (IRCA / seguridad) ────── */
+.citado-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.citado-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--cb, #E5E5E0);
+  background: rgba(0,0,0,0.02);
+}
+
+.citado-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.citado-label {
+  font-family: var(--ff-mono);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cm, #5F5F5B);
+}
+
+.citado-val {
+  font-family: var(--ff-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--c1, #1A1A1A);
+}
+
+.citado-fuente {
+  font-family: var(--ff-mono);
+  font-size: 7px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ca, #1B6B6D);
+  opacity: 0.75;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .diag-ficha-row {
