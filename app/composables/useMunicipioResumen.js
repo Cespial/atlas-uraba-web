@@ -4,10 +4,20 @@
 //
 // ⚠️ Convención de fuentes — NO se "unifican" numéricamente, cada consumidor
 // elige la que le corresponde y lo documenta en su propio archivo:
-//   - gapEntry / gapAll   → gap_analysis.json  (score v1) — usa FichaMunicipal
-//   - statsV3Avg / dimsV3 → atlas_stats_v3.json (score v3) — usa brief/[municipio]
+//   - gapEntry / gapAll   → gap_analysis.json   (score v1) — usa FichaMunicipal
+//   - statsV3Avg / dimsV3 → atlas_stats_v31.json (score v3.1, Ola 2 adopción) — usa brief/[municipio]
 // La reconciliación visual v1/v3 de la ficha es un pendiente conocido, fuera
 // de alcance de este refactor.
+//
+// ⚠️ Nota Ola 2 (adopción v3.1): el archivo fuente de statsV3Avg/dimsV3 pasó de
+// atlas_stats_v3.json a atlas_stats_v31.json (docs/investigacion/2026-07-07/
+// impacto-v31.md). El mapa de manzanas (atlas.geojson) NO cambió — sigue en v3.
+// atlas_stats_v31.json nombra sus campos con sufijo _v31 (atlas_score_v31,
+// score_seguridad_v31) porque cambiaron de insumo/fórmula; accesibilidad/
+// ambiental/socioeconómico no cambiaron y conservan su nombre v3. Para que
+// brief/[municipio].vue y useMunicipiosSimilares no tengan que tocarse campo
+// por campo, statsV3Avg re-expone explícitamente atlas_score_v3/score_seguridad
+// (mapeo documentado abajo) apuntando a los valores v3.1 reales.
 //
 // Todos los fetches son fail-quiet (try/catch, null en error) y se cachean a
 // nivel de módulo (singleton) — mismo patrón que useEquidad.js — así ambos
@@ -19,7 +29,7 @@ import { useEquidad } from './useEquidad'
 // ─── Caches a nivel de módulo (fetch una sola vez, compartido) ────────────
 const gapData        = ref(null)   // gap_analysis.json
 const benchmarksData = ref(null)   // benchmarks.json
-const statsV3Data    = ref(null)   // atlas_stats_v3.json
+const statsV3Data    = ref(null)   // atlas_stats_v31.json (Ola 2: reemplaza atlas_stats_v3.json)
 const topData        = ref(null)   // top_prioridad.json
 const evaData        = ref(null)   // eva_produccion_serie.json
 const geoData        = ref(null)   // municipios.geojson (PDET)
@@ -55,7 +65,7 @@ function cargarTodo() {
   if (!import.meta.client) return
   fetchOnce('gap', '/data/gap_analysis.json', gapData, gapLoaded)
   fetchOnce('bench', '/data/benchmarks.json', benchmarksData, benchLoaded)
-  fetchOnce('statsV3', '/data/atlas_stats_v3.json', statsV3Data, statsV3Loaded)
+  fetchOnce('statsV3', '/data/atlas_stats_v31.json', statsV3Data, statsV3Loaded)
   fetchOnce('top', '/data/top_prioridad.json', topData, topLoaded)
   fetchOnce('eva', '/data/eva_produccion_serie.json', evaData, evaLoaded)
   fetchOnce('geo', '/data/municipios.geojson', geoData, geoLoaded)
@@ -88,8 +98,31 @@ export function useMunicipioResumen(nombreRef) {
 
   const benchmarksRegion = computed(() => benchmarksData.value?.referencias ?? null)
 
-  // ── stats v3 — fuente principal de brief/[municipio] ──────────────────
-  const statsV3Avg = computed(() => statsV3Data.value?.municipios?.[nombre()]?.avg ?? null)
+  // ── stats v3.1 — fuente principal de brief/[municipio] ─────────────────
+  // Mapeo EXPLÍCITO: atlas_stats_v31.json nombra el score compuesto y la
+  // seguridad como atlas_score_v31/score_seguridad_v31 (cambiaron de fórmula);
+  // se re-exponen aquí como atlas_score_v3/score_seguridad para que el resto
+  // del composable y sus consumidores (brief, útil similares) seguir leyendo
+  // los mismos nombres de siempre sin tocarse campo por campo. El valor real
+  // ya es v3.1 — "v3" en estos nombres de variable es histórico, no literal.
+  const statsV3Avg = computed(() => {
+    const raw = statsV3Data.value?.municipios?.[nombre()]?.avg
+    if (!raw) return null
+    return {
+      ...raw,
+      atlas_score_v3: raw.atlas_score_v31 ?? raw.atlas_score_v3,
+      score_seguridad: raw.score_seguridad_v31 ?? raw.score_seguridad,
+    }
+  })
+
+  // ── años SIEDCO usados en el promedio de seguridad del municipio activo ─
+  // (Ola 2, adopción v3.1): _meta.anios_usados_por_municipio de
+  // atlas_stats_v31.json. <3 años ⇒ el municipio no tiene 2023 reportado
+  // (ver docs/investigacion/2026-07-07/impacto-v31.md) — el brief usa esto
+  // para mostrar la salvedad junto a la fila de seguridad.
+  const aniosSeguridadV31 = computed(() =>
+    statsV3Data.value?._meta?.anios_usados_por_municipio?.[nombre()] ?? []
+  )
 
   const regionalScoreV3 = computed(() => {
     const munis = statsV3Data.value?.municipios ?? {}
@@ -97,7 +130,7 @@ export function useMunicipioResumen(nombreRef) {
     let weightedSum = 0
     for (const m of Object.values(munis)) {
       const c = m?.count ?? 0
-      const s = m?.avg?.atlas_score_v3 ?? 0
+      const s = m?.avg?.atlas_score_v31 ?? m?.avg?.atlas_score_v3 ?? 0
       totalCount += c
       weightedSum += c * s
     }
@@ -217,8 +250,8 @@ export function useMunicipioResumen(nombreRef) {
     gapLoaded, benchLoaded, statsV3Loaded, topLoaded, evaLoaded,
     // derivados v1 (gap_analysis) — FichaMunicipal
     gapEntry, benchmarksRegion,
-    // derivados v3 (atlas_stats_v3) — brief/[municipio]
-    statsV3Avg, regionalScoreV3, dimsV3,
+    // derivados v3.1 (atlas_stats_v31, Ola 2 adopción) — brief/[municipio]
+    statsV3Avg, regionalScoreV3, dimsV3, aniosSeguridadV31,
     // compartidos entre ambos
     equidadEntry,
     // complementarios (brief) — fail-quiet, sin bloquear el resto
@@ -227,10 +260,12 @@ export function useMunicipioResumen(nombreRef) {
 }
 
 // ─── Perfiles similares (Ola 2, ítem B) ────────────────────────────────────
-// Distancia euclidiana sobre las 4 dimensiones normalizadas del índice v3
+// Distancia euclidiana sobre las 4 dimensiones normalizadas del índice v3.1
 // (0-1) entre municipios — patrón "Perfil territorial similar a X y Y"
-// (DataMéxico). Usa el mismo cache de atlas_stats_v3.json de este módulo.
-const DIMS_SIMILARES = ['score_accesibilidad_v3', 'score_ambiental_v3', 'score_socioeconomico_v3', 'score_seguridad']
+// (DataMéxico). Usa el mismo cache de atlas_stats_v31.json de este módulo.
+// Lee los campos crudos de municipios[].avg directo (sin pasar por el mapeo
+// de statsV3Avg), por eso score_seguridad_v31 va explícito con su sufijo.
+const DIMS_SIMILARES = ['score_accesibilidad_v3', 'score_ambiental_v3', 'score_socioeconomico_v3', 'score_seguridad_v31']
 
 export function useMunicipiosSimilares(nombreRef) {
   cargarTodo()

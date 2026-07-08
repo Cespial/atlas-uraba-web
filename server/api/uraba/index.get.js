@@ -5,17 +5,18 @@ export default defineEventHandler((event) => {
   setApiHeaders(event)
   return {
     nombre: 'Atlas Urabá — API pública',
-    version: 'v3',
+    version: 'v3.1',
     descripcion:
       'API REST pública del Atlas de Bienestar Humano Territorial de Urabá (Antioquia, Colombia). ' +
-      'Expone el Índice de Bienestar (atlas_score_v3) y sus 4 dimensiones —Accesibilidad, Ambiental, ' +
-      'Socioeconómico y Seguridad— para 8 municipios y 7.028 manzanas censales.',
+      'Expone el Índice de Bienestar (campo atlas_score_v3, metodología v3.1) y sus 4 dimensiones ' +
+      '—Accesibilidad, Ambiental, Socioeconómico y Seguridad— para 8 municipios y 7.028 manzanas censales. ' +
+      'Seguridad se reconstruyó en v3.1 (tasa de homicidios SIEDCO/MinDefensa, anclas fijas, granularidad municipal).',
     cobertura: {
       municipios: 8,
       manzanas: 7028,
       dimensiones: ['accesibilidad', 'ambiental', 'socioeconomico', 'seguridad'],
     },
-    formula: 'atlas_score_v3 = (0.40*accesibilidad + 0.25*ambiental + 0.25*socioeconomico + 0.20*seguridad) / 1.10',
+    formula: 'atlas_score_v31 = (0.40*accesibilidad + 0.25*ambiental + 0.25*socioeconomico + 0.20*seguridad_v31) / 1.10',
     endpoints: [
       { metodo: 'GET', ruta: '/api/uraba', descripcion: 'Índice de la API (este documento).' },
       { metodo: 'GET', ruta: '/api/uraba/municipios', descripcion: 'Los 8 municipios con su atlas_score_v3 y las 4 dimensiones.' },

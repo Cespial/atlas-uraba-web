@@ -1,8 +1,12 @@
 // GET /api/uraba/municipio/[nombre] — detalle de un municipio.
-// Combina atlas_stats_v3.json (score + dimensiones + ranking) con
-// gap_analysis.json (narrativa, fortaleza, debilidad, gaps) y construye un
-// top5 de manzanas con mayor atlas_score_v3 desde atlas.geojson.
-// El nombre es case/acentos-insensible.
+// Combina atlas_stats_v31.json (score + dimensiones + ranking, Ola 2 adopción —
+// ver docs/investigacion/2026-07-07/impacto-v31.md) con gap_analysis.json
+// (narrativa, fortaleza, debilidad, gaps) y construye un top5 de manzanas con
+// mayor atlas_score_v3 desde atlas.geojson (capa de manzana, sigue en v3 sin
+// cambio — el switch a v3.1 de esta ola es solo de los agregados municipales).
+// El campo de respuesta `atlas_score_v3`/`seguridad` se mantiene por
+// compatibilidad del contrato público; su valor ya refleja v3.1 a nivel
+// municipal. El nombre es case/acentos-insensible.
 import { FUENTE, readData, normalize, notFound, setApiHeaders } from '../../../utils/uraba'
 
 const r = (n) => (typeof n === 'number' ? Math.round(n * 10000) / 10000 : null)
@@ -12,7 +16,7 @@ export default defineEventHandler(async (event) => {
   const slug = normalize(getRouterParam(event, 'nombre'))
 
   const [stats, gaps, atlas] = await Promise.all([
-    readData('atlas_stats_v3.json'),
+    readData('atlas_stats_v31.json'),
     readData('gap_analysis.json'),
     readData('atlas.geojson'),
   ])
@@ -26,11 +30,11 @@ export default defineEventHandler(async (event) => {
   const d = stats.municipios[canonico]
   const g = gaps[canonico] || {}
 
-  // Ranking oficial v3.
+  // Ranking oficial v3.1.
   const ranking =
-    (stats.ranking_municipios_v3 || []).findIndex((m) => m.municipio === canonico) + 1 || null
+    (stats.ranking_municipios_v31 || []).findIndex((m) => m.municipio === canonico) + 1 || null
 
-  // top5: manzanas del municipio con mayor atlas_score_v3.
+  // top5: manzanas del municipio con mayor atlas_score_v3 (capa de manzana, v3 sin cambio).
   const top5 = (atlas.features || [])
     .filter((f) => f.properties?.municipio === canonico)
     .map((f) => f.properties)
@@ -53,7 +57,7 @@ export default defineEventHandler(async (event) => {
     municipio: canonico,
     ranking,
     total_municipios: Object.keys(stats.municipios || {}).length,
-    atlas_score_v3: r(d.avg?.atlas_score_v3),
+    atlas_score_v3: r(d.avg?.atlas_score_v31),
     atlas_score_100: g.atlas_score ?? null,
     nivel: g.nivel ?? null,
     manzanas: d.count ?? null,
@@ -61,7 +65,7 @@ export default defineEventHandler(async (event) => {
       accesibilidad: r(d.avg?.score_accesibilidad_v3),
       ambiental: r(d.avg?.score_ambiental_v3),
       socioeconomico: r(d.avg?.score_socioeconomico_v3),
-      seguridad: r(d.avg?.score_seguridad),
+      seguridad: r(d.avg?.score_seguridad_v31),
     },
     dimensiones_100: g.dimensiones ?? null,
     gaps_vs_uraba: g.gaps_vs_uraba ?? null,

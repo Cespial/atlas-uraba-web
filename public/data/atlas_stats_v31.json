@@ -1,0 +1,315 @@
+{
+  "_meta": {
+    "version": "v3.1",
+    "generado": "2026-07-08",
+    "formula": "atlas_score_v31 = (0.40*score_accesibilidad_v3 + 0.25*score_ambiental_v3 + 0.25*score_socioeconomico_v3 + 0.20*score_seguridad_v31) / 1.10 — mismos pesos y mismos insumos de accesibilidad/ambiental/socioeconómico que atlas_stats_v3.json; SOLO cambia el insumo de seguridad.",
+    "formula_seguridad_v31": "score_seguridad_v31 = clamp01(1 - tasa_prom_2022_2024 / 100), tasa_prom = promedio simple de tasa_100k (SIEDCO/MinDefensa) de los 3 últimos años completos (2022-2024; años parciales excluidos).",
+    "anclas_tasa_100k": {
+      "tasa=0": "score=1.00 (óptimo)",
+      "tasa=25 (media nacional aprox., DANE/MinDefensa 2023)": "score=0.75",
+      "tasa=100+ (crisis)": "score=0.00",
+      "interpolacion": "lineal entre anclas, clamp a [0,1] fuera de rango"
+    },
+    "anios_promediados": [
+      "2022",
+      "2023",
+      "2024"
+    ],
+    "anios_usados_por_municipio": {
+      "Apartadó": [
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "Arboletes": [
+        "2022",
+        "2024"
+      ],
+      "Carepa": [
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "Chigorodó": [
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "Necoclí": [
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "San Juan de Urabá": [
+        "2022",
+        "2024"
+      ],
+      "San Pedro de Urabá": [
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "Turbo": [
+        "2022",
+        "2023",
+        "2024"
+      ]
+    },
+    "granularidad_seguridad": "MUNICIPAL: toda manzana hereda el score_seguridad_v31 de su municipio. Antes (score_seguridad v3) era una caja negra sin script generador en el repo, aparentaba granularidad de manzana pero no la tenía documentada. v3.1 declara explícitamente que la granularidad real de esta dimensión es municipal. El mapa de manzanas sigue pintando v3 — su migración visual está en curso y se ratifica en una ola aparte.",
+    "insumos_reales": {
+      "accesibilidad": "isocronas_osrm_real.csv (routing OSRM real por carretera: min_ips/min_colegio/min_cabecera/min_puerto)",
+      "ambiental": "satelite_v3.csv NDVI (S2) + score_calor desde LST (Landsat 8/9)",
+      "impermeabilizacion": "satelite_v3.csv NDBI (S2) normalizado 0-1 (reemplaza proxy previo)",
+      "proxy_luminosidad": "satelite_v3.csv VIIRS avg_rad normalizado 0-1 (reemplaza proxy previo)"
+    },
+    "insumos_v31": {
+      "seguridad": "score_seguridad_v31: tasa de homicidios por 100k hab. (SIEDCO/MinDefensa), promedio simple 2022-2024, anclas fijas (0→1.00 · 25→0.75 · 100+→0.00) — reemplaza score_seguridad v2 (caja negra sin script generador, 4/8 municipios saturados en 1.0000). Granularidad real: MUNICIPAL."
+    },
+    "insumos_v2_sin_cambio": {
+      "socioeconomico": "score_economico_v2 (TerriData/SUI/EVA; no llego insumo nuevo)"
+    },
+    "caps_accesibilidad_min": {
+      "ips": 60.0,
+      "colegio": 30.0,
+      "cabecera": 45.0,
+      "puerto": 120.0
+    },
+    "quintil_breaks_v31": [
+      0.4943,
+      0.5626,
+      0.6254,
+      0.6606
+    ],
+    "procedencia": {
+      "acc_real": 7025,
+      "acc_v2": 3,
+      "amb_real": 7028,
+      "amb_v2": 0,
+      "calor": 6552,
+      "ndbi": 7028,
+      "viirs": 7028
+    },
+    "fuente_seguridad": "Ministerio de Defensa Nacional (MinDefensa) — registros SIEDCO de la Policía Nacional, dataset 'HOMICIDIO' consolidado por el Observatorio del Delito",
+    "fuente_poblacion": "DANE — Proyecciones de Población y Estudios Demográficos (PPED), municipal por área geográfica",
+    "nota_seguridad": "Hechos reportados a autoridad (SIEDCO/MinDefensa) — no violencia total; subregistro posible por miedo a represalias en zonas con presencia de actores armados. Sanity check: tasa_100k de seguridad_municipios.json reproducida desde homicidios/población DANE del mismo año (tolerancia ±0.6 pts) para todos los municipio-año usados, sin fallos.",
+    "impacto": "docs/investigacion/2026-07-07/impacto-v31.md (gate aprobado por el orquestador)"
+  },
+  "ranking_municipios_v31": [
+    {
+      "municipio": "San Juan de Urabá",
+      "atlas_score_v31": 0.6581
+    },
+    {
+      "municipio": "Apartadó",
+      "atlas_score_v31": 0.6369
+    },
+    {
+      "municipio": "San Pedro de Urabá",
+      "atlas_score_v31": 0.6192
+    },
+    {
+      "municipio": "Carepa",
+      "atlas_score_v31": 0.5973
+    },
+    {
+      "municipio": "Turbo",
+      "atlas_score_v31": 0.5603
+    },
+    {
+      "municipio": "Arboletes",
+      "atlas_score_v31": 0.5485
+    },
+    {
+      "municipio": "Chigorodó",
+      "atlas_score_v31": 0.5041
+    },
+    {
+      "municipio": "Necoclí",
+      "atlas_score_v31": 0.4414
+    }
+  ],
+  "municipios": {
+    "Apartadó": {
+      "count": 1659,
+      "avg": {
+        "atlas_score_v31": 0.6369,
+        "score_accesibilidad_v3": 0.8688,
+        "score_ambiental_v3": 0.4002,
+        "score_socioeconomico_v3": 0.4915,
+        "score_ndvi": 0.288,
+        "score_calor": 0.437,
+        "impermeabilizacion": 0.7084,
+        "proxy_luminosidad": 0.3326,
+        "ndbi": 0.0902,
+        "lst_c": 41.6692,
+        "viirs_rad": 12.0263,
+        "score_seguridad_v31": 0.6507,
+        "tasa_prom_2022_2024": 34.93
+      },
+      "anios_usados": [
+        "2022",
+        "2023",
+        "2024"
+      ]
+    },
+    "Arboletes": {
+      "count": 431,
+      "avg": {
+        "atlas_score_v31": 0.5485,
+        "score_accesibilidad_v3": 0.5359,
+        "score_ambiental_v3": 0.457,
+        "score_socioeconomico_v3": 0.3628,
+        "score_ndvi": 0.3321,
+        "score_calor": 0.5153,
+        "impermeabilizacion": 0.6012,
+        "proxy_luminosidad": 0.2756,
+        "ndbi": 0.0085,
+        "lst_c": 39.9945,
+        "viirs_rad": 9.9648,
+        "score_seguridad_v31": 0.92,
+        "tasa_prom_2022_2024": 8.0
+      },
+      "anios_usados": [
+        "2022",
+        "2024"
+      ]
+    },
+    "Carepa": {
+      "count": 847,
+      "avg": {
+        "atlas_score_v31": 0.5973,
+        "score_accesibilidad_v3": 0.759,
+        "score_ambiental_v3": 0.3617,
+        "score_socioeconomico_v3": 0.4592,
+        "score_ndvi": 0.2853,
+        "score_calor": 0.3445,
+        "impermeabilizacion": 0.7105,
+        "proxy_luminosidad": 0.2539,
+        "ndbi": 0.0918,
+        "lst_c": 43.6497,
+        "viirs_rad": 9.1804,
+        "score_seguridad_v31": 0.7413,
+        "tasa_prom_2022_2024": 25.87
+      },
+      "anios_usados": [
+        "2022",
+        "2023",
+        "2024"
+      ]
+    },
+    "Necoclí": {
+      "count": 656,
+      "avg": {
+        "atlas_score_v31": 0.4414,
+        "score_accesibilidad_v3": 0.2789,
+        "score_ambiental_v3": 0.4625,
+        "score_socioeconomico_v3": 0.3772,
+        "score_ndvi": 0.3265,
+        "score_calor": 0.6504,
+        "impermeabilizacion": 0.5808,
+        "proxy_luminosidad": 0.1025,
+        "ndbi": -0.007,
+        "lst_c": 37.1035,
+        "viirs_rad": 3.7073,
+        "score_seguridad_v31": 0.8203,
+        "tasa_prom_2022_2024": 17.97
+      },
+      "anios_usados": [
+        "2022",
+        "2023",
+        "2024"
+      ]
+    },
+    "San Juan de Urabá": {
+      "count": 289,
+      "avg": {
+        "atlas_score_v31": 0.6581,
+        "score_accesibilidad_v3": 0.7524,
+        "score_ambiental_v3": 0.5252,
+        "score_socioeconomico_v3": 0.4068,
+        "score_ndvi": 0.3766,
+        "score_calor": 0.6027,
+        "impermeabilizacion": 0.5824,
+        "proxy_luminosidad": 0.1093,
+        "ndbi": -0.0058,
+        "lst_c": 38.1233,
+        "viirs_rad": 3.953,
+        "score_seguridad_v31": 0.95,
+        "tasa_prom_2022_2024": 5.0
+      },
+      "anios_usados": [
+        "2022",
+        "2024"
+      ]
+    },
+    "San Pedro de Urabá": {
+      "count": 361,
+      "avg": {
+        "atlas_score_v31": 0.6192,
+        "score_accesibilidad_v3": 0.6847,
+        "score_ambiental_v3": 0.5077,
+        "score_socioeconomico_v3": 0.3957,
+        "score_ndvi": 0.3852,
+        "score_calor": 0.5568,
+        "impermeabilizacion": 0.5805,
+        "proxy_luminosidad": 0.2163,
+        "ndbi": -0.0072,
+        "lst_c": 39.105,
+        "viirs_rad": 7.8227,
+        "score_seguridad_v31": 0.9067,
+        "tasa_prom_2022_2024": 9.33
+      },
+      "anios_usados": [
+        "2022",
+        "2023",
+        "2024"
+      ]
+    },
+    "Turbo": {
+      "count": 2011,
+      "avg": {
+        "atlas_score_v31": 0.5603,
+        "score_accesibilidad_v3": 0.7168,
+        "score_ambiental_v3": 0.4322,
+        "score_socioeconomico_v3": 0.4303,
+        "score_ndvi": 0.2869,
+        "score_calor": 0.5235,
+        "impermeabilizacion": 0.6222,
+        "proxy_luminosidad": 0.2758,
+        "ndbi": 0.0246,
+        "lst_c": 39.819,
+        "viirs_rad": 9.9718,
+        "score_seguridad_v31": 0.5697,
+        "tasa_prom_2022_2024": 43.03
+      },
+      "anios_usados": [
+        "2022",
+        "2023",
+        "2024"
+      ]
+    },
+    "Chigorodó": {
+      "count": 774,
+      "avg": {
+        "atlas_score_v31": 0.5041,
+        "score_accesibilidad_v3": 0.5968,
+        "score_ambiental_v3": 0.3116,
+        "score_socioeconomico_v3": 0.4836,
+        "score_ndvi": 0.286,
+        "score_calor": 0.2188,
+        "impermeabilizacion": 0.7723,
+        "proxy_luminosidad": 0.2851,
+        "ndbi": 0.1388,
+        "lst_c": 46.3404,
+        "viirs_rad": 10.3096,
+        "score_seguridad_v31": 0.5847,
+        "tasa_prom_2022_2024": 41.53
+      },
+      "anios_usados": [
+        "2022",
+        "2023",
+        "2024"
+      ]
+    }
+  }
+}

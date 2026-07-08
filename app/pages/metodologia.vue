@@ -16,17 +16,17 @@
     <main class="met-main">
       <!-- ── ÍNDICE NAV ────────────────────────────────────────── -->
       <nav class="met-toc">
-        <a href="#indice-v3" class="met-toc-link">1. Índice v3</a>
+        <a href="#indice-v3" class="met-toc-link">1. Índice v3.1</a>
         <a href="#glosario" class="met-toc-link">2. Glosario</a>
         <a href="#catalogo" class="met-toc-link">3. Catálogo de capas</a>
         <a href="#principios" class="met-toc-link">4. Principios</a>
       </nav>
 
       <!-- ══════════════════════════════════════════════════════════
-           1 · ÍNDICE v3
+           1 · ÍNDICE v3.1
       ══════════════════════════════════════════════════════════ -->
       <section id="indice-v3" class="met-block">
-        <h2 class="met-h2"><span class="met-step">1</span> Índice v3 — <code>atlas_score_v3</code></h2>
+        <h2 class="met-h2"><span class="met-step">1</span> Índice v3.1 — <code>atlas_score_v31</code></h2>
 
         <p class="met-lead">
           El Índice de Bienestar del Atlas Urabá combina cuatro dimensiones ponderadas, calculadas
@@ -43,7 +43,7 @@
               <tr>
                 <th>Dimensión</th>
                 <th>Peso</th>
-                <th>Insumo real (v3)</th>
+                <th>Insumo real (v3 / v3.1 en seguridad)</th>
               </tr>
             </thead>
             <tbody>
@@ -58,24 +58,39 @@
 
         <p class="met-nota">
           El divisor <code>1.10</code> normaliza la suma de pesos (0.40+0.25+0.25+0.20 = 1.10)
-          para que <code>atlas_score_v3</code> quede entre 0 y 1. Fuente:
-          <code>public/data/atlas_stats_v3.json</code> → campo <code>_meta</code>, generado el
+          para que <code>atlas_score_v31</code> quede entre 0 y 1. Fuente:
+          <code>public/data/atlas_stats_v31.json</code> → campo <code>_meta</code>, generado el
           {{ formatoFecha(metaV3.generado) }}.
         </p>
 
         <div class="met-warn">
-          <div class="met-warn-title">⚠ Advertencia honesta — <code>score_seguridad</code> en reconstrucción</div>
+          <div class="met-warn-title">⚠ Transición v3 → v3.1 — qué cambió y qué no</div>
           <p>
-            A diferencia de accesibilidad (isócronas OSRM reales) y ambiental (satélite GEE), las
-            dimensiones <strong>socioeconómico</strong> y <strong>seguridad</strong> del índice v3
-            <strong>no recibieron insumo nuevo</strong> en esta versión — siguen calculadas con la
-            metodología v2 (<code>score_economico_v2</code> y <code>score_seguridad</code> v2, ver
-            <code>insumos_v2_sin_cambio</code> en <code>admin_data_status.json</code> / los
-            <code>_meta</code> citados arriba). El dato de homicidios municipal
-            (<code>seguridad_municipios.json</code>, fuente SIEDCO/MinDefensa) existe y se muestra
-            como capa aparte en el mapa, pero su integración al <code>score_seguridad</code> por
-            manzana está documentada como pendiente en la Ola 2 de este roadmap — no se debe leer
-            el sub-score de seguridad de una manzana como un dato validado a esa resolución.
+            <strong>Seguridad se reconstruyó (v3.1).</strong> <code>score_seguridad</code> v3 era una
+            caja negra sin script generador en el repo, con 4 de 8 municipios saturados en
+            <code>1.0000</code> — un patrón típico de dato tope, no de medición real. v3.1 la
+            reemplaza por <code>score_seguridad_v31</code>: anclas fijas sobre la tasa de homicidios
+            por 100k hab. (SIEDCO/MinDefensa), promedio simple de los 3 últimos años completos
+            (2022-2024). La granularidad real de esta dimensión es <strong>municipal</strong> — toda
+            manzana hereda el score de su municipio, y v3.1 lo declara explícitamente en vez de
+            aparentar resolución de manzana.
+          </p>
+          <p>
+            <strong>Arboletes y San Juan de Urabá</strong> promedian con solo 2 de los 3 años
+            (2022 y 2024 — 2023 no está reportado en SIEDCO para esos códigos DANE); su
+            <code>score_seguridad_v31</code> debe leerse con esa salvedad.
+          </p>
+          <p>
+            <strong>Socioeconómico</strong> sigue sin insumo nuevo — calculado con la metodología v2
+            (<code>score_economico_v2</code>, ver <code>insumos_v2_sin_cambio</code> en el
+            <code>_meta</code> citado arriba).
+          </p>
+          <p>
+            <strong>Advertencia honesta:</strong> esta migración es solo de la CAPA CITABLE (este
+            brief, la API pública, el comparador y esta página). <strong>El mapa de manzanas del
+            Atlas aún pinta el índice v3</strong> — su migración visual a v3.1 está en curso y se
+            ratifica en una ola aparte (ver
+            <code>docs/investigacion/2026-07-07/impacto-v31.md</code>).
           </p>
         </div>
 
@@ -289,23 +304,26 @@
 <script setup>
 import { computed, ref } from 'vue'
 
-// ── Índice v3 — leído de atlas_stats_v3.json._meta ──
+// ── Índice v3.1 — leído de atlas_stats_v31.json._meta ──
 // Fetch client-side (server: false): en el prerender estático de Vercel
 // (`nuxt generate`) el fetch SSR contra /data/*.json no resuelve de forma
 // confiable (mismo patrón que cadena.vue y brief/[municipio].vue).
-const { data: v3Raw } = await useFetch('/data/atlas_stats_v3.json', { server: false, lazy: true, key: 'met-v3' })
+// Ola 2 (adopción v3.1): atlas_stats_v3.json → atlas_stats_v31.json — ver
+// docs/investigacion/2026-07-07/impacto-v31.md.
+const { data: v3Raw } = await useFetch('/data/atlas_stats_v31.json', { server: false, lazy: true, key: 'met-v3' })
 const metaV3 = computed(() => v3Raw.value?._meta ?? {})
 const formula = computed(() =>
-  metaV3.value.formula ?? 'atlas_score_v3 = (0.40*accesibilidad + 0.25*ambiental + 0.25*socioeconomico + 0.20*seguridad) / 1.10'
+  metaV3.value.formula ?? 'atlas_score_v31 = (0.40*score_accesibilidad_v3 + 0.25*score_ambiental_v3 + 0.25*score_socioeconomico_v3 + 0.20*score_seguridad_v31) / 1.10'
 )
 const dimensionesV3 = computed(() => {
   const insumos = metaV3.value.insumos_reales ?? {}
   const v2sc = metaV3.value.insumos_v2_sin_cambio ?? {}
+  const v31 = metaV3.value.insumos_v31 ?? {}
   return [
     { nombre: 'Accesibilidad', peso: '0.40', insumo: insumos.accesibilidad ?? 'isócronas OSRM reales' },
     { nombre: 'Ambiental', peso: '0.25', insumo: insumos.ambiental ?? 'satélite GEE (NDVI + calor)' },
     { nombre: 'Socioeconómico', peso: '0.25', insumo: v2sc.socioeconomico ?? 'score_economico_v2 (sin cambio en v3)' },
-    { nombre: 'Seguridad', peso: '0.20', insumo: v2sc.seguridad ?? 'score_seguridad v2 (sin cambio en v3)' },
+    { nombre: 'Seguridad', peso: '0.20', insumo: v31.seguridad ?? 'tasa homicidios 2022-2024 (SIEDCO/MinDefensa), anclas fijas — v3.1' },
   ]
 })
 
@@ -356,7 +374,7 @@ const capasFiltradas = computed(() => {
 useHead({
   title: 'Metodología · Atlas Urabá',
   meta: [
-    { name: 'description', content: 'Fórmula del Índice de Bienestar v3, glosario técnico (LISA, Gini, IRCA, PDET) y catálogo de capas de datos del Atlas Urabá.' },
+    { name: 'description', content: 'Fórmula del Índice de Bienestar v3.1, glosario técnico (LISA, Gini, IRCA, PDET) y catálogo de capas de datos del Atlas Urabá.' },
     { property: 'og:title', content: 'Metodología — Atlas Urabá' },
     { property: 'og:description', content: 'Cómo se calcula el Índice de Bienestar del Atlas Urabá: fórmula, insumos por dimensión y catálogo de fuentes.' },
     { property: 'og:image', content: 'https://uraba.tensor.lat/og-image.png' },

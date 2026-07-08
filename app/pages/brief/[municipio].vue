@@ -33,7 +33,7 @@
       <section class="b-scores">
         <div class="b-score-big">
           <span class="b-score-n">{{ score }}</span>
-          <span class="b-score-d">/100 · Índice v3</span>
+          <span class="b-score-d">/100 · Índice v3.1</span>
           <span class="b-nivel">{{ nivel }}</span>
         </div>
         <table class="b-dims">
@@ -42,7 +42,7 @@
           </thead>
           <tbody>
             <tr v-for="d in dims" :key="d.label">
-              <td>{{ d.label }}</td>
+              <td>{{ d.label }}<span v-if="d.label === 'Seguridad' && notaSeguridadV31" class="b-nota-seg"> {{ notaSeguridadV31 }}</span></td>
               <td class="b-strong" :style="{ color: d.color }">{{ d.mun }}</td>
               <td>{{ d.uraba }}</td>
               <td>{{ d.antioquia }}</td>
@@ -124,7 +124,8 @@
         <strong>Fuentes:</strong> DANE CNPV 2018 · DANE/MADR EVA · DANE SIPSA · DANE-DIAN exportaciones ·
         isócronas OSRM · Sentinel-2/Landsat 9/VIIRS (Google Earth Engine) · REPS · SIMAT · INS-SIVICAP (IRCA) ·
         MinDefensa-SIEDCO (homicidios) · ICA (estatus fitosanitario) · DNP (PDET, Decreto 893/2017) ·
-        cálculos propios Atlas Urabá v3. Índice de equidad: cálculo propio (Gini sobre atlas_score_v3).
+        cálculos propios Atlas Urabá v3.1 (mapa de manzanas aún en v3). Índice de equidad: cálculo propio
+        (Gini sobre atlas_score_v3, capa de manzana).
         Documento generado automáticamente — verificar cifras críticas antes de uso oficial.
       </footer>
     </article>
@@ -146,18 +147,29 @@ if (!nombre) {
 }
 
 // Datos del municipio (composable compartido con FichaMunicipal.vue). El
-// brief usa la fuente v3 (statsV3Avg/dimsV3) — ver nota al inicio de
-// useMunicipioResumen.js sobre por qué NO se unifica con gap_analysis (v1).
+// brief usa la fuente v3.1 (statsV3Avg/dimsV3, Ola 2 adopción) — ver nota al
+// inicio de useMunicipioResumen.js sobre por qué NO se unifica con gap_analysis (v1).
 const {
-  statsV3Avg: avg, regionalScoreV3, dimsV3: dims,
+  statsV3Avg: avg, regionalScoreV3, dimsV3: dims, aniosSeguridadV31,
   equidadEntry: eq, top5, agro, satelite, esPdet, irca, seguridad,
   gapLoaded, benchLoaded, statsV3Loaded, topLoaded, evaLoaded,
 } = useMunicipioResumen(() => nombre)
 
+// Salvedad compacta (Ola 2, adopción v3.1): municipios con <3 años SIEDCO en
+// el promedio de seguridad (hoy Arboletes y San Juan de Urabá — falta 2023).
+// Ver docs/investigacion/2026-07-07/impacto-v31.md.
+const ANIOS_ESPERADOS = ['2022', '2023', '2024']
+const notaSeguridadV31 = computed(() => {
+  const anios = aniosSeguridadV31.value
+  if (!anios.length || anios.length >= 3) return ''
+  const faltantes = ANIOS_ESPERADOS.filter(a => !anios.includes(a))
+  return `(promedio ${anios.join('/')} — ${faltantes.join('/')} sin reporte SIEDCO)`
+})
+
 const { similares } = useMunicipiosSimilares(() => nombre)
 
 // Mismo gate de "Cargando…" que antes: espera a los 5 fetches que
-// determinan el contenido principal del brief (v3, gap, benchmarks, top,
+// determinan el contenido principal del brief (v3.1, gap, benchmarks, top,
 // eva). Los complementarios (PDET, IRCA, seguridad) son fail-quiet y no
 // bloquean el render.
 const pending = computed(() =>
@@ -169,7 +181,7 @@ const hoy = new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'lo
 const score = computed(() => Math.round((avg.value?.atlas_score_v3 ?? 0) * 100))
 const nivel = computed(() => (avg.value?.atlas_score_v3 != null ? scoreLabel(avg.value.atlas_score_v3) : ''))
 
-// Narrativa determinística v3: coherente con score, nivel y tabla de dimensiones de arriba.
+// Narrativa determinística v3.1: coherente con score, nivel y tabla de dimensiones de arriba.
 const narrativa = computed(() => {
   const R = regionalScoreV3.value
   if (avg.value?.atlas_score_v3 == null || R == null || !dims.value.length) return ''
@@ -178,15 +190,15 @@ const narrativa = computed(() => {
   const direccion = s >= R ? 'por encima' : 'por debajo'
   const dimMax = dims.value.reduce((a, b) => (b.mun > a.mun ? b : a))
   const dimMin = dims.value.reduce((a, b) => (b.mun < a.mun ? b : a))
-  return `${nombre} registra un Índice de Bienestar v3 de ${s}/100 (${nivel.value.toLowerCase()}), ${diff} puntos ${direccion} del promedio regional (${R}/100). Su dimensión más fuerte es ${dimMax.label} (${dimMax.mun}/100); la brecha prioritaria es ${dimMin.label} (${dimMin.mun}/100).`
+  return `${nombre} registra un Índice de Bienestar v3.1 de ${s}/100 (${nivel.value.toLowerCase()}), ${diff} puntos ${direccion} del promedio regional (${R}/100). Su dimensión más fuerte es ${dimMax.label} (${dimMax.mun}/100); la brecha prioritaria es ${dimMin.label} (${dimMin.mun}/100).`
 })
 
 // Perfiles similares (patrón DataMéxico): 2 municipios más cercanos por
-// distancia euclidiana sobre las 4 dimensiones normalizadas del índice v3.
+// distancia euclidiana sobre las 4 dimensiones normalizadas del índice v3.1.
 const perfilesSimilaresTexto = computed(() => {
   if (similares.value.length < 2) return ''
   const [a, b] = similares.value
-  return `Perfil territorial similar a ${a.nombre} y ${b.nombre} (distancia sobre las 4 dimensiones del índice v3).`
+  return `Perfil territorial similar a ${a.nombre} y ${b.nombre} (distancia sobre las 4 dimensiones del índice v3.1).`
 })
 
 function descargarPdf() { window.print() }
@@ -197,7 +209,7 @@ useHead({
     { property: 'og:title', content: `Policy brief · ${nombre} — Atlas Urabá` },
     {
       property: 'og:description',
-      content: `Diagnóstico territorial de ${nombre} (Urabá, Antioquia): índice de bienestar v3, equidad interna, seguridad, calidad de agua y economía agro. Atlas Urabá · Tensor.`,
+      content: `Diagnóstico territorial de ${nombre} (Urabá, Antioquia): índice de bienestar v3.1, equidad interna, seguridad, calidad de agua y economía agro. Atlas Urabá · Tensor.`,
     },
   ],
 })
@@ -238,6 +250,7 @@ useHead({
 .b-dims th:first-child, .b-dims td:first-child { text-align: left; }
 .b-dims td { text-align: right; padding: 3px 6px; border-top: 1px solid #f0f0ec; }
 .b-strong { font-weight: 700; }
+.b-nota-seg { display: block; font-size: 7.5px; font-weight: 400; font-style: italic; color: #8a8a85; line-height: 1.2; }
 .b-block { margin-top: 11px; }
 .b-h2 { font-size: 9px; text-transform: uppercase; letter-spacing: 0.14em; color: #1B6B6D; margin-bottom: 4px; font-weight: 700; }
 .b-texto { margin: 0; }

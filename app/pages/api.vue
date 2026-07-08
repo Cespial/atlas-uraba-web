@@ -17,7 +17,8 @@
       <!-- ── INTRO ─────────────────────────────────────────────── -->
       <section class="api-block">
         <p class="api-lead">
-          El Atlas Urabá expone su Índice de Bienestar (<code>atlas_score_v3</code>) y sus 4
+          El Atlas Urabá expone su Índice de Bienestar (<code>atlas_score_v3</code>, metodología
+          v3.1 — seguridad reconstruida sobre tasa de homicidios SIEDCO/MinDefensa) y sus 4
           dimensiones —Accesibilidad, Ambiental, Socioeconómico y Seguridad— a través de una
           API REST pública, sin necesidad de autenticación ni llave de acceso.
         </p>
@@ -116,26 +117,26 @@ const ejemploJson = `{
   "municipios": [
     {
       "municipio": "San Juan de Urabá",
-      "atlas_score_v3": 0.6672,
+      "atlas_score_v3": 0.6581,
       "ranking": 1,
       "manzanas": 289,
       "dimensiones": {
         "accesibilidad": 0.7524,
         "ambiental": 0.5252,
         "socioeconomico": 0.4068,
-        "seguridad": 1
+        "seguridad": 0.95
       }
     },
     {
       "municipio": "Apartadó",
-      "atlas_score_v3": 0.663,
+      "atlas_score_v3": 0.6369,
       "ranking": 2,
       "manzanas": 1659,
       "dimensiones": {
         "accesibilidad": 0.8688,
         "ambiental": 0.4002,
         "socioeconomico": 0.4915,
-        "seguridad": 0.7942
+        "seguridad": 0.6507
       }
     }
   ],

@@ -10,7 +10,7 @@
       </NuxtLink>
       <div class="cmp-title-wrap">
         <h1 class="cmp-title">Comparador de municipios</h1>
-        <span class="cmp-subtitle">Índice de Bienestar Territorial · v3</span>
+        <span class="cmp-subtitle">Índice de Bienestar Territorial · v3.1</span>
       </div>
       <button class="cmp-share" @click="copiarEnlace" title="Copiar enlace de esta comparación">
         <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
@@ -84,7 +84,7 @@
             </div>
 
             <div class="delta-total">
-              <span class="delta-dim">Índice v3</span>
+              <span class="delta-dim">Índice v3.1</span>
               <div class="delta-val" :style="{ color: deltaTotal.color }">
                 <svg v-if="deltaTotal.diff !== 0" width="12" height="12" viewBox="0 0 12 12" :style="{ transform: deltaTotal.diff > 0 ? 'none' : 'rotate(180deg)' }">
                   <path d="M6 2.5 9.5 8h-7z" :fill="deltaTotal.color" />
@@ -147,15 +147,18 @@ function nombreFromSlug(slug) {
 // /data/*.json resuelven contra el origin del navegador. Evita el fallo de
 // resolución de URL relativa en SSR (función serverless) que dejaba la página
 // en estado de error. Estas vistas son interactivas, no SEO-críticas.
-const { data: statsRaw, pending: p1, error: e1 } = await useFetch('/data/atlas_stats_v3.json', { server: false, lazy: true })
+// Ola 2 (adopción v3.1): atlas_stats_v3.json → atlas_stats_v31.json (score de
+// seguridad reconstruido, ver docs/investigacion/2026-07-07/impacto-v31.md).
+// El mapa de manzanas sigue en v3, sin cambio.
+const { data: statsRaw, pending: p1, error: e1 } = await useFetch('/data/atlas_stats_v31.json', { server: false, lazy: true })
 const { data: gapRaw,   pending: p2, error: e2 } = await useFetch('/data/gap_analysis.json', { server: false, lazy: true })
 const { data: isoRaw,   pending: p3, error: e3 } = await useFetch('/data/isocronas_municipio.json', { server: false, lazy: true })
 
 const pending = computed(() => p1.value || p2.value || p3.value)
 const error   = computed(() => e1.value || e2.value || e3.value)
 
-// Ranking ordenado del JSON v3
-const ranking = computed(() => statsRaw.value?.ranking_municipios_v3 ?? [])
+// Ranking ordenado del JSON v3.1
+const ranking = computed(() => statsRaw.value?.ranking_municipios_v31 ?? [])
 const nombres = computed(() => ranking.value.map(r => r.municipio))
 
 // Selección: restaura desde la URL si trae ?a=/?b= válidos; si no, cae al
@@ -203,11 +206,13 @@ async function copiarEnlace() {
 }
 
 // ── Dimensiones para radar/barras ───────────────────────────────
+// key: campo real en atlas_stats_v31.json (avg.*). gapKey: campo en
+// gap_analysis.json (v1, sin cambio) — se usan por separado, no se mezclan.
 const DIMS = [
   { key: 'score_accesibilidad_v3', gapKey: 'score_accesibilidad', short: 'Acces.',   label: 'Accesibilidad' },
   { key: 'score_ambiental_v3',     gapKey: 'score_ambiental',     short: 'Ambien.',  label: 'Ambiental' },
   { key: 'score_socioeconomico_v3',gapKey: 'score_socioeconomico',short: 'Socioec.', label: 'Socioeconómico' },
-  { key: 'score_seguridad',        gapKey: 'score_seguridad',     short: 'Segur.',   label: 'Seguridad' },
+  { key: 'score_seguridad_v31',    gapKey: 'score_seguridad',     short: 'Segur.',   label: 'Seguridad' },
 ]
 
 function pct(v) { return Math.round((v ?? 0) * 100) }
@@ -225,7 +230,7 @@ function buildData(nombre) {
   }))
   return {
     nombre,
-    score: pct(stat.atlas_score_v3),
+    score: pct(stat.atlas_score_v31),
     nivel: gap.nivel ?? '',
     narrativa: gap.narrativa ?? '',
     dims,

@@ -1,17 +1,23 @@
 #!/usr/bin/env python3
-"""Reconstrucción documentada de score_seguridad (v3.1) — Ola 2, Fase D.
+"""Reconstrucción documentada de score_seguridad (v3.1) — Ola 2, adopción.
 
 Línea metodológica: docs/investigacion/2026-07-07/LINEA-SEGURIDAD-V31.md
+Gate de impacto (aprobado por el orquestador): docs/investigacion/2026-07-07/impacto-v31.md
 
-NO toca atlas_enriquecido.geojson ni ningún consumidor de la app. Lee datos
-existentes y escribe SOLO public/data/atlas_stats_v31_preview.json (misma
-estructura de atlas_stats_v3.json + sección "impacto") y este mismo script
-imprime el resumen que alimenta docs/investigacion/2026-07-07/impacto-v31.md.
+Escribe public/data/atlas_stats_v31.json — YA NO es un candidato/preview, es el
+archivo que consume la CAPA CITABLE de la app (brief, API, comparador,
+metodología). El mapa de manzanas (atlas.geojson / atlas_enriquecido.geojson)
+NO se toca: sigue pintando v3 hasta que su re-horneado se ratifique aparte.
 
-score_seguridad v3 no tiene script generador en el repo (caja negra, ver
-INFORME §2). v3.1 lo reemplaza con una fórmula de anclas fijas sobre la tasa
-de homicidios por 100k habitantes (SIEDCO/MinDefensa), promediada 2022-2024,
-heredada por municipio a cada manzana.
+score_seguridad v3 no tenía script generador en el repo (caja negra, ver
+INFORME §2 — 4 de 8 municipios saturados en 1.0000). v3.1 lo reemplaza con una
+fórmula de anclas fijas sobre la tasa de homicidios por 100k habitantes
+(SIEDCO/MinDefensa), promediada 2022-2024, heredada por municipio a cada
+manzana.
+
+Este script NO modifica atlas_enriquecido.geojson, atlas.geojson ni
+atlas_stats_v3.json (fuentes de solo lectura) — únicamente lee de ahí y
+escribe atlas_stats_v31.json.
 """
 import json
 import statistics
@@ -20,7 +26,7 @@ from collections import defaultdict
 try:
     from scipy.stats import spearmanr
 except ImportError as e:
-    raise SystemExit("Falta scipy (requerido solo para el Spearman de impacto): %s" % e)
+    raise SystemExit("Falta scipy (requerido solo para el Spearman del resumen impreso): %s" % e)
 
 BASE = "public/data/"
 
@@ -133,21 +139,38 @@ def quintil_v31(x):
 for f in feats:
     f["properties"]["_quintil_v31"] = quintil_v31(f["properties"]["_atlas_score_v31"])
 
-# ---------- 6. Stats por municipio (misma forma que atlas_stats_v3.json) ----------
+# ---------- 6. Stats por municipio — MISMA ESTRUCTURA que atlas_stats_v3.json ----------
+# Campos sin cambio (accesibilidad/ambiental/socioeconómico y satelitales)
+# mantienen el nombre v3; solo el score compuesto y seguridad llevan sufijo
+# _v31 porque SÍ cambiaron de insumo/fórmula. Esto queda documentado también
+# en el _meta de abajo (ver "insumos_v31").
 groups = defaultdict(list)
 for f in feats:
     groups[f["properties"]["municipio"]].append(f["properties"])
 
+# Mismo patrón que recalc_v3.py (raíz del repo): filtrar valores no numéricos
+# antes de promediar — score_calor/lst_c/etc. pueden venir en None cuando el
+# insumo satelital no cubrió esa manzana (ver _meta.procedencia de v3).
+def avg_key(rows, key):
+    vals = [r[key] for r in rows if isinstance(r.get(key), (int, float))]
+    return round(statistics.mean(vals), 4) if vals else None
+
+AVG_KEYS_SIN_CAMBIO = [
+    "score_accesibilidad_v3", "score_ambiental_v3", "score_socioeconomico_v3",
+    "score_ndvi", "score_calor", "impermeabilizacion", "proxy_luminosidad",
+    "ndbi", "lst_c", "viirs_rad",
+]
+
 municipios_out = {}
 for muni, rows in groups.items():
-    vals31 = [r["_atlas_score_v31"] for r in rows]
+    avg = {"atlas_score_v31": avg_key(rows, "_atlas_score_v31")}
+    for k in AVG_KEYS_SIN_CAMBIO:
+        avg[k] = avg_key(rows, k)
+    avg["score_seguridad_v31"] = seguridad_v31_muni[muni]["score_seguridad_v31"]
+    avg["tasa_prom_2022_2024"] = seguridad_v31_muni[muni]["tasa_prom_2022_2024"]
     municipios_out[muni] = {
         "count": len(rows),
-        "avg": {
-            "atlas_score_v31": round(statistics.mean(vals31), 4),
-            "score_seguridad_v31": seguridad_v31_muni[muni]["score_seguridad_v31"],
-            "tasa_prom_2022_2024": seguridad_v31_muni[muni]["tasa_prom_2022_2024"],
-        },
+        "avg": avg,
         "anios_usados": anios_usados_muni[muni],
     }
 
@@ -156,7 +179,9 @@ ranking31 = sorted(
     key=lambda x: -x[1],
 )
 
-# ---------- 7. Sección impacto ----------
+# ---------- 7. Resumen de impacto (solo consola — el informe versionado vive
+# en docs/investigacion/2026-07-07/impacto-v31.md, ya aprobado por el
+# orquestador; este bloque permite regenerarlo/auditarlo si hace falta) -------
 ranking_v3_list = [r["municipio"] for r in stats_v3["ranking_municipios_v3"]]
 ranking_v31_list = [m for m, _ in ranking31]
 
@@ -174,60 +199,34 @@ for muni in MUNICIPIOS_CANONICOS:
         "municipio": muni,
         "score_seguridad_v3": round(seg_v3, 4),
         "score_seguridad_v31": seg_v31,
-        "delta_seguridad": round(seg_v31 - seg_v3, 4),
         "atlas_score_v3": round(atlas_v3, 4),
         "atlas_score_v31": atlas_v31,
-        "delta_atlas": round(atlas_v31 - atlas_v3, 4),
         "ranking_v3": rank_v3,
         "ranking_v31": rank_v31,
-        "delta_ranking": rank_v3 - rank_v31,
         "nivel_seguridad_v3": nivel_v3,
         "nivel_seguridad_v31": nivel_v31,
         "cambia_nivel_seguridad": nivel_v3 != nivel_v31,
     })
 
-# Spearman del índice a nivel manzana (v3 vs v3.1)
 v3_scores = [f["properties"]["atlas_score_v3"] for f in feats]
 v31_scores = [f["properties"]["_atlas_score_v31"] for f in feats]
 rho, pval = spearmanr(v3_scores, v31_scores)
 
-# Cambios de quintil a nivel manzana
-cambios_quintil = 0
-detalle_quintil = defaultdict(int)
-for f in feats:
-    q3 = f["properties"]["quintil_v3"]
-    q31 = f["properties"]["_quintil_v31"]
-    if q3 != q31:
-        cambios_quintil += 1
-        detalle_quintil["%s -> %s" % (q3, q31)] += 1
+cambios_quintil = sum(
+    1 for f in feats
+    if f["properties"]["quintil_v3"] != f["properties"]["_quintil_v31"]
+)
 
-impacto = {
-    "tabla_municipios": tabla_impacto,
-    "spearman_indice_manzana": {
-        "rho": round(float(rho), 4),
-        "p_value": float(pval),
-        "n": len(feats),
-    },
-    "manzanas_cambian_quintil": {
-        "total": cambios_quintil,
-        "pct": round(cambios_quintil / len(feats) * 100, 2),
-        "transiciones": dict(sorted(detalle_quintil.items(), key=lambda kv: -kv[1])),
-    },
-    "municipios_cambian_nivel_seguridad": [
-        t["municipio"] for t in tabla_impacto if t["cambia_nivel_seguridad"]
-    ],
-}
-
-# ---------- 8. Escribir preview (NO se toca atlas_enriquecido ni atlas_stats_v3) ----------
+# ---------- 8. Escribir atlas_stats_v31.json (estructura = atlas_stats_v3.json) ----
 out = {
     "_meta": {
-        "version": "v3.1-preview",
+        "version": "v3.1",
         "generado": "2026-07-08",
-        "estado": "CANDIDATO — no consumido por la app; requiere decisión del orquestador (ver impacto-v31.md)",
         "formula": (
-            "atlas_score_v31 = (0.40*accesibilidad_v3 + 0.25*ambiental_v3 + 0.25*socioeconomico_v3 "
-            "+ 0.20*score_seguridad_v31) / 1.10 — mismos pesos y mismos insumos de accesibilidad/"
-            "ambiental/socioeconomico que atlas_stats_v3.json; SOLO cambia el insumo de seguridad."
+            "atlas_score_v31 = (0.40*score_accesibilidad_v3 + 0.25*score_ambiental_v3 "
+            "+ 0.25*score_socioeconomico_v3 + 0.20*score_seguridad_v31) / 1.10 — mismos "
+            "pesos y mismos insumos de accesibilidad/ambiental/socioeconómico que "
+            "atlas_stats_v3.json; SOLO cambia el insumo de seguridad."
         ),
         "formula_seguridad_v31": (
             "score_seguridad_v31 = clamp01(1 - tasa_prom_2022_2024 / 100), tasa_prom = promedio "
@@ -242,36 +241,51 @@ out = {
         },
         "anios_promediados": ANIOS_PROMEDIO,
         "anios_usados_por_municipio": anios_usados_muni,
-        "granularidad": (
+        "granularidad_seguridad": (
             "MUNICIPAL: toda manzana hereda el score_seguridad_v31 de su municipio. Antes "
             "(score_seguridad v3) era una caja negra sin script generador en el repo, aparentaba "
             "granularidad de manzana pero no la tenía documentada. v3.1 declara explícitamente "
-            "que la granularidad real de esta dimensión es municipal."
+            "que la granularidad real de esta dimensión es municipal. El mapa de manzanas sigue "
+            "pintando v3 — su migración visual está en curso y se ratifica en una ola aparte."
         ),
+        "insumos_reales": dict(stats_v3["_meta"]["insumos_reales"]),
+        "insumos_v31": {
+            "seguridad": (
+                "score_seguridad_v31: tasa de homicidios por 100k hab. (SIEDCO/MinDefensa), "
+                "promedio simple 2022-2024, anclas fijas (0→1.00 · 25→0.75 · 100+→0.00) — "
+                "reemplaza score_seguridad v2 (caja negra sin script generador, 4/8 municipios "
+                "saturados en 1.0000). Granularidad real: MUNICIPAL."
+            ),
+        },
+        "insumos_v2_sin_cambio": {
+            "socioeconomico": stats_v3["_meta"]["insumos_v2_sin_cambio"]["socioeconomico"],
+        },
+        "caps_accesibilidad_min": dict(stats_v3["_meta"]["caps_accesibilidad_min"]),
+        "quintil_breaks_v31": [round(b, 4) for b in qbreaks31],
+        "procedencia": dict(stats_v3["_meta"]["procedencia"]),
         "fuente_seguridad": seg["_meta"]["fuente"],
         "fuente_poblacion": pob["_meta"]["fuente"],
-        "nota": (
+        "nota_seguridad": (
             "Hechos reportados a autoridad (SIEDCO/MinDefensa) — no violencia total; subregistro "
             "posible por miedo a represalias en zonas con presencia de actores armados. "
-            "sanity check: tasa_100k de seguridad_municipios.json reproducida desde "
+            "Sanity check: tasa_100k de seguridad_municipios.json reproducida desde "
             "homicidios/población DANE del mismo año (tolerancia ±0.6 pts) para todos los "
-            "municipio-año usados."
+            "municipio-año usados, sin fallos."
         ),
-        "quintil_breaks_v31": [round(b, 4) for b in qbreaks31],
+        "impacto": "docs/investigacion/2026-07-07/impacto-v31.md (gate aprobado por el orquestador)",
     },
     "ranking_municipios_v31": [{"municipio": m, "atlas_score_v31": s} for m, s in ranking31],
     "municipios": municipios_out,
-    "impacto": impacto,
 }
 
-json.dump(out, open(BASE + "atlas_stats_v31_preview.json", "w"), ensure_ascii=False, indent=2)
-print("Escrito %satlas_stats_v31_preview.json" % BASE)
+json.dump(out, open(BASE + "atlas_stats_v31.json", "w"), ensure_ascii=False, indent=2)
+print("Escrito %satlas_stats_v31.json" % BASE)
 
 print("\nscore_seguridad v3 (caja negra) vs v3.1 (reconstruido, tasa 2022-2024):")
 for t in sorted(tabla_impacto, key=lambda x: x["ranking_v31"]):
-    print("  %-22s seg %.4f -> %.4f (Δ%+.4f)  atlas %.4f -> %.4f  rank %d -> %d (Δ%+d)  nivel %s -> %s%s" % (
-        t["municipio"], t["score_seguridad_v3"], t["score_seguridad_v31"], t["delta_seguridad"],
-        t["atlas_score_v3"], t["atlas_score_v31"], t["ranking_v3"], t["ranking_v31"], t["delta_ranking"],
+    print("  %-22s seg %.4f -> %.4f  atlas %.4f -> %.4f  rank %d -> %d  nivel %s -> %s%s" % (
+        t["municipio"], t["score_seguridad_v3"], t["score_seguridad_v31"],
+        t["atlas_score_v3"], t["atlas_score_v31"], t["ranking_v3"], t["ranking_v31"],
         t["nivel_seguridad_v3"], t["nivel_seguridad_v31"],
         "  <-- CAMBIA NIVEL" if t["cambia_nivel_seguridad"] else "",
     ))
@@ -279,3 +293,6 @@ for t in sorted(tabla_impacto, key=lambda x: x["ranking_v31"]):
 print("\nSpearman atlas_score_v3 vs atlas_score_v31 (manzana, n=%d): rho=%.4f p=%.2e" % (
     len(feats), rho, pval))
 print("Manzanas que cambian de quintil: %d (%.2f%%)" % (cambios_quintil, cambios_quintil / len(feats) * 100))
+print("\nanios_usados_por_municipio:")
+for muni, anios in anios_usados_muni.items():
+    print("  %-22s %s%s" % (muni, anios, "  <-- <3 años" if len(anios) < 3 else ""))

@@ -1,9 +1,12 @@
 # Impacto de la reconstrucción documentada de `score_seguridad` (v3 → v3.1)
 
-> Generado por `scripts/recalc_v31.py` (Ola 2, Fase D). Datos candidatos en
-> `public/data/atlas_stats_v31_preview.json`. **Ningún consumidor de la app fue tocado**
-> — este informe es insumo para que el orquestador decida si el switch de UI a v3.1
-> entra en esta ola o se difiere.
+> Generado por `scripts/recalc_v31.py` (Ola 2, Fase D). Datos candidatos originalmente en
+> `public/data/atlas_stats_v31_preview.json`. **Actualización (Ola 2, adopción):** el
+> orquestador revisó este informe y aprobó el switch de la CAPA CITABLE (brief, API,
+> comparador, metodología) a v3.1 — el archivo candidato se promovió a
+> `public/data/atlas_stats_v31.json` (ya no es preview) y el preview se eliminó. El mapa
+> de manzanas sigue en v3; su re-horneado se ratifica aparte. Las cifras de este informe
+> no cambiaron con la promoción — misma fórmula, mismos datos.
 
 ## Por qué existe v3.1
 
