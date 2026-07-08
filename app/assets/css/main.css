@@ -43,6 +43,11 @@
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
 body { font-family: var(--ff-body); }
+/* Impresión (p.ej. /brief): sin esto, los ancestros con height/overflow fijos
+   pueden recortar el contenido a un solo viewport al imprimir. */
+@media print {
+  html, body { height: auto; overflow: visible; }
+}
 
 /* Maplibre overrides */
 .maplibregl-ctrl-group {
