@@ -516,8 +516,8 @@ const zonas = [
   { key: 'LH', color: '#3498db', desc: 'Bajo-Alto' },
 ]
 
-// Capas sin datos reales
-const sinDatos = new Set(['manglares', 'agua', 'inundacion'])
+// Capas sin datos reales — 'inundacion' tiene 18 polígonos IDEAM TR50 reales
+const sinDatos = new Set(['manglares', 'agua'])
 
 // Grupos de capas para la tab Capas
 const gruposCapas = [
@@ -553,7 +553,7 @@ const gruposCapas = [
     capas: [
       { id: 'reps',           label: 'Salud (IPS)',      color: '#3B82F6' },
       { id: 'simat',          label: 'Colegios',         color: '#F59E0B' },
-      { id: 'terridata-full', label: 'NBI TerriData',    color: '#d73027' },
+      { id: 'terridata-full', label: 'NBI total + desglose (CNPV 2018)', color: '#d73027' },
       { id: 'sui-servicios',  label: 'Cobertura acueducto', color: '#1d91c0' },
       { id: 'uariv',          label: 'Desplazamiento',   color: '#dc2626' },
       { id: 'resguardos-ant', label: 'Resguardos ANT',   color: '#7c3aed' },

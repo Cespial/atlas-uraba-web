@@ -118,7 +118,10 @@
 import { ref, computed, onMounted } from 'vue'
 
 // Capas sin datos reales — geometrías vaciadas, pendientes de fuente oficial
-const sinDatos = new Set(['manglares', 'agua', 'inundacion'])
+// 'inundacion' NO va aquí: tiene 18 polígonos IDEAM TR50 reales (ver
+// ideam_inundacion.geojson) y pinta correctamente — antes estaba marcada
+// como "sin datos" por error (Fase C, corregido en Ola 2).
+const sinDatos = new Set(['manglares', 'agua'])
 
 const props = defineProps({
   activeLayers: { type: Object, default: () => new Set() }
@@ -173,14 +176,15 @@ const temas = [
     id: 'social', emoji: '👥', nombre: 'Gestión social',
     descripcion: 'Pobreza, etnias, conflicto y servicios públicos',
     capas: [
-      { id: 'nbi',          label: 'Pobreza (NBI)',        desc: 'Necesidades básicas insatisfechas', color: '#f46d43' },
-      { id: 'terridata-full', label: 'NBI TerriData DNP',  desc: '9 municipios · NBI total CNPV 2018 · 30 indicadores', color: '#d73027' },
+      { id: 'nbi',          label: 'NBI total (CNPV 2018)',        desc: 'Necesidades básicas insatisfechas · resumen 1 indicador · DANE CNPV 2018', color: '#f46d43' },
+      { id: 'terridata-full', label: 'NBI total + desglose (CNPV 2018)',  desc: '9 municipios · mismo NBI total + cabecera/rural · 30 indicadores TerriData DNP', color: '#d73027' },
       { id: 'sui-servicios', label: 'Cobertura acueducto', desc: 'SUI Superservicios · acueducto/alcantarillado/aseo', color: '#1d91c0' },
       { id: 'uariv',        label: 'Desplazamiento',       desc: 'UARIV · expulsados por municipio', color: '#dc2626' },
       { id: 'resguardos-ant', label: 'Resguardos indígenas', desc: '20 resguardos · ANT oficial Embera/Tule', color: '#7c3aed' },
       { id: 'zomac',        label: 'ZOMAC',               desc: '7 municipios · beneficios tributarios', color: '#ea580c' },
       { id: 'reps',         label: 'Salud (prestadores)',  desc: '339 IPS geocodificadas · REPS', color: '#3B82F6' },
       { id: 'simat',        label: 'Colegios',            desc: '180 establecimientos · SIMAT', color: '#F59E0B' },
+      { id: 'saber11',      label: 'Saber 11 (colegios)', desc: 'Puntaje global prom. 2022-2024 · ICFES Saber 11 2022-2024', color: '#8b5cf6' },
       { id: 'epidemiologia',label: 'Enf. tropicales',     desc: 'Dengue, malaria · SIVIGILA', color: '#f59e0b' },
       { id: 'irca',         label: 'Calidad de agua (IRCA)', desc: 'INS — SIVICAP · 2024 · 9 municipios', color: '#1a9850' },
     ]

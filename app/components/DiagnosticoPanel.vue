@@ -367,12 +367,12 @@
         </div>
       </div>
 
-      <!-- ── 7. AGUA Y SEGURIDAD — indicadores citados ──── -->
-      <div class="diag-section" v-if="munIrca || munSeguridad">
+      <!-- ── 7. INDICADORES CITADOS — agua, seguridad, víctimas, educación ──── -->
+      <div class="diag-section" v-if="munIrca || munSeguridad || munVictimas || munEducacion || munDelitos">
         <div class="section-eyebrow">
           <span class="eyebrow-num">D7</span>
           <span class="eyebrow-dash">—</span>
-          <span>Agua y seguridad</span>
+          <span>Indicadores citados</span>
         </div>
 
         <div class="citado-list">
@@ -389,6 +389,27 @@
               <span class="citado-val">{{ munSeguridad.homicidios }} hechos · {{ munSeguridad.tasa }}/100k hab.</span>
             </div>
             <span class="citado-fuente">SIEDCO/MinDefensa</span>
+          </div>
+          <div class="citado-row" v-if="munVictimas">
+            <div class="citado-info">
+              <span class="citado-label">Víctimas RUV{{ anioCorteVictimas ? ` (corte ${anioCorteVictimas})` : '' }}</span>
+              <span class="citado-val">{{ munVictimas.total.toLocaleString('es-CO') }} eventos · principal: {{ munVictimas.hecho }} ({{ munVictimas.hechoTotal.toLocaleString('es-CO') }})</span>
+            </div>
+            <span class="citado-fuente">Unidad Víctimas</span>
+          </div>
+          <div class="citado-row" v-if="munEducacion">
+            <div class="citado-info">
+              <span class="citado-label">Matrícula y deserción MEN ({{ munEducacion.anio }})</span>
+              <span class="citado-val">{{ munEducacion.matricula }}% matrícula 5-16 · {{ munEducacion.desercion }}% deserción</span>
+            </div>
+            <span class="citado-fuente">MEN</span>
+          </div>
+          <div class="citado-row" v-if="munDelitos">
+            <div class="citado-info">
+              <span class="citado-label">Delitos sexuales ({{ munDelitos.anio }})</span>
+              <span class="citado-val">{{ munDelitos.delitos }} casos · {{ munDelitos.tasa }}/100k hab.</span>
+            </div>
+            <span class="citado-fuente">SIEDCO/Gob. Antioquia</span>
           </div>
         </div>
       </div>
@@ -431,6 +452,9 @@ const benchmarks   = ref(null)
 const topPrioridad = ref(null)
 const ircaData      = ref(null)
 const seguridadData = ref(null)
+const victimasData  = ref(null)
+const educacionData = ref(null)
+const delitosData   = ref(null)
 const loading      = ref(true)
 
 /* ─── Dimensiones para el diagnóstico ───────────── */
@@ -445,18 +469,24 @@ const dimensionesDiag = [
 async function fetchData() {
   loading.value = true
   try {
-    const [gapRes, benchRes, topRes, ircaRes, seguridadRes] = await Promise.all([
+    const [gapRes, benchRes, topRes, ircaRes, seguridadRes, victimasRes, educacionRes, delitosRes] = await Promise.all([
       fetch('/data/gap_analysis.json').then(r => r.ok ? r.json() : null).catch(() => null),
       fetch('/data/benchmarks.json').then(r => r.ok ? r.json() : null).catch(() => null),
       fetch('/data/top_prioridad.json').then(r => r.ok ? r.json() : null).catch(() => null),
       fetch('/data/irca_municipios.json').then(r => r.ok ? r.json() : null).catch(() => null),
       fetch('/data/seguridad_municipios.json').then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('/data/ruv_victimas.json').then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('/data/educacion_men.json').then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('/data/delitos_municipios.json').then(r => r.ok ? r.json() : null).catch(() => null),
     ])
     gapAnalysis.value  = gapRes
     benchmarks.value   = benchRes
     topPrioridad.value = topRes
     ircaData.value      = ircaRes
     seguridadData.value = seguridadRes
+    victimasData.value  = victimasRes
+    educacionData.value = educacionRes
+    delitosData.value   = delitosRes
   } catch (e) {
     console.warn('[DiagnosticoPanel] Error cargando datos:', e)
   } finally {
@@ -606,6 +636,46 @@ const munSeguridad = computed(() => {
   const last = years[years.length - 1]
   if (!last) return null
   return { anio: last, homicidios: anios[last].homicidios, tasa: anios[last].tasa_100k }
+})
+
+/* ─── Víctimas RUV / matrícula-deserción MEN / delitos sexuales — fail-quiet ── */
+const munVictimas = computed(() => {
+  const m = store.municipioActivo
+  const d = victimasData.value?.municipios?.[m]
+  if (!d?.hechos || d.total == null) return null
+  const principal = Object.entries(d.hechos).sort((a, b) => b[1] - a[1])[0]
+  if (!principal) return null
+  return { total: d.total, hecho: principal[0], hechoTotal: principal[1] }
+})
+
+const anioCorteVictimas = computed(() => victimasData.value?._meta?.fecha_consulta?.slice(0, 4) || null)
+
+const munEducacion = computed(() => {
+  const m = store.municipioActivo
+  const anios = educacionData.value?.municipios?.[m]
+  if (!anios) return null
+  const years = Object.keys(anios).sort()
+  const last = years[years.length - 1]
+  if (!last) return null
+  const d = anios[last]
+  if (d.tasa_matriculacion_5_16 == null && d.desercion?.total == null) return null
+  return { anio: last, matricula: d.tasa_matriculacion_5_16, desercion: d.desercion?.total }
+})
+
+// 2025/2026 quedan fuera por rezago administrativo (mismo criterio que
+// seguridad_municipios.json — ver su _meta.nota) — nunca se muestran como
+// cifra anual cerrada.
+const ANIOS_PARCIALES_DELITOS = ['2025', '2026']
+const munDelitos = computed(() => {
+  const m = store.municipioActivo
+  const anios = delitosData.value?.municipios?.[m]
+  if (!anios) return null
+  const years = Object.keys(anios)
+    .filter(y => !ANIOS_PARCIALES_DELITOS.includes(y) && anios[y]?.tasa_100k != null)
+    .sort()
+  const last = years[years.length - 1]
+  if (!last) return null
+  return { anio: last, delitos: anios[last].delitos_sexuales, tasa: anios[last].tasa_100k }
 })
 
 function formatManzana(cod) {
