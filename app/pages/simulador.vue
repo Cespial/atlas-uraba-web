@@ -10,6 +10,16 @@
         <h1>Simulador de inversión</h1>
         <p class="sim-sub">¿Qué pasa con el bienestar si pongo un equipamiento aquí?</p>
       </div>
+      <button class="sim-share" @click="copiarEnlace" title="Copiar enlace de esta simulación">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+          <circle cx="13" cy="3" r="2" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="3"  cy="8" r="2" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="13" cy="13" r="2" stroke="currentColor" stroke-width="1.5"/>
+          <line x1="5" y1="7"  x2="11" y2="4"  stroke="currentColor" stroke-width="1.2"/>
+          <line x1="5" y1="9"  x2="11" y2="12" stroke="currentColor" stroke-width="1.2"/>
+        </svg>
+        <span class="share-label">{{ copiado ? '¡Copiado!' : 'Copiar enlace' }}</span>
+      </button>
       <button class="sim-panel-toggle" :aria-expanded="panelAbierto" @click="panelAbierto = !panelAbierto">
         {{ panelAbierto ? 'Ocultar' : 'Panel' }}
       </button>
@@ -178,12 +188,15 @@ function colorExpr(field) {
 
 const { cargando, atlasGeo, cargarDatos, simular } = useSimulador()
 
+const route = useRoute()
+
 const mapEl = ref(null)
 const cargado = ref(false)
 const panelAbierto = ref(true)
 const tipoActivo = ref(null)
 const punto = ref(null)
 const resultado = ref(null)
+const copiado = ref(false)
 
 let map = null
 let maplibregl = null
@@ -284,9 +297,66 @@ async function initMap() {
     })
 
     cargado.value = true
+    restaurarDesdeURL()
   })
 
   map.on('click', onMapClick)
+}
+
+// ── Estado en la URL (?t=tipo&lat=..&lng=..) ─────────────────────────────
+// Restaura la simulación al cargar con parámetros válidos. Fail-quiet: si el
+// tipo no existe o lat/lng no son números, no hace nada (queda el estado
+// inicial vacío del simulador).
+function restaurarDesdeURL() {
+  const q = route.query
+  const tipoValido = TIPOS_EQUIPAMIENTO.find((t) => t.key === q.t)
+  const lat = parseFloat(q.lat)
+  const lng = parseFloat(q.lng)
+  if (!tipoValido || !Number.isFinite(lat) || !Number.isFinite(lng)) return
+  if (lat < -90 || lat > 90 || lng < -180 || lng > 180) return
+
+  tipoActivo.value = tipoValido.key
+  punto.value = { lat, lng }
+
+  if (marker) marker.remove()
+  const el = document.createElement('div')
+  el.className = 'sim-marker'
+  el.style.setProperty('--c', tipoValido.color)
+  marker = new maplibregl.Marker({ element: el, anchor: 'center' })
+    .setLngLat([lng, lat])
+    .addTo(map)
+
+  map.flyTo({ center: [lng, lat], zoom: Math.max(map.getZoom(), 12) })
+  recalcular()
+}
+
+// Sincroniza tipo + punto a la URL (replaceState, sin recargar)
+watch([tipoActivo, punto], ([tipo, pt]) => {
+  const params = new URLSearchParams()
+  if (tipo && pt) {
+    params.set('t', tipo)
+    params.set('lat', pt.lat.toFixed(5))
+    params.set('lng', pt.lng.toFixed(5))
+  }
+  const newUrl = params.toString() ? '?' + params.toString() : window.location.pathname
+  window.history.replaceState({}, '', newUrl)
+})
+
+// ── Copiar enlace ─────────────────────────────────────────────────────────
+async function copiarEnlace() {
+  const url = window.location.href
+  try {
+    await navigator.clipboard.writeText(url)
+  } catch (e) {
+    const el = document.createElement('textarea')
+    el.value = url
+    document.body.appendChild(el)
+    el.select()
+    document.execCommand('copy')
+    document.body.removeChild(el)
+  }
+  copiado.value = true
+  setTimeout(() => { copiado.value = false }, 2500)
 }
 
 function onMapClick(e) {
@@ -387,8 +457,26 @@ onBeforeUnmount(() => { if (map) map.remove() })
   color: rgba(255, 255, 255, 0.55);
   margin: 2px 0 0;
 }
-.sim-panel-toggle {
+.sim-share {
   margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 11px;
+  border-radius: 8px;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.75);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.sim-share:hover { background: rgba(27, 107, 109, 0.25); border-color: #1B6B6D; color: #fff; }
+.sim-panel-toggle {
   display: none;
   background: #1B6B6D;
   color: #fff;
@@ -615,6 +703,8 @@ onBeforeUnmount(() => { if (map) map.remove() })
   .sim-sub { display: none; }
   .back-label { display: none; }
   .sim-back { padding: 8px 10px; }
+  .sim-share { padding: 8px; }
+  .sim-share .share-label { display: none; }
 
   .sim-panel {
     top: auto;
