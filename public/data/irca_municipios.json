@@ -1,0 +1,408 @@
+{
+  "_meta": {
+    "fuente": "Instituto Nacional de Salud (INS) — 'Calidad del Agua para Consumo Humano en Colombia' (IRCA, Índice de Riesgo de la Calidad del Agua)",
+    "url": "https://www.datos.gov.co/resource/nxt2-39c3.json",
+    "consulta": "departamento='Antioquia' AND municipio in(9 municipios de Urabá), a_o entre 2018 y 2024",
+    "fecha_consulta": "2026-07-07",
+    "nota": "IRCA por municipio (dataset SIVICAP). 'ND' del dataset original se representa como null (dato no disponible para esa desagregación urbano/rural ese año). Niveles de riesgo tal como los reporta el INS: Sin riesgo (0-5), Riesgo bajo (5.1-14), Riesgo medio (14.1-35), Riesgo alto (35.1-80), Inviable sanitariamente (80.1-100).",
+    "sanity_check": "Necoclí: riesgo medio en 2020/2021 → Sin riesgo en 2024 (2020='Riesgo medio', 2021='Riesgo medio', 2024='Sin riesgo')"
+  },
+  "municipios": {
+    "Apartadó": {
+      "2018": {
+        "irca": 0.8,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 1.0,
+        "irca_rural": 0.0
+      },
+      "2019": {
+        "irca": 0.5,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.7,
+        "irca_rural": 0.0
+      },
+      "2020": {
+        "irca": 3.5,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 4.1,
+        "irca_rural": 0.0
+      },
+      "2021": {
+        "irca": 2.4,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.0,
+        "irca_rural": 8.6
+      },
+      "2022": {
+        "irca": 3.2,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.0,
+        "irca_rural": 11.2
+      },
+      "2023": {
+        "irca": 0.0,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.0,
+        "irca_rural": 0.0
+      },
+      "2024": {
+        "irca": 2.9,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.4,
+        "irca_rural": 13.8
+      }
+    },
+    "Arboletes": {
+      "2018": {
+        "irca": 1.9,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 1.9,
+        "irca_rural": null
+      },
+      "2019": {
+        "irca": 2.4,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 2.4,
+        "irca_rural": null
+      },
+      "2020": {
+        "irca": 10.9,
+        "nivel": "Riesgo bajo",
+        "irca_urbano": 10.9,
+        "irca_rural": null
+      },
+      "2021": {
+        "irca": 1.7,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 1.7,
+        "irca_rural": null
+      },
+      "2022": {
+        "irca": 0.4,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.4,
+        "irca_rural": null
+      },
+      "2023": {
+        "irca": 0.9,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.9,
+        "irca_rural": null
+      },
+      "2024": {
+        "irca": 0.0,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.0,
+        "irca_rural": null
+      }
+    },
+    "Carepa": {
+      "2018": {
+        "irca": 3.8,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 3.8,
+        "irca_rural": null
+      },
+      "2019": {
+        "irca": 1.1,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 1.1,
+        "irca_rural": null
+      },
+      "2020": {
+        "irca": 0.2,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.2,
+        "irca_rural": null
+      },
+      "2021": {
+        "irca": 2.6,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 2.6,
+        "irca_rural": null
+      },
+      "2022": {
+        "irca": 0.4,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.4,
+        "irca_rural": null
+      },
+      "2023": {
+        "irca": 0.6,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.6,
+        "irca_rural": null
+      },
+      "2024": {
+        "irca": 1.4,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.0,
+        "irca_rural": 32.0
+      }
+    },
+    "Chigorodó": {
+      "2018": {
+        "irca": 0.3,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.3,
+        "irca_rural": null
+      },
+      "2019": {
+        "irca": 0.0,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.0,
+        "irca_rural": null
+      },
+      "2020": {
+        "irca": 0.1,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.1,
+        "irca_rural": null
+      },
+      "2021": {
+        "irca": 0.5,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.5,
+        "irca_rural": null
+      },
+      "2022": {
+        "irca": 1.5,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 1.5,
+        "irca_rural": null
+      },
+      "2023": {
+        "irca": 0.0,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.0,
+        "irca_rural": null
+      },
+      "2024": {
+        "irca": 0.8,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.8,
+        "irca_rural": null
+      }
+    },
+    "Mutatá": {
+      "2018": {
+        "irca": 0.6,
+        "nivel": "Sin riesgo",
+        "irca_urbano": null,
+        "irca_rural": 0.6
+      },
+      "2019": {
+        "irca": 0.0,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.1,
+        "irca_rural": 0.0
+      },
+      "2020": {
+        "irca": 0.0,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.0,
+        "irca_rural": null
+      },
+      "2021": {
+        "irca": 0.0,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.0,
+        "irca_rural": null
+      },
+      "2022": {
+        "irca": 3.9,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 3.9,
+        "irca_rural": null
+      },
+      "2023": {
+        "irca": 1.5,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 1.5,
+        "irca_rural": null
+      },
+      "2024": {
+        "irca": 0.7,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.7,
+        "irca_rural": null
+      }
+    },
+    "Necoclí": {
+      "2018": {
+        "irca": 3.6,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 3.6,
+        "irca_rural": null
+      },
+      "2019": {
+        "irca": 3.7,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 3.7,
+        "irca_rural": null
+      },
+      "2020": {
+        "irca": 24.4,
+        "nivel": "Riesgo medio",
+        "irca_urbano": 29.8,
+        "irca_rural": 0.0
+      },
+      "2021": {
+        "irca": 22.6,
+        "nivel": "Riesgo medio",
+        "irca_urbano": 30.8,
+        "irca_rural": 0.0
+      },
+      "2022": {
+        "irca": 8.0,
+        "nivel": "Riesgo bajo",
+        "irca_urbano": 9.1,
+        "irca_rural": 0.0
+      },
+      "2023": {
+        "irca": 5.1,
+        "nivel": "Riesgo bajo",
+        "irca_urbano": 5.1,
+        "irca_rural": null
+      },
+      "2024": {
+        "irca": 3.1,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 3.4,
+        "irca_rural": 0.0
+      }
+    },
+    "San Juan de Urabá": {
+      "2018": {
+        "irca": 12.2,
+        "nivel": "Riesgo bajo",
+        "irca_urbano": 12.2,
+        "irca_rural": null
+      },
+      "2019": {
+        "irca": 5.8,
+        "nivel": "Riesgo bajo",
+        "irca_urbano": 5.8,
+        "irca_rural": null
+      },
+      "2020": {
+        "irca": 6.2,
+        "nivel": "Riesgo bajo",
+        "irca_urbano": 6.2,
+        "irca_rural": null
+      },
+      "2021": {
+        "irca": 12.2,
+        "nivel": "Riesgo bajo",
+        "irca_urbano": 12.2,
+        "irca_rural": null
+      },
+      "2022": {
+        "irca": 8.2,
+        "nivel": "Riesgo bajo",
+        "irca_urbano": 8.2,
+        "irca_rural": null
+      },
+      "2023": {
+        "irca": 7.2,
+        "nivel": "Riesgo bajo",
+        "irca_urbano": 7.2,
+        "irca_rural": null
+      },
+      "2024": {
+        "irca": 3.2,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 3.2,
+        "irca_rural": null
+      }
+    },
+    "San Pedro de Urabá": {
+      "2018": {
+        "irca": 1.4,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 1.4,
+        "irca_rural": null
+      },
+      "2019": {
+        "irca": 2.0,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 2.0,
+        "irca_rural": null
+      },
+      "2020": {
+        "irca": 3.0,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 3.0,
+        "irca_rural": null
+      },
+      "2021": {
+        "irca": 1.3,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 1.3,
+        "irca_rural": null
+      },
+      "2022": {
+        "irca": 0.4,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.4,
+        "irca_rural": null
+      },
+      "2023": {
+        "irca": 1.8,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 1.8,
+        "irca_rural": null
+      },
+      "2024": {
+        "irca": 1.0,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 1.0,
+        "irca_rural": null
+      }
+    },
+    "Turbo": {
+      "2018": {
+        "irca": 1.8,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 1.9,
+        "irca_rural": 1.6
+      },
+      "2019": {
+        "irca": 2.8,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 1.5,
+        "irca_rural": 4.6
+      },
+      "2020": {
+        "irca": 1.3,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 1.6,
+        "irca_rural": 0.9
+      },
+      "2021": {
+        "irca": 1.6,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 1.6,
+        "irca_rural": 1.6
+      },
+      "2022": {
+        "irca": 0.4,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 0.6,
+        "irca_rural": 0.0
+      },
+      "2023": {
+        "irca": 1.8,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 1.2,
+        "irca_rural": 5.3
+      },
+      "2024": {
+        "irca": 1.4,
+        "nivel": "Sin riesgo",
+        "irca_urbano": 1.5,
+        "irca_rural": 0.0
+      }
+    }
+  }
+}

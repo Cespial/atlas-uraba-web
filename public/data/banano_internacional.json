@@ -1,0 +1,351 @@
+{
+  "_meta": {
+    "fuente": "Banco Mundial — Commodity Markets (\"Pink Sheet\"), precios mensuales de commodities en US$ nominales",
+    "url": "https://thedocs.worldbank.org/en/doc/18675f1d1639c7a34d463f59263ba0a2-0050012025/related/CMO-Historical-Data-Monthly.xlsx",
+    "consulta": "Hoja 'Monthly Prices', columnas 'Banana, Europe' y 'Banana, US' (fila de encabezado 5, unidades en fila 6), desde 2019-01 en adelante",
+    "fecha_consulta": "2026-07-07",
+    "unidad": "US$/kg",
+    "nota": "El XLSX fuente ya trae 'Banana, Europe' y 'Banana, US' en US$/kg (encabezado de unidad literal '($/kg)' en la hoja 'Monthly Prices') — a pesar de que la referencia inicial de este pipeline asumía US$/tonelada, la verificación directa del archivo descartó esa hipótesis. Por eso NO se aplica ninguna conversión (no se divide por 1000); los valores de este JSON son el dato crudo del Banco Mundial. 'Banana, Europe' = precio f.o.t. Europa (incluye derechos de importación); 'Banana, US' = precio de importación a EE.UU., f.o.t. puertos del Golfo. Ambas para banano de Centro y Sudamérica, marcas mayores.",
+    "periodo_min": "2019-01",
+    "periodo_max": "2025-12",
+    "n_meses": 84
+  },
+  "series": {
+    "2019-01": {
+      "europe_usd_kg": 0.8484,
+      "us_usd_kg": 1.1368
+    },
+    "2019-02": {
+      "europe_usd_kg": 0.8717,
+      "us_usd_kg": 1.1574
+    },
+    "2019-03": {
+      "europe_usd_kg": 0.938,
+      "us_usd_kg": 1.1781
+    },
+    "2019-04": {
+      "europe_usd_kg": 0.9342,
+      "us_usd_kg": 1.1643
+    },
+    "2019-05": {
+      "europe_usd_kg": 0.9185,
+      "us_usd_kg": 1.123
+    },
+    "2019-06": {
+      "europe_usd_kg": 0.886,
+      "us_usd_kg": 1.1264
+    },
+    "2019-07": {
+      "europe_usd_kg": 0.8636,
+      "us_usd_kg": 1.1264
+    },
+    "2019-08": {
+      "europe_usd_kg": 0.8338,
+      "us_usd_kg": 1.123
+    },
+    "2019-09": {
+      "europe_usd_kg": 0.8463,
+      "us_usd_kg": 1.1505
+    },
+    "2019-10": {
+      "europe_usd_kg": 0.856,
+      "us_usd_kg": 1.134
+    },
+    "2019-11": {
+      "europe_usd_kg": 0.8537,
+      "us_usd_kg": 1.1299
+    },
+    "2019-12": {
+      "europe_usd_kg": 0.8582,
+      "us_usd_kg": 1.1368
+    },
+    "2020-01": {
+      "europe_usd_kg": 0.8703,
+      "us_usd_kg": 1.1698
+    },
+    "2020-02": {
+      "europe_usd_kg": 0.8992,
+      "us_usd_kg": 1.185
+    },
+    "2020-03": {
+      "europe_usd_kg": 0.9077,
+      "us_usd_kg": 1.1953
+    },
+    "2020-04": {
+      "europe_usd_kg": 0.9026,
+      "us_usd_kg": 1.2814
+    },
+    "2020-05": {
+      "europe_usd_kg": 0.9086,
+      "us_usd_kg": 1.2952
+    },
+    "2020-06": {
+      "europe_usd_kg": 0.9007,
+      "us_usd_kg": 1.2952
+    },
+    "2020-07": {
+      "europe_usd_kg": 0.8614,
+      "us_usd_kg": 1.2704
+    },
+    "2020-08": {
+      "europe_usd_kg": 0.8953,
+      "us_usd_kg": 1.2504
+    },
+    "2020-09": {
+      "europe_usd_kg": 0.9101,
+      "us_usd_kg": 1.2401
+    },
+    "2020-10": {
+      "europe_usd_kg": 0.9033,
+      "us_usd_kg": 1.1326
+    },
+    "2020-11": {
+      "europe_usd_kg": 0.8858,
+      "us_usd_kg": 1.1299
+    },
+    "2020-12": {
+      "europe_usd_kg": 0.9202,
+      "us_usd_kg": 1.1505
+    },
+    "2021-01": {
+      "europe_usd_kg": 0.939,
+      "us_usd_kg": 1.2367
+    },
+    "2021-02": {
+      "europe_usd_kg": 0.946,
+      "us_usd_kg": 1.2229
+    },
+    "2021-03": {
+      "europe_usd_kg": 0.9507,
+      "us_usd_kg": 1.2263
+    },
+    "2021-04": {
+      "europe_usd_kg": 0.9614,
+      "us_usd_kg": 1.2263
+    },
+    "2021-05": {
+      "europe_usd_kg": 0.9693,
+      "us_usd_kg": 1.2263
+    },
+    "2021-06": {
+      "europe_usd_kg": 0.9507,
+      "us_usd_kg": 1.2263
+    },
+    "2021-07": {
+      "europe_usd_kg": 0.8479,
+      "us_usd_kg": 1.2346
+    },
+    "2021-08": {
+      "europe_usd_kg": 0.8917,
+      "us_usd_kg": 1.2298
+    },
+    "2021-09": {
+      "europe_usd_kg": 0.9141,
+      "us_usd_kg": 1.185
+    },
+    "2021-10": {
+      "europe_usd_kg": 0.9256,
+      "us_usd_kg": 1.1505
+    },
+    "2021-11": {
+      "europe_usd_kg": 0.9036,
+      "us_usd_kg": 1.1436
+    },
+    "2021-12": {
+      "europe_usd_kg": 0.8851,
+      "us_usd_kg": 1.1574
+    },
+    "2022-01": {
+      "europe_usd_kg": 0.9115,
+      "us_usd_kg": 1.1574
+    },
+    "2022-02": {
+      "europe_usd_kg": 0.9625,
+      "us_usd_kg": 1.2435
+    },
+    "2022-03": {
+      "europe_usd_kg": 0.9702,
+      "us_usd_kg": 1.3889
+    },
+    "2022-04": {
+      "europe_usd_kg": 0.9624,
+      "us_usd_kg": 1.4571
+    },
+    "2022-05": {
+      "europe_usd_kg": 0.9625,
+      "us_usd_kg": 1.4606
+    },
+    "2022-06": {
+      "europe_usd_kg": 0.9519,
+      "us_usd_kg": 1.4385
+    },
+    "2022-07": {
+      "europe_usd_kg": 0.8915,
+      "us_usd_kg": 1.526
+    },
+    "2022-08": {
+      "europe_usd_kg": 0.8767,
+      "us_usd_kg": 1.6707
+    },
+    "2022-09": {
+      "europe_usd_kg": 0.9011,
+      "us_usd_kg": 1.619
+    },
+    "2022-10": {
+      "europe_usd_kg": 0.9501,
+      "us_usd_kg": 1.5708
+    },
+    "2022-11": {
+      "europe_usd_kg": 0.9697,
+      "us_usd_kg": 1.6535
+    },
+    "2022-12": {
+      "europe_usd_kg": 1.0141,
+      "us_usd_kg": 1.681
+    },
+    "2023-01": {
+      "europe_usd_kg": 1.0721,
+      "us_usd_kg": 1.681
+    },
+    "2023-02": {
+      "europe_usd_kg": 1.0981,
+      "us_usd_kg": 1.6604
+    },
+    "2023-03": {
+      "europe_usd_kg": 1.106,
+      "us_usd_kg": 1.6018
+    },
+    "2023-04": {
+      "europe_usd_kg": 1.1427,
+      "us_usd_kg": 1.6535
+    },
+    "2023-05": {
+      "europe_usd_kg": 1.1115,
+      "us_usd_kg": 1.6121
+    },
+    "2023-06": {
+      "europe_usd_kg": 1.1008,
+      "us_usd_kg": 1.5928
+    },
+    "2023-07": {
+      "europe_usd_kg": 1.1182,
+      "us_usd_kg": 1.5501
+    },
+    "2023-08": {
+      "europe_usd_kg": 1.0743,
+      "us_usd_kg": 1.557
+    },
+    "2023-09": {
+      "europe_usd_kg": 1.0431,
+      "us_usd_kg": 1.5639
+    },
+    "2023-10": {
+      "europe_usd_kg": 1.0531,
+      "us_usd_kg": 1.5708
+    },
+    "2023-11": {
+      "europe_usd_kg": 1.0767,
+      "us_usd_kg": 1.5501
+    },
+    "2023-12": {
+      "europe_usd_kg": 1.0835,
+      "us_usd_kg": 1.5653
+    },
+    "2024-01": {
+      "europe_usd_kg": 1.0863,
+      "us_usd_kg": 1.6052
+    },
+    "2024-02": {
+      "europe_usd_kg": 1.068,
+      "us_usd_kg": 1.5742
+    },
+    "2024-03": {
+      "europe_usd_kg": 1.0835,
+      "us_usd_kg": 1.6397
+    },
+    "2024-04": {
+      "europe_usd_kg": 1.0743,
+      "us_usd_kg": 1.6259
+    },
+    "2024-05": {
+      "europe_usd_kg": 1.0783,
+      "us_usd_kg": 1.422
+    },
+    "2024-06": {
+      "europe_usd_kg": 1.0645,
+      "us_usd_kg": 1.0885
+    },
+    "2024-07": {
+      "europe_usd_kg": 1.0794,
+      "us_usd_kg": 1.0265
+    },
+    "2024-08": {
+      "europe_usd_kg": 1.0699,
+      "us_usd_kg": 1.0141
+    },
+    "2024-09": {
+      "europe_usd_kg": 1.0659,
+      "us_usd_kg": 1.0334
+    },
+    "2024-10": {
+      "europe_usd_kg": 1.0498,
+      "us_usd_kg": 1.0334
+    },
+    "2024-11": {
+      "europe_usd_kg": 1.04,
+      "us_usd_kg": 0.9094
+    },
+    "2024-12": {
+      "europe_usd_kg": 1.0372,
+      "us_usd_kg": 0.8267
+    },
+    "2025-01": {
+      "europe_usd_kg": 1.0155,
+      "us_usd_kg": 1.1078
+    },
+    "2025-02": {
+      "europe_usd_kg": 1.0295,
+      "us_usd_kg": 1.247
+    },
+    "2025-03": {
+      "europe_usd_kg": 1.0831,
+      "us_usd_kg": 1.185
+    },
+    "2025-04": {
+      "europe_usd_kg": 1.1249,
+      "us_usd_kg": 1.1023
+    },
+    "2025-05": {
+      "europe_usd_kg": 1.1362,
+      "us_usd_kg": 1.0858
+    },
+    "2025-06": {
+      "europe_usd_kg": 1.1623,
+      "us_usd_kg": 0.9232
+    },
+    "2025-07": {
+      "europe_usd_kg": 1.1489,
+      "us_usd_kg": 1.0086
+    },
+    "2025-08": {
+      "europe_usd_kg": 1.1216,
+      "us_usd_kg": 1.0196
+    },
+    "2025-09": {
+      "europe_usd_kg": 1.1454,
+      "us_usd_kg": 1.0196
+    },
+    "2025-10": {
+      "europe_usd_kg": 1.1303,
+      "us_usd_kg": 1.1299
+    },
+    "2025-11": {
+      "europe_usd_kg": 1.1085,
+      "us_usd_kg": 1.1574
+    },
+    "2025-12": {
+      "europe_usd_kg": 1.1048,
+      "us_usd_kg": 1.1574
+    }
+  }
+}

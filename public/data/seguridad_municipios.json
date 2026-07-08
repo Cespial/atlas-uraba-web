@@ -1,0 +1,341 @@
+{
+  "_meta": {
+    "fuente": "Ministerio de Defensa Nacional (MinDefensa) — registros SIEDCO de la Policía Nacional, dataset 'HOMICIDIO' consolidado por el Observatorio del Delito",
+    "url": "https://www.datos.gov.co/resource/m8fd-ahd9.json",
+    "consulta": "municipio,cod_muni,date_extract_y(fecha_hecho) as anio,sum(cantidad) as total WHERE cod_muni in('05045','05051','05147','05172','05480','05490','05659','05665','05837') AND fecha_hecho >= '2018-01-01' GROUP BY municipio,cod_muni,anio",
+    "fecha_consulta": "2026-07-07",
+    "nota": "Hechos reportados a autoridad (SIEDCO/MinDefensa), no violencia total — subregistro posible por miedo a represalias en zonas con presencia de actores armados. El año más reciente puede estar incompleto (los casos se corrigen con rezago administrativo). tasa_100k = homicidios / población (proyección DANE del mismo año) × 100.000, redondeada a 1 decimal.",
+    "anios_disponibles": [
+      "2018",
+      "2019",
+      "2020",
+      "2021",
+      "2022",
+      "2023",
+      "2024",
+      "2025",
+      "2026"
+    ],
+    "sanity_check": "Turbo 2023 = 67 homicidios (verificado contra dossier de investigación)"
+  },
+  "municipios": {
+    "Apartadó": {
+      "2018": {
+        "homicidios": 54,
+        "tasa_100k": 44.6
+      },
+      "2019": {
+        "homicidios": 44,
+        "tasa_100k": 36.3
+      },
+      "2020": {
+        "homicidios": 36,
+        "tasa_100k": 29.6
+      },
+      "2021": {
+        "homicidios": 60,
+        "tasa_100k": 48.9
+      },
+      "2022": {
+        "homicidios": 53,
+        "tasa_100k": 42.9
+      },
+      "2023": {
+        "homicidios": 44,
+        "tasa_100k": 35.4
+      },
+      "2024": {
+        "homicidios": 33,
+        "tasa_100k": 26.5
+      },
+      "2025": {
+        "homicidios": 18,
+        "tasa_100k": 14.4
+      },
+      "2026": {
+        "homicidios": 8,
+        "tasa_100k": 6.4
+      }
+    },
+    "Arboletes": {
+      "2018": {
+        "homicidios": 2,
+        "tasa_100k": 6.8
+      },
+      "2019": {
+        "homicidios": 4,
+        "tasa_100k": 13.5
+      },
+      "2020": {
+        "homicidios": 2,
+        "tasa_100k": 6.6
+      },
+      "2021": {
+        "homicidios": 1,
+        "tasa_100k": 3.3
+      },
+      "2022": {
+        "homicidios": 2,
+        "tasa_100k": 6.5
+      },
+      "2024": {
+        "homicidios": 3,
+        "tasa_100k": 9.5
+      },
+      "2025": {
+        "homicidios": 2,
+        "tasa_100k": 6.3
+      }
+    },
+    "Carepa": {
+      "2018": {
+        "homicidios": 25,
+        "tasa_100k": 52.2
+      },
+      "2019": {
+        "homicidios": 21,
+        "tasa_100k": 43.4
+      },
+      "2020": {
+        "homicidios": 18,
+        "tasa_100k": 36.8
+      },
+      "2021": {
+        "homicidios": 21,
+        "tasa_100k": 42.5
+      },
+      "2022": {
+        "homicidios": 11,
+        "tasa_100k": 22.0
+      },
+      "2023": {
+        "homicidios": 19,
+        "tasa_100k": 37.8
+      },
+      "2024": {
+        "homicidios": 9,
+        "tasa_100k": 17.8
+      },
+      "2025": {
+        "homicidios": 5,
+        "tasa_100k": 9.8
+      },
+      "2026": {
+        "homicidios": 6,
+        "tasa_100k": 11.7
+      }
+    },
+    "Chigorodó": {
+      "2018": {
+        "homicidios": 42,
+        "tasa_100k": 73.2
+      },
+      "2019": {
+        "homicidios": 27,
+        "tasa_100k": 47.2
+      },
+      "2020": {
+        "homicidios": 29,
+        "tasa_100k": 50.9
+      },
+      "2021": {
+        "homicidios": 26,
+        "tasa_100k": 45.5
+      },
+      "2022": {
+        "homicidios": 25,
+        "tasa_100k": 43.8
+      },
+      "2023": {
+        "homicidios": 30,
+        "tasa_100k": 52.6
+      },
+      "2024": {
+        "homicidios": 16,
+        "tasa_100k": 28.2
+      },
+      "2025": {
+        "homicidios": 11,
+        "tasa_100k": 19.4
+      },
+      "2026": {
+        "homicidios": 3,
+        "tasa_100k": 5.3
+      }
+    },
+    "Mutatá": {
+      "2018": {
+        "homicidios": 17,
+        "tasa_100k": 121.5
+      },
+      "2019": {
+        "homicidios": 24,
+        "tasa_100k": 170.8
+      },
+      "2020": {
+        "homicidios": 11,
+        "tasa_100k": 78.1
+      },
+      "2021": {
+        "homicidios": 13,
+        "tasa_100k": 92.5
+      },
+      "2022": {
+        "homicidios": 11,
+        "tasa_100k": 78.8
+      },
+      "2023": {
+        "homicidios": 16,
+        "tasa_100k": 115.1
+      },
+      "2024": {
+        "homicidios": 3,
+        "tasa_100k": 21.6
+      },
+      "2025": {
+        "homicidios": 6,
+        "tasa_100k": 43.4
+      },
+      "2026": {
+        "homicidios": 1,
+        "tasa_100k": 7.3
+      }
+    },
+    "Necoclí": {
+      "2018": {
+        "homicidios": 12,
+        "tasa_100k": 28.4
+      },
+      "2019": {
+        "homicidios": 5,
+        "tasa_100k": 11.7
+      },
+      "2020": {
+        "homicidios": 7,
+        "tasa_100k": 16.3
+      },
+      "2021": {
+        "homicidios": 11,
+        "tasa_100k": 25.6
+      },
+      "2022": {
+        "homicidios": 7,
+        "tasa_100k": 16.4
+      },
+      "2023": {
+        "homicidios": 9,
+        "tasa_100k": 21.1
+      },
+      "2024": {
+        "homicidios": 7,
+        "tasa_100k": 16.4
+      },
+      "2025": {
+        "homicidios": 4,
+        "tasa_100k": 9.4
+      },
+      "2026": {
+        "homicidios": 1,
+        "tasa_100k": 2.4
+      }
+    },
+    "San Juan de Urabá": {
+      "2018": {
+        "homicidios": 4,
+        "tasa_100k": 19.9
+      },
+      "2019": {
+        "homicidios": 5,
+        "tasa_100k": 24.8
+      },
+      "2020": {
+        "homicidios": 3,
+        "tasa_100k": 14.8
+      },
+      "2022": {
+        "homicidios": 1,
+        "tasa_100k": 5.0
+      },
+      "2024": {
+        "homicidios": 1,
+        "tasa_100k": 5.0
+      },
+      "2025": {
+        "homicidios": 2,
+        "tasa_100k": 10.0
+      }
+    },
+    "San Pedro de Urabá": {
+      "2018": {
+        "homicidios": 14,
+        "tasa_100k": 45.3
+      },
+      "2019": {
+        "homicidios": 2,
+        "tasa_100k": 6.4
+      },
+      "2020": {
+        "homicidios": 4,
+        "tasa_100k": 12.6
+      },
+      "2021": {
+        "homicidios": 1,
+        "tasa_100k": 3.1
+      },
+      "2022": {
+        "homicidios": 5,
+        "tasa_100k": 15.6
+      },
+      "2023": {
+        "homicidios": 1,
+        "tasa_100k": 3.1
+      },
+      "2024": {
+        "homicidios": 3,
+        "tasa_100k": 9.3
+      },
+      "2025": {
+        "homicidios": 5,
+        "tasa_100k": 15.4
+      }
+    },
+    "Turbo": {
+      "2018": {
+        "homicidios": 104,
+        "tasa_100k": 83.5
+      },
+      "2019": {
+        "homicidios": 69,
+        "tasa_100k": 54.7
+      },
+      "2020": {
+        "homicidios": 53,
+        "tasa_100k": 41.4
+      },
+      "2021": {
+        "homicidios": 78,
+        "tasa_100k": 60.7
+      },
+      "2022": {
+        "homicidios": 75,
+        "tasa_100k": 58.1
+      },
+      "2023": {
+        "homicidios": 67,
+        "tasa_100k": 51.8
+      },
+      "2024": {
+        "homicidios": 25,
+        "tasa_100k": 19.2
+      },
+      "2025": {
+        "homicidios": 28,
+        "tasa_100k": 21.5
+      },
+      "2026": {
+        "homicidios": 9,
+        "tasa_100k": 6.9
+      }
+    }
+  }
+}

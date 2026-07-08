@@ -12,7 +12,19 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const SRC = join(root, 'public', 'data')
 const DEST = join(root, 'server', 'assets', 'data')
 
-const FILES = ['atlas_stats_v3.json', 'gap_analysis.json', 'atlas.geojson', 'equidad_municipios.json']
+const FILES = [
+  'atlas_stats_v3.json',
+  'gap_analysis.json',
+  'atlas.geojson',
+  'equidad_municipios.json',
+  // Pipeline de datos nuevos (ola1/datos-nuevos): agregados municipales,
+  // livianos, útiles para futuros endpoints (ej. enriquecer
+  // /api/uraba/municipio/[nombre]). Ningún handler los consume todavía —
+  // eso lo hace la fase que integra la UI.
+  'poblacion_municipios.json',
+  'seguridad_municipios.json',
+  'irca_municipios.json',
+]
 
 await fs.mkdir(DEST, { recursive: true })
 for (const f of FILES) {
