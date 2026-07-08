@@ -24,6 +24,13 @@ const FILES = [
   'poblacion_municipios.json',
   'seguridad_municipios.json',
   'irca_municipios.json',
+  // Ola 2 (ola2/datos): agregados municipales nuevos, livianos, mismo criterio
+  // que la ola anterior — ningún handler los consume todavía.
+  'ruv_victimas.json',
+  'saber11_colegios.json',
+  'delitos_municipios.json',
+  'educacion_men.json',
+  'runt_municipios.json',
 ]
 
 await fs.mkdir(DEST, { recursive: true })

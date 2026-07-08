@@ -1,0 +1,941 @@
+{
+  "_meta": {
+    "fuente": "Instituto Colombiano para la Evaluación de la Educación (ICFES) — 'Resultados Únicos Saber 11' (microdato individual por estudiante, ~7.1M filas; agregado remoto por colegio vía SoQL, no descargado completo)",
+    "url": "https://www.datos.gov.co/resource/kgxf-xxbe.json",
+    "filtro": "cole_cod_mcpio_ubicacion in (9 códigos DANE de Urabá), periodo entre 20221 y 20244 (2022-2024), punt_global no nulo",
+    "fecha_consulta": "2026-07-08",
+    "nota": "punt_global_prom = promedio simple del puntaje global Saber 11 de los estudiantes evaluados 2022-2024 en cada colegio (campo `punt_global`, texto en la fuente, convertido a número). n_evaluados = número de presentaciones individuales agregadas (un mismo estudiante puede presentar el examen más de una vez). Cruza con `cole_cod_dane_establecimiento` = mismo código DANE de establecimiento que usa `simat.geojson` (180 sedes) para vincular desempeño con presencia física.",
+    "municipios_con_dato": [
+      "Apartadó",
+      "Arboletes",
+      "Carepa",
+      "Chigorodó",
+      "Mutatá",
+      "Necoclí",
+      "San Juan de Urabá",
+      "San Pedro de Urabá",
+      "Turbo"
+    ],
+    "municipios_sin_dato": [],
+    "errores": []
+  },
+  "colegios": [
+    {
+      "cod_dane": "405045000338",
+      "nombre": "INSTITUTO UNIBAN",
+      "municipio": "Apartadó",
+      "n_evaluados": 90,
+      "punt_global_prom": 304.2
+    },
+    {
+      "cod_dane": "305045000635",
+      "nombre": "COL. COOPERATIVO APARTADO CARLOS ARTURO ROLDAN BETANCUR",
+      "municipio": "Apartadó",
+      "n_evaluados": 80,
+      "punt_global_prom": 302.4
+    },
+    {
+      "cod_dane": "105045000164",
+      "nombre": "INSTITUCIÓN EDUCATIVA MADRE LAURA",
+      "municipio": "Apartadó",
+      "n_evaluados": 212,
+      "punt_global_prom": 277.5
+    },
+    {
+      "cod_dane": "305045000988",
+      "nombre": "CORPORACIÓN COLEGIO AMERICANO DE APARTADÓ",
+      "municipio": "Apartadó",
+      "n_evaluados": 50,
+      "punt_global_prom": 276.8
+    },
+    {
+      "cod_dane": "105045000148",
+      "nombre": "INSTITUCIÓN EDUCATIVA JOSÉ CELESTINO MUTIS",
+      "municipio": "Apartadó",
+      "n_evaluados": 334,
+      "punt_global_prom": 256.8
+    },
+    {
+      "cod_dane": "105045001454",
+      "nombre": "INSTITUCIÓN EDUCATIVA SAN FRANCISCO DE ASÍS",
+      "municipio": "Apartadó",
+      "n_evaluados": 144,
+      "punt_global_prom": 253.6
+    },
+    {
+      "cod_dane": "305045000899",
+      "nombre": "COLEGIO ADVENTISTA DE APARTADO",
+      "municipio": "Apartadó",
+      "n_evaluados": 98,
+      "punt_global_prom": 252.0
+    },
+    {
+      "cod_dane": "105045000601",
+      "nombre": "INSTITUCIÓN EDUCATIVA CADENA LAS PLAYAS",
+      "municipio": "Apartadó",
+      "n_evaluados": 66,
+      "punt_global_prom": 246.4
+    },
+    {
+      "cod_dane": "105045001683",
+      "nombre": "INSTITUCIÓN EDUCATIVA HERACLIO MENA PADILLA",
+      "municipio": "Apartadó",
+      "n_evaluados": 234,
+      "punt_global_prom": 242.3
+    },
+    {
+      "cod_dane": "105045001217",
+      "nombre": "INSTITUCIÓN EDUCATIVA POLICARPA SALAVARRIETA",
+      "municipio": "Apartadó",
+      "n_evaluados": 72,
+      "punt_global_prom": 242.2
+    },
+    {
+      "cod_dane": "105045000393",
+      "nombre": "INSTITUCIÓN EDUCATIVA ALFONSO LOPEZ",
+      "municipio": "Apartadó",
+      "n_evaluados": 166,
+      "punt_global_prom": 237.4
+    },
+    {
+      "cod_dane": "205045000576",
+      "nombre": "INSTITUCIÓN EDUCATIVA RURAL PEDRONEL DURANGO",
+      "municipio": "Apartadó",
+      "n_evaluados": 56,
+      "punt_global_prom": 236.5
+    },
+    {
+      "cod_dane": "405045001334",
+      "nombre": "INSTITUCIÓN EDUCATIVA CAMPO ALEGRE",
+      "municipio": "Apartadó",
+      "n_evaluados": 54,
+      "punt_global_prom": 228.3
+    },
+    {
+      "cod_dane": "205045000096",
+      "nombre": "INSTITUCIÓN EDUCATIVA RURAL CHURIDÓ PUEBLO",
+      "municipio": "Apartadó",
+      "n_evaluados": 62,
+      "punt_global_prom": 227.4
+    },
+    {
+      "cod_dane": "105045010721",
+      "nombre": "INSTITUCIÓN EDUCATIVA SAN JOSÉ OBRERO",
+      "municipio": "Apartadó",
+      "n_evaluados": 102,
+      "punt_global_prom": 224.6
+    },
+    {
+      "cod_dane": "205045000134",
+      "nombre": "INSTITUCIÓN EDUCATIVA RURAL EL REPOSO",
+      "municipio": "Apartadó",
+      "n_evaluados": 216,
+      "punt_global_prom": 224.6
+    },
+    {
+      "cod_dane": "105045001667",
+      "nombre": "INSTITUCIÓN EDUCATIVA LA PAZ",
+      "municipio": "Apartadó",
+      "n_evaluados": 150,
+      "punt_global_prom": 222.9
+    },
+    {
+      "cod_dane": "305045001658",
+      "nombre": "INSTITUCIÓN EDUCATIVA SAN PEDRO CLAVER",
+      "municipio": "Apartadó",
+      "n_evaluados": 404,
+      "punt_global_prom": 222.2
+    },
+    {
+      "cod_dane": "105045000318",
+      "nombre": "INSTITUCIÓN EDUCATIVA JOSÉ JOAQUÍN VÉLEZ",
+      "municipio": "Apartadó",
+      "n_evaluados": 445,
+      "punt_global_prom": 219.7
+    },
+    {
+      "cod_dane": "105045010780",
+      "nombre": "INSTITUCIÓN EDUCATIVA SAN JUAN BOSCO",
+      "municipio": "Apartadó",
+      "n_evaluados": 44,
+      "punt_global_prom": 216.0
+    },
+    {
+      "cod_dane": "105045001527",
+      "nombre": "INSTITUCIÓN EDUCATIVA SANTA MARÍA DE LA ANTIGUA",
+      "municipio": "Apartadó",
+      "n_evaluados": 222,
+      "punt_global_prom": 210.5
+    },
+    {
+      "cod_dane": "305045010703",
+      "nombre": "INSTITUTO DE EDUCACION FORMAL CENTRO DE SISTEMAS",
+      "municipio": "Apartadó",
+      "n_evaluados": 44,
+      "punt_global_prom": 201.2
+    },
+    {
+      "cod_dane": "205045000193",
+      "nombre": "INSTITUCIÓN EDUCATIVA RURAL BARTOLOMÉ CATAÑO VALLEJO",
+      "municipio": "Apartadó",
+      "n_evaluados": 46,
+      "punt_global_prom": 196.7
+    },
+    {
+      "cod_dane": "205045000801",
+      "nombre": "INSTITUCIÓN ETNOEDUCATIVA RURAL PUERTO GIRÓN",
+      "municipio": "Apartadó",
+      "n_evaluados": 60,
+      "punt_global_prom": 196.0
+    },
+    {
+      "cod_dane": "305045001674",
+      "nombre": "COLEGIO DIVINO NIÑO",
+      "municipio": "Apartadó",
+      "n_evaluados": 9,
+      "punt_global_prom": 181.7
+    },
+    {
+      "cod_dane": "205045001319",
+      "nombre": "INSTITUCIÓN ETNOEDUCATIVA RURAL INDIGENISTA BAGARÁ",
+      "municipio": "Apartadó",
+      "n_evaluados": 26,
+      "punt_global_prom": 180.8
+    },
+    {
+      "cod_dane": "305045010151",
+      "nombre": "COLEGIO ALEGRIA DE APRENDER",
+      "municipio": "Apartadó",
+      "n_evaluados": 2,
+      "punt_global_prom": 156.0
+    },
+    {
+      "cod_dane": "105051000028",
+      "nombre": "INSTITUCION EDUCATIVA MIGUEL VICENTE GARRIDO ORTIZ",
+      "municipio": "Arboletes",
+      "n_evaluados": 180,
+      "punt_global_prom": 234.8
+    },
+    {
+      "cod_dane": "105051000508",
+      "nombre": "I. E. JOSE MANUEL RESTREPO",
+      "municipio": "Arboletes",
+      "n_evaluados": 196,
+      "punt_global_prom": 220.0
+    },
+    {
+      "cod_dane": "205051001347",
+      "nombre": "INSTITUCION EDUCATIVA RURAL BUENOS AIRES",
+      "municipio": "Arboletes",
+      "n_evaluados": 114,
+      "punt_global_prom": 214.6
+    },
+    {
+      "cod_dane": "205051000081",
+      "nombre": "I. E. R. PAJILLAL",
+      "municipio": "Arboletes",
+      "n_evaluados": 18,
+      "punt_global_prom": 213.6
+    },
+    {
+      "cod_dane": "205051001959",
+      "nombre": "INSTITUCION EDUCATIVA RURAL LA CANDELARIA",
+      "municipio": "Arboletes",
+      "n_evaluados": 64,
+      "punt_global_prom": 213.2
+    },
+    {
+      "cod_dane": "205051002238",
+      "nombre": "INSTITUCION EDUCATIVA RURAL LA TRINIDAD",
+      "municipio": "Arboletes",
+      "n_evaluados": 42,
+      "punt_global_prom": 211.4
+    },
+    {
+      "cod_dane": "205051001339",
+      "nombre": "I. E. R. EL CARMELO",
+      "municipio": "Arboletes",
+      "n_evaluados": 92,
+      "punt_global_prom": 202.9
+    },
+    {
+      "cod_dane": "205051002696",
+      "nombre": "INSTITUCION EDUCATIVA RURAL SANTA FE DE LAS PLATAS",
+      "municipio": "Arboletes",
+      "n_evaluados": 82,
+      "punt_global_prom": 202.4
+    },
+    {
+      "cod_dane": "205051002700",
+      "nombre": "I. E. R. GUADUAL ARRIBA",
+      "municipio": "Arboletes",
+      "n_evaluados": 104,
+      "punt_global_prom": 197.3
+    },
+    {
+      "cod_dane": "405051007999",
+      "nombre": "I. E. R. INDIGENA EL CANIME",
+      "municipio": "Arboletes",
+      "n_evaluados": 34,
+      "punt_global_prom": 186.1
+    },
+    {
+      "cod_dane": "205051002467",
+      "nombre": "I. E. R. BAJO LA ARENOSA",
+      "municipio": "Arboletes",
+      "n_evaluados": 36,
+      "punt_global_prom": 180.9
+    },
+    {
+      "cod_dane": "105147000045",
+      "nombre": "I. E. LUIS CARLOS GALAN SARMIENTO",
+      "municipio": "Carepa",
+      "n_evaluados": 243,
+      "punt_global_prom": 248.7
+    },
+    {
+      "cod_dane": "105147000568",
+      "nombre": "INSTITUCION EDUCATIVA JOSE MARIA MUÑOZ FLOREZ",
+      "municipio": "Carepa",
+      "n_evaluados": 250,
+      "punt_global_prom": 246.6
+    },
+    {
+      "cod_dane": "205147000996",
+      "nombre": "I.E.R. LA PROVINCIA",
+      "municipio": "Carepa",
+      "n_evaluados": 90,
+      "punt_global_prom": 233.5
+    },
+    {
+      "cod_dane": "105147000401",
+      "nombre": "INSTITUCION EDUCATIVA COLOMBIA",
+      "municipio": "Carepa",
+      "n_evaluados": 278,
+      "punt_global_prom": 228.3
+    },
+    {
+      "cod_dane": "205147000112",
+      "nombre": "INSTITUCION EDUCATIVA RURAL VILLA NELLY",
+      "municipio": "Carepa",
+      "n_evaluados": 84,
+      "punt_global_prom": 217.5
+    },
+    {
+      "cod_dane": "205045000363",
+      "nombre": "INSTITUCION EDUCATIVA RURAL ZUNGO EMBARCADERO",
+      "municipio": "Carepa",
+      "n_evaluados": 62,
+      "punt_global_prom": 217.1
+    },
+    {
+      "cod_dane": "205147000147",
+      "nombre": "INSTITUCION EDUCATIVA RURAL LA CADENA",
+      "municipio": "Carepa",
+      "n_evaluados": 54,
+      "punt_global_prom": 210.0
+    },
+    {
+      "cod_dane": "205147000457",
+      "nombre": "I.E.R. EL CERRO",
+      "municipio": "Carepa",
+      "n_evaluados": 66,
+      "punt_global_prom": 203.9
+    },
+    {
+      "cod_dane": "205147000350",
+      "nombre": "I. E. R. PIEDRAS BLANCAS",
+      "municipio": "Carepa",
+      "n_evaluados": 32,
+      "punt_global_prom": 203.6
+    },
+    {
+      "cod_dane": "305172001403",
+      "nombre": "COLEGIO DIOCESANO LAURA MONTOYA",
+      "municipio": "Chigorodó",
+      "n_evaluados": 74,
+      "punt_global_prom": 265.2
+    },
+    {
+      "cod_dane": "105172000238",
+      "nombre": "I.E. GONZALO MEJIA",
+      "municipio": "Chigorodó",
+      "n_evaluados": 130,
+      "punt_global_prom": 256.2
+    },
+    {
+      "cod_dane": "105172000076",
+      "nombre": "INSTITUCION EDUCATIVA LOS ANDES",
+      "municipio": "Chigorodó",
+      "n_evaluados": 201,
+      "punt_global_prom": 251.7
+    },
+    {
+      "cod_dane": "105172001463",
+      "nombre": "INSTITUCIÓN EDUCATIVA MUNICIPAL JOSE DE LOS SANTOS ZUÑIGA",
+      "municipio": "Chigorodó",
+      "n_evaluados": 252,
+      "punt_global_prom": 231.1
+    },
+    {
+      "cod_dane": "105172000220",
+      "nombre": "INSTITUCION EDUCATIVA MARIA AUXILIADORA",
+      "municipio": "Chigorodó",
+      "n_evaluados": 118,
+      "punt_global_prom": 230.8
+    },
+    {
+      "cod_dane": "205172000062",
+      "nombre": "I. E. AGRICOLA DE URABA",
+      "municipio": "Chigorodó",
+      "n_evaluados": 308,
+      "punt_global_prom": 220.1
+    },
+    {
+      "cod_dane": "105172000572",
+      "nombre": "I. E. CHIGORODO",
+      "municipio": "Chigorodó",
+      "n_evaluados": 76,
+      "punt_global_prom": 219.4
+    },
+    {
+      "cod_dane": "205172000101",
+      "nombre": "I. E. R. BARRANQUILLITA",
+      "municipio": "Chigorodó",
+      "n_evaluados": 46,
+      "punt_global_prom": 215.4
+    },
+    {
+      "cod_dane": "105172000629",
+      "nombre": "I. E. JUAN EVANGELISTA BERRIO",
+      "municipio": "Chigorodó",
+      "n_evaluados": 222,
+      "punt_global_prom": 211.7
+    },
+    {
+      "cod_dane": "205172000267",
+      "nombre": "I. E. R. NEL UPEGUI",
+      "municipio": "Chigorodó",
+      "n_evaluados": 68,
+      "punt_global_prom": 206.0
+    },
+    {
+      "cod_dane": "205172001484",
+      "nombre": "I. E. R. CELESTINO DIAZ",
+      "municipio": "Chigorodó",
+      "n_evaluados": 46,
+      "punt_global_prom": 204.0
+    },
+    {
+      "cod_dane": "205147000309",
+      "nombre": "INSTITUCIÓN EDUCATIVA RURAL INDIGENISTA POLINES",
+      "municipio": "Chigorodó",
+      "n_evaluados": 24,
+      "punt_global_prom": 155.8
+    },
+    {
+      "cod_dane": "205480000341",
+      "nombre": "INSTITUCION EDUCATIVA RURAL LA INMACULADA CAUCHERAS",
+      "municipio": "Mutatá",
+      "n_evaluados": 68,
+      "punt_global_prom": 239.6
+    },
+    {
+      "cod_dane": "105480000010",
+      "nombre": "I. E. MUTATA",
+      "municipio": "Mutatá",
+      "n_evaluados": 162,
+      "punt_global_prom": 204.2
+    },
+    {
+      "cod_dane": "205480000138",
+      "nombre": "I.E.R PAVARANDÓ GRANDE",
+      "municipio": "Mutatá",
+      "n_evaluados": 54,
+      "punt_global_prom": 203.5
+    },
+    {
+      "cod_dane": "105490000018",
+      "nombre": "INSTITUCION EDUCATIVA EDUARDO ESPITIA ROMERO",
+      "municipio": "Necoclí",
+      "n_evaluados": 170,
+      "punt_global_prom": 226.8
+    },
+    {
+      "cod_dane": "105490000026",
+      "nombre": "I. E. ANTONIO ROLDAN BETANCUR",
+      "municipio": "Necoclí",
+      "n_evaluados": 310,
+      "punt_global_prom": 226.8
+    },
+    {
+      "cod_dane": "205490002236",
+      "nombre": "INSTITUCION EDUCATIVA RURAL LA COMARCA",
+      "municipio": "Necoclí",
+      "n_evaluados": 36,
+      "punt_global_prom": 213.8
+    },
+    {
+      "cod_dane": "205490000578",
+      "nombre": "I. E. R. ZAPATA",
+      "municipio": "Necoclí",
+      "n_evaluados": 108,
+      "punt_global_prom": 207.1
+    },
+    {
+      "cod_dane": "205490000730",
+      "nombre": "I. E. R. SAN SEBASTIAN DE URABA",
+      "municipio": "Necoclí",
+      "n_evaluados": 56,
+      "punt_global_prom": 205.4
+    },
+    {
+      "cod_dane": "205490001213",
+      "nombre": "I. E. R. EL TOTUMO",
+      "municipio": "Necoclí",
+      "n_evaluados": 132,
+      "punt_global_prom": 204.3
+    },
+    {
+      "cod_dane": "205490000462",
+      "nombre": "I E R CARIBIA",
+      "municipio": "Necoclí",
+      "n_evaluados": 76,
+      "punt_global_prom": 202.6
+    },
+    {
+      "cod_dane": "205490000098",
+      "nombre": "INSTITUCION EDUCATIVA RURAL MELLO VILLAVICENCIO",
+      "municipio": "Necoclí",
+      "n_evaluados": 52,
+      "punt_global_prom": 200.9
+    },
+    {
+      "cod_dane": "205490000594",
+      "nombre": "I. E. R. MULATICOS PIEDRECITAS",
+      "municipio": "Necoclí",
+      "n_evaluados": 70,
+      "punt_global_prom": 200.8
+    },
+    {
+      "cod_dane": "205490000900",
+      "nombre": "INSTITUCION EDUCATIVA RURAL LAS CHANGAS",
+      "municipio": "Necoclí",
+      "n_evaluados": 74,
+      "punt_global_prom": 200.8
+    },
+    {
+      "cod_dane": "205490000161",
+      "nombre": "INSTITUCION EDUCATIVA RURAL PUEBLO NUEVO",
+      "municipio": "Necoclí",
+      "n_evaluados": 106,
+      "punt_global_prom": 200.6
+    },
+    {
+      "cod_dane": "205490001400",
+      "nombre": "I. E. R. MELLITO",
+      "municipio": "Necoclí",
+      "n_evaluados": 146,
+      "punt_global_prom": 199.3
+    },
+    {
+      "cod_dane": "205490001337",
+      "nombre": "I. E. R. TULAPITA",
+      "municipio": "Necoclí",
+      "n_evaluados": 50,
+      "punt_global_prom": 198.1
+    },
+    {
+      "cod_dane": "205490000128",
+      "nombre": "I. E. R. MULATOS",
+      "municipio": "Necoclí",
+      "n_evaluados": 110,
+      "punt_global_prom": 197.9
+    },
+    {
+      "cod_dane": "205490001639",
+      "nombre": "I.E.R.INDIGENA JOSE ELIAS SUAREZ",
+      "municipio": "Necoclí",
+      "n_evaluados": 60,
+      "punt_global_prom": 186.7
+    },
+    {
+      "cod_dane": "205051000014",
+      "nombre": "INSTITUCION EDUCATIVA SAN JUAN DE URABA",
+      "municipio": "San Juan de Urabá",
+      "n_evaluados": 234,
+      "punt_global_prom": 222.8
+    },
+    {
+      "cod_dane": "205051001401",
+      "nombre": "I. E. R. EL FILO DE DAMAQUIEL",
+      "municipio": "San Juan de Urabá",
+      "n_evaluados": 106,
+      "punt_global_prom": 207.3
+    },
+    {
+      "cod_dane": "205051000065",
+      "nombre": "INSTITUCIÓN EDUCATIVA RURAL MONSEÑOR ESCOBAR VELEZ",
+      "municipio": "San Juan de Urabá",
+      "n_evaluados": 90,
+      "punt_global_prom": 196.6
+    },
+    {
+      "cod_dane": "205051000758",
+      "nombre": "INSTITUCION EDUCATIVA RURAL UVEROS",
+      "municipio": "San Juan de Urabá",
+      "n_evaluados": 114,
+      "punt_global_prom": 196.0
+    },
+    {
+      "cod_dane": "105665000024",
+      "nombre": "I. E. CAMILO TORRES",
+      "municipio": "San Pedro de Urabá",
+      "n_evaluados": 158,
+      "punt_global_prom": 245.0
+    },
+    {
+      "cod_dane": "105665000041",
+      "nombre": "I. E. SAN PEDRO DE URABA",
+      "municipio": "San Pedro de Urabá",
+      "n_evaluados": 240,
+      "punt_global_prom": 235.6
+    },
+    {
+      "cod_dane": "205665000428",
+      "nombre": "I. E. R. LAS PAVAS",
+      "municipio": "San Pedro de Urabá",
+      "n_evaluados": 28,
+      "punt_global_prom": 228.4
+    },
+    {
+      "cod_dane": "205665000215",
+      "nombre": "INSTITUCION EDUCATIVA RURAL BUCHADO MEDIO",
+      "municipio": "San Pedro de Urabá",
+      "n_evaluados": 66,
+      "punt_global_prom": 220.2
+    },
+    {
+      "cod_dane": "205665000517",
+      "nombre": "I. E. R. ANTONIO NARIÑO",
+      "municipio": "San Pedro de Urabá",
+      "n_evaluados": 40,
+      "punt_global_prom": 217.2
+    },
+    {
+      "cod_dane": "205665000860",
+      "nombre": "I. E. R. SAN ISIDRO",
+      "municipio": "San Pedro de Urabá",
+      "n_evaluados": 38,
+      "punt_global_prom": 214.9
+    },
+    {
+      "cod_dane": "205665000576",
+      "nombre": "I. E. R. SANTA CATALINA",
+      "municipio": "San Pedro de Urabá",
+      "n_evaluados": 200,
+      "punt_global_prom": 214.1
+    },
+    {
+      "cod_dane": "205665000487",
+      "nombre": "I. E. R. LA CABAÑA",
+      "municipio": "San Pedro de Urabá",
+      "n_evaluados": 56,
+      "punt_global_prom": 204.5
+    },
+    {
+      "cod_dane": "205665000100",
+      "nombre": "I. E. R. LOS ALMENDROS",
+      "municipio": "San Pedro de Urabá",
+      "n_evaluados": 46,
+      "punt_global_prom": 203.3
+    },
+    {
+      "cod_dane": "205665000207",
+      "nombre": "I. E. R. INDIGENA TACANAL",
+      "municipio": "San Pedro de Urabá",
+      "n_evaluados": 22,
+      "punt_global_prom": 180.1
+    },
+    {
+      "cod_dane": "305837005171",
+      "nombre": "COLEGIO GIMNASIO PILARES DEL SABER",
+      "municipio": "Turbo",
+      "n_evaluados": 34,
+      "punt_global_prom": 292.8
+    },
+    {
+      "cod_dane": "305837005871",
+      "nombre": "COL. DIOCESANO NUESTRA SENORA DEL CARMEN",
+      "municipio": "Turbo",
+      "n_evaluados": 60,
+      "punt_global_prom": 272.4
+    },
+    {
+      "cod_dane": "205837007268",
+      "nombre": "I.E. SAN JOSÉ",
+      "municipio": "Turbo",
+      "n_evaluados": 206,
+      "punt_global_prom": 253.8
+    },
+    {
+      "cod_dane": "105837006194",
+      "nombre": "I.E. ESCUELA NORMAL SUPERIOR DE URABA",
+      "municipio": "Turbo",
+      "n_evaluados": 130,
+      "punt_global_prom": 239.9
+    },
+    {
+      "cod_dane": "205837006288",
+      "nombre": "I.E NUEVO ANTIOQUIA",
+      "municipio": "Turbo",
+      "n_evaluados": 46,
+      "punt_global_prom": 238.3
+    },
+    {
+      "cod_dane": "305837002201",
+      "nombre": "COL. ADVENTISTA DE TURBO",
+      "municipio": "Turbo",
+      "n_evaluados": 90,
+      "punt_global_prom": 236.8
+    },
+    {
+      "cod_dane": "205837000310",
+      "nombre": "INSTITUCION EDUCATIVA CURRULAO",
+      "municipio": "Turbo",
+      "n_evaluados": 180,
+      "punt_global_prom": 236.7
+    },
+    {
+      "cod_dane": "205837000531",
+      "nombre": "INSTITUCION EDUCATIVA CENTRAL",
+      "municipio": "Turbo",
+      "n_evaluados": 212,
+      "punt_global_prom": 233.1
+    },
+    {
+      "cod_dane": "205837001880",
+      "nombre": "I.E. SAN VICENTE DEL CONGO",
+      "municipio": "Turbo",
+      "n_evaluados": 48,
+      "punt_global_prom": 218.5
+    },
+    {
+      "cod_dane": "105837004922",
+      "nombre": "I.E. FRANCISCO LUIS VALDERRAMA VALDERRAMA",
+      "municipio": "Turbo",
+      "n_evaluados": 232,
+      "punt_global_prom": 213.2
+    },
+    {
+      "cod_dane": "105837001150",
+      "nombre": "I.E. SAGRADO CORAZÓN DE JESÚS",
+      "municipio": "Turbo",
+      "n_evaluados": 196,
+      "punt_global_prom": 212.0
+    },
+    {
+      "cod_dane": "205837004366",
+      "nombre": "I.E. VEINTICUATRO DE DICIEMBRE",
+      "municipio": "Turbo",
+      "n_evaluados": 92,
+      "punt_global_prom": 211.3
+    },
+    {
+      "cod_dane": "405837000998",
+      "nombre": "I.E. COLDESA AMSTERCOL",
+      "municipio": "Turbo",
+      "n_evaluados": 36,
+      "punt_global_prom": 210.8
+    },
+    {
+      "cod_dane": "205837005524",
+      "nombre": "I.E. PUEBLO BELLO",
+      "municipio": "Turbo",
+      "n_evaluados": 74,
+      "punt_global_prom": 210.5
+    },
+    {
+      "cod_dane": "205837000379",
+      "nombre": "INSTITUCION ETNOEDUCATIVA NUEVA COLONIA",
+      "municipio": "Turbo",
+      "n_evaluados": 196,
+      "punt_global_prom": 208.1
+    },
+    {
+      "cod_dane": "205837005133",
+      "nombre": "I.E. MONTE VERDE",
+      "municipio": "Turbo",
+      "n_evaluados": 84,
+      "punt_global_prom": 207.9
+    },
+    {
+      "cod_dane": "305837004565",
+      "nombre": "COL. EL CARMELO CONURABA",
+      "municipio": "Turbo",
+      "n_evaluados": 24,
+      "punt_global_prom": 207.5
+    },
+    {
+      "cod_dane": "205837003483",
+      "nombre": "I.E. DE DESARROLLO RURAL DE TURBO",
+      "municipio": "Turbo",
+      "n_evaluados": 62,
+      "punt_global_prom": 206.4
+    },
+    {
+      "cod_dane": "105837000242",
+      "nombre": "I.E. SAN MARTIN DE PORRES",
+      "municipio": "Turbo",
+      "n_evaluados": 180,
+      "punt_global_prom": 205.4
+    },
+    {
+      "cod_dane": "205837001821",
+      "nombre": "I.E. ALTO DE MULATOS",
+      "municipio": "Turbo",
+      "n_evaluados": 28,
+      "punt_global_prom": 205.4
+    },
+    {
+      "cod_dane": "105837006097",
+      "nombre": "I.E. TURBO",
+      "municipio": "Turbo",
+      "n_evaluados": 102,
+      "punt_global_prom": 204.9
+    },
+    {
+      "cod_dane": "205837004161",
+      "nombre": "INSTITUCION EDUCATIVA PUNTA DE PIEDRA",
+      "municipio": "Turbo",
+      "n_evaluados": 52,
+      "punt_global_prom": 204.7
+    },
+    {
+      "cod_dane": "405837007020",
+      "nombre": "INSTITUCIÓN EDUCATIVA INTEGRADA LA LIBERTAD",
+      "municipio": "Turbo",
+      "n_evaluados": 18,
+      "punt_global_prom": 202.9
+    },
+    {
+      "cod_dane": "105837003870",
+      "nombre": "INSTITUCION EDUCATIVA SANTA FE",
+      "municipio": "Turbo",
+      "n_evaluados": 114,
+      "punt_global_prom": 202.8
+    },
+    {
+      "cod_dane": "205837003670",
+      "nombre": "INSTITUCION EDUCATIVA VILLA MARIA",
+      "municipio": "Turbo",
+      "n_evaluados": 62,
+      "punt_global_prom": 202.5
+    },
+    {
+      "cod_dane": "205837003742",
+      "nombre": "INSTITUCION ETNOEDUCATIVA 29 DE NOVIEMBRE",
+      "municipio": "Turbo",
+      "n_evaluados": 152,
+      "punt_global_prom": 200.8
+    },
+    {
+      "cod_dane": "205837004129",
+      "nombre": "I.E. PUERTO CESAR",
+      "municipio": "Turbo",
+      "n_evaluados": 38,
+      "punt_global_prom": 200.5
+    },
+    {
+      "cod_dane": "205837000450",
+      "nombre": "INSTITUCION EDUCATIVA PIEDRECITAS",
+      "municipio": "Turbo",
+      "n_evaluados": 56,
+      "punt_global_prom": 200.0
+    },
+    {
+      "cod_dane": "105837000153",
+      "nombre": "INSTITUCION EDUCATIVA ANGEL MILAN PEREA",
+      "municipio": "Turbo",
+      "n_evaluados": 164,
+      "punt_global_prom": 199.8
+    },
+    {
+      "cod_dane": "205837000042",
+      "nombre": "I.E. SAN JOSE DE MULATOS",
+      "municipio": "Turbo",
+      "n_evaluados": 120,
+      "punt_global_prom": 199.0
+    },
+    {
+      "cod_dane": "205837000492",
+      "nombre": "I.E. EL DOS",
+      "municipio": "Turbo",
+      "n_evaluados": 110,
+      "punt_global_prom": 197.2
+    },
+    {
+      "cod_dane": "205837002771",
+      "nombre": "I.E. LA GALLETA",
+      "municipio": "Turbo",
+      "n_evaluados": 24,
+      "punt_global_prom": 197.2
+    },
+    {
+      "cod_dane": "205837002151",
+      "nombre": "I.E. NUEVO ORIENTE",
+      "municipio": "Turbo",
+      "n_evaluados": 32,
+      "punt_global_prom": 196.5
+    },
+    {
+      "cod_dane": "205837000280",
+      "nombre": "I.E. RIO GRANDE",
+      "municipio": "Turbo",
+      "n_evaluados": 80,
+      "punt_global_prom": 194.8
+    },
+    {
+      "cod_dane": "205837007063",
+      "nombre": "INSTITUCION EDUCATIVA INDIGENA EL MANGO",
+      "municipio": "Turbo",
+      "n_evaluados": 24,
+      "punt_global_prom": 194.7
+    },
+    {
+      "cod_dane": "205837002916",
+      "nombre": "I.E. EL TRES",
+      "municipio": "Turbo",
+      "n_evaluados": 94,
+      "punt_global_prom": 194.3
+    },
+    {
+      "cod_dane": "205837005290",
+      "nombre": "INSTITUCION EDUCATIVA COMUNAL SAN JORGE",
+      "municipio": "Turbo",
+      "n_evaluados": 148,
+      "punt_global_prom": 192.6
+    },
+    {
+      "cod_dane": "205837000883",
+      "nombre": "I.E. NUEVA GRANADA",
+      "municipio": "Turbo",
+      "n_evaluados": 32,
+      "punt_global_prom": 191.4
+    },
+    {
+      "cod_dane": "305837800116",
+      "nombre": "I.E. CENTRO DE ESTUDIOS TÉCNICOS  CEPRODENT",
+      "municipio": "Turbo",
+      "n_evaluados": 2,
+      "punt_global_prom": 191.0
+    },
+    {
+      "cod_dane": "405837002257",
+      "nombre": "INSTITUCION ETNOEDUCATIVA BOCAS DEL ATRATO",
+      "municipio": "Turbo",
+      "n_evaluados": 16,
+      "punt_global_prom": 172.9
+    }
+  ]
+}

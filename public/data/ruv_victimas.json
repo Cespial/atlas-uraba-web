@@ -1,0 +1,218 @@
+{
+  "_meta": {
+    "fuente": "Unidad Administrativa Especial para la Atención y Reparación Integral a las Víctimas (Unidad para las Víctimas) — dataset 'Cifras de Víctimas por Hechos Municipal'",
+    "url": "https://www.datos.gov.co/resource/9qih-4vkc.json",
+    "consulta": "ciudad_municipio,cod_ciudad_muni,hecho,sum(per_ocu) as personas WHERE cod_ciudad_muni in('05045','05051','05147','05172','05480','05490','05659','05665','05837') GROUP BY ciudad_municipio,cod_ciudad_muni,hecho",
+    "fecha_consulta": "2026-07-08",
+    "nota": "El dataset Socrata 9qih-4vkc SOLO contiene información del año en curso (actualización mensual, según la propia descripción del dataset) — NO es una serie histórica 2012-2025. Los conteos (`personas` = suma de per_ocu, personas por ocurrencia) reflejan el corte vigente al momento de esta consulta, no el acumulado histórico completo del conflicto en cada municipio. Para serie histórica se requiere exportación manual del portal RNI (cifras.unidadvictimas.gov.co), fuera de alcance de este pipeline automatizado. El campo `hecho` traía variantes con codificación corrupta para 'Desaparición forzada', 'Minas Antipersonal...' y 'Vinculación de Niños Niñas...' — se normalizaron por prefijo antes de sumar. Un mismo hecho puede involucrar a la misma persona más de una vez (declaraciones múltiples), por lo que `total` no equivale a 'víctimas únicas' sino a la suma de eventos declarados por tipo de hecho.",
+    "hechos_catalogados": [
+      "Abandono o Despojo Forzado de Tierras",
+      "Acto terrorista / Atentados / Combates / Enfrentamientos / Hostigamientos",
+      "Amenaza",
+      "Confinamiento",
+      "Delitos contra la libertad y la integridad sexual en desarrollo del conflicto armado",
+      "Desaparición forzada",
+      "Desplazamiento forzado",
+      "Homicidio",
+      "Lesiones Personales Fisicas",
+      "Lesiones Personales Psicologicas",
+      "Minas Antipersonal, Munición sin Explotar y Artefacto Explosivo improvisado",
+      "Perdida de Bienes Muebles o Inmuebles",
+      "Secuestro",
+      "Sin informacion",
+      "Tortura",
+      "Vinculación de Niños Niñas y Adolescentes a Actividades Relacionadas con grupos armados"
+    ]
+  },
+  "municipios": {
+    "Apartadó": {
+      "hechos": {
+        "Desplazamiento forzado": 1874134,
+        "Homicidio": 339306,
+        "Amenaza": 105704,
+        "Desaparición forzada": 59060,
+        "Delitos contra la libertad y la integridad sexual en desarrollo del conflicto armado": 10876,
+        "Acto terrorista / Atentados / Combates / Enfrentamientos / Hostigamientos": 9792,
+        "Perdida de Bienes Muebles o Inmuebles": 6166,
+        "Abandono o Despojo Forzado de Tierras": 5214,
+        "Secuestro": 4746,
+        "Lesiones Personales Psicologicas": 3327,
+        "Lesiones Personales Fisicas": 3249,
+        "Sin informacion": 2553,
+        "Vinculación de Niños Niñas y Adolescentes a Actividades Relacionadas con grupos armados": 1747,
+        "Minas Antipersonal, Munición sin Explotar y Artefacto Explosivo improvisado": 1317,
+        "Tortura": 1241,
+        "Confinamiento": 0
+      },
+      "total": 2428432
+    },
+    "Arboletes": {
+      "hechos": {
+        "Desplazamiento forzado": 729991,
+        "Homicidio": 32391,
+        "Amenaza": 18439,
+        "Desaparición forzada": 9001,
+        "Delitos contra la libertad y la integridad sexual en desarrollo del conflicto armado": 1889,
+        "Perdida de Bienes Muebles o Inmuebles": 1342,
+        "Secuestro": 1244,
+        "Sin informacion": 1081,
+        "Acto terrorista / Atentados / Combates / Enfrentamientos / Hostigamientos": 966,
+        "Abandono o Despojo Forzado de Tierras": 959,
+        "Lesiones Personales Fisicas": 200,
+        "Lesiones Personales Psicologicas": 196,
+        "Tortura": 161,
+        "Vinculación de Niños Niñas y Adolescentes a Actividades Relacionadas con grupos armados": 138,
+        "Confinamiento": 0,
+        "Minas Antipersonal, Munición sin Explotar y Artefacto Explosivo improvisado": 0
+      },
+      "total": 797998
+    },
+    "Carepa": {
+      "hechos": {
+        "Desplazamiento forzado": 556168,
+        "Homicidio": 99880,
+        "Amenaza": 45426,
+        "Desaparición forzada": 20462,
+        "Delitos contra la libertad y la integridad sexual en desarrollo del conflicto armado": 2377,
+        "Secuestro": 2022,
+        "Perdida de Bienes Muebles o Inmuebles": 1561,
+        "Acto terrorista / Atentados / Combates / Enfrentamientos / Hostigamientos": 1229,
+        "Lesiones Personales Psicologicas": 779,
+        "Lesiones Personales Fisicas": 676,
+        "Abandono o Despojo Forzado de Tierras": 558,
+        "Sin informacion": 552,
+        "Tortura": 418,
+        "Vinculación de Niños Niñas y Adolescentes a Actividades Relacionadas con grupos armados": 391,
+        "Minas Antipersonal, Munición sin Explotar y Artefacto Explosivo improvisado": 322,
+        "Confinamiento": 0
+      },
+      "total": 732821
+    },
+    "Chigorodó": {
+      "hechos": {
+        "Desplazamiento forzado": 888861,
+        "Homicidio": 177098,
+        "Amenaza": 56856,
+        "Desaparición forzada": 31857,
+        "Delitos contra la libertad y la integridad sexual en desarrollo del conflicto armado": 8125,
+        "Acto terrorista / Atentados / Combates / Enfrentamientos / Hostigamientos": 3078,
+        "Perdida de Bienes Muebles o Inmuebles": 2918,
+        "Abandono o Despojo Forzado de Tierras": 2841,
+        "Secuestro": 2537,
+        "Sin informacion": 1663,
+        "Lesiones Personales Fisicas": 1596,
+        "Tortura": 1345,
+        "Lesiones Personales Psicologicas": 851,
+        "Vinculación de Niños Niñas y Adolescentes a Actividades Relacionadas con grupos armados": 414,
+        "Minas Antipersonal, Munición sin Explotar y Artefacto Explosivo improvisado": 276,
+        "Confinamiento": 0
+      },
+      "total": 1180316
+    },
+    "Mutatá": {
+      "hechos": {
+        "Desplazamiento forzado": 1047678,
+        "Homicidio": 67133,
+        "Amenaza": 54045,
+        "Desaparición forzada": 23902,
+        "Abandono o Despojo Forzado de Tierras": 8629,
+        "Delitos contra la libertad y la integridad sexual en desarrollo del conflicto armado": 4458,
+        "Perdida de Bienes Muebles o Inmuebles": 3781,
+        "Secuestro": 2810,
+        "Acto terrorista / Atentados / Combates / Enfrentamientos / Hostigamientos": 1744,
+        "Lesiones Personales Fisicas": 961,
+        "Minas Antipersonal, Munición sin Explotar y Artefacto Explosivo improvisado": 871,
+        "Lesiones Personales Psicologicas": 674,
+        "Vinculación de Niños Niñas y Adolescentes a Actividades Relacionadas con grupos armados": 380,
+        "Tortura": 378,
+        "Sin informacion": 92,
+        "Confinamiento": 0
+      },
+      "total": 1217536
+    },
+    "Necoclí": {
+      "hechos": {
+        "Desplazamiento forzado": 1199376,
+        "Homicidio": 61588,
+        "Amenaza": 36672,
+        "Desaparición forzada": 20339,
+        "Abandono o Despojo Forzado de Tierras": 7184,
+        "Delitos contra la libertad y la integridad sexual en desarrollo del conflicto armado": 4916,
+        "Secuestro": 2833,
+        "Vinculación de Niños Niñas y Adolescentes a Actividades Relacionadas con grupos armados": 2479,
+        "Perdida de Bienes Muebles o Inmuebles": 2089,
+        "Sin informacion": 1035,
+        "Acto terrorista / Atentados / Combates / Enfrentamientos / Hostigamientos": 927,
+        "Tortura": 575,
+        "Lesiones Personales Psicologicas": 465,
+        "Lesiones Personales Fisicas": 438,
+        "Confinamiento": 0,
+        "Minas Antipersonal, Munición sin Explotar y Artefacto Explosivo improvisado": 0
+      },
+      "total": 1340916
+    },
+    "San Juan de Urabá": {
+      "hechos": {
+        "Desplazamiento forzado": 355865,
+        "Homicidio": 14977,
+        "Amenaza": 12922,
+        "Desaparición forzada": 4498,
+        "Delitos contra la libertad y la integridad sexual en desarrollo del conflicto armado": 1147,
+        "Perdida de Bienes Muebles o Inmuebles": 502,
+        "Secuestro": 368,
+        "Sin informacion": 368,
+        "Acto terrorista / Atentados / Combates / Enfrentamientos / Hostigamientos": 253,
+        "Tortura": 215,
+        "Minas Antipersonal, Munición sin Explotar y Artefacto Explosivo improvisado": 161,
+        "Abandono o Despojo Forzado de Tierras": 115,
+        "Lesiones Personales Psicologicas": 115,
+        "Lesiones Personales Fisicas": 69,
+        "Vinculación de Niños Niñas y Adolescentes a Actividades Relacionadas con grupos armados": 23,
+        "Confinamiento": 0
+      },
+      "total": 391598
+    },
+    "San Pedro de Urabá": {
+      "hechos": {
+        "Desplazamiento forzado": 769968,
+        "Homicidio": 31685,
+        "Desaparición forzada": 19232,
+        "Amenaza": 18813,
+        "Delitos contra la libertad y la integridad sexual en desarrollo del conflicto armado": 1932,
+        "Abandono o Despojo Forzado de Tierras": 1814,
+        "Perdida de Bienes Muebles o Inmuebles": 1721,
+        "Secuestro": 1212,
+        "Lesiones Personales Psicologicas": 598,
+        "Sin informacion": 575,
+        "Acto terrorista / Atentados / Combates / Enfrentamientos / Hostigamientos": 486,
+        "Vinculación de Niños Niñas y Adolescentes a Actividades Relacionadas con grupos armados": 287,
+        "Tortura": 207,
+        "Lesiones Personales Fisicas": 206,
+        "Minas Antipersonal, Munición sin Explotar y Artefacto Explosivo improvisado": 69,
+        "Confinamiento": 0
+      },
+      "total": 848805
+    },
+    "Turbo": {
+      "hechos": {
+        "Desplazamiento forzado": 3362029,
+        "Homicidio": 359203,
+        "Amenaza": 155965,
+        "Desaparición forzada": 91479,
+        "Abandono o Despojo Forzado de Tierras": 21440,
+        "Delitos contra la libertad y la integridad sexual en desarrollo del conflicto armado": 8868,
+        "Sin informacion": 7862,
+        "Perdida de Bienes Muebles o Inmuebles": 7524,
+        "Secuestro": 5924,
+        "Acto terrorista / Atentados / Combates / Enfrentamientos / Hostigamientos": 4810,
+        "Lesiones Personales Psicologicas": 2588,
+        "Confinamiento": 2185,
+        "Lesiones Personales Fisicas": 1989,
+        "Vinculación de Niños Niñas y Adolescentes a Actividades Relacionadas con grupos armados": 1855,
+        "Tortura": 1192,
+        "Minas Antipersonal, Munición sin Explotar y Artefacto Explosivo improvisado": 527
+      },
+      "total": 4035440
+    }
+  }
+}

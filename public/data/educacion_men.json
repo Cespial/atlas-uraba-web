@@ -1,0 +1,5847 @@
+{
+  "_meta": {
+    "fuente": "Ministerio de Educación Nacional (MEN) — 'MEN_ESTADISTICAS_EN_EDUCACION_EN_PREESCOLAR-BÁSICA_Y_MEDIA_POR_MUNICIPIO'",
+    "url": "https://www.datos.gov.co/resource/nudc-7mev.json",
+    "consulta": "municipio IN (9 nombres de Urabá, incluida la variante sin tilde 'San Pedro de Uraba' que usa la fuente)",
+    "fecha_consulta": "2026-07-08",
+    "nota": "La fuente trae 'San Pedro de Urabá' SIN tilde ('San Pedro de Uraba') — se normalizó al nombre canónico del atlas. Los indicadores llegan desagregados por nivel educativo (transición/primaria/secundaria/media) además del total; los campos de la fuente usan transliteración sin tildes/ñ (a_o=año, deserci_n=deserción, aprobaci_n=aprobación) por el patrón estándar de exportación Socrata. Serie histórica completa 2011-2024 confirmada para los 9 municipios (14 años cada uno).",
+    "anios_disponibles": [
+      "2011",
+      "2012",
+      "2013",
+      "2014",
+      "2015",
+      "2016",
+      "2017",
+      "2018",
+      "2019",
+      "2020",
+      "2021",
+      "2022",
+      "2023",
+      "2024"
+    ],
+    "niveles": [
+      "transicion",
+      "primaria",
+      "secundaria",
+      "media"
+    ]
+  },
+  "municipios": {
+    "Apartadó": {
+      "2011": {
+        "poblacion_5_16": 45592.0,
+        "tasa_matriculacion_5_16": 66.51,
+        "cobertura_neta": {
+          "total": 66.5,
+          "transicion": 53.2,
+          "primaria": 68.9,
+          "secundaria": 48.3,
+          "media": 24.7
+        },
+        "cobertura_bruta": {
+          "total": 78.7,
+          "transicion": 66.2,
+          "primaria": 87.0,
+          "secundaria": 81.6,
+          "media": 57.5
+        },
+        "desercion": {
+          "total": 4.81,
+          "transicion": 2.46,
+          "primaria": 4.21,
+          "secundaria": 6.03,
+          "media": 5.87
+        },
+        "aprobacion": {
+          "total": 94.13,
+          "transicion": 0.0,
+          "primaria": 95.31,
+          "secundaria": 91.99,
+          "media": 92.06
+        },
+        "reprobacion": {
+          "total": 1.06,
+          "transicion": 0.0,
+          "primaria": 0.47,
+          "secundaria": 1.98,
+          "media": 2.07
+        },
+        "repitencia": {
+          "total": 1.86,
+          "transicion": 0.06,
+          "primaria": 1.81,
+          "secundaria": 2.67,
+          "media": 0.95
+        }
+      },
+      "2012": {
+        "poblacion_5_16": 46159.0,
+        "tasa_matriculacion_5_16": 66.8,
+        "cobertura_neta": {
+          "total": 66.8,
+          "transicion": 57.6,
+          "primaria": 68.4,
+          "secundaria": 49.2,
+          "media": 23.8
+        },
+        "cobertura_bruta": {
+          "total": 78.1,
+          "transicion": 72.2,
+          "primaria": 88.8,
+          "secundaria": 78.3,
+          "media": 54.4
+        },
+        "desercion": {
+          "total": 3.43,
+          "transicion": 2.59,
+          "primaria": 2.62,
+          "secundaria": 5.0,
+          "media": 3.32
+        },
+        "aprobacion": {
+          "total": 96.12,
+          "transicion": 0.0,
+          "primaria": 96.87,
+          "secundaria": 94.53,
+          "media": 96.23
+        },
+        "reprobacion": {
+          "total": 0.45,
+          "transicion": 0.0,
+          "primaria": 0.51,
+          "secundaria": 0.47,
+          "media": 0.45
+        },
+        "repitencia": {
+          "total": 0.71,
+          "transicion": 0.1,
+          "primaria": 0.88,
+          "secundaria": 0.71,
+          "media": 0.34
+        }
+      },
+      "2013": {
+        "poblacion_5_16": 46584.0,
+        "tasa_matriculacion_5_16": 64.99,
+        "cobertura_neta": {
+          "total": 65.0,
+          "transicion": 52.2,
+          "primaria": 66.5,
+          "secundaria": 49.3,
+          "media": 22.6
+        },
+        "cobertura_bruta": {
+          "total": 78.4,
+          "transicion": 69.7,
+          "primaria": 91.4,
+          "secundaria": 77.4,
+          "media": 52.4
+        },
+        "desercion": {
+          "total": 4.82,
+          "transicion": 2.24,
+          "primaria": 3.43,
+          "secundaria": 7.83,
+          "media": 4.48
+        },
+        "aprobacion": {
+          "total": 93.46,
+          "transicion": 0.0,
+          "primaria": 94.96,
+          "secundaria": 89.71,
+          "media": 94.04
+        },
+        "reprobacion": {
+          "total": 1.73,
+          "transicion": 0.0,
+          "primaria": 1.61,
+          "secundaria": 2.45,
+          "media": 1.48
+        },
+        "repitencia": {
+          "total": 1.34,
+          "transicion": 0.31,
+          "primaria": 1.62,
+          "secundaria": 1.31,
+          "media": 0.81
+        }
+      },
+      "2014": {
+        "poblacion_5_16": 47133.0,
+        "tasa_matriculacion_5_16": 63.95,
+        "cobertura_neta": {
+          "total": 85.15,
+          "transicion": 66.72,
+          "primaria": 78.22,
+          "secundaria": 64.73,
+          "media": 41.04
+        },
+        "cobertura_bruta": {
+          "total": 75.1,
+          "transicion": 64.24,
+          "primaria": 84.28,
+          "secundaria": 78.25,
+          "media": 51.34
+        },
+        "desercion": {
+          "total": 3.07,
+          "transicion": 2.47,
+          "primaria": 2.33,
+          "secundaria": 4.41,
+          "media": 3.01
+        },
+        "aprobacion": {
+          "total": 96.01,
+          "transicion": 0.0,
+          "primaria": 96.96,
+          "secundaria": 94.3,
+          "media": 95.42
+        },
+        "reprobacion": {
+          "total": 0.91,
+          "transicion": 0.0,
+          "primaria": 0.71,
+          "secundaria": 1.29,
+          "media": 1.57
+        },
+        "repitencia": {
+          "total": 4.12,
+          "transicion": 0.4,
+          "primaria": 4.16,
+          "secundaria": 5.38,
+          "media": 2.5
+        }
+      },
+      "2015": {
+        "poblacion_5_16": 47694.0,
+        "tasa_matriculacion_5_16": 62.16,
+        "cobertura_neta": {
+          "total": 62.12,
+          "transicion": 35.89,
+          "primaria": 61.86,
+          "secundaria": 51.31,
+          "media": 22.99
+        },
+        "cobertura_bruta": {
+          "total": 76.72,
+          "transicion": 55.76,
+          "primaria": 87.41,
+          "secundaria": 81.05,
+          "media": 52.12
+        },
+        "desercion": {
+          "total": 5.27,
+          "transicion": 4.95,
+          "primaria": 3.62,
+          "secundaria": 8.03,
+          "media": 4.41
+        },
+        "aprobacion": {
+          "total": 88.94,
+          "transicion": 0.0,
+          "primaria": 92.81,
+          "secundaria": 81.37,
+          "media": 90.53
+        },
+        "reprobacion": {
+          "total": 5.78,
+          "transicion": 0.0,
+          "primaria": 3.57,
+          "secundaria": 10.59,
+          "media": 5.05
+        },
+        "repitencia": {
+          "total": 2.46,
+          "transicion": 1.8,
+          "primaria": 2.0,
+          "secundaria": 3.5,
+          "media": 1.68
+        }
+      },
+      "2016": {
+        "poblacion_5_16": 48505.0,
+        "tasa_matriculacion_5_16": 60.8,
+        "cobertura_neta": {
+          "total": 60.75,
+          "transicion": 30.69,
+          "primaria": 58.71,
+          "secundaria": 51.07,
+          "media": 26.06
+        },
+        "cobertura_bruta": {
+          "total": 82.04,
+          "transicion": 48.92,
+          "primaria": 93.91,
+          "secundaria": 88.45,
+          "media": 56.86
+        },
+        "desercion": {
+          "total": 5.69,
+          "transicion": 3.25,
+          "primaria": 4.18,
+          "secundaria": 8.86,
+          "media": 3.88
+        },
+        "aprobacion": {
+          "total": 84.8,
+          "transicion": 0.15,
+          "primaria": 88.51,
+          "secundaria": 76.0,
+          "media": 88.7
+        },
+        "reprobacion": {
+          "total": 9.51,
+          "transicion": 0.15,
+          "primaria": 7.31,
+          "secundaria": 15.15,
+          "media": 7.42
+        },
+        "repitencia": {
+          "total": 1.49,
+          "transicion": 0.52,
+          "primaria": 1.27,
+          "secundaria": 2.32,
+          "media": 0.41
+        }
+      },
+      "2017": {
+        "poblacion_5_16": 49431.0,
+        "tasa_matriculacion_5_16": 59.0,
+        "cobertura_neta": {
+          "total": 59.01,
+          "transicion": 32.96,
+          "primaria": 55.57,
+          "secundaria": 52.25,
+          "media": 26.61
+        },
+        "cobertura_bruta": {
+          "total": 71.09,
+          "transicion": 51.27,
+          "primaria": 72.4,
+          "secundaria": 82.9,
+          "media": 55.32
+        },
+        "desercion": {
+          "total": 4.99,
+          "transicion": 3.3,
+          "primaria": 3.52,
+          "secundaria": 7.65,
+          "media": 3.88
+        },
+        "aprobacion": {
+          "total": 85.0,
+          "transicion": 0.62,
+          "primaria": 88.07,
+          "secundaria": 77.41,
+          "media": 88.74
+        },
+        "reprobacion": {
+          "total": 10.02,
+          "transicion": 0.62,
+          "primaria": 8.41,
+          "secundaria": 14.94,
+          "media": 7.39
+        },
+        "repitencia": {
+          "total": 0.61,
+          "transicion": 0.1,
+          "primaria": 0.4,
+          "secundaria": 1.1,
+          "media": 0.26
+        }
+      },
+      "2018": {
+        "poblacion_5_16": 28064.0,
+        "tasa_matriculacion_5_16": 56.72,
+        "cobertura_neta": {
+          "total": 101.99,
+          "transicion": 63.21,
+          "primaria": 97.62,
+          "secundaria": 89.44,
+          "media": 42.73
+        },
+        "cobertura_bruta": {
+          "total": 126.49,
+          "transicion": 95.08,
+          "primaria": 131.4,
+          "secundaria": 144.9,
+          "media": 92.91
+        },
+        "desercion": {
+          "total": 4.78,
+          "transicion": 3.68,
+          "primaria": 3.21,
+          "secundaria": 7.09,
+          "media": 4.27
+        },
+        "aprobacion": {
+          "total": 86.82,
+          "transicion": 0.0,
+          "primaria": 89.76,
+          "secundaria": 80.76,
+          "media": 88.83
+        },
+        "reprobacion": {
+          "total": 8.4,
+          "transicion": 0.0,
+          "primaria": 7.03,
+          "secundaria": 12.15,
+          "media": 6.89
+        },
+        "repitencia": {
+          "total": 0.89,
+          "transicion": 0.31,
+          "primaria": 0.85,
+          "secundaria": 1.23,
+          "media": 0.19
+        }
+      },
+      "2019": {
+        "poblacion_5_16": 28404.0,
+        "tasa_matriculacion_5_16": 101.04,
+        "cobertura_neta": {
+          "total": 101.04,
+          "transicion": 63.73,
+          "primaria": 93.57,
+          "secundaria": 90.23,
+          "media": 45.5
+        },
+        "cobertura_bruta": {
+          "total": 120.91,
+          "transicion": 93.1,
+          "primaria": 117.01,
+          "secundaria": 144.97,
+          "media": 95.84
+        },
+        "desercion": {
+          "total": 5.0,
+          "transicion": 4.5,
+          "primaria": 3.79,
+          "secundaria": 7.01,
+          "media": 3.34
+        },
+        "aprobacion": {
+          "total": 87.76,
+          "transicion": 0.05,
+          "primaria": 90.24,
+          "secundaria": 82.49,
+          "media": 90.78
+        },
+        "reprobacion": {
+          "total": 7.24,
+          "transicion": 0.05,
+          "primaria": 5.97,
+          "secundaria": 10.5,
+          "media": 5.87
+        },
+        "repitencia": {
+          "total": 0.78,
+          "transicion": 0.15,
+          "primaria": 0.77,
+          "secundaria": 1.07,
+          "media": 0.18
+        }
+      },
+      "2020": {
+        "poblacion_5_16": 28649.0,
+        "tasa_matriculacion_5_16": 98.32,
+        "cobertura_neta": {
+          "total": 98.31,
+          "transicion": 67.28,
+          "primaria": 88.87,
+          "secundaria": 89.86,
+          "media": 50.02
+        },
+        "cobertura_bruta": {
+          "total": 113.67,
+          "transicion": 96.85,
+          "primaria": 108.6,
+          "secundaria": 132.29,
+          "media": 97.13
+        },
+        "desercion": {
+          "total": 3.83,
+          "transicion": 2.26,
+          "primaria": 3.47,
+          "secundaria": 4.24,
+          "media": 4.83
+        },
+        "aprobacion": {
+          "total": 87.94,
+          "transicion": 0.43,
+          "primaria": 90.42,
+          "secundaria": 83.81,
+          "media": 86.15
+        },
+        "reprobacion": {
+          "total": 8.23,
+          "transicion": 0.43,
+          "primaria": 6.1,
+          "secundaria": 11.95,
+          "media": 9.02
+        },
+        "repitencia": {
+          "total": 5.78,
+          "transicion": 0.05,
+          "primaria": 5.54,
+          "secundaria": 8.0,
+          "media": 3.09
+        }
+      },
+      "2021": {
+        "poblacion_5_16": 28.689,
+        "tasa_matriculacion_5_16": 96.14,
+        "cobertura_neta": {
+          "total": 96.13,
+          "transicion": 62.71,
+          "primaria": 87.11,
+          "secundaria": 87.91,
+          "media": 53.62
+        },
+        "cobertura_bruta": {
+          "total": 112.92,
+          "transicion": 87.46,
+          "primaria": 108.63,
+          "secundaria": 130.29,
+          "media": 101.32
+        },
+        "desercion": {
+          "total": 7.22,
+          "transicion": 3.8,
+          "primaria": 5.68,
+          "secundaria": 9.68,
+          "media": 6.95
+        },
+        "aprobacion": {
+          "total": 85.7,
+          "transicion": 0.05,
+          "primaria": 89.1,
+          "secundaria": 80.53,
+          "media": 83.93
+        },
+        "reprobacion": {
+          "total": 7.08,
+          "transicion": 0.05,
+          "primaria": 5.22,
+          "secundaria": 9.79,
+          "media": 9.11
+        },
+        "repitencia": {
+          "total": 5.36,
+          "transicion": 0.21,
+          "primaria": 4.12,
+          "secundaria": 8.21,
+          "media": 3.75
+        }
+      },
+      "2022": {
+        "poblacion_5_16": 28365.0,
+        "tasa_matriculacion_5_16": 94.92,
+        "cobertura_neta": {
+          "total": 94.91,
+          "transicion": 69.14,
+          "primaria": 87.55,
+          "secundaria": 83.13,
+          "media": 57.86
+        },
+        "cobertura_bruta": {
+          "total": 108.7,
+          "transicion": 97.83,
+          "primaria": 102.73,
+          "secundaria": 120.84,
+          "media": 104.73
+        },
+        "desercion": {
+          "total": 5.19,
+          "transicion": 4.67,
+          "primaria": 4.13,
+          "secundaria": 6.49,
+          "media": 5.4
+        },
+        "aprobacion": {
+          "total": 88.22,
+          "transicion": 0.0,
+          "primaria": 91.21,
+          "secundaria": 83.29,
+          "media": 87.65
+        },
+        "reprobacion": {
+          "total": 6.6,
+          "transicion": 0.0,
+          "primaria": 4.66,
+          "secundaria": 10.22,
+          "media": 6.95
+        },
+        "repitencia": {
+          "total": 5.56,
+          "transicion": 0.05,
+          "primaria": 4.89,
+          "secundaria": 8.3,
+          "media": 3.55
+        }
+      },
+      "2023": {
+        "poblacion_5_16": 28391.0,
+        "tasa_matriculacion_5_16": 91.17,
+        "cobertura_neta": {
+          "total": 91.16,
+          "transicion": 64.67,
+          "primaria": 84.45,
+          "secundaria": 77.96,
+          "media": 58.34
+        },
+        "cobertura_bruta": {
+          "total": 104.53,
+          "transicion": 91.54,
+          "primaria": 99.15,
+          "secundaria": 112.92,
+          "media": 107.81
+        },
+        "desercion": {
+          "total": 4.14,
+          "transicion": 3.44,
+          "primaria": 3.1,
+          "secundaria": 5.63,
+          "media": 4.02
+        },
+        "aprobacion": {
+          "total": 87.88,
+          "transicion": 0.0,
+          "primaria": 91.41,
+          "secundaria": 82.02,
+          "media": 86.88
+        },
+        "reprobacion": {
+          "total": 7.98,
+          "transicion": 0.0,
+          "primaria": 5.49,
+          "secundaria": 12.35,
+          "media": 9.1
+        },
+        "repitencia": {
+          "total": 8.12,
+          "transicion": 1.43,
+          "primaria": 7.16,
+          "secundaria": 11.94,
+          "media": 4.99
+        }
+      },
+      "2024": {
+        "poblacion_5_16": 28405.0,
+        "tasa_matriculacion_5_16": 88.46,
+        "cobertura_neta": {
+          "total": 88.46,
+          "transicion": 61.02,
+          "primaria": 83.14,
+          "secundaria": 76.39,
+          "media": 57.34
+        },
+        "cobertura_bruta": {
+          "total": 102.55,
+          "transicion": 88.85,
+          "primaria": 97.26,
+          "secundaria": 111.97,
+          "media": 103.82
+        },
+        "desercion": {
+          "total": 4.8,
+          "transicion": 3.4,
+          "primaria": 3.17,
+          "secundaria": 7.55,
+          "media": 3.52
+        },
+        "aprobacion": {
+          "total": 89.85,
+          "transicion": 0.05,
+          "primaria": 92.95,
+          "secundaria": 83.87,
+          "media": 92.02
+        },
+        "reprobacion": {
+          "total": 5.35,
+          "transicion": 0.05,
+          "primaria": 3.88,
+          "secundaria": 8.58,
+          "media": 4.47
+        },
+        "repitencia": {
+          "total": 8.47,
+          "transicion": 1.3,
+          "primaria": 7.74,
+          "secundaria": 11.93,
+          "media": 5.72
+        }
+      }
+    },
+    "Arboletes": {
+      "2011": {
+        "poblacion_5_16": 10673.0,
+        "tasa_matriculacion_5_16": 84.85,
+        "cobertura_neta": {
+          "total": 84.9,
+          "transicion": 71.1,
+          "primaria": 86.0,
+          "secundaria": 55.9,
+          "media": 26.7
+        },
+        "cobertura_bruta": {
+          "total": 103.8,
+          "transicion": 87.6,
+          "primaria": 116.3,
+          "secundaria": 107.0,
+          "media": 72.7
+        },
+        "desercion": {
+          "total": 3.18,
+          "transicion": 6.96,
+          "primaria": 2.9,
+          "secundaria": 2.95,
+          "media": 2.29
+        },
+        "aprobacion": {
+          "total": 93.6,
+          "transicion": 0.0,
+          "primaria": 94.0,
+          "secundaria": 93.31,
+          "media": 92.79
+        },
+        "reprobacion": {
+          "total": 3.23,
+          "transicion": 0.0,
+          "primaria": 3.1,
+          "secundaria": 3.74,
+          "media": 4.91
+        },
+        "repitencia": {
+          "total": 2.25,
+          "transicion": 0.66,
+          "primaria": 2.41,
+          "secundaria": 2.85,
+          "media": 0.73
+        }
+      },
+      "2012": {
+        "poblacion_5_16": 10804.0,
+        "tasa_matriculacion_5_16": 82.81,
+        "cobertura_neta": {
+          "total": 82.8,
+          "transicion": 63.6,
+          "primaria": 86.4,
+          "secundaria": 55.8,
+          "media": 23.6
+        },
+        "cobertura_bruta": {
+          "total": 101.7,
+          "transicion": 92.1,
+          "primaria": 116.8,
+          "secundaria": 104.9,
+          "media": 61.7
+        },
+        "desercion": {
+          "total": 4.39,
+          "transicion": 4.95,
+          "primaria": 3.24,
+          "secundaria": 6.68,
+          "media": 2.85
+        },
+        "aprobacion": {
+          "total": 89.6,
+          "transicion": 0.0,
+          "primaria": 92.2,
+          "secundaria": 83.86,
+          "media": 88.48
+        },
+        "reprobacion": {
+          "total": 6.01,
+          "transicion": 0.0,
+          "primaria": 4.56,
+          "secundaria": 9.45,
+          "media": 8.67
+        },
+        "repitencia": {
+          "total": 4.12,
+          "transicion": 0.36,
+          "primaria": 5.51,
+          "secundaria": 3.53,
+          "media": 1.31
+        }
+      },
+      "2013": {
+        "poblacion_5_16": 10896.0,
+        "tasa_matriculacion_5_16": 78.92,
+        "cobertura_neta": {
+          "total": 78.9,
+          "transicion": 46.3,
+          "primaria": 84.3,
+          "secundaria": 53.3,
+          "media": 23.8
+        },
+        "cobertura_bruta": {
+          "total": 87.8,
+          "transicion": 70.4,
+          "primaria": 110.0,
+          "secundaria": 82.5,
+          "media": 51.4
+        },
+        "desercion": {
+          "total": 2.23,
+          "transicion": 1.58,
+          "primaria": 2.01,
+          "secundaria": 2.79,
+          "media": 2.14
+        },
+        "aprobacion": {
+          "total": 93.23,
+          "transicion": 0.0,
+          "primaria": 93.3,
+          "secundaria": 92.46,
+          "media": 91.16
+        },
+        "reprobacion": {
+          "total": 4.55,
+          "transicion": 0.0,
+          "primaria": 4.69,
+          "secundaria": 4.75,
+          "media": 6.69
+        },
+        "repitencia": {
+          "total": 4.62,
+          "transicion": 0.32,
+          "primaria": 6.37,
+          "secundaria": 3.3,
+          "media": 1.74
+        }
+      },
+      "2014": {
+        "poblacion_5_16": 11012.0,
+        "tasa_matriculacion_5_16": 75.93,
+        "cobertura_neta": {
+          "total": 85.23,
+          "transicion": 61.56,
+          "primaria": 74.09,
+          "secundaria": 61.86,
+          "media": 39.16
+        },
+        "cobertura_bruta": {
+          "total": 89.08,
+          "transicion": 68.52,
+          "primaria": 108.38,
+          "secundaria": 85.62,
+          "media": 57.96
+        },
+        "desercion": {
+          "total": 1.62,
+          "transicion": 1.44,
+          "primaria": 1.4,
+          "secundaria": 2.05,
+          "media": 1.6
+        },
+        "aprobacion": {
+          "total": 98.37,
+          "transicion": 0.0,
+          "primaria": 98.6,
+          "secundaria": 97.95,
+          "media": 98.26
+        },
+        "reprobacion": {
+          "total": 0.01,
+          "transicion": 0.0,
+          "primaria": 0.0,
+          "secundaria": 0.0,
+          "media": 0.13
+        },
+        "repitencia": {
+          "total": 3.14,
+          "transicion": 0.0,
+          "primaria": 5.1,
+          "secundaria": 1.19,
+          "media": 0.67
+        }
+      },
+      "2015": {
+        "poblacion_5_16": 11125.0,
+        "tasa_matriculacion_5_16": 73.82,
+        "cobertura_neta": {
+          "total": 73.82,
+          "transicion": 39.49,
+          "primaria": 73.34,
+          "secundaria": 52.26,
+          "media": 23.09
+        },
+        "cobertura_bruta": {
+          "total": 84.6,
+          "transicion": 63.36,
+          "primaria": 99.48,
+          "secundaria": 86.3,
+          "media": 54.59
+        },
+        "desercion": {
+          "total": 1.89,
+          "transicion": 0.84,
+          "primaria": 1.08,
+          "secundaria": 2.72,
+          "media": 4.39
+        },
+        "aprobacion": {
+          "total": 96.08,
+          "transicion": 0.17,
+          "primaria": 97.27,
+          "secundaria": 94.38,
+          "media": 93.11
+        },
+        "reprobacion": {
+          "total": 2.03,
+          "transicion": 0.17,
+          "primaria": 1.65,
+          "secundaria": 2.9,
+          "media": 2.51
+        },
+        "repitencia": {
+          "total": null,
+          "transicion": null,
+          "primaria": null,
+          "secundaria": null,
+          "media": 3.26
+        }
+      },
+      "2016": {
+        "poblacion_5_16": 11290.0,
+        "tasa_matriculacion_5_16": 74.5,
+        "cobertura_neta": {
+          "total": 74.45,
+          "transicion": 36.49,
+          "primaria": 68.98,
+          "secundaria": 59.07,
+          "media": 28.27
+        },
+        "cobertura_bruta": {
+          "total": 91.62,
+          "transicion": 62.9,
+          "primaria": 97.63,
+          "secundaria": 101.81,
+          "media": 71.14
+        },
+        "desercion": {
+          "total": 4.7,
+          "transicion": 4.83,
+          "primaria": 2.72,
+          "secundaria": 7.22,
+          "media": 4.71
+        },
+        "aprobacion": {
+          "total": 90.95,
+          "transicion": 0.33,
+          "primaria": 93.53,
+          "secundaria": 87.32,
+          "media": 89.68
+        },
+        "reprobacion": {
+          "total": 4.35,
+          "transicion": 0.33,
+          "primaria": 3.75,
+          "secundaria": 5.46,
+          "media": 5.61
+        },
+        "repitencia": {
+          "total": 3.13,
+          "transicion": 1.0,
+          "primaria": 4.58,
+          "secundaria": 2.33,
+          "media": 0.8
+        }
+      },
+      "2017": {
+        "poblacion_5_16": 11472.0,
+        "tasa_matriculacion_5_16": 71.1,
+        "cobertura_neta": {
+          "total": 71.13,
+          "transicion": 38.36,
+          "primaria": 61.99,
+          "secundaria": 63.1,
+          "media": 28.92
+        },
+        "cobertura_bruta": {
+          "total": 86.1,
+          "transicion": 61.94,
+          "primaria": 85.4,
+          "secundaria": 102.41,
+          "media": 68.44
+        },
+        "desercion": {
+          "total": 4.11,
+          "transicion": 5.09,
+          "primaria": 2.61,
+          "secundaria": 5.39,
+          "media": 5.07
+        },
+        "aprobacion": {
+          "total": 91.95,
+          "transicion": 0.0,
+          "primaria": 93.18,
+          "secundaria": 89.72,
+          "media": 92.88
+        },
+        "reprobacion": {
+          "total": 3.94,
+          "transicion": 0.0,
+          "primaria": 4.21,
+          "secundaria": 4.89,
+          "media": 2.05
+        },
+        "repitencia": {
+          "total": 4.73,
+          "transicion": 2.46,
+          "primaria": 5.19,
+          "secundaria": 5.42,
+          "media": 2.05
+        }
+      },
+      "2018": {
+        "poblacion_5_16": 7490.0,
+        "tasa_matriculacion_5_16": 70.28,
+        "cobertura_neta": {
+          "total": 109.56,
+          "transicion": 59.4,
+          "primaria": 91.8,
+          "secundaria": 97.95,
+          "media": 49.58
+        },
+        "cobertura_bruta": {
+          "total": 137.94,
+          "transicion": 103.48,
+          "primaria": 137.7,
+          "secundaria": 159.93,
+          "media": 110.97
+        },
+        "desercion": {
+          "total": 3.36,
+          "transicion": 4.68,
+          "primaria": 2.35,
+          "secundaria": 3.98,
+          "media": 4.16
+        },
+        "aprobacion": {
+          "total": 92.09,
+          "transicion": 0.0,
+          "primaria": 91.65,
+          "secundaria": 91.6,
+          "media": 93.29
+        },
+        "reprobacion": {
+          "total": 4.55,
+          "transicion": 0.0,
+          "primaria": 6.0,
+          "secundaria": 4.42,
+          "media": 2.55
+        },
+        "repitencia": {
+          "total": 1.79,
+          "transicion": 2.34,
+          "primaria": 1.88,
+          "secundaria": 2.02,
+          "media": 0.38
+        }
+      },
+      "2019": {
+        "poblacion_5_16": 7597.0,
+        "tasa_matriculacion_5_16": 102.71,
+        "cobertura_neta": {
+          "total": 102.71,
+          "transicion": 46.9,
+          "primaria": 87.75,
+          "secundaria": 89.85,
+          "media": 49.79
+        },
+        "cobertura_bruta": {
+          "total": 126.01,
+          "transicion": 82.2,
+          "primaria": 122.67,
+          "secundaria": 149.66,
+          "media": 108.89
+        },
+        "desercion": {
+          "total": 3.45,
+          "transicion": 3.04,
+          "primaria": 2.39,
+          "secundaria": 4.55,
+          "media": 4.11
+        },
+        "aprobacion": {
+          "total": 89.55,
+          "transicion": 0.0,
+          "primaria": 90.82,
+          "secundaria": 86.31,
+          "media": 91.0
+        },
+        "reprobacion": {
+          "total": 7.0,
+          "transicion": 0.0,
+          "primaria": 6.79,
+          "secundaria": 9.13,
+          "media": 4.89
+        },
+        "repitencia": {
+          "total": 1.44,
+          "transicion": 0.19,
+          "primaria": 1.48,
+          "secundaria": 1.93,
+          "media": 0.39
+        }
+      },
+      "2020": {
+        "poblacion_5_16": 7686.0,
+        "tasa_matriculacion_5_16": 97.68,
+        "cobertura_neta": {
+          "total": 97.68,
+          "transicion": 50.76,
+          "primaria": 84.21,
+          "secundaria": 84.51,
+          "media": 49.5
+        },
+        "cobertura_bruta": {
+          "total": 116.93,
+          "transicion": 80.89,
+          "primaria": 106.41,
+          "secundaria": 145.29,
+          "media": 105.05
+        },
+        "desercion": {
+          "total": 2.68,
+          "transicion": 1.72,
+          "primaria": 1.76,
+          "secundaria": 3.62,
+          "media": 3.44
+        },
+        "aprobacion": {
+          "total": 86.46,
+          "transicion": 1.92,
+          "primaria": 91.67,
+          "secundaria": 78.82,
+          "media": 87.16
+        },
+        "reprobacion": {
+          "total": 10.86,
+          "transicion": 1.92,
+          "primaria": 6.57,
+          "secundaria": 17.56,
+          "media": 9.39
+        },
+        "repitencia": {
+          "total": 5.87,
+          "transicion": 0.0,
+          "primaria": 6.92,
+          "secundaria": 6.76,
+          "media": 2.51
+        }
+      },
+      "2021": {
+        "poblacion_5_16": 7.74,
+        "tasa_matriculacion_5_16": 94.39,
+        "cobertura_neta": {
+          "total": 94.39,
+          "transicion": 49.09,
+          "primaria": 82.98,
+          "secundaria": 78.12,
+          "media": 52.06
+        },
+        "cobertura_bruta": {
+          "total": 112.84,
+          "transicion": 72.8,
+          "primaria": 107.78,
+          "secundaria": 128.12,
+          "media": 116.01
+        },
+        "desercion": {
+          "total": 5.89,
+          "transicion": 2.97,
+          "primaria": 3.47,
+          "secundaria": 8.68,
+          "media": 7.25
+        },
+        "aprobacion": {
+          "total": 89.23,
+          "transicion": 0.0,
+          "primaria": 88.85,
+          "secundaria": 87.9,
+          "media": 90.68
+        },
+        "reprobacion": {
+          "total": 4.87,
+          "transicion": 0.0,
+          "primaria": 7.68,
+          "secundaria": 3.42,
+          "media": 2.07
+        },
+        "repitencia": {
+          "total": 8.73,
+          "transicion": 1.06,
+          "primaria": 5.86,
+          "secundaria": 15.09,
+          "media": 3.76
+        }
+      },
+      "2022": {
+        "poblacion_5_16": 7578.0,
+        "tasa_matriculacion_5_16": 93.11,
+        "cobertura_neta": {
+          "total": 93.11,
+          "transicion": 58.05,
+          "primaria": 82.83,
+          "secundaria": 74.34,
+          "media": 55.77
+        },
+        "cobertura_bruta": {
+          "total": 110.83,
+          "transicion": 88.75,
+          "primaria": 102.48,
+          "secundaria": 126.1,
+          "media": 114.11
+        },
+        "desercion": {
+          "total": 3.87,
+          "transicion": 2.98,
+          "primaria": 2.48,
+          "secundaria": 5.86,
+          "media": 3.52
+        },
+        "aprobacion": {
+          "total": 91.25,
+          "transicion": 0.18,
+          "primaria": 92.66,
+          "secundaria": 88.07,
+          "media": 92.04
+        },
+        "reprobacion": {
+          "total": 4.88,
+          "transicion": 0.18,
+          "primaria": 4.86,
+          "secundaria": 6.08,
+          "media": 4.44
+        },
+        "repitencia": {
+          "total": 8.01,
+          "transicion": 0.0,
+          "primaria": 9.56,
+          "secundaria": 9.83,
+          "media": 3.05
+        }
+      },
+      "2023": {
+        "poblacion_5_16": 7592.0,
+        "tasa_matriculacion_5_16": 89.65,
+        "cobertura_neta": {
+          "total": 89.65,
+          "transicion": 56.73,
+          "primaria": 79.18,
+          "secundaria": 76.01,
+          "media": 50.17
+        },
+        "cobertura_bruta": {
+          "total": 104.1,
+          "transicion": 83.21,
+          "primaria": 98.66,
+          "secundaria": 118.04,
+          "media": 101.47
+        },
+        "desercion": {
+          "total": 3.49,
+          "transicion": 1.31,
+          "primaria": 3.06,
+          "secundaria": 4.16,
+          "media": 4.3
+        },
+        "aprobacion": {
+          "total": 91.17,
+          "transicion": 0.0,
+          "primaria": 92.15,
+          "secundaria": 88.21,
+          "media": 91.8
+        },
+        "reprobacion": {
+          "total": 5.34,
+          "transicion": 0.0,
+          "primaria": 4.79,
+          "secundaria": 7.63,
+          "media": 3.89
+        },
+        "repitencia": {
+          "total": 9.66,
+          "transicion": 1.31,
+          "primaria": 11.09,
+          "secundaria": 11.56,
+          "media": 4.5
+        }
+      },
+      "2024": {
+        "poblacion_5_16": 7601.0,
+        "tasa_matriculacion_5_16": 86.63,
+        "cobertura_neta": {
+          "total": 86.63,
+          "transicion": 52.21,
+          "primaria": 77.81,
+          "secundaria": 75.92,
+          "media": 45.84
+        },
+        "cobertura_bruta": {
+          "total": 100.29,
+          "transicion": 84.47,
+          "primaria": 95.48,
+          "secundaria": 112.42,
+          "media": 96.79
+        },
+        "desercion": {
+          "total": 4.11,
+          "transicion": 3.49,
+          "primaria": 2.55,
+          "secundaria": 5.41,
+          "media": 6.05
+        },
+        "aprobacion": {
+          "total": 92.53,
+          "transicion": 0.37,
+          "primaria": 94.54,
+          "secundaria": 90.14,
+          "media": 90.39
+        },
+        "reprobacion": {
+          "total": 3.35,
+          "transicion": 0.37,
+          "primaria": 2.91,
+          "secundaria": 4.44,
+          "media": 3.56
+        },
+        "repitencia": {
+          "total": 8.92,
+          "transicion": 2.2,
+          "primaria": 10.33,
+          "secundaria": 10.87,
+          "media": 2.81
+        }
+      }
+    },
+    "Carepa": {
+      "2011": {
+        "poblacion_5_16": 14165.0,
+        "tasa_matriculacion_5_16": 84.38,
+        "cobertura_neta": {
+          "total": 84.4,
+          "transicion": 68.1,
+          "primaria": 89.5,
+          "secundaria": 61.5,
+          "media": 22.5
+        },
+        "cobertura_bruta": {
+          "total": 97.5,
+          "transicion": 90.8,
+          "primaria": 123.0,
+          "secundaria": 91.7,
+          "media": 48.1
+        },
+        "desercion": {
+          "total": 2.32,
+          "transicion": 1.69,
+          "primaria": 1.69,
+          "secundaria": 3.45,
+          "media": 2.93
+        },
+        "aprobacion": {
+          "total": 95.25,
+          "transicion": 0.1,
+          "primaria": 96.27,
+          "secundaria": 93.68,
+          "media": 90.59
+        },
+        "reprobacion": {
+          "total": 2.43,
+          "transicion": 0.1,
+          "primaria": 2.04,
+          "secundaria": 2.87,
+          "media": 6.48
+        },
+        "repitencia": {
+          "total": 0.52,
+          "transicion": 0.1,
+          "primaria": 0.74,
+          "secundaria": 0.3,
+          "media": 0.25
+        }
+      },
+      "2012": {
+        "poblacion_5_16": 14203.0,
+        "tasa_matriculacion_5_16": 86.94,
+        "cobertura_neta": {
+          "total": 86.9,
+          "transicion": 75.8,
+          "primaria": 90.6,
+          "secundaria": 65.3,
+          "media": 23.3
+        },
+        "cobertura_bruta": {
+          "total": 104.0,
+          "transicion": 95.9,
+          "primaria": 128.4,
+          "secundaria": 98.6,
+          "media": 56.4
+        },
+        "desercion": {
+          "total": 6.7,
+          "transicion": 2.81,
+          "primaria": 5.77,
+          "secundaria": 8.22,
+          "media": 11.91
+        },
+        "aprobacion": {
+          "total": 92.51,
+          "transicion": 0.0,
+          "primaria": 92.95,
+          "secundaria": 91.47,
+          "media": 87.98
+        },
+        "reprobacion": {
+          "total": 0.79,
+          "transicion": 0.0,
+          "primaria": 1.28,
+          "secundaria": 0.31,
+          "media": 0.12
+        },
+        "repitencia": {
+          "total": 0.69,
+          "transicion": 0.0,
+          "primaria": 0.45,
+          "secundaria": 1.32,
+          "media": 0.58
+        }
+      },
+      "2013": {
+        "poblacion_5_16": 14355.0,
+        "tasa_matriculacion_5_16": 88.83,
+        "cobertura_neta": {
+          "total": 88.8,
+          "transicion": 54.2,
+          "primaria": 92.0,
+          "secundaria": 68.5,
+          "media": 24.3
+        },
+        "cobertura_bruta": {
+          "total": 103.8,
+          "transicion": 81.9,
+          "primaria": 126.7,
+          "secundaria": 105.1,
+          "media": 54.6
+        },
+        "desercion": {
+          "total": 2.73,
+          "transicion": 2.05,
+          "primaria": 1.93,
+          "secundaria": 3.69,
+          "media": 4.98
+        },
+        "aprobacion": {
+          "total": 94.66,
+          "transicion": 0.0,
+          "primaria": 94.55,
+          "secundaria": 94.18,
+          "media": 94.26
+        },
+        "reprobacion": {
+          "total": 2.61,
+          "transicion": 0.0,
+          "primaria": 3.52,
+          "secundaria": 2.13,
+          "media": 0.76
+        },
+        "repitencia": {
+          "total": 0.87,
+          "transicion": 0.0,
+          "primaria": 1.35,
+          "secundaria": 0.41,
+          "media": 0.33
+        }
+      },
+      "2014": {
+        "poblacion_5_16": 14456.0,
+        "tasa_matriculacion_5_16": 84.86,
+        "cobertura_neta": {
+          "total": 84.37,
+          "transicion": 67.72,
+          "primaria": 77.48,
+          "secundaria": 60.32,
+          "media": 40.92
+        },
+        "cobertura_bruta": {
+          "total": 100.57,
+          "transicion": 82.79,
+          "primaria": 113.67,
+          "secundaria": 109.61,
+          "media": 58.21
+        },
+        "desercion": {
+          "total": 2.6,
+          "transicion": 1.61,
+          "primaria": 1.36,
+          "secundaria": 5.02,
+          "media": 1.62
+        },
+        "aprobacion": {
+          "total": 97.14,
+          "transicion": 0.0,
+          "primaria": 98.4,
+          "secundaria": 94.57,
+          "media": 98.38
+        },
+        "reprobacion": {
+          "total": 0.26,
+          "transicion": 0.0,
+          "primaria": 0.24,
+          "secundaria": 0.41,
+          "media": 0.0
+        },
+        "repitencia": {
+          "total": 0.48,
+          "transicion": 0.0,
+          "primaria": 0.42,
+          "secundaria": 0.7,
+          "media": 0.47
+        }
+      },
+      "2015": {
+        "poblacion_5_16": 14593.0,
+        "tasa_matriculacion_5_16": 88.34,
+        "cobertura_neta": {
+          "total": 88.34,
+          "transicion": 50.94,
+          "primaria": 84.79,
+          "secundaria": 71.94,
+          "media": 28.72
+        },
+        "cobertura_bruta": {
+          "total": 112.28,
+          "transicion": 71.91,
+          "primaria": 122.51,
+          "secundaria": 124.45,
+          "media": 82.72
+        },
+        "desercion": {
+          "total": 4.35,
+          "transicion": 3.16,
+          "primaria": 3.71,
+          "secundaria": 5.04,
+          "media": 6.2
+        },
+        "aprobacion": {
+          "total": 92.36,
+          "transicion": 0.11,
+          "primaria": 93.8,
+          "secundaria": 89.84,
+          "media": 90.97
+        },
+        "reprobacion": {
+          "total": 3.29,
+          "transicion": 0.11,
+          "primaria": 2.48,
+          "secundaria": 5.12,
+          "media": 2.83
+        },
+        "repitencia": {
+          "total": 3.53,
+          "transicion": 1.09,
+          "primaria": 2.45,
+          "secundaria": 5.87,
+          "media": 1.82
+        }
+      },
+      "2016": {
+        "poblacion_5_16": 14813.0,
+        "tasa_matriculacion_5_16": 81.2,
+        "cobertura_neta": {
+          "total": 81.18,
+          "transicion": 46.11,
+          "primaria": 80.05,
+          "secundaria": 65.15,
+          "media": 29.86
+        },
+        "cobertura_bruta": {
+          "total": 102.98,
+          "transicion": 71.19,
+          "primaria": 122.74,
+          "secundaria": 101.84,
+          "media": 70.3
+        },
+        "desercion": {
+          "total": 4.2,
+          "transicion": 2.36,
+          "primaria": 3.1,
+          "secundaria": 6.45,
+          "media": 3.67
+        },
+        "aprobacion": {
+          "total": 92.55,
+          "transicion": 0.0,
+          "primaria": 93.92,
+          "secundaria": 88.8,
+          "media": 94.39
+        },
+        "reprobacion": {
+          "total": 3.25,
+          "transicion": 0.0,
+          "primaria": 2.98,
+          "secundaria": 4.76,
+          "media": 1.94
+        },
+        "repitencia": {
+          "total": 1.25,
+          "transicion": 0.0,
+          "primaria": 1.12,
+          "secundaria": 1.91,
+          "media": 0.51
+        }
+      },
+      "2017": {
+        "poblacion_5_16": 15063.0,
+        "tasa_matriculacion_5_16": 79.9,
+        "cobertura_neta": {
+          "total": 79.92,
+          "transicion": 47.88,
+          "primaria": 75.6,
+          "secundaria": 67.3,
+          "media": 30.07
+        },
+        "cobertura_bruta": {
+          "total": 94.11,
+          "transicion": 73.98,
+          "primaria": 99.07,
+          "secundaria": 104.59,
+          "media": 70.48
+        },
+        "desercion": {
+          "total": 4.3,
+          "transicion": 3.52,
+          "primaria": 3.37,
+          "secundaria": 6.3,
+          "media": 2.56
+        },
+        "aprobacion": {
+          "total": 92.63,
+          "transicion": 0.0,
+          "primaria": 93.13,
+          "secundaria": 90.4,
+          "media": 94.98
+        },
+        "reprobacion": {
+          "total": 3.06,
+          "transicion": 0.0,
+          "primaria": 3.5,
+          "secundaria": 3.31,
+          "media": 2.46
+        },
+        "repitencia": {
+          "total": 2.64,
+          "transicion": 0.5,
+          "primaria": 2.38,
+          "secundaria": 4.08,
+          "media": 0.49
+        }
+      },
+      "2018": {
+        "poblacion_5_16": 12061.0,
+        "tasa_matriculacion_5_16": 77.06,
+        "cobertura_neta": {
+          "total": 98.09,
+          "transicion": 58.65,
+          "primaria": 94.1,
+          "secundaria": 83.74,
+          "media": 33.22
+        },
+        "cobertura_bruta": {
+          "total": 118.37,
+          "transicion": 93.23,
+          "primaria": 128.83,
+          "secundaria": 127.65,
+          "media": 86.77
+        },
+        "desercion": {
+          "total": 4.71,
+          "transicion": 6.26,
+          "primaria": 3.83,
+          "secundaria": 5.68,
+          "media": 4.31
+        },
+        "aprobacion": {
+          "total": 90.13,
+          "transicion": 0.0,
+          "primaria": 91.17,
+          "secundaria": 87.27,
+          "media": 92.92
+        },
+        "reprobacion": {
+          "total": 5.17,
+          "transicion": 0.0,
+          "primaria": 5.0,
+          "secundaria": 7.06,
+          "media": 2.77
+        },
+        "repitencia": {
+          "total": 3.0,
+          "transicion": 0.11,
+          "primaria": 2.6,
+          "secundaria": 4.75,
+          "media": 0.51
+        }
+      },
+      "2019": {
+        "poblacion_5_16": 12304.0,
+        "tasa_matriculacion_5_16": 94.07,
+        "cobertura_neta": {
+          "total": 94.07,
+          "transicion": 54.81,
+          "primaria": 89.32,
+          "secundaria": 83.27,
+          "media": 35.18
+        },
+        "cobertura_bruta": {
+          "total": 109.69,
+          "transicion": 91.89,
+          "primaria": 111.71,
+          "secundaria": 126.14,
+          "media": 80.48
+        },
+        "desercion": {
+          "total": 3.79,
+          "transicion": 3.31,
+          "primaria": 3.11,
+          "secundaria": 4.84,
+          "media": 3.44
+        },
+        "aprobacion": {
+          "total": 88.22,
+          "transicion": 0.0,
+          "primaria": 91.36,
+          "secundaria": 81.89,
+          "media": 90.37
+        },
+        "reprobacion": {
+          "total": 7.99,
+          "transicion": 0.0,
+          "primaria": 5.52,
+          "secundaria": 13.27,
+          "media": 6.18
+        },
+        "repitencia": {
+          "total": 2.82,
+          "transicion": 0.33,
+          "primaria": 2.57,
+          "secundaria": 3.89,
+          "media": 1.82
+        }
+      },
+      "2020": {
+        "poblacion_5_16": 12497.0,
+        "tasa_matriculacion_5_16": 92.5,
+        "cobertura_neta": {
+          "total": 92.5,
+          "transicion": 55.54,
+          "primaria": 87.19,
+          "secundaria": 81.03,
+          "media": 39.6
+        },
+        "cobertura_bruta": {
+          "total": 107.07,
+          "transicion": 89.41,
+          "primaria": 106.26,
+          "secundaria": 122.88,
+          "media": 85.88
+        },
+        "desercion": {
+          "total": 1.18,
+          "transicion": 0.23,
+          "primaria": 0.99,
+          "secundaria": 1.43,
+          "media": 1.9
+        },
+        "aprobacion": {
+          "total": 89.86,
+          "transicion": 0.0,
+          "primaria": 93.2,
+          "secundaria": 83.83,
+          "media": 89.43
+        },
+        "reprobacion": {
+          "total": 8.96,
+          "transicion": 0.0,
+          "primaria": 5.81,
+          "secundaria": 14.74,
+          "media": 8.67
+        },
+        "repitencia": {
+          "total": 6.66,
+          "transicion": 0.12,
+          "primaria": 5.09,
+          "secundaria": 10.76,
+          "media": 3.14
+        }
+      },
+      "2021": {
+        "poblacion_5_16": 12.545,
+        "tasa_matriculacion_5_16": 93.25,
+        "cobertura_neta": {
+          "total": 93.25,
+          "transicion": 51.42,
+          "primaria": 87.78,
+          "secundaria": 82.06,
+          "media": 41.78
+        },
+        "cobertura_bruta": {
+          "total": 107.97,
+          "transicion": 82.17,
+          "primaria": 111.45,
+          "secundaria": 121.75,
+          "media": 84.22
+        },
+        "desercion": {
+          "total": 4.95,
+          "transicion": 3.23,
+          "primaria": 4.71,
+          "secundaria": 6.13,
+          "media": 2.92
+        },
+        "aprobacion": {
+          "total": 89.61,
+          "transicion": 0.0,
+          "primaria": 92.22,
+          "secundaria": 84.56,
+          "media": 91.41
+        },
+        "reprobacion": {
+          "total": 5.44,
+          "transicion": 0.0,
+          "primaria": 3.06,
+          "secundaria": 9.31,
+          "media": 5.67
+        },
+        "repitencia": {
+          "total": 6.23,
+          "transicion": 0.5,
+          "primaria": 4.25,
+          "secundaria": 10.86,
+          "media": 2.19
+        }
+      },
+      "2022": {
+        "poblacion_5_16": 12234.0,
+        "tasa_matriculacion_5_16": 94.16,
+        "cobertura_neta": {
+          "total": 94.16,
+          "transicion": 62.01,
+          "primaria": 87.17,
+          "secundaria": 80.79,
+          "media": 45.83
+        },
+        "cobertura_bruta": {
+          "total": 106.78,
+          "transicion": 98.4,
+          "primaria": 103.66,
+          "secundaria": 122.96,
+          "media": 85.95
+        },
+        "desercion": {
+          "total": 3.8,
+          "transicion": 4.14,
+          "primaria": 3.96,
+          "secundaria": 3.83,
+          "media": 2.78
+        },
+        "aprobacion": {
+          "total": 86.98,
+          "transicion": 0.11,
+          "primaria": 90.25,
+          "secundaria": 80.49,
+          "media": 89.02
+        },
+        "reprobacion": {
+          "total": 9.22,
+          "transicion": 0.11,
+          "primaria": 5.79,
+          "secundaria": 15.68,
+          "media": 8.19
+        },
+        "repitencia": {
+          "total": 6.02,
+          "transicion": 0.11,
+          "primaria": 5.39,
+          "secundaria": 8.52,
+          "media": 4.53
+        }
+      },
+      "2023": {
+        "poblacion_5_16": 12257.0,
+        "tasa_matriculacion_5_16": 91.03,
+        "cobertura_neta": {
+          "total": 91.03,
+          "transicion": 57.4,
+          "primaria": 84.0,
+          "secundaria": 79.65,
+          "media": 50.67
+        },
+        "cobertura_bruta": {
+          "total": 101.76,
+          "transicion": 95.33,
+          "primaria": 99.65,
+          "secundaria": 113.51,
+          "media": 86.32
+        },
+        "desercion": {
+          "total": 3.4,
+          "transicion": 2.73,
+          "primaria": 2.82,
+          "secundaria": 4.61,
+          "media": 2.38
+        },
+        "aprobacion": {
+          "total": 89.54,
+          "transicion": 0.0,
+          "primaria": 93.11,
+          "secundaria": 82.92,
+          "media": 90.86
+        },
+        "reprobacion": {
+          "total": 7.07,
+          "transicion": 0.0,
+          "primaria": 4.07,
+          "secundaria": 12.47,
+          "media": 6.77
+        },
+        "repitencia": {
+          "total": 8.23,
+          "transicion": 3.6,
+          "primaria": 8.15,
+          "secundaria": 11.11,
+          "media": 3.24
+        }
+      },
+      "2024": {
+        "poblacion_5_16": 12265.0,
+        "tasa_matriculacion_5_16": 87.32,
+        "cobertura_neta": {
+          "total": 87.32,
+          "transicion": 53.95,
+          "primaria": 81.59,
+          "secundaria": 77.53,
+          "media": 50.15
+        },
+        "cobertura_bruta": {
+          "total": 99.07,
+          "transicion": 94.71,
+          "primaria": 96.96,
+          "secundaria": 105.84,
+          "media": 92.79
+        },
+        "desercion": {
+          "total": 3.07,
+          "transicion": 2.51,
+          "primaria": 2.41,
+          "secundaria": 4.35,
+          "media": 2.28
+        },
+        "aprobacion": {
+          "total": 90.58,
+          "transicion": 0.0,
+          "primaria": 93.69,
+          "secundaria": 84.77,
+          "media": 91.17
+        },
+        "reprobacion": {
+          "total": 6.34,
+          "transicion": 0.0,
+          "primaria": 3.9,
+          "secundaria": 10.88,
+          "media": 6.56
+        },
+        "repitencia": {
+          "total": 7.74,
+          "transicion": 2.07,
+          "primaria": 6.18,
+          "secundaria": 12.89,
+          "media": 2.97
+        }
+      }
+    },
+    "Chigorodó": {
+      "2011": {
+        "poblacion_5_16": 19388.0,
+        "tasa_matriculacion_5_16": 93.12,
+        "cobertura_neta": {
+          "total": 93.1,
+          "transicion": 78.8,
+          "primaria": 97.4,
+          "secundaria": 64.2,
+          "media": 29.0
+        },
+        "cobertura_bruta": {
+          "total": 107.4,
+          "transicion": 95.7,
+          "primaria": 128.5,
+          "secundaria": 102.7,
+          "media": 69.2
+        },
+        "desercion": {
+          "total": 4.0,
+          "transicion": 4.75,
+          "primaria": 3.66,
+          "secundaria": 4.65,
+          "media": 2.93
+        },
+        "aprobacion": {
+          "total": 89.38,
+          "transicion": 0.23,
+          "primaria": 90.01,
+          "secundaria": 87.46,
+          "media": 87.39
+        },
+        "reprobacion": {
+          "total": 6.62,
+          "transicion": 0.23,
+          "primaria": 6.33,
+          "secundaria": 7.88,
+          "media": 9.69
+        },
+        "repitencia": {
+          "total": 1.53,
+          "transicion": 0.0,
+          "primaria": 1.69,
+          "secundaria": 2.01,
+          "media": 0.43
+        }
+      },
+      "2012": {
+        "poblacion_5_16": 19452.0,
+        "tasa_matriculacion_5_16": 89.06,
+        "cobertura_neta": {
+          "total": 89.0,
+          "transicion": 72.0,
+          "primaria": 90.0,
+          "secundaria": 66.6,
+          "media": 28.2
+        },
+        "cobertura_bruta": {
+          "total": 103.8,
+          "transicion": 93.8,
+          "primaria": 117.6,
+          "secundaria": 105.8,
+          "media": 69.3
+        },
+        "desercion": {
+          "total": 8.01,
+          "transicion": 7.01,
+          "primaria": 5.49,
+          "secundaria": 11.63,
+          "media": 9.92
+        },
+        "aprobacion": {
+          "total": 91.61,
+          "transicion": 0.0,
+          "primaria": 94.5,
+          "secundaria": 87.65,
+          "media": 88.53
+        },
+        "reprobacion": {
+          "total": 0.38,
+          "transicion": 0.0,
+          "primaria": 0.01,
+          "secundaria": 0.72,
+          "media": 1.55
+        },
+        "repitencia": {
+          "total": 0.52,
+          "transicion": 0.0,
+          "primaria": 0.61,
+          "secundaria": 0.53,
+          "media": 0.44
+        }
+      },
+      "2013": {
+        "poblacion_5_16": 19652.0,
+        "tasa_matriculacion_5_16": 80.38,
+        "cobertura_neta": {
+          "total": 80.4,
+          "transicion": 62.4,
+          "primaria": 82.8,
+          "secundaria": 62.2,
+          "media": 25.0
+        },
+        "cobertura_bruta": {
+          "total": 91.5,
+          "transicion": 77.7,
+          "primaria": 103.3,
+          "secundaria": 97.0,
+          "media": 58.1
+        },
+        "desercion": {
+          "total": 4.45,
+          "transicion": 3.19,
+          "primaria": 3.04,
+          "secundaria": 7.04,
+          "media": 4.49
+        },
+        "aprobacion": {
+          "total": 90.06,
+          "transicion": 0.0,
+          "primaria": 91.64,
+          "secundaria": 85.97,
+          "media": 89.64
+        },
+        "reprobacion": {
+          "total": 5.48,
+          "transicion": 0.0,
+          "primaria": 5.32,
+          "secundaria": 7.0,
+          "media": 5.88
+        },
+        "repitencia": {
+          "total": 2.4,
+          "transicion": 0.17,
+          "primaria": 2.31,
+          "secundaria": 3.27,
+          "media": 1.66
+        }
+      },
+      "2014": {
+        "poblacion_5_16": 19794.0,
+        "tasa_matriculacion_5_16": 79.01,
+        "cobertura_neta": {
+          "total": 86.0,
+          "transicion": 79.46,
+          "primaria": 77.58,
+          "secundaria": 65.16,
+          "media": 39.19
+        },
+        "cobertura_bruta": {
+          "total": 91.87,
+          "transicion": 77.15,
+          "primaria": 104.62,
+          "secundaria": 93.97,
+          "media": 62.7
+        },
+        "desercion": {
+          "total": 3.88,
+          "transicion": 2.46,
+          "primaria": 3.06,
+          "secundaria": 5.65,
+          "media": 3.51
+        },
+        "aprobacion": {
+          "total": 94.63,
+          "transicion": 0.0,
+          "primaria": 95.59,
+          "secundaria": 92.69,
+          "media": 93.15
+        },
+        "reprobacion": {
+          "total": 1.49,
+          "transicion": 0.0,
+          "primaria": 1.34,
+          "secundaria": 1.66,
+          "media": 3.35
+        },
+        "repitencia": {
+          "total": 2.39,
+          "transicion": 0.0,
+          "primaria": 2.07,
+          "secundaria": 3.74,
+          "media": 1.26
+        }
+      },
+      "2015": {
+        "poblacion_5_16": 19987.0,
+        "tasa_matriculacion_5_16": 76.52,
+        "cobertura_neta": {
+          "total": 76.52,
+          "transicion": 52.11,
+          "primaria": 78.33,
+          "secundaria": 58.64,
+          "media": 27.6
+        },
+        "cobertura_bruta": {
+          "total": 90.28,
+          "transicion": 65.54,
+          "primaria": 106.26,
+          "secundaria": 90.66,
+          "media": 61.22
+        },
+        "desercion": {
+          "total": 6.4,
+          "transicion": 5.18,
+          "primaria": 4.74,
+          "secundaria": 9.92,
+          "media": 4.11
+        },
+        "aprobacion": {
+          "total": 86.04,
+          "transicion": 0.0,
+          "primaria": 88.71,
+          "secundaria": 79.64,
+          "media": 86.82
+        },
+        "reprobacion": {
+          "total": 7.56,
+          "transicion": 0.0,
+          "primaria": 6.55,
+          "secundaria": 10.45,
+          "media": 9.06
+        },
+        "repitencia": {
+          "total": null,
+          "transicion": 1.54,
+          "primaria": null,
+          "secundaria": null,
+          "media": 3.58
+        }
+      },
+      "2016": {
+        "poblacion_5_16": 20288.0,
+        "tasa_matriculacion_5_16": 74.2,
+        "cobertura_neta": {
+          "total": 74.21,
+          "transicion": 43.81,
+          "primaria": 74.05,
+          "secundaria": 59.51,
+          "media": 28.79
+        },
+        "cobertura_bruta": {
+          "total": 86.54,
+          "transicion": 59.48,
+          "primaria": 99.23,
+          "secundaria": 91.1,
+          "media": 58.47
+        },
+        "desercion": {
+          "total": 7.28,
+          "transicion": 4.61,
+          "primaria": 5.47,
+          "secundaria": 10.7,
+          "media": 6.47
+        },
+        "aprobacion": {
+          "total": 82.73,
+          "transicion": 0.0,
+          "primaria": 85.57,
+          "secundaria": 76.12,
+          "media": 82.36
+        },
+        "reprobacion": {
+          "total": 9.99,
+          "transicion": 0.0,
+          "primaria": 8.96,
+          "secundaria": 13.17,
+          "media": 11.17
+        },
+        "repitencia": {
+          "total": 2.99,
+          "transicion": 0.67,
+          "primaria": 3.09,
+          "secundaria": 3.97,
+          "media": 0.49
+        }
+      },
+      "2017": {
+        "poblacion_5_16": 20638.0,
+        "tasa_matriculacion_5_16": 71.6,
+        "cobertura_neta": {
+          "total": 71.61,
+          "transicion": 46.0,
+          "primaria": 68.01,
+          "secundaria": 59.69,
+          "media": 27.26
+        },
+        "cobertura_bruta": {
+          "total": 81.89,
+          "transicion": 59.76,
+          "primaria": 89.95,
+          "secundaria": 90.45,
+          "media": 54.98
+        },
+        "desercion": {
+          "total": 6.9,
+          "transicion": 4.6,
+          "primaria": 5.6,
+          "secundaria": 9.67,
+          "media": 5.17
+        },
+        "aprobacion": {
+          "total": 83.52,
+          "transicion": 0.0,
+          "primaria": 86.09,
+          "secundaria": 77.9,
+          "media": 81.93
+        },
+        "reprobacion": {
+          "total": 9.58,
+          "transicion": 0.0,
+          "primaria": 8.31,
+          "secundaria": 12.43,
+          "media": 12.9
+        },
+        "repitencia": {
+          "total": 8.71,
+          "transicion": 1.5,
+          "primaria": 8.83,
+          "secundaria": 11.36,
+          "media": 3.61
+        }
+      },
+      "2018": {
+        "poblacion_5_16": 14586.0,
+        "tasa_matriculacion_5_16": 68.38,
+        "cobertura_neta": {
+          "total": 98.59,
+          "transicion": 71.33,
+          "primaria": 95.65,
+          "secundaria": 81.47,
+          "media": 38.66
+        },
+        "cobertura_bruta": {
+          "total": 118.55,
+          "transicion": 92.4,
+          "primaria": 138.37,
+          "secundaria": 120.41,
+          "media": 78.82
+        },
+        "desercion": {
+          "total": 5.08,
+          "transicion": 3.59,
+          "primaria": 4.14,
+          "secundaria": 7.19,
+          "media": 3.28
+        },
+        "aprobacion": {
+          "total": 88.77,
+          "transicion": 0.0,
+          "primaria": 89.98,
+          "secundaria": 84.77,
+          "media": 91.51
+        },
+        "reprobacion": {
+          "total": 6.15,
+          "transicion": 0.0,
+          "primaria": 5.88,
+          "secundaria": 8.04,
+          "media": 5.21
+        },
+        "repitencia": {
+          "total": 3.46,
+          "transicion": 0.19,
+          "primaria": 4.01,
+          "secundaria": 4.06,
+          "media": 0.93
+        }
+      },
+      "2019": {
+        "poblacion_5_16": 14646.0,
+        "tasa_matriculacion_5_16": 96.91,
+        "cobertura_neta": {
+          "total": 96.91,
+          "transicion": 63.26,
+          "primaria": 92.87,
+          "secundaria": 82.64,
+          "media": 39.96
+        },
+        "cobertura_bruta": {
+          "total": 111.44,
+          "transicion": 83.89,
+          "primaria": 117.07,
+          "secundaria": 124.1,
+          "media": 85.2
+        },
+        "desercion": {
+          "total": 6.32,
+          "transicion": 5.73,
+          "primaria": 5.01,
+          "secundaria": 8.56,
+          "media": 5.05
+        },
+        "aprobacion": {
+          "total": 87.83,
+          "transicion": 0.0,
+          "primaria": 89.65,
+          "secundaria": 83.7,
+          "media": 89.41
+        },
+        "reprobacion": {
+          "total": 5.85,
+          "transicion": 0.0,
+          "primaria": 5.34,
+          "secundaria": 7.74,
+          "media": 5.54
+        },
+        "repitencia": {
+          "total": 2.7,
+          "transicion": 0.21,
+          "primaria": 2.67,
+          "secundaria": 3.53,
+          "media": 1.63
+        }
+      },
+      "2020": {
+        "poblacion_5_16": 14683.0,
+        "tasa_matriculacion_5_16": 95.51,
+        "cobertura_neta": {
+          "total": 95.51,
+          "transicion": 72.41,
+          "primaria": 87.69,
+          "secundaria": 84.39,
+          "media": 43.46
+        },
+        "cobertura_bruta": {
+          "total": 106.26,
+          "transicion": 91.9,
+          "primaria": 108.56,
+          "secundaria": 118.86,
+          "media": 81.94
+        },
+        "desercion": {
+          "total": 0.86,
+          "transicion": 0.48,
+          "primaria": 1.17,
+          "secundaria": 0.62,
+          "media": 0.62
+        },
+        "aprobacion": {
+          "total": 93.53,
+          "transicion": 0.0,
+          "primaria": 94.79,
+          "secundaria": 90.95,
+          "media": 92.81
+        },
+        "reprobacion": {
+          "total": 5.61,
+          "transicion": 0.0,
+          "primaria": 4.04,
+          "secundaria": 8.43,
+          "media": 6.57
+        },
+        "repitencia": {
+          "total": 6.31,
+          "transicion": 0.0,
+          "primaria": 6.15,
+          "secundaria": 8.67,
+          "media": 3.22
+        }
+      },
+      "2021": {
+        "poblacion_5_16": 14.702,
+        "tasa_matriculacion_5_16": 97.46,
+        "cobertura_neta": {
+          "total": 97.46,
+          "transicion": 70.21,
+          "primaria": 90.13,
+          "secundaria": 85.82,
+          "media": 48.05
+        },
+        "cobertura_bruta": {
+          "total": 106.91,
+          "transicion": 85.86,
+          "primaria": 109.45,
+          "secundaria": 120.01,
+          "media": 84.18
+        },
+        "desercion": {
+          "total": 8.77,
+          "transicion": 2.59,
+          "primaria": 7.46,
+          "secundaria": 11.58,
+          "media": 8.29
+        },
+        "aprobacion": {
+          "total": 85.37,
+          "transicion": 0.1,
+          "primaria": 88.19,
+          "secundaria": 80.16,
+          "media": 84.19
+        },
+        "reprobacion": {
+          "total": 5.87,
+          "transicion": 0.1,
+          "primaria": 4.34,
+          "secundaria": 8.25,
+          "media": 7.53
+        },
+        "repitencia": {
+          "total": 4.81,
+          "transicion": 0.31,
+          "primaria": 4.22,
+          "secundaria": 6.93,
+          "media": 2.72
+        }
+      },
+      "2022": {
+        "poblacion_5_16": 14706.0,
+        "tasa_matriculacion_5_16": 93.24,
+        "cobertura_neta": {
+          "total": 93.23,
+          "transicion": 70.03,
+          "primaria": 87.75,
+          "secundaria": 81.84,
+          "media": 49.92
+        },
+        "cobertura_bruta": {
+          "total": 101.42,
+          "transicion": 88.06,
+          "primaria": 102.55,
+          "secundaria": 113.39,
+          "media": 80.53
+        },
+        "desercion": {
+          "total": 6.24,
+          "transicion": 5.4,
+          "primaria": 4.86,
+          "secundaria": 8.61,
+          "media": 4.52
+        },
+        "aprobacion": {
+          "total": 86.25,
+          "transicion": 0.0,
+          "primaria": 89.99,
+          "secundaria": 79.66,
+          "media": 87.73
+        },
+        "reprobacion": {
+          "total": 7.51,
+          "transicion": 0.0,
+          "primaria": 5.15,
+          "secundaria": 11.73,
+          "media": 7.75
+        },
+        "repitencia": {
+          "total": 4.71,
+          "transicion": 0.1,
+          "primaria": 4.59,
+          "secundaria": 6.47,
+          "media": 2.32
+        }
+      },
+      "2023": {
+        "poblacion_5_16": 14723.0,
+        "tasa_matriculacion_5_16": 89.93,
+        "cobertura_neta": {
+          "total": 89.93,
+          "transicion": 70.92,
+          "primaria": 84.0,
+          "secundaria": 77.43,
+          "media": 53.9
+        },
+        "cobertura_bruta": {
+          "total": 97.91,
+          "transicion": 86.92,
+          "primaria": 99.13,
+          "secundaria": 104.93,
+          "media": 85.73
+        },
+        "desercion": {
+          "total": 5.39,
+          "transicion": 2.51,
+          "primaria": 3.95,
+          "secundaria": 7.64,
+          "media": 5.87
+        },
+        "aprobacion": {
+          "total": 87.47,
+          "transicion": 0.31,
+          "primaria": 91.55,
+          "secundaria": 79.94,
+          "media": 88.5
+        },
+        "reprobacion": {
+          "total": 7.14,
+          "transicion": 0.31,
+          "primaria": 4.5,
+          "secundaria": 12.43,
+          "media": 5.63
+        },
+        "repitencia": {
+          "total": 8.75,
+          "transicion": 0.84,
+          "primaria": 8.9,
+          "secundaria": 11.99,
+          "media": 3.77
+        }
+      },
+      "2024": {
+        "poblacion_5_16": 14733.0,
+        "tasa_matriculacion_5_16": 86.78,
+        "cobertura_neta": {
+          "total": 86.78,
+          "transicion": 71.58,
+          "primaria": 82.05,
+          "secundaria": 74.35,
+          "media": 52.86
+        },
+        "cobertura_bruta": {
+          "total": 93.96,
+          "transicion": 83.99,
+          "primaria": 95.51,
+          "secundaria": 99.29,
+          "media": 83.78
+        },
+        "desercion": {
+          "total": 5.48,
+          "transicion": 2.72,
+          "primaria": 3.66,
+          "secundaria": 8.98,
+          "media": 3.78
+        },
+        "aprobacion": {
+          "total": 90.57,
+          "transicion": 0.0,
+          "primaria": 93.84,
+          "secundaria": 84.75,
+          "media": 91.35
+        },
+        "reprobacion": {
+          "total": 3.95,
+          "transicion": 0.0,
+          "primaria": 2.51,
+          "secundaria": 6.27,
+          "media": 4.88
+        },
+        "repitencia": {
+          "total": 7.19,
+          "transicion": 0.98,
+          "primaria": 7.05,
+          "secundaria": 9.99,
+          "media": 3.53
+        }
+      }
+    },
+    "Mutatá": {
+      "2011": {
+        "poblacion_5_16": 5026.0,
+        "tasa_matriculacion_5_16": 84.04,
+        "cobertura_neta": {
+          "total": 84.0,
+          "transicion": 68.8,
+          "primaria": 94.9,
+          "secundaria": 43.4,
+          "media": 16.7
+        },
+        "cobertura_bruta": {
+          "total": 92.3,
+          "transicion": 82.2,
+          "primaria": 135.0,
+          "secundaria": 70.9,
+          "media": 36.6
+        },
+        "desercion": {
+          "total": 2.95,
+          "transicion": 2.67,
+          "primaria": 2.64,
+          "secundaria": 4.05,
+          "media": 2.23
+        },
+        "aprobacion": {
+          "total": 94.26,
+          "transicion": 0.0,
+          "primaria": 95.31,
+          "secundaria": 89.93,
+          "media": 96.43
+        },
+        "reprobacion": {
+          "total": 2.79,
+          "transicion": 0.0,
+          "primaria": 2.05,
+          "secundaria": 6.02,
+          "media": 1.34
+        },
+        "repitencia": {
+          "total": 0.64,
+          "transicion": 0.0,
+          "primaria": 0.69,
+          "secundaria": 0.69,
+          "media": 0.89
+        }
+      },
+      "2012": {
+        "poblacion_5_16": 5029.0,
+        "tasa_matriculacion_5_16": 80.77,
+        "cobertura_neta": {
+          "total": 80.8,
+          "transicion": 72.5,
+          "primaria": 93.0,
+          "secundaria": 42.1,
+          "media": 15.9
+        },
+        "cobertura_bruta": {
+          "total": 88.5,
+          "transicion": 94.7,
+          "primaria": 128.9,
+          "secundaria": 66.6,
+          "media": 34.4
+        },
+        "desercion": {
+          "total": 5.75,
+          "transicion": 5.85,
+          "primaria": 6.11,
+          "secundaria": 4.55,
+          "media": 6.51
+        },
+        "aprobacion": {
+          "total": 94.16,
+          "transicion": 0.0,
+          "primaria": 93.81,
+          "secundaria": 95.35,
+          "media": 93.02
+        },
+        "reprobacion": {
+          "total": 0.1,
+          "transicion": 0.0,
+          "primaria": 0.08,
+          "secundaria": 0.1,
+          "media": 0.47
+        },
+        "repitencia": {
+          "total": 1.12,
+          "transicion": 0.24,
+          "primaria": 1.12,
+          "secundaria": 1.76,
+          "media": 0.0
+        }
+      },
+      "2013": {
+        "poblacion_5_16": 5037.0,
+        "tasa_matriculacion_5_16": 87.87,
+        "cobertura_neta": {
+          "total": 87.9,
+          "transicion": 73.2,
+          "primaria": 98.5,
+          "secundaria": 51.2,
+          "media": 15.9
+        },
+        "cobertura_bruta": {
+          "total": 101.9,
+          "transicion": 99.0,
+          "primaria": 140.6,
+          "secundaria": 85.7,
+          "media": 42.0
+        },
+        "desercion": {
+          "total": 3.24,
+          "transicion": 1.23,
+          "primaria": 3.53,
+          "secundaria": 3.3,
+          "media": 2.97
+        },
+        "aprobacion": {
+          "total": 91.27,
+          "transicion": 0.0,
+          "primaria": 91.22,
+          "secundaria": 88.91,
+          "media": 90.59
+        },
+        "reprobacion": {
+          "total": 5.49,
+          "transicion": 0.0,
+          "primaria": 5.24,
+          "secundaria": 7.79,
+          "media": 6.44
+        },
+        "repitencia": {
+          "total": 0.31,
+          "transicion": 0.0,
+          "primaria": 0.3,
+          "secundaria": 0.42,
+          "media": 0.5
+        }
+      },
+      "2014": {
+        "poblacion_5_16": 5057.0,
+        "tasa_matriculacion_5_16": 94.84,
+        "cobertura_neta": {
+          "total": 85.69,
+          "transicion": 64.92,
+          "primaria": 68.63,
+          "secundaria": 59.95,
+          "media": 32.95
+        },
+        "cobertura_bruta": {
+          "total": 110.68,
+          "transicion": 103.78,
+          "primaria": 153.34,
+          "secundaria": 95.46,
+          "media": 40.68
+        },
+        "desercion": {
+          "total": 3.2,
+          "transicion": 2.96,
+          "primaria": 2.88,
+          "secundaria": 4.06,
+          "media": 3.17
+        },
+        "aprobacion": {
+          "total": 96.8,
+          "transicion": 0.0,
+          "primaria": 97.12,
+          "secundaria": 95.94,
+          "media": 96.83
+        },
+        "reprobacion": {
+          "total": 0.0,
+          "transicion": 0.0,
+          "primaria": 0.0,
+          "secundaria": 0.0,
+          "media": 0.0
+        },
+        "repitencia": {
+          "total": 0.1,
+          "transicion": 0.0,
+          "primaria": 0.07,
+          "secundaria": 0.23,
+          "media": 0.0
+        }
+      },
+      "2015": {
+        "poblacion_5_16": 5072.0,
+        "tasa_matriculacion_5_16": 94.26,
+        "cobertura_neta": {
+          "total": 94.26,
+          "transicion": 55.02,
+          "primaria": 103.12,
+          "secundaria": 57.81,
+          "media": 16.1
+        },
+        "cobertura_bruta": {
+          "total": 110.07,
+          "transicion": 85.16,
+          "primaria": 146.74,
+          "secundaria": 102.83,
+          "media": 46.21
+        },
+        "desercion": {
+          "total": 3.42,
+          "transicion": 1.88,
+          "primaria": 2.93,
+          "secundaria": 5.2,
+          "media": 1.9
+        },
+        "aprobacion": {
+          "total": 96.22,
+          "transicion": 0.0,
+          "primaria": 96.84,
+          "secundaria": 93.97,
+          "media": 98.1
+        },
+        "reprobacion": {
+          "total": 0.37,
+          "transicion": 0.0,
+          "primaria": 0.23,
+          "secundaria": 0.83,
+          "media": 0.0
+        },
+        "repitencia": {
+          "total": 2.83,
+          "transicion": 0.0,
+          "primaria": 3.96,
+          "secundaria": 1.36,
+          "media": 0.95
+        }
+      },
+      "2016": {
+        "poblacion_5_16": 5122.0,
+        "tasa_matriculacion_5_16": 91.4,
+        "cobertura_neta": {
+          "total": 91.41,
+          "transicion": 49.78,
+          "primaria": 99.07,
+          "secundaria": 60.18,
+          "media": 19.0
+        },
+        "cobertura_bruta": {
+          "total": 107.97,
+          "transicion": 80.53,
+          "primaria": 137.78,
+          "secundaria": 104.05,
+          "media": 55.01
+        },
+        "desercion": {
+          "total": 8.22,
+          "transicion": 6.32,
+          "primaria": 8.32,
+          "secundaria": 8.89,
+          "media": 6.39
+        },
+        "aprobacion": {
+          "total": 90.38,
+          "transicion": 0.0,
+          "primaria": 89.87,
+          "secundaria": 90.15,
+          "media": 92.48
+        },
+        "reprobacion": {
+          "total": 1.39,
+          "transicion": 0.0,
+          "primaria": 1.81,
+          "secundaria": 0.96,
+          "media": 1.13
+        },
+        "repitencia": {
+          "total": 0.12,
+          "transicion": 0.0,
+          "primaria": 0.11,
+          "secundaria": 0.15,
+          "media": 0.38
+        }
+      },
+      "2017": {
+        "poblacion_5_16": 5185.0,
+        "tasa_matriculacion_5_16": 89.1,
+        "cobertura_neta": {
+          "total": 89.1,
+          "transicion": 50.64,
+          "primaria": 91.62,
+          "secundaria": 62.12,
+          "media": 19.42
+        },
+        "cobertura_bruta": {
+          "total": 102.93,
+          "transicion": 85.19,
+          "primaria": 127.09,
+          "secundaria": 100.0,
+          "media": 56.51
+        },
+        "desercion": {
+          "total": 7.37,
+          "transicion": 5.54,
+          "primaria": 7.18,
+          "secundaria": 8.33,
+          "media": 6.95
+        },
+        "aprobacion": {
+          "total": 91.91,
+          "transicion": 0.0,
+          "primaria": 91.54,
+          "secundaria": 91.67,
+          "media": 93.05
+        },
+        "reprobacion": {
+          "total": 0.72,
+          "transicion": 0.0,
+          "primaria": 1.28,
+          "secundaria": 0.0,
+          "media": 0.0
+        },
+        "repitencia": {
+          "total": 7.66,
+          "transicion": 2.52,
+          "primaria": 8.28,
+          "secundaria": 9.34,
+          "media": 0.99
+        }
+      },
+      "2018": {
+        "poblacion_5_16": 3849.0,
+        "tasa_matriculacion_5_16": 90.59,
+        "cobertura_neta": {
+          "total": 123.82,
+          "transicion": 72.32,
+          "primaria": 114.4,
+          "secundaria": 91.82,
+          "media": 37.31
+        },
+        "cobertura_bruta": {
+          "total": 153.88,
+          "transicion": 105.37,
+          "primaria": 189.53,
+          "secundaria": 151.17,
+          "media": 85.84
+        },
+        "desercion": {
+          "total": 5.11,
+          "transicion": 4.29,
+          "primaria": 4.32,
+          "secundaria": 7.22,
+          "media": 2.7
+        },
+        "aprobacion": {
+          "total": 89.21,
+          "transicion": 0.27,
+          "primaria": 87.94,
+          "secundaria": 89.07,
+          "media": 93.09
+        },
+        "reprobacion": {
+          "total": 5.68,
+          "transicion": 0.27,
+          "primaria": 7.74,
+          "secundaria": 3.71,
+          "media": 4.2
+        },
+        "repitencia": {
+          "total": 1.6,
+          "transicion": 0.0,
+          "primaria": 1.28,
+          "secundaria": 2.65,
+          "media": 1.2
+        }
+      },
+      "2019": {
+        "poblacion_5_16": 3875.0,
+        "tasa_matriculacion_5_16": 125.52,
+        "cobertura_neta": {
+          "total": 125.52,
+          "transicion": 72.83,
+          "primaria": 121.61,
+          "secundaria": 92.19,
+          "media": 36.68
+        },
+        "cobertura_bruta": {
+          "total": 143.1,
+          "transicion": 110.36,
+          "primaria": 169.08,
+          "secundaria": 144.61,
+          "media": 83.74
+        },
+        "desercion": {
+          "total": 6.17,
+          "transicion": 5.33,
+          "primaria": 6.39,
+          "secundaria": 6.68,
+          "media": 3.06
+        },
+        "aprobacion": {
+          "total": 89.6,
+          "transicion": 0.0,
+          "primaria": 88.84,
+          "secundaria": 88.12,
+          "media": 96.64
+        },
+        "reprobacion": {
+          "total": 4.23,
+          "transicion": 0.0,
+          "primaria": 4.77,
+          "secundaria": 5.2,
+          "media": 0.31
+        },
+        "repitencia": {
+          "total": 1.74,
+          "transicion": 0.0,
+          "primaria": 1.79,
+          "secundaria": 2.36,
+          "media": 0.61
+        }
+      },
+      "2020": {
+        "poblacion_5_16": 3904.0,
+        "tasa_matriculacion_5_16": 131.74,
+        "cobertura_neta": {
+          "total": 131.74,
+          "transicion": 78.39,
+          "primaria": 123.41,
+          "secundaria": 105.84,
+          "media": 39.93
+        },
+        "cobertura_bruta": {
+          "total": 151.66,
+          "transicion": 116.9,
+          "primaria": 166.55,
+          "secundaria": 164.29,
+          "media": 102.24
+        },
+        "desercion": {
+          "total": 1.47,
+          "transicion": 0.71,
+          "primaria": 1.51,
+          "secundaria": 1.65,
+          "media": 1.12
+        },
+        "aprobacion": {
+          "total": 93.47,
+          "transicion": 0.0,
+          "primaria": 92.84,
+          "secundaria": 93.57,
+          "media": 91.06
+        },
+        "reprobacion": {
+          "total": 5.06,
+          "transicion": 0.0,
+          "primaria": 5.65,
+          "secundaria": 4.78,
+          "media": 7.82
+        },
+        "repitencia": {
+          "total": 4.13,
+          "transicion": 0.0,
+          "primaria": 5.15,
+          "secundaria": 4.18,
+          "media": 0.84
+        }
+      },
+      "2021": {
+        "poblacion_5_16": 3.938,
+        "tasa_matriculacion_5_16": 99.85,
+        "cobertura_neta": {
+          "total": 99.85,
+          "transicion": 65.38,
+          "primaria": 92.83,
+          "secundaria": 76.76,
+          "media": 33.73
+        },
+        "cobertura_bruta": {
+          "total": 115.13,
+          "transicion": 84.34,
+          "primaria": 125.27,
+          "secundaria": 123.71,
+          "media": 85.79
+        },
+        "desercion": {
+          "total": 11.25,
+          "transicion": 8.79,
+          "primaria": 9.66,
+          "secundaria": 15.06,
+          "media": 7.99
+        },
+        "aprobacion": {
+          "total": 78.97,
+          "transicion": 0.33,
+          "primaria": 83.09,
+          "secundaria": 69.35,
+          "media": 80.21
+        },
+        "reprobacion": {
+          "total": 9.79,
+          "transicion": 0.33,
+          "primaria": 7.25,
+          "secundaria": 15.59,
+          "media": 11.81
+        },
+        "repitencia": {
+          "total": 5.31,
+          "transicion": 0.0,
+          "primaria": 5.75,
+          "secundaria": 5.87,
+          "media": 5.21
+        }
+      },
+      "2022": {
+        "poblacion_5_16": 3869.0,
+        "tasa_matriculacion_5_16": 99.35,
+        "cobertura_neta": {
+          "total": 99.35,
+          "transicion": 59.39,
+          "primaria": 94.58,
+          "secundaria": 75.88,
+          "media": 37.48
+        },
+        "cobertura_bruta": {
+          "total": 111.42,
+          "transicion": 81.49,
+          "primaria": 123.94,
+          "secundaria": 121.11,
+          "media": 71.4
+        },
+        "desercion": {
+          "total": 8.8,
+          "transicion": 7.46,
+          "primaria": 7.89,
+          "secundaria": 10.84,
+          "media": 8.1
+        },
+        "aprobacion": {
+          "total": 80.42,
+          "transicion": 0.0,
+          "primaria": 82.88,
+          "secundaria": 72.99,
+          "media": 81.69
+        },
+        "reprobacion": {
+          "total": 10.78,
+          "transicion": 0.0,
+          "primaria": 9.24,
+          "secundaria": 16.17,
+          "media": 10.21
+        },
+        "repitencia": {
+          "total": 8.36,
+          "transicion": 0.34,
+          "primaria": 7.65,
+          "secundaria": 12.97,
+          "media": 2.11
+        }
+      },
+      "2023": {
+        "poblacion_5_16": 3876.0,
+        "tasa_matriculacion_5_16": 98.09,
+        "cobertura_neta": {
+          "total": 98.09,
+          "transicion": 72.25,
+          "primaria": 91.99,
+          "secundaria": 74.94,
+          "media": 37.08
+        },
+        "cobertura_bruta": {
+          "total": 112.69,
+          "transicion": 104.12,
+          "primaria": 121.54,
+          "secundaria": 117.98,
+          "media": 79.5
+        },
+        "desercion": {
+          "total": 5.91,
+          "transicion": 4.22,
+          "primaria": 5.06,
+          "secundaria": 7.94,
+          "media": 5.78
+        },
+        "aprobacion": {
+          "total": 83.16,
+          "transicion": 0.26,
+          "primaria": 85.66,
+          "secundaria": 74.15,
+          "media": 86.05
+        },
+        "reprobacion": {
+          "total": 10.93,
+          "transicion": 0.26,
+          "primaria": 9.28,
+          "secundaria": 17.92,
+          "media": 8.16
+        },
+        "repitencia": {
+          "total": 12.76,
+          "transicion": 8.44,
+          "primaria": 13.03,
+          "secundaria": 14.93,
+          "media": 7.82
+        }
+      },
+      "2024": {
+        "poblacion_5_16": 3878.0,
+        "tasa_matriculacion_5_16": 96.85,
+        "cobertura_neta": {
+          "total": 96.85,
+          "transicion": 74.44,
+          "primaria": 88.61,
+          "secundaria": 75.06,
+          "media": 37.16
+        },
+        "cobertura_bruta": {
+          "total": 111.42,
+          "transicion": 111.67,
+          "primaria": 117.51,
+          "secundaria": 116.98,
+          "media": 80.07
+        },
+        "desercion": {
+          "total": 7.37,
+          "transicion": 6.47,
+          "primaria": 7.03,
+          "secundaria": 8.75,
+          "media": 5.35
+        },
+        "aprobacion": {
+          "total": 83.19,
+          "transicion": 0.5,
+          "primaria": 86.13,
+          "secundaria": 73.92,
+          "media": 86.96
+        },
+        "reprobacion": {
+          "total": 9.44,
+          "transicion": 0.5,
+          "primaria": 6.83,
+          "secundaria": 17.33,
+          "media": 7.69
+        },
+        "repitencia": {
+          "total": 11.05,
+          "transicion": 7.71,
+          "primaria": 11.49,
+          "secundaria": 13.5,
+          "media": 3.01
+        }
+      }
+    },
+    "Necoclí": {
+      "2011": {
+        "poblacion_5_16": 16152.0,
+        "tasa_matriculacion_5_16": 97.13,
+        "cobertura_neta": {
+          "total": 97.1,
+          "transicion": 80.4,
+          "primaria": 107.7,
+          "secundaria": 58.8,
+          "media": 21.9
+        },
+        "cobertura_bruta": {
+          "total": 115.8,
+          "transicion": 104.7,
+          "primaria": 147.4,
+          "secundaria": 107.6,
+          "media": 57.9
+        },
+        "desercion": {
+          "total": 6.02,
+          "transicion": 5.17,
+          "primaria": 4.81,
+          "secundaria": 8.14,
+          "media": 7.82
+        },
+        "aprobacion": {
+          "total": 89.07,
+          "transicion": 0.24,
+          "primaria": 90.02,
+          "secundaria": 85.97,
+          "media": 88.07
+        },
+        "reprobacion": {
+          "total": 4.91,
+          "transicion": 0.24,
+          "primaria": 5.17,
+          "secundaria": 5.89,
+          "media": 4.1
+        },
+        "repitencia": {
+          "total": 0.71,
+          "transicion": 0.0,
+          "primaria": 0.71,
+          "secundaria": 0.9,
+          "media": 0.7
+        }
+      },
+      "2012": {
+        "poblacion_5_16": 16267.0,
+        "tasa_matriculacion_5_16": 91.67,
+        "cobertura_neta": {
+          "total": 91.7,
+          "transicion": 70.6,
+          "primaria": 103.8,
+          "secundaria": 58.6,
+          "media": 19.4
+        },
+        "cobertura_bruta": {
+          "total": 105.4,
+          "transicion": 109.8,
+          "primaria": 136.8,
+          "secundaria": 94.3,
+          "media": 48.2
+        },
+        "desercion": {
+          "total": 5.68,
+          "transicion": 4.48,
+          "primaria": 4.51,
+          "secundaria": 8.32,
+          "media": 5.78
+        },
+        "aprobacion": {
+          "total": 88.74,
+          "transicion": 0.0,
+          "primaria": 90.64,
+          "secundaria": 82.83,
+          "media": 88.54
+        },
+        "reprobacion": {
+          "total": 5.58,
+          "transicion": 0.0,
+          "primaria": 4.85,
+          "secundaria": 8.85,
+          "media": 5.68
+        },
+        "repitencia": {
+          "total": 0.13,
+          "transicion": 0.0,
+          "primaria": 0.15,
+          "secundaria": 0.13,
+          "media": 0.11
+        }
+      },
+      "2013": {
+        "poblacion_5_16": 16343.0,
+        "tasa_matriculacion_5_16": 91.38,
+        "cobertura_neta": {
+          "total": 91.4,
+          "transicion": 66.9,
+          "primaria": 103.9,
+          "secundaria": 58.7,
+          "media": 18.7
+        },
+        "cobertura_bruta": {
+          "total": 105.6,
+          "transicion": 104.8,
+          "primaria": 140.2,
+          "secundaria": 91.3,
+          "media": 48.7
+        },
+        "desercion": {
+          "total": 5.42,
+          "transicion": 4.15,
+          "primaria": 4.27,
+          "secundaria": 8.14,
+          "media": 5.41
+        },
+        "aprobacion": {
+          "total": 87.2,
+          "transicion": 0.42,
+          "primaria": 87.22,
+          "secundaria": 83.39,
+          "media": 92.83
+        },
+        "reprobacion": {
+          "total": 7.38,
+          "transicion": 0.42,
+          "primaria": 8.5,
+          "secundaria": 8.48,
+          "media": 1.77
+        },
+        "repitencia": {
+          "total": 0.68,
+          "transicion": 0.07,
+          "primaria": 0.39,
+          "secundaria": 1.39,
+          "media": 1.02
+        }
+      },
+      "2014": {
+        "poblacion_5_16": 16454.0,
+        "tasa_matriculacion_5_16": 90.61,
+        "cobertura_neta": {
+          "total": 85.47,
+          "transicion": 55.52,
+          "primaria": 72.53,
+          "secundaria": 65.98,
+          "media": 41.49
+        },
+        "cobertura_bruta": {
+          "total": 106.01,
+          "transicion": 103.97,
+          "primaria": 140.05,
+          "secundaria": 92.21,
+          "media": 50.05
+        },
+        "desercion": {
+          "total": 2.68,
+          "transicion": 3.13,
+          "primaria": 1.97,
+          "secundaria": 4.12,
+          "media": 2.19
+        },
+        "aprobacion": {
+          "total": 95.12,
+          "transicion": 0.21,
+          "primaria": 95.94,
+          "secundaria": 92.91,
+          "media": 95.3
+        },
+        "reprobacion": {
+          "total": 2.19,
+          "transicion": 0.21,
+          "primaria": 2.1,
+          "secundaria": 2.97,
+          "media": 2.52
+        },
+        "repitencia": {
+          "total": 0.85,
+          "transicion": 0.0,
+          "primaria": 0.93,
+          "secundaria": 1.03,
+          "media": 0.44
+        }
+      },
+      "2015": {
+        "poblacion_5_16": 16573.0,
+        "tasa_matriculacion_5_16": 88.59,
+        "cobertura_neta": {
+          "total": 88.59,
+          "transicion": 47.56,
+          "primaria": 94.75,
+          "secundaria": 63.06,
+          "media": 20.69
+        },
+        "cobertura_bruta": {
+          "total": 109.11,
+          "transicion": 87.24,
+          "primaria": 145.76,
+          "secundaria": 99.72,
+          "media": 46.79
+        },
+        "desercion": {
+          "total": 4.19,
+          "transicion": 3.68,
+          "primaria": 3.55,
+          "secundaria": 5.52,
+          "media": 4.39
+        },
+        "aprobacion": {
+          "total": 89.83,
+          "transicion": 0.32,
+          "primaria": 90.91,
+          "secundaria": 86.18,
+          "media": 89.2
+        },
+        "reprobacion": {
+          "total": 5.98,
+          "transicion": 0.32,
+          "primaria": 5.53,
+          "secundaria": 8.3,
+          "media": 6.41
+        },
+        "repitencia": {
+          "total": null,
+          "transicion": null,
+          "primaria": null,
+          "secundaria": 10.92,
+          "media": 3.94
+        }
+      },
+      "2016": {
+        "poblacion_5_16": 16778.0,
+        "tasa_matriculacion_5_16": 86.3,
+        "cobertura_neta": {
+          "total": 86.26,
+          "transicion": 37.13,
+          "primaria": 88.25,
+          "secundaria": 67.17,
+          "media": 25.02
+        },
+        "cobertura_bruta": {
+          "total": 107.77,
+          "transicion": 77.63,
+          "primaria": 134.57,
+          "secundaria": 108.13,
+          "media": 54.97
+        },
+        "desercion": {
+          "total": 5.18,
+          "transicion": 5.82,
+          "primaria": 4.34,
+          "secundaria": 6.67,
+          "media": 4.34
+        },
+        "aprobacion": {
+          "total": 88.51,
+          "transicion": 0.0,
+          "primaria": 88.78,
+          "secundaria": 85.95,
+          "media": 91.8
+        },
+        "reprobacion": {
+          "total": 6.31,
+          "transicion": 0.0,
+          "primaria": 6.88,
+          "secundaria": 7.38,
+          "media": 3.86
+        },
+        "repitencia": {
+          "total": 2.06,
+          "transicion": 0.61,
+          "primaria": 2.89,
+          "secundaria": 1.42,
+          "media": 0.0
+        }
+      },
+      "2017": {
+        "poblacion_5_16": 17020.0,
+        "tasa_matriculacion_5_16": 82.0,
+        "cobertura_neta": {
+          "total": 81.97,
+          "transicion": 37.61,
+          "primaria": 81.16,
+          "secundaria": 67.51,
+          "media": 26.8
+        },
+        "cobertura_bruta": {
+          "total": 94.68,
+          "transicion": 72.02,
+          "primaria": 111.89,
+          "secundaria": 98.65,
+          "media": 54.86
+        },
+        "desercion": {
+          "total": 4.96,
+          "transicion": 3.91,
+          "primaria": 3.86,
+          "secundaria": 6.7,
+          "media": 6.25
+        },
+        "aprobacion": {
+          "total": 89.0,
+          "transicion": 0.0,
+          "primaria": 89.7,
+          "secundaria": 86.35,
+          "media": 88.37
+        },
+        "reprobacion": {
+          "total": 6.04,
+          "transicion": 0.0,
+          "primaria": 6.44,
+          "secundaria": 6.95,
+          "media": 5.38
+        },
+        "repitencia": {
+          "total": 5.77,
+          "transicion": 1.36,
+          "primaria": 7.19,
+          "secundaria": 5.56,
+          "media": 1.3
+        }
+      },
+      "2018": {
+        "poblacion_5_16": 11703.0,
+        "tasa_matriculacion_5_16": 79.25,
+        "cobertura_neta": {
+          "total": 117.14,
+          "transicion": 53.37,
+          "primaria": 111.93,
+          "secundaria": 97.43,
+          "media": 41.22
+        },
+        "cobertura_bruta": {
+          "total": 139.03,
+          "transicion": 97.99,
+          "primaria": 161.64,
+          "secundaria": 147.63,
+          "media": 82.33
+        },
+        "desercion": {
+          "total": 4.93,
+          "transicion": 3.7,
+          "primaria": 3.91,
+          "secundaria": 6.69,
+          "media": 5.02
+        },
+        "aprobacion": {
+          "total": 90.73,
+          "transicion": 0.0,
+          "primaria": 91.24,
+          "secundaria": 88.78,
+          "media": 91.05
+        },
+        "reprobacion": {
+          "total": 4.34,
+          "transicion": 0.0,
+          "primaria": 4.85,
+          "secundaria": 4.53,
+          "media": 3.93
+        },
+        "repitencia": {
+          "total": 2.78,
+          "transicion": 0.51,
+          "primaria": 2.83,
+          "secundaria": 3.53,
+          "media": 1.1
+        }
+      },
+      "2019": {
+        "poblacion_5_16": 11908.0,
+        "tasa_matriculacion_5_16": 115.02,
+        "cobertura_neta": {
+          "total": 115.02,
+          "transicion": 51.67,
+          "primaria": 106.86,
+          "secundaria": 100.05,
+          "media": 48.05
+        },
+        "cobertura_bruta": {
+          "total": 131.53,
+          "transicion": 97.64,
+          "primaria": 137.56,
+          "secundaria": 149.27,
+          "media": 96.15
+        },
+        "desercion": {
+          "total": 5.49,
+          "transicion": 3.12,
+          "primaria": 3.77,
+          "secundaria": 8.13,
+          "media": 6.03
+        },
+        "aprobacion": {
+          "total": 89.18,
+          "transicion": 0.0,
+          "primaria": 91.79,
+          "secundaria": 84.25,
+          "media": 88.93
+        },
+        "reprobacion": {
+          "total": 5.33,
+          "transicion": 0.0,
+          "primaria": 4.44,
+          "secundaria": 7.62,
+          "media": 5.04
+        },
+        "repitencia": {
+          "total": 2.29,
+          "transicion": 0.2,
+          "primaria": 1.79,
+          "secundaria": 3.75,
+          "media": 0.76
+        }
+      },
+      "2020": {
+        "poblacion_5_16": 12090.0,
+        "tasa_matriculacion_5_16": 112.65,
+        "cobertura_neta": {
+          "total": 112.65,
+          "transicion": 53.67,
+          "primaria": 102.11,
+          "secundaria": 98.4,
+          "media": 54.27
+        },
+        "cobertura_bruta": {
+          "total": 129.05,
+          "transicion": 96.24,
+          "primaria": 128.81,
+          "secundaria": 150.04,
+          "media": 103.13
+        },
+        "desercion": {
+          "total": 1.69,
+          "transicion": 1.5,
+          "primaria": 0.87,
+          "secundaria": 2.39,
+          "media": 3.09
+        },
+        "aprobacion": {
+          "total": 95.41,
+          "transicion": 0.1,
+          "primaria": 96.35,
+          "secundaria": 93.93,
+          "media": 94.44
+        },
+        "reprobacion": {
+          "total": 2.89,
+          "transicion": 0.1,
+          "primaria": 2.78,
+          "secundaria": 3.68,
+          "media": 2.47
+        },
+        "repitencia": {
+          "total": 4.73,
+          "transicion": 0.0,
+          "primaria": 5.16,
+          "secundaria": 5.73,
+          "media": 2.47
+        }
+      },
+      "2021": {
+        "poblacion_5_16": 12.199,
+        "tasa_matriculacion_5_16": 112.01,
+        "cobertura_neta": {
+          "total": 112.01,
+          "transicion": 54.32,
+          "primaria": 100.44,
+          "secundaria": 98.59,
+          "media": 56.88
+        },
+        "cobertura_bruta": {
+          "total": 127.28,
+          "transicion": 90.88,
+          "primaria": 125.7,
+          "secundaria": 147.87,
+          "media": 107.75
+        },
+        "desercion": {
+          "total": 8.44,
+          "transicion": 5.6,
+          "primaria": 5.86,
+          "secundaria": 11.32,
+          "media": 10.81
+        },
+        "aprobacion": {
+          "total": 86.76,
+          "transicion": 0.11,
+          "primaria": 90.4,
+          "secundaria": 81.97,
+          "media": 83.73
+        },
+        "reprobacion": {
+          "total": 4.81,
+          "transicion": 0.11,
+          "primaria": 3.73,
+          "secundaria": 6.71,
+          "media": 5.47
+        },
+        "repitencia": {
+          "total": 1.81,
+          "transicion": 0.11,
+          "primaria": 1.79,
+          "secundaria": 2.44,
+          "media": 0.81
+        }
+      },
+      "2022": {
+        "poblacion_5_16": 11716.0,
+        "tasa_matriculacion_5_16": 112.33,
+        "cobertura_neta": {
+          "total": 112.33,
+          "transicion": 61.91,
+          "primaria": 101.05,
+          "secundaria": 96.8,
+          "media": 58.5
+        },
+        "cobertura_bruta": {
+          "total": 126.92,
+          "transicion": 115.33,
+          "primaria": 123.91,
+          "secundaria": 143.53,
+          "media": 106.39
+        },
+        "desercion": {
+          "total": 5.08,
+          "transicion": 3.81,
+          "primaria": 3.6,
+          "secundaria": 6.97,
+          "media": 5.84
+        },
+        "aprobacion": {
+          "total": 89.29,
+          "transicion": 0.25,
+          "primaria": 92.45,
+          "secundaria": 83.96,
+          "media": 88.88
+        },
+        "reprobacion": {
+          "total": 5.63,
+          "transicion": 0.25,
+          "primaria": 3.95,
+          "secundaria": 9.07,
+          "media": 5.27
+        },
+        "repitencia": {
+          "total": 4.7,
+          "transicion": 0.34,
+          "primaria": 4.78,
+          "secundaria": 6.44,
+          "media": 2.03
+        }
+      },
+      "2023": {
+        "poblacion_5_16": 11723.0,
+        "tasa_matriculacion_5_16": 110.62,
+        "cobertura_neta": {
+          "total": 110.62,
+          "transicion": 56.3,
+          "primaria": 96.52,
+          "secundaria": 97.89,
+          "media": 60.3
+        },
+        "cobertura_bruta": {
+          "total": 126.09,
+          "transicion": 113.49,
+          "primaria": 119.9,
+          "secundaria": 145.41,
+          "media": 109.35
+        },
+        "desercion": {
+          "total": 5.37,
+          "transicion": 2.5,
+          "primaria": 3.53,
+          "secundaria": 7.95,
+          "media": 6.27
+        },
+        "aprobacion": {
+          "total": 87.2,
+          "transicion": 0.09,
+          "primaria": 90.9,
+          "secundaria": 80.28,
+          "media": 87.64
+        },
+        "reprobacion": {
+          "total": 7.43,
+          "transicion": 0.09,
+          "primaria": 5.58,
+          "secundaria": 11.77,
+          "media": 6.09
+        },
+        "repitencia": {
+          "total": 8.79,
+          "transicion": 3.88,
+          "primaria": 8.89,
+          "secundaria": 11.31,
+          "media": 4.08
+        }
+      },
+      "2024": {
+        "poblacion_5_16": 11725.0,
+        "tasa_matriculacion_5_16": 105.67,
+        "cobertura_neta": {
+          "total": 105.67,
+          "transicion": 54.72,
+          "primaria": 94.96,
+          "secundaria": 93.28,
+          "media": 60.78
+        },
+        "cobertura_bruta": {
+          "total": 120.47,
+          "transicion": 110.43,
+          "primaria": 116.86,
+          "secundaria": 132.02,
+          "media": 111.54
+        },
+        "desercion": {
+          "total": 5.23,
+          "transicion": 2.85,
+          "primaria": 2.67,
+          "secundaria": 8.28,
+          "media": 7.58
+        },
+        "aprobacion": {
+          "total": 87.88,
+          "transicion": 0.53,
+          "primaria": 92.87,
+          "secundaria": 80.41,
+          "media": 84.77
+        },
+        "reprobacion": {
+          "total": 6.89,
+          "transicion": 0.53,
+          "primaria": 4.46,
+          "secundaria": 11.31,
+          "media": 7.64
+        },
+        "repitencia": {
+          "total": 9.24,
+          "transicion": 4.01,
+          "primaria": 8.79,
+          "secundaria": 12.97,
+          "media": 3.88
+        }
+      }
+    },
+    "San Juan de Urabá": {
+      "2011": {
+        "poblacion_5_16": 6887.0,
+        "tasa_matriculacion_5_16": 92.96,
+        "cobertura_neta": {
+          "total": 93.0,
+          "transicion": 51.7,
+          "primaria": 101.7,
+          "secundaria": 57.7,
+          "media": 20.4
+        },
+        "cobertura_bruta": {
+          "total": 110.6,
+          "transicion": 74.1,
+          "primaria": 133.0,
+          "secundaria": 115.7,
+          "media": 57.7
+        },
+        "desercion": {
+          "total": 1.31,
+          "transicion": 0.43,
+          "primaria": 1.24,
+          "secundaria": 0.99,
+          "media": 4.35
+        },
+        "aprobacion": {
+          "total": 98.62,
+          "transicion": 0.0,
+          "primaria": 98.73,
+          "secundaria": 99.01,
+          "media": 94.74
+        },
+        "reprobacion": {
+          "total": 0.07,
+          "transicion": 0.0,
+          "primaria": 0.02,
+          "secundaria": 0.0,
+          "media": 0.92
+        },
+        "repitencia": {
+          "total": 4.81,
+          "transicion": 1.5,
+          "primaria": 6.84,
+          "secundaria": 2.26,
+          "media": 0.0
+        }
+      },
+      "2012": {
+        "poblacion_5_16": 6985.0,
+        "tasa_matriculacion_5_16": 93.92,
+        "cobertura_neta": {
+          "total": 93.9,
+          "transicion": 52.3,
+          "primaria": 100.6,
+          "secundaria": 63.4,
+          "media": 22.3
+        },
+        "cobertura_bruta": {
+          "total": 111.8,
+          "transicion": 90.4,
+          "primaria": 134.2,
+          "secundaria": 117.9,
+          "media": 54.9
+        },
+        "desercion": {
+          "total": 2.42,
+          "transicion": 2.01,
+          "primaria": 1.2,
+          "secundaria": 4.61,
+          "media": 3.64
+        },
+        "aprobacion": {
+          "total": 95.35,
+          "transicion": 0.0,
+          "primaria": 95.74,
+          "secundaria": 93.52,
+          "media": 96.36
+        },
+        "reprobacion": {
+          "total": 2.23,
+          "transicion": 0.0,
+          "primaria": 3.06,
+          "secundaria": 1.87,
+          "media": 0.0
+        },
+        "repitencia": {
+          "total": null,
+          "transicion": 0.43,
+          "primaria": null,
+          "secundaria": 7.18,
+          "media": 0.75
+        }
+      },
+      "2013": {
+        "poblacion_5_16": 6920.0,
+        "tasa_matriculacion_5_16": 92.56,
+        "cobertura_neta": {
+          "total": 92.6,
+          "transicion": 45.1,
+          "primaria": 95.9,
+          "secundaria": 66.1,
+          "media": 22.1
+        },
+        "cobertura_bruta": {
+          "total": 104.1,
+          "transicion": 84.8,
+          "primaria": 129.1,
+          "secundaria": 99.6,
+          "media": 50.2
+        },
+        "desercion": {
+          "total": 3.11,
+          "transicion": 1.97,
+          "primaria": 1.97,
+          "secundaria": 5.86,
+          "media": 2.25
+        },
+        "aprobacion": {
+          "total": 95.44,
+          "transicion": 0.0,
+          "primaria": 95.73,
+          "secundaria": 93.69,
+          "media": 97.75
+        },
+        "reprobacion": {
+          "total": 1.45,
+          "transicion": 0.0,
+          "primaria": 2.3,
+          "secundaria": 0.45,
+          "media": 0.0
+        },
+        "repitencia": {
+          "total": 5.84,
+          "transicion": 2.33,
+          "primaria": 5.51,
+          "secundaria": 8.25,
+          "media": 2.02
+        }
+      },
+      "2014": {
+        "poblacion_5_16": 6978.0,
+        "tasa_matriculacion_5_16": 91.2,
+        "cobertura_neta": {
+          "total": 87.47,
+          "transicion": 45.21,
+          "primaria": 71.75,
+          "secundaria": 66.47,
+          "media": 39.97
+        },
+        "cobertura_bruta": {
+          "total": 104.27,
+          "transicion": 84.3,
+          "primaria": 126.27,
+          "secundaria": 100.0,
+          "media": 59.53
+        },
+        "desercion": {
+          "total": 1.72,
+          "transicion": 1.99,
+          "primaria": 1.38,
+          "secundaria": 2.38,
+          "media": 1.36
+        },
+        "aprobacion": {
+          "total": 98.24,
+          "transicion": 0.0,
+          "primaria": 98.62,
+          "secundaria": 97.62,
+          "media": 97.96
+        },
+        "reprobacion": {
+          "total": 0.04,
+          "transicion": 0.0,
+          "primaria": 0.0,
+          "secundaria": 0.0,
+          "media": 0.68
+        },
+        "repitencia": {
+          "total": 7.25,
+          "transicion": 0.36,
+          "primaria": 7.05,
+          "secundaria": 10.7,
+          "media": 1.81
+        }
+      },
+      "2015": {
+        "poblacion_5_16": 7050.0,
+        "tasa_matriculacion_5_16": 89.62,
+        "cobertura_neta": {
+          "total": 89.62,
+          "transicion": 36.62,
+          "primaria": 86.27,
+          "secundaria": 66.38,
+          "media": 25.78
+        },
+        "cobertura_bruta": {
+          "total": 107.12,
+          "transicion": 82.77,
+          "primaria": 131.79,
+          "secundaria": 102.23,
+          "media": 59.08
+        },
+        "desercion": {
+          "total": 3.07,
+          "transicion": 2.79,
+          "primaria": 2.03,
+          "secundaria": 5.11,
+          "media": 2.47
+        },
+        "aprobacion": {
+          "total": 96.83,
+          "transicion": 0.0,
+          "primaria": 97.94,
+          "secundaria": 94.75,
+          "media": 96.85
+        },
+        "reprobacion": {
+          "total": 0.1,
+          "transicion": 0.0,
+          "primaria": 0.03,
+          "secundaria": 0.14,
+          "media": 0.67
+        },
+        "repitencia": {
+          "total": null,
+          "transicion": null,
+          "primaria": null,
+          "secundaria": null,
+          "media": 2.47
+        }
+      },
+      "2016": {
+        "poblacion_5_16": 7148.0,
+        "tasa_matriculacion_5_16": 85.5,
+        "cobertura_neta": {
+          "total": 85.45,
+          "transicion": 30.51,
+          "primaria": 79.3,
+          "secundaria": 63.76,
+          "media": 28.74
+        },
+        "cobertura_bruta": {
+          "total": 99.02,
+          "transicion": 90.33,
+          "primaria": 113.27,
+          "secundaria": 100.0,
+          "media": 58.83
+        },
+        "desercion": {
+          "total": 4.93,
+          "transicion": 6.19,
+          "primaria": 3.98,
+          "secundaria": 6.26,
+          "media": 4.43
+        },
+        "aprobacion": {
+          "total": 91.58,
+          "transicion": 0.67,
+          "primaria": 90.95,
+          "secundaria": 91.47,
+          "media": 94.73
+        },
+        "reprobacion": {
+          "total": 3.49,
+          "transicion": 0.67,
+          "primaria": 5.07,
+          "secundaria": 2.27,
+          "media": 0.84
+        },
+        "repitencia": {
+          "total": 6.61,
+          "transicion": 3.34,
+          "primaria": 8.53,
+          "secundaria": 5.73,
+          "media": 0.42
+        }
+      },
+      "2017": {
+        "poblacion_5_16": 7255.0,
+        "tasa_matriculacion_5_16": 85.3,
+        "cobertura_neta": {
+          "total": 85.27,
+          "transicion": 37.63,
+          "primaria": 75.48,
+          "secundaria": 65.41,
+          "media": 31.87
+        },
+        "cobertura_bruta": {
+          "total": 97.73,
+          "transicion": 83.26,
+          "primaria": 109.55,
+          "secundaria": 101.72,
+          "media": 61.91
+        },
+        "desercion": {
+          "total": 6.26,
+          "transicion": 6.23,
+          "primaria": 4.92,
+          "secundaria": 8.31,
+          "media": 6.57
+        },
+        "aprobacion": {
+          "total": 91.5,
+          "transicion": 0.0,
+          "primaria": 93.08,
+          "secundaria": 88.18,
+          "media": 92.5
+        },
+        "reprobacion": {
+          "total": 2.24,
+          "transicion": 0.0,
+          "primaria": 2.01,
+          "secundaria": 3.51,
+          "media": 0.94
+        },
+        "repitencia": {
+          "total": 8.36,
+          "transicion": 5.34,
+          "primaria": 8.58,
+          "secundaria": 10.62,
+          "media": 0.94
+        }
+      },
+      "2018": {
+        "poblacion_5_16": 5602.0,
+        "tasa_matriculacion_5_16": 80.67,
+        "cobertura_neta": {
+          "total": 105.96,
+          "transicion": 42.8,
+          "primaria": 100.38,
+          "secundaria": 83.08,
+          "media": 34.71
+        },
+        "cobertura_bruta": {
+          "total": 121.19,
+          "transicion": 94.86,
+          "primaria": 137.47,
+          "secundaria": 129.72,
+          "media": 73.08
+        },
+        "desercion": {
+          "total": 4.84,
+          "transicion": 3.47,
+          "primaria": 2.71,
+          "secundaria": 8.4,
+          "media": 4.86
+        },
+        "aprobacion": {
+          "total": 90.09,
+          "transicion": 1.95,
+          "primaria": 92.19,
+          "secundaria": 84.89,
+          "media": 94.36
+        },
+        "reprobacion": {
+          "total": 5.06,
+          "transicion": 1.95,
+          "primaria": 5.1,
+          "secundaria": 6.71,
+          "media": 0.78
+        },
+        "repitencia": {
+          "total": 5.47,
+          "transicion": 2.82,
+          "primaria": 5.38,
+          "secundaria": 6.89,
+          "media": 2.53
+        }
+      },
+      "2019": {
+        "poblacion_5_16": 5689.0,
+        "tasa_matriculacion_5_16": 102.16,
+        "cobertura_neta": {
+          "total": 102.16,
+          "transicion": 39.11,
+          "primaria": 95.62,
+          "secundaria": 81.65,
+          "media": 38.34
+        },
+        "cobertura_bruta": {
+          "total": 120.97,
+          "transicion": 97.98,
+          "primaria": 136.77,
+          "secundaria": 127.82,
+          "media": 75.43
+        },
+        "desercion": {
+          "total": 2.99,
+          "transicion": 2.47,
+          "primaria": 1.65,
+          "secundaria": 4.99,
+          "media": 3.14
+        },
+        "aprobacion": {
+          "total": 91.43,
+          "transicion": 0.0,
+          "primaria": 95.22,
+          "secundaria": 84.12,
+          "media": 93.54
+        },
+        "reprobacion": {
+          "total": 5.58,
+          "transicion": 0.0,
+          "primaria": 3.14,
+          "secundaria": 10.9,
+          "media": 3.32
+        },
+        "repitencia": {
+          "total": 5.6,
+          "transicion": 0.41,
+          "primaria": 4.17,
+          "secundaria": 9.65,
+          "media": 2.21
+        }
+      },
+      "2020": {
+        "poblacion_5_16": 5767.0,
+        "tasa_matriculacion_5_16": 99.65,
+        "cobertura_neta": {
+          "total": 99.65,
+          "transicion": 41.87,
+          "primaria": 92.52,
+          "secundaria": 77.85,
+          "media": 37.33
+        },
+        "cobertura_bruta": {
+          "total": 112.81,
+          "transicion": 88.69,
+          "primaria": 122.92,
+          "secundaria": 122.78,
+          "media": 76.81
+        },
+        "desercion": {
+          "total": 0.92,
+          "transicion": 0.45,
+          "primaria": 0.4,
+          "secundaria": 1.3,
+          "media": 2.65
+        },
+        "aprobacion": {
+          "total": 93.47,
+          "transicion": 2.91,
+          "primaria": 96.6,
+          "secundaria": 88.05,
+          "media": 94.87
+        },
+        "reprobacion": {
+          "total": 5.61,
+          "transicion": 2.91,
+          "primaria": 3.01,
+          "secundaria": 10.65,
+          "media": 2.48
+        },
+        "repitencia": {
+          "total": 8.24,
+          "transicion": 3.36,
+          "primaria": 6.9,
+          "secundaria": 12.55,
+          "media": 2.83
+        }
+      },
+      "2021": {
+        "poblacion_5_16": 5.818,
+        "tasa_matriculacion_5_16": 99.85,
+        "cobertura_neta": {
+          "total": 99.85,
+          "transicion": 44.01,
+          "primaria": 93.39,
+          "secundaria": 79.98,
+          "media": 40.72
+        },
+        "cobertura_bruta": {
+          "total": 112.56,
+          "transicion": 88.61,
+          "primaria": 120.62,
+          "secundaria": 123.9,
+          "media": 79.19
+        },
+        "desercion": {
+          "total": 4.81,
+          "transicion": 1.55,
+          "primaria": 2.94,
+          "secundaria": 7.49,
+          "media": 6.47
+        },
+        "aprobacion": {
+          "total": 89.05,
+          "transicion": 0.89,
+          "primaria": 93.73,
+          "secundaria": 82.04,
+          "media": 85.8
+        },
+        "reprobacion": {
+          "total": 6.14,
+          "transicion": 0.89,
+          "primaria": 3.34,
+          "secundaria": 10.47,
+          "media": 7.73
+        },
+        "repitencia": {
+          "total": 5.22,
+          "transicion": 3.33,
+          "primaria": 3.5,
+          "secundaria": 8.87,
+          "media": 1.74
+        }
+      },
+      "2022": {
+        "poblacion_5_16": 5634.0,
+        "tasa_matriculacion_5_16": 98.85,
+        "cobertura_neta": {
+          "total": 98.85,
+          "transicion": 44.84,
+          "primaria": 91.26,
+          "secundaria": 79.67,
+          "media": 43.72
+        },
+        "cobertura_bruta": {
+          "total": 113.74,
+          "transicion": 97.22,
+          "primaria": 115.28,
+          "secundaria": 128.93,
+          "media": 86.26
+        },
+        "desercion": {
+          "total": 4.7,
+          "transicion": 3.88,
+          "primaria": 2.43,
+          "secundaria": 8.19,
+          "media": 3.54
+        },
+        "aprobacion": {
+          "total": 90.93,
+          "transicion": 0.0,
+          "primaria": 93.31,
+          "secundaria": 85.53,
+          "media": 94.62
+        },
+        "reprobacion": {
+          "total": 4.37,
+          "transicion": 0.0,
+          "primaria": 4.25,
+          "secundaria": 6.28,
+          "media": 1.85
+        },
+        "repitencia": {
+          "total": 6.65,
+          "transicion": 1.84,
+          "primaria": 6.25,
+          "secundaria": 9.34,
+          "media": 3.08
+        }
+      },
+      "2023": {
+        "poblacion_5_16": 5641.0,
+        "tasa_matriculacion_5_16": 96.21,
+        "cobertura_neta": {
+          "total": 96.21,
+          "transicion": 43.14,
+          "primaria": 84.39,
+          "secundaria": 82.04,
+          "media": 44.46
+        },
+        "cobertura_bruta": {
+          "total": 110.23,
+          "transicion": 98.01,
+          "primaria": 111.28,
+          "secundaria": 122.23,
+          "media": 88.32
+        },
+        "desercion": {
+          "total": 4.73,
+          "transicion": 3.85,
+          "primaria": 3.45,
+          "secundaria": 6.12,
+          "media": 6.44
+        },
+        "aprobacion": {
+          "total": 85.23,
+          "transicion": 0.41,
+          "primaria": 89.4,
+          "secundaria": 76.24,
+          "media": 88.41
+        },
+        "reprobacion": {
+          "total": 10.04,
+          "transicion": 0.41,
+          "primaria": 7.15,
+          "secundaria": 17.64,
+          "media": 5.15
+        },
+        "repitencia": {
+          "total": 15.01,
+          "transicion": 4.26,
+          "primaria": 14.78,
+          "secundaria": 20.55,
+          "media": 6.12
+        }
+      },
+      "2024": {
+        "poblacion_5_16": 5639.0,
+        "tasa_matriculacion_5_16": 93.69,
+        "cobertura_neta": {
+          "total": 93.69,
+          "transicion": 42.2,
+          "primaria": 82.96,
+          "secundaria": 83.46,
+          "media": 36.36
+        },
+        "cobertura_bruta": {
+          "total": 106.81,
+          "transicion": 92.6,
+          "primaria": 107.63,
+          "secundaria": 124.1,
+          "media": 75.12
+        },
+        "desercion": {
+          "total": 2.03,
+          "transicion": 2.38,
+          "primaria": 1.58,
+          "secundaria": 2.43,
+          "media": 2.43
+        },
+        "aprobacion": {
+          "total": 96.96,
+          "transicion": 0.22,
+          "primaria": 97.74,
+          "secundaria": 96.26,
+          "media": 95.33
+        },
+        "reprobacion": {
+          "total": 1.01,
+          "transicion": 0.22,
+          "primaria": 0.68,
+          "secundaria": 1.31,
+          "media": 2.24
+        },
+        "repitencia": {
+          "total": 13.84,
+          "transicion": 5.62,
+          "primaria": 12.39,
+          "secundaria": 19.68,
+          "media": 5.61
+        }
+      }
+    },
+    "San Pedro de Urabá": {
+      "2011": {
+        "poblacion_5_16": 8522.0,
+        "tasa_matriculacion_5_16": 120.03,
+        "cobertura_neta": {
+          "total": 120.0,
+          "transicion": 84.6,
+          "primaria": 123.9,
+          "secundaria": 85.4,
+          "media": 28.2
+        },
+        "cobertura_bruta": {
+          "total": 141.4,
+          "transicion": 110.5,
+          "primaria": 161.6,
+          "secundaria": 151.3,
+          "media": 88.8
+        },
+        "desercion": {
+          "total": 7.81,
+          "transicion": 2.23,
+          "primaria": 5.34,
+          "secundaria": 11.99,
+          "media": 9.75
+        },
+        "aprobacion": {
+          "total": 88.55,
+          "transicion": 0.0,
+          "primaria": 92.8,
+          "secundaria": 82.61,
+          "media": 80.91
+        },
+        "reprobacion": {
+          "total": 3.65,
+          "transicion": 0.0,
+          "primaria": 1.88,
+          "secundaria": 5.41,
+          "media": 9.34
+        },
+        "repitencia": {
+          "total": 0.7,
+          "transicion": 0.0,
+          "primaria": 0.83,
+          "secundaria": 0.75,
+          "media": 0.31
+        }
+      },
+      "2012": {
+        "poblacion_5_16": 8524.0,
+        "tasa_matriculacion_5_16": 107.04,
+        "cobertura_neta": {
+          "total": 107.0,
+          "transicion": 65.5,
+          "primaria": 112.4,
+          "secundaria": 84.8,
+          "media": 27.7
+        },
+        "cobertura_bruta": {
+          "total": 124.8,
+          "transicion": 87.7,
+          "primaria": 144.5,
+          "secundaria": 137.1,
+          "media": 79.4
+        },
+        "desercion": {
+          "total": 6.2,
+          "transicion": 2.41,
+          "primaria": 3.14,
+          "secundaria": 9.98,
+          "media": 12.44
+        },
+        "aprobacion": {
+          "total": 88.11,
+          "transicion": 0.0,
+          "primaria": 91.85,
+          "secundaria": 81.94,
+          "media": 81.83
+        },
+        "reprobacion": {
+          "total": 5.69,
+          "transicion": 0.0,
+          "primaria": 5.01,
+          "secundaria": 8.08,
+          "media": 5.73
+        },
+        "repitencia": {
+          "total": 1.62,
+          "transicion": 0.0,
+          "primaria": 1.9,
+          "secundaria": 1.9,
+          "media": 0.57
+        }
+      },
+      "2013": {
+        "poblacion_5_16": 8277.0,
+        "tasa_matriculacion_5_16": 113.07,
+        "cobertura_neta": {
+          "total": 113.1,
+          "transicion": 73.7,
+          "primaria": 106.6,
+          "secundaria": 92.7,
+          "media": 34.0
+        },
+        "cobertura_bruta": {
+          "total": 132.7,
+          "transicion": 111.3,
+          "primaria": 136.0,
+          "secundaria": 155.5,
+          "media": 89.9
+        },
+        "desercion": {
+          "total": 3.57,
+          "transicion": 1.87,
+          "primaria": 2.7,
+          "secundaria": 4.95,
+          "media": 3.82
+        },
+        "aprobacion": {
+          "total": 88.61,
+          "transicion": 0.12,
+          "primaria": 89.0,
+          "secundaria": 86.86,
+          "media": 85.75
+        },
+        "reprobacion": {
+          "total": 7.82,
+          "transicion": 0.12,
+          "primaria": 8.3,
+          "secundaria": 8.18,
+          "media": 10.43
+        },
+        "repitencia": {
+          "total": 1.46,
+          "transicion": 0.0,
+          "primaria": 1.35,
+          "secundaria": 1.79,
+          "media": 2.17
+        }
+      },
+      "2014": {
+        "poblacion_5_16": 8247.0,
+        "tasa_matriculacion_5_16": 117.63,
+        "cobertura_neta": {
+          "total": 83.96,
+          "transicion": 67.34,
+          "primaria": 76.9,
+          "secundaria": 61.29,
+          "media": 35.39
+        },
+        "cobertura_bruta": {
+          "total": 140.1,
+          "transicion": 103.69,
+          "primaria": 142.49,
+          "secundaria": 163.22,
+          "media": 106.85
+        },
+        "desercion": {
+          "total": 3.36,
+          "transicion": 1.91,
+          "primaria": 1.97,
+          "secundaria": 5.15,
+          "media": 3.86
+        },
+        "aprobacion": {
+          "total": 96.63,
+          "transicion": 0.0,
+          "primaria": 98.03,
+          "secundaria": 94.85,
+          "media": 96.05
+        },
+        "reprobacion": {
+          "total": 0.01,
+          "transicion": 0.0,
+          "primaria": 0.0,
+          "secundaria": 0.0,
+          "media": 0.09
+        },
+        "repitencia": {
+          "total": 1.78,
+          "transicion": 0.26,
+          "primaria": 1.48,
+          "secundaria": 2.71,
+          "media": 1.43
+        }
+      },
+      "2015": {
+        "poblacion_5_16": 8241.0,
+        "tasa_matriculacion_5_16": 110.07,
+        "cobertura_neta": {
+          "total": 110.07,
+          "transicion": 71.93,
+          "primaria": 107.31,
+          "secundaria": 85.02,
+          "media": 35.43
+        },
+        "cobertura_bruta": {
+          "total": 126.44,
+          "transicion": 106.48,
+          "primaria": 143.88,
+          "secundaria": 128.96,
+          "media": 82.65
+        },
+        "desercion": {
+          "total": 4.19,
+          "transicion": 2.36,
+          "primaria": 3.36,
+          "secundaria": 5.91,
+          "media": 4.08
+        },
+        "aprobacion": {
+          "total": 89.93,
+          "transicion": 0.13,
+          "primaria": 92.0,
+          "secundaria": 85.05,
+          "media": 89.86
+        },
+        "reprobacion": {
+          "total": 5.88,
+          "transicion": 0.13,
+          "primaria": 4.64,
+          "secundaria": 9.04,
+          "media": 6.06
+        },
+        "repitencia": {
+          "total": 2.39,
+          "transicion": 0.39,
+          "primaria": 2.5,
+          "secundaria": 2.91,
+          "media": 1.48
+        }
+      },
+      "2016": {
+        "poblacion_5_16": 8274.0,
+        "tasa_matriculacion_5_16": 108.7,
+        "cobertura_neta": {
+          "total": 108.69,
+          "transicion": 63.75,
+          "primaria": 105.58,
+          "secundaria": 85.36,
+          "media": 39.77
+        },
+        "cobertura_bruta": {
+          "total": 124.81,
+          "transicion": 108.89,
+          "primaria": 135.59,
+          "secundaria": 132.2,
+          "media": 86.33
+        },
+        "desercion": {
+          "total": 3.52,
+          "transicion": 2.85,
+          "primaria": 2.53,
+          "secundaria": 5.11,
+          "media": 3.6
+        },
+        "aprobacion": {
+          "total": 92.44,
+          "transicion": 0.62,
+          "primaria": 92.24,
+          "secundaria": 91.2,
+          "media": 94.43
+        },
+        "reprobacion": {
+          "total": 4.04,
+          "transicion": 0.62,
+          "primaria": 5.23,
+          "secundaria": 3.69,
+          "media": 1.97
+        },
+        "repitencia": {
+          "total": 1.74,
+          "transicion": 0.25,
+          "primaria": 2.11,
+          "secundaria": 1.84,
+          "media": 0.7
+        }
+      },
+      "2017": {
+        "poblacion_5_16": 8318.0,
+        "tasa_matriculacion_5_16": 104.9,
+        "cobertura_neta": {
+          "total": 104.93,
+          "transicion": 54.56,
+          "primaria": 101.1,
+          "secundaria": 85.4,
+          "media": 44.01
+        },
+        "cobertura_bruta": {
+          "total": 118.33,
+          "transicion": 96.92,
+          "primaria": 130.35,
+          "secundaria": 121.84,
+          "media": 87.77
+        },
+        "desercion": {
+          "total": 4.09,
+          "transicion": 3.18,
+          "primaria": 2.7,
+          "secundaria": 5.77,
+          "media": 6.01
+        },
+        "aprobacion": {
+          "total": 93.72,
+          "transicion": 0.0,
+          "primaria": 94.96,
+          "secundaria": 91.37,
+          "media": 93.15
+        },
+        "reprobacion": {
+          "total": 2.19,
+          "transicion": 0.0,
+          "primaria": 2.34,
+          "secundaria": 2.86,
+          "media": 0.84
+        },
+        "repitencia": {
+          "total": 1.99,
+          "transicion": 0.41,
+          "primaria": 2.32,
+          "secundaria": 2.2,
+          "media": 0.84
+        }
+      },
+      "2018": {
+        "poblacion_5_16": 7913.0,
+        "tasa_matriculacion_5_16": 101.4,
+        "cobertura_neta": {
+          "total": 107.19,
+          "transicion": 52.59,
+          "primaria": 108.65,
+          "secundaria": 88.14,
+          "media": 40.53
+        },
+        "cobertura_bruta": {
+          "total": 121.05,
+          "transicion": 88.85,
+          "primaria": 136.08,
+          "secundaria": 125.58,
+          "media": 89.77
+        },
+        "desercion": {
+          "total": 3.69,
+          "transicion": 3.0,
+          "primaria": 2.31,
+          "secundaria": 5.41,
+          "media": 4.77
+        },
+        "aprobacion": {
+          "total": 91.97,
+          "transicion": 0.18,
+          "primaria": 93.75,
+          "secundaria": 88.28,
+          "media": 93.21
+        },
+        "reprobacion": {
+          "total": 4.34,
+          "transicion": 0.18,
+          "primaria": 3.94,
+          "secundaria": 6.31,
+          "media": 2.01
+        },
+        "repitencia": {
+          "total": 1.26,
+          "transicion": 0.35,
+          "primaria": 1.66,
+          "secundaria": 1.09,
+          "media": 0.53
+        }
+      },
+      "2019": {
+        "poblacion_5_16": 7999.0,
+        "tasa_matriculacion_5_16": 103.75,
+        "cobertura_neta": {
+          "total": 103.75,
+          "transicion": 47.6,
+          "primaria": 101.89,
+          "secundaria": 86.61,
+          "media": 44.65
+        },
+        "cobertura_bruta": {
+          "total": 115.83,
+          "transicion": 80.06,
+          "primaria": 127.28,
+          "secundaria": 124.08,
+          "media": 87.47
+        },
+        "desercion": {
+          "total": 3.02,
+          "transicion": 2.12,
+          "primaria": 1.85,
+          "secundaria": 4.77,
+          "media": 2.79
+        },
+        "aprobacion": {
+          "total": 91.84,
+          "transicion": 0.19,
+          "primaria": 93.18,
+          "secundaria": 88.31,
+          "media": 94.41
+        },
+        "reprobacion": {
+          "total": 5.15,
+          "transicion": 0.19,
+          "primaria": 4.97,
+          "secundaria": 6.92,
+          "media": 2.79
+        },
+        "repitencia": {
+          "total": 1.23,
+          "transicion": 0.19,
+          "primaria": 1.56,
+          "secundaria": 1.15,
+          "media": 0.6
+        }
+      },
+      "2020": {
+        "poblacion_5_16": 8074.0,
+        "tasa_matriculacion_5_16": 98.37,
+        "cobertura_neta": {
+          "total": 98.37,
+          "transicion": 37.75,
+          "primaria": 93.98,
+          "secundaria": 87.82,
+          "media": 45.04
+        },
+        "cobertura_bruta": {
+          "total": 110.23,
+          "transicion": 70.17,
+          "primaria": 115.9,
+          "secundaria": 124.51,
+          "media": 86.22
+        },
+        "desercion": {
+          "total": 1.09,
+          "transicion": 1.52,
+          "primaria": 0.44,
+          "secundaria": 1.47,
+          "media": 2.14
+        },
+        "aprobacion": {
+          "total": 94.15,
+          "transicion": 0.43,
+          "primaria": 98.11,
+          "secundaria": 90.01,
+          "media": 90.48
+        },
+        "reprobacion": {
+          "total": 4.77,
+          "transicion": 0.43,
+          "primaria": 1.46,
+          "secundaria": 8.52,
+          "media": 7.39
+        },
+        "repitencia": {
+          "total": 4.75,
+          "transicion": 0.22,
+          "primaria": 4.12,
+          "secundaria": 6.89,
+          "media": 2.33
+        }
+      },
+      "2021": {
+        "poblacion_5_16": 8.132,
+        "tasa_matriculacion_5_16": 97.36,
+        "cobertura_neta": {
+          "total": 97.36,
+          "transicion": 41.54,
+          "primaria": 87.13,
+          "secundaria": 89.65,
+          "media": 48.6
+        },
+        "cobertura_bruta": {
+          "total": 107.92,
+          "transicion": 70.24,
+          "primaria": 108.58,
+          "secundaria": 127.2,
+          "media": 85.13
+        },
+        "desercion": {
+          "total": 4.89,
+          "transicion": 1.94,
+          "primaria": 2.76,
+          "secundaria": 6.62,
+          "media": 7.94
+        },
+        "aprobacion": {
+          "total": 90.3,
+          "transicion": 0.43,
+          "primaria": 93.69,
+          "secundaria": 87.43,
+          "media": 84.67
+        },
+        "reprobacion": {
+          "total": 4.81,
+          "transicion": 0.43,
+          "primaria": 3.55,
+          "secundaria": 5.95,
+          "media": 7.38
+        },
+        "repitencia": {
+          "total": 2.71,
+          "transicion": 0.0,
+          "primaria": 1.43,
+          "secundaria": 4.44,
+          "media": 2.71
+        }
+      },
+      "2022": {
+        "poblacion_5_16": 7879.0,
+        "tasa_matriculacion_5_16": 96.75,
+        "cobertura_neta": {
+          "total": 96.75,
+          "transicion": 49.69,
+          "primaria": 80.04,
+          "secundaria": 93.17,
+          "media": 56.95
+        },
+        "cobertura_bruta": {
+          "total": 106.76,
+          "transicion": 83.13,
+          "primaria": 99.31,
+          "secundaria": 128.26,
+          "media": 93.73
+        },
+        "desercion": {
+          "total": 4.95,
+          "transicion": 4.61,
+          "primaria": 3.11,
+          "secundaria": 6.42,
+          "media": 6.18
+        },
+        "aprobacion": {
+          "total": 90.7,
+          "transicion": 0.18,
+          "primaria": 92.9,
+          "secundaria": 87.88,
+          "media": 90.42
+        },
+        "reprobacion": {
+          "total": 4.34,
+          "transicion": 0.18,
+          "primaria": 3.99,
+          "secundaria": 5.7,
+          "media": 3.4
+        },
+        "repitencia": {
+          "total": 3.86,
+          "transicion": 0.0,
+          "primaria": 4.11,
+          "secundaria": 4.64,
+          "media": 2.7
+        }
+      },
+      "2023": {
+        "poblacion_5_16": 7876.0,
+        "tasa_matriculacion_5_16": 92.46,
+        "cobertura_neta": {
+          "total": 92.46,
+          "transicion": 53.53,
+          "primaria": 73.04,
+          "secundaria": 93.43,
+          "media": 59.04
+        },
+        "cobertura_bruta": {
+          "total": 101.68,
+          "transicion": 81.9,
+          "primaria": 89.17,
+          "secundaria": 123.67,
+          "media": 99.12
+        },
+        "desercion": {
+          "total": 3.69,
+          "transicion": 3.37,
+          "primaria": 2.48,
+          "secundaria": 4.66,
+          "media": 4.2
+        },
+        "aprobacion": {
+          "total": 91.34,
+          "transicion": 0.0,
+          "primaria": 93.59,
+          "secundaria": 89.09,
+          "media": 89.42
+        },
+        "reprobacion": {
+          "total": 4.97,
+          "transicion": 0.0,
+          "primaria": 3.93,
+          "secundaria": 6.25,
+          "media": 6.38
+        },
+        "repitencia": {
+          "total": 7.91,
+          "transicion": 1.31,
+          "primaria": 8.62,
+          "secundaria": 9.47,
+          "media": 4.87
+        }
+      },
+      "2024": {
+        "poblacion_5_16": 7868.0,
+        "tasa_matriculacion_5_16": 88.5,
+        "cobertura_neta": {
+          "total": 88.5,
+          "transicion": 50.77,
+          "primaria": 70.96,
+          "secundaria": 89.02,
+          "media": 60.18
+        },
+        "cobertura_bruta": {
+          "total": 97.23,
+          "transicion": 80.86,
+          "primaria": 84.87,
+          "secundaria": 116.33,
+          "media": 98.55
+        },
+        "desercion": {
+          "total": 3.19,
+          "transicion": 1.72,
+          "primaria": 1.87,
+          "secundaria": 4.29,
+          "media": 4.17
+        },
+        "aprobacion": {
+          "total": 90.83,
+          "transicion": 0.19,
+          "primaria": 95.31,
+          "secundaria": 87.0,
+          "media": 86.74
+        },
+        "reprobacion": {
+          "total": 5.98,
+          "transicion": 0.19,
+          "primaria": 2.82,
+          "secundaria": 8.71,
+          "media": 9.09
+        },
+        "repitencia": {
+          "total": 7.9,
+          "transicion": 1.15,
+          "primaria": 7.89,
+          "secundaria": 10.23,
+          "media": 5.0
+        }
+      }
+    },
+    "Turbo": {
+      "2011": {
+        "poblacion_5_16": 41665.0,
+        "tasa_matriculacion_5_16": 91.9,
+        "cobertura_neta": {
+          "total": 91.9,
+          "transicion": 75.4,
+          "primaria": 96.5,
+          "secundaria": 60.0,
+          "media": 27.9
+        },
+        "cobertura_bruta": {
+          "total": 113.2,
+          "transicion": 94.8,
+          "primaria": 136.4,
+          "secundaria": 104.0,
+          "media": 81.4
+        },
+        "desercion": {
+          "total": 7.09,
+          "transicion": 5.54,
+          "primaria": 5.43,
+          "secundaria": 8.07,
+          "media": null
+        },
+        "aprobacion": {
+          "total": 92.88,
+          "transicion": 0.0,
+          "primaria": 94.57,
+          "secundaria": 91.9,
+          "media": 83.46
+        },
+        "reprobacion": {
+          "total": 0.04,
+          "transicion": 0.0,
+          "primaria": 0.0,
+          "secundaria": 0.03,
+          "media": 0.33
+        },
+        "repitencia": {
+          "total": 0.84,
+          "transicion": 0.0,
+          "primaria": 1.0,
+          "secundaria": 0.89,
+          "media": 0.47
+        }
+      },
+      "2012": {
+        "poblacion_5_16": 42078.0,
+        "tasa_matriculacion_5_16": 93.24,
+        "cobertura_neta": {
+          "total": 93.2,
+          "transicion": 79.0,
+          "primaria": 99.9,
+          "secundaria": 60.9,
+          "media": 27.4
+        },
+        "cobertura_bruta": {
+          "total": 111.1,
+          "transicion": 108.0,
+          "primaria": 137.8,
+          "secundaria": 99.4,
+          "media": 70.0
+        },
+        "desercion": {
+          "total": 4.57,
+          "transicion": 3.67,
+          "primaria": 3.98,
+          "secundaria": 5.54,
+          "media": 6.14
+        },
+        "aprobacion": {
+          "total": 94.56,
+          "transicion": 0.0,
+          "primaria": 94.75,
+          "secundaria": 93.96,
+          "media": 93.35
+        },
+        "reprobacion": {
+          "total": 0.87,
+          "transicion": 0.0,
+          "primaria": 1.26,
+          "secundaria": 0.5,
+          "media": 0.51
+        },
+        "repitencia": {
+          "total": 0.87,
+          "transicion": 0.0,
+          "primaria": 1.27,
+          "secundaria": 0.62,
+          "media": 0.07
+        }
+      },
+      "2013": {
+        "poblacion_5_16": 42364.0,
+        "tasa_matriculacion_5_16": 92.09,
+        "cobertura_neta": {
+          "total": 92.1,
+          "transicion": 74.4,
+          "primaria": 100.6,
+          "secundaria": 63.8,
+          "media": 26.7
+        },
+        "cobertura_bruta": {
+          "total": 107.1,
+          "transicion": 130.3,
+          "primaria": 131.5,
+          "secundaria": 94.3,
+          "media": 60.7
+        },
+        "desercion": {
+          "total": 3.63,
+          "transicion": 2.86,
+          "primaria": 3.11,
+          "secundaria": 4.94,
+          "media": 3.35
+        },
+        "aprobacion": {
+          "total": 95.37,
+          "transicion": 0.0,
+          "primaria": 95.89,
+          "secundaria": 93.58,
+          "media": 96.18
+        },
+        "reprobacion": {
+          "total": 1.0,
+          "transicion": 0.0,
+          "primaria": 1.0,
+          "secundaria": 1.49,
+          "media": 0.47
+        },
+        "repitencia": {
+          "total": 1.02,
+          "transicion": 0.02,
+          "primaria": 1.53,
+          "secundaria": 0.65,
+          "media": 0.36
+        }
+      },
+      "2014": {
+        "poblacion_5_16": 42715.0,
+        "tasa_matriculacion_5_16": 91.71,
+        "cobertura_neta": {
+          "total": 88.41,
+          "transicion": 54.35,
+          "primaria": 74.76,
+          "secundaria": 68.83,
+          "media": 45.98
+        },
+        "cobertura_bruta": {
+          "total": 103.74,
+          "transicion": 80.03,
+          "primaria": 133.77,
+          "secundaria": 95.62,
+          "media": 57.03
+        },
+        "desercion": {
+          "total": 2.38,
+          "transicion": 2.54,
+          "primaria": 1.96,
+          "secundaria": 3.18,
+          "media": 2.08
+        },
+        "aprobacion": {
+          "total": 96.73,
+          "transicion": 0.0,
+          "primaria": 97.08,
+          "secundaria": 95.73,
+          "media": 97.49
+        },
+        "reprobacion": {
+          "total": 0.9,
+          "transicion": 0.0,
+          "primaria": 0.96,
+          "secundaria": 1.09,
+          "media": 0.44
+        },
+        "repitencia": {
+          "total": 1.88,
+          "transicion": 0.08,
+          "primaria": 2.02,
+          "secundaria": 2.22,
+          "media": 0.96
+        }
+      },
+      "2015": {
+        "poblacion_5_16": 43055.0,
+        "tasa_matriculacion_5_16": 88.76,
+        "cobertura_neta": {
+          "total": 88.76,
+          "transicion": 49.46,
+          "primaria": 94.68,
+          "secundaria": 64.83,
+          "media": 27.71
+        },
+        "cobertura_bruta": {
+          "total": 99.4,
+          "transicion": 78.37,
+          "primaria": 122.73,
+          "secundaria": 97.28,
+          "media": 55.59
+        },
+        "desercion": {
+          "total": 3.78,
+          "transicion": 3.35,
+          "primaria": 3.06,
+          "secundaria": 5.36,
+          "media": 2.85
+        },
+        "aprobacion": {
+          "total": 93.17,
+          "transicion": 0.0,
+          "primaria": 93.94,
+          "secundaria": 90.35,
+          "media": 96.04
+        },
+        "reprobacion": {
+          "total": 3.04,
+          "transicion": 0.0,
+          "primaria": 3.0,
+          "secundaria": 4.28,
+          "media": 1.11
+        },
+        "repitencia": {
+          "total": 1.62,
+          "transicion": 0.07,
+          "primaria": 1.78,
+          "secundaria": 2.01,
+          "media": 0.36
+        }
+      },
+      "2016": {
+        "poblacion_5_16": 43603.0,
+        "tasa_matriculacion_5_16": 88.4,
+        "cobertura_neta": {
+          "total": 88.44,
+          "transicion": 48.64,
+          "primaria": 92.85,
+          "secundaria": 64.9,
+          "media": 31.99
+        },
+        "cobertura_bruta": {
+          "total": 100.58,
+          "transicion": 78.68,
+          "primaria": 123.55,
+          "secundaria": 97.84,
+          "media": 59.02
+        },
+        "desercion": {
+          "total": 6.16,
+          "transicion": 4.97,
+          "primaria": 4.71,
+          "secundaria": 9.13,
+          "media": 5.41
+        },
+        "aprobacion": {
+          "total": 89.39,
+          "transicion": 0.0,
+          "primaria": 90.39,
+          "secundaria": 85.89,
+          "media": 91.22
+        },
+        "reprobacion": {
+          "total": 4.45,
+          "transicion": 0.0,
+          "primaria": 4.9,
+          "secundaria": 4.98,
+          "media": 3.37
+        },
+        "repitencia": {
+          "total": 7.35,
+          "transicion": 0.93,
+          "primaria": 8.4,
+          "secundaria": 8.46,
+          "media": 2.07
+        }
+      },
+      "2017": {
+        "poblacion_5_16": 44250.0,
+        "tasa_matriculacion_5_16": 86.6,
+        "cobertura_neta": {
+          "total": 86.6,
+          "transicion": 52.85,
+          "primaria": 87.73,
+          "secundaria": 66.72,
+          "media": 32.29
+        },
+        "cobertura_bruta": {
+          "total": 99.41,
+          "transicion": 77.03,
+          "primaria": 117.94,
+          "secundaria": 100.15,
+          "media": 62.21
+        },
+        "desercion": {
+          "total": 3.86,
+          "transicion": 2.38,
+          "primaria": 2.89,
+          "secundaria": 5.81,
+          "media": 3.91
+        },
+        "aprobacion": {
+          "total": 89.69,
+          "transicion": 0.0,
+          "primaria": 91.24,
+          "secundaria": 84.67,
+          "media": 91.71
+        },
+        "reprobacion": {
+          "total": 6.46,
+          "transicion": 0.0,
+          "primaria": 5.87,
+          "secundaria": 9.53,
+          "media": 4.38
+        },
+        "repitencia": {
+          "total": 2.02,
+          "transicion": 0.25,
+          "primaria": 2.3,
+          "secundaria": 2.35,
+          "media": 0.73
+        }
+      },
+      "2018": {
+        "poblacion_5_16": 33023.0,
+        "tasa_matriculacion_5_16": 82.55,
+        "cobertura_neta": {
+          "total": 112.5,
+          "transicion": 70.2,
+          "primaria": 110.27,
+          "secundaria": 93.05,
+          "media": 41.7
+        },
+        "cobertura_bruta": {
+          "total": 128.88,
+          "transicion": 99.16,
+          "primaria": 144.15,
+          "secundaria": 137.58,
+          "media": 86.47
+        },
+        "desercion": {
+          "total": 3.65,
+          "transicion": 2.3,
+          "primaria": 2.93,
+          "secundaria": 5.22,
+          "media": 2.88
+        },
+        "aprobacion": {
+          "total": 91.02,
+          "transicion": 0.0,
+          "primaria": 92.49,
+          "secundaria": 86.75,
+          "media": 93.61
+        },
+        "reprobacion": {
+          "total": 5.32,
+          "transicion": 0.0,
+          "primaria": 4.59,
+          "secundaria": 8.03,
+          "media": 3.51
+        },
+        "repitencia": {
+          "total": 1.02,
+          "transicion": 0.0,
+          "primaria": 1.13,
+          "secundaria": 1.24,
+          "media": 0.42
+        }
+      },
+      "2019": {
+        "poblacion_5_16": 33572.0,
+        "tasa_matriculacion_5_16": 109.73,
+        "cobertura_neta": {
+          "total": 109.71,
+          "transicion": 64.18,
+          "primaria": 102.68,
+          "secundaria": 93.78,
+          "media": 45.09
+        },
+        "cobertura_bruta": {
+          "total": 127.16,
+          "transicion": 91.68,
+          "primaria": 130.62,
+          "secundaria": 140.54,
+          "media": 109.73
+        },
+        "desercion": {
+          "total": 4.06,
+          "transicion": 3.02,
+          "primaria": 3.27,
+          "secundaria": 5.5,
+          "media": 3.32
+        },
+        "aprobacion": {
+          "total": 91.58,
+          "transicion": 0.0,
+          "primaria": 92.26,
+          "secundaria": 89.31,
+          "media": 92.95
+        },
+        "reprobacion": {
+          "total": 4.36,
+          "transicion": 0.0,
+          "primaria": 4.47,
+          "secundaria": 5.19,
+          "media": 3.73
+        },
+        "repitencia": {
+          "total": 1.05,
+          "transicion": 0.0,
+          "primaria": 1.08,
+          "secundaria": 1.42,
+          "media": 0.23
+        }
+      },
+      "2020": {
+        "poblacion_5_16": 34048.0,
+        "tasa_matriculacion_5_16": 107.35,
+        "cobertura_neta": {
+          "total": 107.33,
+          "transicion": 60.68,
+          "primaria": 99.14,
+          "secundaria": 96.39,
+          "media": 49.3
+        },
+        "cobertura_bruta": {
+          "total": 130.45,
+          "transicion": 91.3,
+          "primaria": 123.88,
+          "secundaria": 140.33,
+          "media": 149.64
+        },
+        "desercion": {
+          "total": 1.33,
+          "transicion": 0.77,
+          "primaria": 1.07,
+          "secundaria": 1.51,
+          "media": 2.27
+        },
+        "aprobacion": {
+          "total": 97.4,
+          "transicion": 0.04,
+          "primaria": 98.4,
+          "secundaria": 96.13,
+          "media": 96.24
+        },
+        "reprobacion": {
+          "total": 1.26,
+          "transicion": 0.04,
+          "primaria": 0.53,
+          "secundaria": 2.36,
+          "media": 1.49
+        },
+        "repitencia": {
+          "total": 3.87,
+          "transicion": 0.04,
+          "primaria": 4.3,
+          "secundaria": 4.59,
+          "media": 1.83
+        }
+      },
+      "2021": {
+        "poblacion_5_16": 34.359,
+        "tasa_matriculacion_5_16": 104.79,
+        "cobertura_neta": {
+          "total": 104.77,
+          "transicion": 54.84,
+          "primaria": 95.87,
+          "secundaria": 96.2,
+          "media": 51.16
+        },
+        "cobertura_bruta": {
+          "total": 130.24,
+          "transicion": 78.13,
+          "primaria": 120.9,
+          "secundaria": 138.36,
+          "media": 168.11
+        },
+        "desercion": {
+          "total": 4.44,
+          "transicion": 2.2,
+          "primaria": 3.77,
+          "secundaria": 5.34,
+          "media": 5.3
+        },
+        "aprobacion": {
+          "total": 90.12,
+          "transicion": 0.14,
+          "primaria": 91.43,
+          "secundaria": 87.31,
+          "media": 90.34
+        },
+        "reprobacion": {
+          "total": 5.45,
+          "transicion": 0.14,
+          "primaria": 4.8,
+          "secundaria": 7.35,
+          "media": 4.36
+        },
+        "repitencia": {
+          "total": 2.82,
+          "transicion": 0.23,
+          "primaria": 1.83,
+          "secundaria": 4.63,
+          "media": 1.98
+        }
+      },
+      "2022": {
+        "poblacion_5_16": 33318.0,
+        "tasa_matriculacion_5_16": 105.42,
+        "cobertura_neta": {
+          "total": 105.4,
+          "transicion": 61.07,
+          "primaria": 95.36,
+          "secundaria": 94.35,
+          "media": 62.0
+        },
+        "cobertura_bruta": {
+          "total": 123.58,
+          "transicion": 94.94,
+          "primaria": 114.1,
+          "secundaria": 135.95,
+          "media": 141.04
+        },
+        "desercion": {
+          "total": 4.64,
+          "transicion": 2.7,
+          "primaria": 3.33,
+          "secundaria": 6.6,
+          "media": 4.7
+        },
+        "aprobacion": {
+          "total": 88.91,
+          "transicion": 0.0,
+          "primaria": 91.05,
+          "secundaria": 84.41,
+          "media": 89.49
+        },
+        "reprobacion": {
+          "total": 6.45,
+          "transicion": 0.0,
+          "primaria": 5.61,
+          "secundaria": 8.99,
+          "media": 5.81
+        },
+        "repitencia": {
+          "total": 4.4,
+          "transicion": 0.04,
+          "primaria": 4.63,
+          "secundaria": 5.8,
+          "media": 2.06
+        }
+      },
+      "2023": {
+        "poblacion_5_16": 33384.0,
+        "tasa_matriculacion_5_16": 101.55,
+        "cobertura_neta": {
+          "total": 101.54,
+          "transicion": 61.56,
+          "primaria": 89.33,
+          "secundaria": 89.34,
+          "media": 63.12
+        },
+        "cobertura_bruta": {
+          "total": 118.55,
+          "transicion": 96.06,
+          "primaria": 108.46,
+          "secundaria": 126.99,
+          "media": 142.71
+        },
+        "desercion": {
+          "total": 3.57,
+          "transicion": 1.94,
+          "primaria": 2.89,
+          "secundaria": 4.78,
+          "media": 3.5
+        },
+        "aprobacion": {
+          "total": 89.63,
+          "transicion": 0.12,
+          "primaria": 91.22,
+          "secundaria": 85.61,
+          "media": 90.4
+        },
+        "reprobacion": {
+          "total": 6.8,
+          "transicion": 0.12,
+          "primaria": 5.89,
+          "secundaria": 9.61,
+          "media": 6.09
+        },
+        "repitencia": {
+          "total": 9.36,
+          "transicion": 1.32,
+          "primaria": 9.96,
+          "secundaria": 12.41,
+          "media": 3.96
+        }
+      },
+      "2024": {
+        "poblacion_5_16": 33435.0,
+        "tasa_matriculacion_5_16": 99.29,
+        "cobertura_neta": {
+          "total": 99.27,
+          "transicion": 60.72,
+          "primaria": 87.11,
+          "secundaria": 88.44,
+          "media": 63.54
+        },
+        "cobertura_bruta": {
+          "total": 117.75,
+          "transicion": 96.33,
+          "primaria": 105.12,
+          "secundaria": 130.63,
+          "media": 139.15
+        },
+        "desercion": {
+          "total": 4.47,
+          "transicion": 2.31,
+          "primaria": 3.22,
+          "secundaria": 6.81,
+          "media": 3.61
+        },
+        "aprobacion": {
+          "total": 90.07,
+          "transicion": 0.04,
+          "primaria": 92.25,
+          "secundaria": 84.52,
+          "media": 93.19
+        },
+        "reprobacion": {
+          "total": 5.46,
+          "transicion": 0.04,
+          "primaria": 4.53,
+          "secundaria": 8.67,
+          "media": 3.2
+        },
+        "repitencia": {
+          "total": 8.36,
+          "transicion": 1.65,
+          "primaria": 8.66,
+          "secundaria": 11.08,
+          "media": 4.01
+        }
+      }
+    }
+  }
+}
