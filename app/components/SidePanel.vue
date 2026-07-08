@@ -143,11 +143,16 @@
     </div>
 
     <!-- ══════════════════════════════════════════
+         FILTROS — score y zona LISA (desktop)
+    ══════════════════════════════════════════ -->
+    <FilterBar v-show="activeTab === 'index'" index="04" />
+
+    <!-- ══════════════════════════════════════════
          DISTRIBUCIÓN — histograma por rangos
     ══════════════════════════════════════════ -->
     <div v-show="activeTab === 'index'" class="panel-section">
       <div class="section-label">
-        <span class="label-index">04</span>
+        <span class="label-index">05</span>
         <span class="label-dash">—</span>
         <span>Distribución</span>
       </div>
@@ -159,7 +164,7 @@
     ══════════════════════════════════════════ -->
     <div v-show="activeTab === 'ranking'" class="panel-section">
       <div class="section-label">
-        <span class="label-index">05</span>
+        <span class="label-index">06</span>
         <span class="label-dash">—</span>
         <span>Rankings</span>
       </div>
@@ -171,7 +176,7 @@
     ══════════════════════════════════════════ -->
     <div v-show="activeTab === 'zonas'" class="panel-section">
       <div class="section-label">
-        <span class="label-index">06</span>
+        <span class="label-index">07</span>
         <span class="label-dash">—</span>
         <span>Zonas LISA</span>
       </div>
@@ -231,6 +236,7 @@
 import { ref, computed } from 'vue'
 import { useAtlasStore, DIMENSIONES, DIMENSIONES_V2, MUNICIPIOS } from '~/stores/atlas'
 import DiagnosticoPanel from '~/components/DiagnosticoPanel.vue'
+import FilterBar from '~/components/FilterBar.vue'
 
 const emit   = defineEmits(['open-ficha'])
 const store  = useAtlasStore()

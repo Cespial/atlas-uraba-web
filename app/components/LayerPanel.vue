@@ -84,6 +84,12 @@
                     <span class="lp-capa-label">
                       {{ capa.label }}
                       <span v-if="sinDatos.has(capa.id)" class="lp-sin-datos">sin datos</span>
+                      <span
+                        v-else-if="dataStatusBadge(capa.id)"
+                        class="lp-status-badge"
+                        :class="'lp-status-badge--' + dataStatusBadge(capa.id).tipo"
+                        :title="dataStatusBadge(capa.id).title"
+                      >{{ dataStatusBadge(capa.id).texto }}</span>
                     </span>
                     <span class="lp-capa-desc">{{ capa.desc }}</span>
                   </div>
@@ -109,7 +115,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 // Capas sin datos reales — geometrías vaciadas, pendientes de fuente oficial
 const sinDatos = new Set(['manglares', 'agua', 'inundacion'])
@@ -283,6 +289,69 @@ function resetAll() {
     if (!base.has(id)) emit('toggle', id)
   })
 }
+
+/* ═══════════════════════════════════════════════════════════
+   BADGE DE CALIDAD DE DATO — real vs proxy por capa
+   Fuente: public/data/admin_data_status.json (fase de gestión
+   de datos administrativos). Fail-quiet: si el JSON no carga o
+   la capa no tiene entrada, no se muestra badge — el panel
+   sigue funcionando igual.
+═══════════════════════════════════════════════════════════ */
+const adminDataStatus = ref(null)
+
+// Mapea el id de capa del LayerPanel a la clave de "sources" del JSON.
+// Solo se listan pares donde la capa realmente consume ese dataset
+// (verificado contra las fuentes en useAtlasMap.js).
+const CAPA_A_FUENTE = {
+  catastro:          'igac_catastro',
+  'corpouraba-agua':  'corpouraba_concesiones_agua',
+}
+
+// Traduce el "status" del JSON a real/proxy. Estados de gestión
+// (petición redactada, no disponible) no producen badge — no hay
+// datos reales ni proxy que mostrar todavía.
+function tipoDeStatus(status) {
+  if (status === 'disponible_api_activa' || status === 'disponible_descarga_manual') return 'real'
+  if (status === 'proxy' || status === 'estimado') return 'proxy'
+  return null
+}
+
+function formatCorte(fechaISO) {
+  if (!fechaISO) return null
+  const [anio, mes] = fechaISO.split('-')
+  const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic']
+  const idx = parseInt(mes, 10) - 1
+  return meses[idx] ? `${meses[idx]} ${anio}` : anio
+}
+
+function dataStatusBadge(capaId) {
+  const claveFuente = CAPA_A_FUENTE[capaId]
+  if (!claveFuente || !adminDataStatus.value) return null
+
+  const fuente = adminDataStatus.value.sources?.[claveFuente]
+  if (!fuente) return null
+
+  const tipo = tipoDeStatus(fuente.status)
+  if (!tipo) return null
+
+  const corte = formatCorte(adminDataStatus.value.generated)
+  return {
+    tipo,
+    texto: corte ? `${tipo} · ${corte}` : tipo,
+    title: `${fuente.name} — dato ${tipo}${corte ? ` · corte ${corte}` : ''}`,
+  }
+}
+
+onMounted(async () => {
+  try {
+    const res = await fetch('/data/admin_data_status.json')
+    if (!res.ok) return
+    adminDataStatus.value = await res.json()
+  } catch (e) {
+    // Fail-quiet: el panel de capas queda intacto sin badges
+    console.warn('[LayerPanel] admin_data_status:', e.message)
+  }
+})
 </script>
 
 <style scoped>
@@ -426,6 +495,31 @@ function resetAll() {
   letter-spacing: 0.1em;
   vertical-align: middle;
   line-height: 14px;
+}
+
+/* Badge de calidad de dato — real (teal) vs proxy (ámbar) */
+.lp-status-badge {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 0 4px;
+  border-radius: 2px;
+  font-family: var(--ff-mono);
+  font-size: 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  vertical-align: middle;
+  line-height: 14px;
+  white-space: nowrap;
+}
+.lp-status-badge--real {
+  background: rgba(27,107,109,0.18);
+  border: 1px solid rgba(27,107,109,0.4);
+  color: #2dd4d0;
+}
+.lp-status-badge--proxy {
+  background: rgba(245,158,11,0.16);
+  border: 1px solid rgba(245,158,11,0.4);
+  color: #f59e0b;
 }
 
 .lp-capa-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; margin-top: 3px; }

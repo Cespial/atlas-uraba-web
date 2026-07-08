@@ -53,6 +53,10 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
 
 <style scoped>
 .pres-btn {
+  position: absolute;
+  top: calc(var(--atlas-header-h, 52px) + 10px);
+  right: 12px;
+  z-index: 25;
   display: flex; align-items: center; gap: 5px;
   padding: 6px 10px; border-radius: 8px;
   background: rgba(22,27,34,0.92); backdrop-filter: blur(8px);
@@ -63,4 +67,9 @@ onUnmounted(() => document.removeEventListener('keydown', onKey))
 }
 .pres-btn:hover { border-color: var(--ca,#1B6B6D); color: var(--ca,#1B6B6D); }
 .pres-btn--active { background: var(--ca,#1B6B6D); color: #fff; border-color: var(--ca,#1B6B6D); }
+
+/* Solo desktop/tablet — mobile ya tiene su propia superficie de decisión (MobileSheet) */
+@media (max-width: 639px) {
+  .pres-btn { display: none !important; }
+}
 </style>
